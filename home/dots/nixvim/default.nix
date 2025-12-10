@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ... }: {
+{ ... }: {
   imports = [ ./options.nix ./keymaps.nix ./autocommands.nix ./plugins ];
 
   programs.nixvim = {
