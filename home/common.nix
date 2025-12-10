@@ -1,5 +1,9 @@
 { username, pkgs, inputs, ... }: {
-  imports = [ ./dots inputs.spicetify-nix.homeManagerModules.default ];
+  imports = [
+    ./dots
+    inputs.nixvim.homeModules.nixvim
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
   home = {
     inherit username;
     homeDirectory = "/home/${username}";

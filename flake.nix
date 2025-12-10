@@ -39,8 +39,6 @@
           ./home/${username}/nixos.nix
           ./modules/network-drives.nix
           inputs.spicetify-nix.nixosModules.default
-          inputs.nixvim.homeManagerModules.nixvim
-
           home-manager.nixosModules.home-manager
           {
             home-manager.backupFileExtension = "backup";
