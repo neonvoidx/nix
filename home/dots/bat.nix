@@ -2,9 +2,11 @@
   programs.bat = {
     enable = true;
     themes = {
-      src = builtins.fetchGit {
-        url = "https://github.com/eldritch-theme/bat";
-        ref = "master";
+      src = pkgs.fetchFromGithub {
+        owner = "eldritch-theme";
+        repo = "bat";
+        rev = "33f8a2543f626637e8d85356e85bf32eee414f17";
+        sha256 = "";
       };
       file = "Eldritch.tmTheme";
     };
