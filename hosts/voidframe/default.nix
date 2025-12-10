@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ lib,inputs, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ../common.nix ];
@@ -7,7 +7,8 @@
     hostName = "voidframe";
     firewall.enable = false;
 
-    networking.wireless = {
+    useDHCP = lib.mkDefault true;
+    wireless = {
       enable = true;
       userControlled.enable = true;
       networks."LittyPitty".pskRaw =
