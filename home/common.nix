@@ -12,7 +12,7 @@
     };
   };
 
-  xdg = { enable = true; };
+  # xdg = { enable = true; };
 
   home.packages = with pkgs; [ kitty proton-pass ];
 
