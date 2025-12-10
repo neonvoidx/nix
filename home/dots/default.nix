@@ -7,6 +7,6 @@
     ./bat.nix
     ./btop.nix
     ./spicetify.nix
-    ./nixvim
+    ./nvim.nix
   ];
 }
