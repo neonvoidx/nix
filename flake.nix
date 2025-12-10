@@ -19,33 +19,39 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs: {
-    nixosConfigurations = {
-      void = let
-        username = "neonvoid";
-        specialArgs = {
-          inherit inputs;
-          inherit username;
-        };
-      in nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [
-          ./hosts/void
-          ./modules/noctalia.nix
-          ./home/${username}/nixos.nix
-          ./modules/network-drives.nix
-          inputs.spicetify-nix.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.backupFileExtension = "backup";
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
+    let
+      username = "neonvoid";
+      specialArgs = {
+        inherit inputs;
+        inherit username;
+      };
 
-            home-manager.extraSpecialArgs = inputs // specialArgs;
-            home-manager.users.${username} = import ./home/${username}/home.nix;
-          }
-        ];
+      mkHost = hostname:
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          modules = [
+            ./hosts/${hostname}
+            ./modules/noctalia.nix
+            ./home/${username}/nixos.nix
+            ./modules/network-drives.nix
+            inputs.spicetify-nix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.backupFileExtension = "backup";
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.users.${username} =
+                import ./home/${username}/home.nix;
+            }
+          ];
+        };
+    in {
+      nixosConfigurations = {
+        void = mkHost "void";
+        voidframe = mkHost "voidframe";
       };
     };
-  };
 }

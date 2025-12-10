@@ -15,6 +15,33 @@
     };
   };
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  boot = {
+    loader = {
+      # TODO GRUB 
+      #  efi = {
+      #    canTouchEfiVariables = true;
+      #    efiSysMountPoint = "/boot/efi";
+      #  };
+      #  grub = {
+      #    efiSupport = true;
+      #    device = "nodev";
+      #    enable=true;
+      #    useOSProber = true;
+      #  };
+      #};
+      systemd-boot.enable = true;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+    };
+  };
+
   # Prevent rfkill from softblocking bluetooth and wifi
   systemd.services.rfkill-unblock = {
     description = "Unblock rfkill devices";
