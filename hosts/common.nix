@@ -195,6 +195,7 @@
     hplip
     hypridle
     hyprpolkitagent
+    libgcc
     lsd
     neovim
     nodejs_24
@@ -207,6 +208,7 @@
     unzip
     usbutils
     wget
+    yarn
     yazi
     zsh
   ];
