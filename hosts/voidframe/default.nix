@@ -1,0 +1,31 @@
+{ inputs, pkgs, ... }:
+
+{
+  imports = [ ./hardware-configuration.nix ../common.nix ];
+
+  networking = {
+    hostName = "voidframe";
+    firewall.enable = false;
+
+    networking.wireless = {
+      enable = true;
+      userControlled.enable = true;
+      networks."LittyPitty".pskRaw =
+        "654787ccc87bf9e3520e3cc82840cf1e3dd182a466e92a70d5f47ecd160501e0";
+    };
+  };
+
+  # Prevent rfkill from softblocking bluetooth and wifi
+  systemd.services.rfkill-unblock = {
+    description = "Unblock rfkill devices";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.util-linux}/bin/rfkill unblock all";
+    };
+  };
+
+  system.stateVersion = "25.11";
+}
+
