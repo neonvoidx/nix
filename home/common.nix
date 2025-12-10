@@ -14,7 +14,7 @@
 
   # xdg = { enable = true; };
 
-  home.packages = with pkgs; [ kitty proton-pass ];
+  home.packages = with pkgs; [ kitty proton-pass zinit ];
 
   programs.home-manager.enable = true;
 
