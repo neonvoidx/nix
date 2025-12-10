@@ -6,7 +6,7 @@
         "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
       logo = if pkgs.stdenv.isLinux then {
         type = "kitty-direct";
-        source = "./images/neonvoid.png";
+        source = builtins.readFile ./images/neonvoid.png;
         width = 25;
         padding = {
           top = 1;
@@ -14,7 +14,7 @@
         };
       } else if pkgs.stdenv.isDarwin then {
         type = "kitty-direct";
-        source = "./images/darwin.png";
+        source = builtins.readFile ./images/darwin.png;
         width = 25;
         padding = {
           top = 1;
