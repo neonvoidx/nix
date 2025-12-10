@@ -18,6 +18,7 @@
 
   home.packages = with pkgs; [
     kitty
+    kitty-themes
     proton-pass
     lazygit
     zoxide

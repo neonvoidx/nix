@@ -9,5 +9,6 @@
     ./spicetify.nix
     ./nvim.nix
     ./pics.nix
+    ./kitty.nix
   ];
 }
