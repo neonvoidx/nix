@@ -13,7 +13,6 @@
   };
 
   xresources.properties = { "Xcursor.size" = 24; };
-  programs.git = { enable = true; };
   programs.bash = { enable = true; };
 
   home.packages = with pkgs; [
