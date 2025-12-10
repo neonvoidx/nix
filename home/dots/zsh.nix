@@ -40,11 +40,11 @@
         "sindresorhus/pure"
         "Aloxaf/fzf-tab"
         "trystan2k/zsh-tab-title"
+        "zdharma-continuum/fast-syntax-highlighting"
         "ohmyzsh/ohmyzsh path:plugins/colored-man-pages"
         "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
         "zsh-users/zsh-completions"
         "jeffreytse/zsh-vi-mode kind:defer"
-        "zdharma-continuum/fast-syntax-highlighting kind:defer"
       ];
     };
 
@@ -243,8 +243,8 @@
         fi
 
         # Eval & Source
-        if command -v pay-respects &> /dev/null; then
-          eval "$(pay-respects zsh --alias)"
+        if command -v f &> /dev/null; then
+          eval "$(f --alias zsh)"
         fi
 
         # SSH agent start if necessary

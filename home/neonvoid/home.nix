@@ -61,5 +61,5 @@
   };
 
   # Misc dotfiles
-  home.file.".face".source = ../dots/.face;
+  home.file.".face".source = ../dots/images/.face;
 }
