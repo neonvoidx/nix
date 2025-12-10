@@ -16,7 +16,6 @@
   programs.git = { enable = true; };
   programs.bash = { enable = true; };
 
-  home-manager.backupFileExtension = "backup";
   home.packages = with pkgs; [
     kitty
     proton-pass
