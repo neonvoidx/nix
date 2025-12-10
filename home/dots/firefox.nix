@@ -1,11 +1,19 @@
-{ pkgs, ... }: {
+{ pkgs, self, ... }: {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-devedition;
     profiles.neonvoid = {
-      extraConfig = builtins.readFile ./.mozilla/user.js;
-      userChrome = builtins.readFile ./.mozilla/chrome/userChrome.css;
-      userContent = builtins.readFile ./.mozilla/chrome/userContent.css;
+      isDefault = true;
+      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
+        # TODO add other extensions
+        darkreader
+        ublock-origin
+      ];
+      extraConfig = builtins.readFile "${self}" /assets/.mozilla/user.js;
+      userChrome =
+        builtins.readFile "${self}" /assets/.mozilla/chrome/userChrome.css;
+      userContent =
+        builtins.readFile "${self}" /assets/.mozilla/chrome/userContent.css;
       search = {
         force = true;
         default = "kagi";

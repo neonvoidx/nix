@@ -1,5 +1,5 @@
-{ username, pkgs, ... }: {
-  imports = [ ./dots ];
+{ username, pkgs, inputs, ... }: {
+  imports = [ ./dots inputs.nixvim.homeManagerModules.nixvim ];
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
@@ -12,8 +12,11 @@
     };
   };
 
-  # xdg = { enable = true; };
+  xresources.properties = { "Xcursor.size" = 24; };
+  programs.git = { enable = true; };
+  programs.bash = { enable = true; };
 
+  home-manager.backupFileExtension = "backup";
   home.packages = with pkgs; [
     kitty
     proton-pass

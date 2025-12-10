@@ -12,7 +12,6 @@
     cliphist
     easyeffects
     fractal
-    gamescope
     gimp
     gnome-keyring
     grim

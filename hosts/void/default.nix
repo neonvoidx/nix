@@ -3,37 +3,39 @@
 {
   imports = [ ./hardware-configuration.nix ../common.nix ];
 
-  boot.loader.efi = {
-    canTouchEfiVariables = true;
-    efiSysMountPoint = "/boot";
+  boot = {
+    loader = {
+      # TODO GRUB and dual boot and secure boot
+      #  efi = {
+      #    canTouchEfiVariables = true;
+      #    efiSysMountPoint = "/boot/efi";
+      #  };
+      #  grub = {
+      #    efiSupport = true;
+      #    device = "nodev";
+      #    enable=true;
+      #    useOSProber = true;
+      #  };
+      #};
+      systemd-boot.enable = true;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+    };
+    kernelPackages = pkgs.linuxPackages_cachyos;
+    kernelParams = [
+      "splash"
+      "amdgpu_recovery=1"
+      "amdgpu.ppfeaturemask=0xfffd7fff"
+      "amdgpu.noretry=0"
+      "amdgpu.runpm=0"
+      "amdgpu.gpu_recovery=1"
+      "video=DP-1:3440x1440@144"
+      "video=DP-2:3440x1440@144"
+      "video=HDMI-A-1:2560x1440@144"
+    ];
   };
-  # TODO CachyOS Kernel
-  boot.kernelParams = [
-    "splash"
-    "amdgpu_recovery=1"
-    "amdgpu.ppfeaturemask=0xfffd7fff"
-    "amdgpu.noretry=0"
-    "amdgpu.runpm=0"
-    "amdgpu.gpu_recovery=1"
-    "video=DP-1:3440x1440@144"
-    "video=DP-2:3440x1440@144"
-    "video=HDMI-A-1:2560x1440@144"
-  ];
-  #hardware.cpu.amd.updateMicrocode # TODO amd ucode needed?
-  boot.loader.systemd-boot.enable = true;
-  # TODO GRUB and dual boot and secure boot
-  #boot.loader = {
-  #  efi = {
-  #    canTouchEfiVariables = true;
-  #    efiSysMountPoint = "/boot/efi";
-  #  };
-  #  grub = {
-  #    efiSupport = true;
-  #    device = "nodev";
-  #    enable=true;
-  #    useOSProber = true;
-  #  };
-  #};
 
   networking = {
     hostName = "void";

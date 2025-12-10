@@ -12,9 +12,12 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    nixvim.url = "github:nix-community/nixvim";
+    nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nur, nixvim, ... }@inputs: {
     nixosConfigurations = {
       void = let
         username = "neonvoid";
@@ -29,8 +32,9 @@
           ./modules/noctalia.nix
           ./home/${username}/nixos.nix
           ./modules/network-drives.nix
+          inputs.spicetify-nix.nixosModules.default
 
-          home-manager.nixosModules.home-manager
+          inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
