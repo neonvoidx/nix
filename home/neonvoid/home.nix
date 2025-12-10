@@ -35,7 +35,6 @@
     sgdboop
     slurp
     spicetify-cli
-    spotify
     streamcontroller
     tenacity
     thunderbird
