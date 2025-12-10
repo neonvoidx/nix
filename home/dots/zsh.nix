@@ -102,166 +102,199 @@
 
     siteFunctions = {
       # Functions
-      findsyms = ''
-        local search_path="''${1:-.}"
-        find "$search_path" -type l -ls
-      '';
+      findsyms = # bash
+        ''
+          local search_path="''${1:-.}"
+          find "$search_path" -type l -ls
+        '';
 
-      deleteall = ''
-        find . -name "$1" -exec rm -rf {} \;
-      '';
+      deleteall = # bash
+        ''
+          find . -name "$1" -exec rm -rf {} \;
+        '';
 
-      y = ''
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          builtin cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      '';
+      y = # bash
+        ''
+          local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+          yazi "$@" --cwd-file="$tmp"
+          if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            builtin cd -- "$cwd"
+          fi
+          rm -f -- "$tmp"
+        '';
 
-      kk = lib.mkIf config.programs.kitty.enable ''
-        kitten @ send-text --match-tab state:focused $1 && kitten @ send-key --match-tab state:focused Enter
-      '';
+      kk = lib.mkIf config.programs.kitty.enable # bash
+        ''
+          kitten @ send-text --match-tab state:focused $1 && kitten @ send-key --match-tab state:focused Enter
+        '';
 
-      reload-ssh = ''
-        ssh-add -e /usr/local/lib/opensc-pkcs11.so >> /dev/null
-        if [ $? -gt 0 ]; then
-          echo "Failed to remove previous card"
-        fi
-        ssh-add -s /usr/local/lib/opensc-pkcs11.so
-      '';
+      reload-ssh = # bash
+        ''
+          ssh-add -e /usr/local/lib/opensc-pkcs11.so >> /dev/null
+          if [ $? -gt 0 ]; then
+            echo "Failed to remove previous card"
+          fi
+          ssh-add -s /usr/local/lib/opensc-pkcs11.so
+        '';
 
-      timezsh = ''
-        shell=''${1-$SHELL}
-        for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
-      '';
+      timezsh = # bash
+        ''
+          shell=''${1-$SHELL}
+          for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+        '';
 
-      ffmpeg-downsize = ''
-        if ! command -v ffmpeg &> /dev/null; then
-          echo "ffmpeg not found. Please install ffmpeg."
-          return 1
-        fi
-        if [ $# -eq 0 ]; then
-          echo "Usage: movconvert <inputfile.mov>"
-          return 1
-        fi
-        local output="''${1%.*}"
-        ffmpeg -i "$1" -c:v libx264 -c:a copy -crf 20 "''${output}-small.mov"
-      '';
+      ffmpeg-downsize = # bash
+        ''
+          if ! command -v ffmpeg &> /dev/null; then
+            echo "ffmpeg not found. Please install ffmpeg."
+            return 1
+          fi
+          if [ $# -eq 0 ]; then
+            echo "Usage: movconvert <inputfile.mov>"
+            return 1
+          fi
+          local output="''${1%.*}"
+          ffmpeg -i "$1" -c:v libx264 -c:a copy -crf 20 "''${output}-small.mov"
+        '';
 
-      ffmpeg-togif = ''
-        if ! command -v ffmpeg &> /dev/null; then
-          echo "ffmpeg not found. Please install ffmpeg."
-          return 1
-        fi
-        if [ $# -ne 3 ]; then
-          echo "Usage: togif <input.mp4> <start_time> <duration>"
-          echo "Example: togif movie.mp4 6 8.8"
-          return 1
-        fi
-        local input="$1"
-        local start="$2"
-        local duration="$3"
-        local base="''${input%.mp4}"
-        ffmpeg -ss "$start" -t "$duration" -i "$input" -vf "fps=30,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "''${base}.gif"
-      '';
+      ffmpeg-togif = # bash
+        ''
+          if ! command -v ffmpeg &> /dev/null; then
+            echo "ffmpeg not found. Please install ffmpeg."
+            return 1
+          fi
+          if [ $# -ne 3 ]; then
+            echo "Usage: togif <input.mp4> <start_time> <duration>"
+            echo "Example: togif movie.mp4 6 8.8"
+            return 1
+          fi
+          local input="$1"
+          local start="$2"
+          local duration="$3"
+          local base="''${input%.mp4}"
+          ffmpeg -ss "$start" -t "$duration" -i "$input" -vf "fps=30,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "''${base}.gif"
+        '';
 
-      yy = ''
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      '';
+      yy = # bash
+        ''
+          local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+          yazi "$@" --cwd-file="$tmp"
+          if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            cd -- "$cwd"
+          fi
+          rm -f -- "$tmp"
+        '';
     };
 
-    initExtraFirst = ''
-      # Hex color support
-      zmodload zsh/nearcolor
+    initContent = lib.mkBefore # bash
+      ''
+        source ${pkgs.zinit}/share/zinit/zinit.zsh
+        # Zinit Packages
+        zinit wait lucid light-mode for \
+          pick"async.sh" src"pure.zsh" wait"!0" sindresorhus/pure \
+            Aloxaf/fzf-tab \
+            trystan2k/zsh-tab-title \
+          atinit"zicompinit; zicdreplay" \
+            zdharma-continuum/fast-syntax-highlighting \
+            OMZP::colored-man-pages \
+            OMZP::fancy-ctrl-z \
+          atload"_zsh_autosuggest_start" \
+            zsh-users/zsh-autosuggestions \
+          blockf atpull'zinit creinstall -q .' \
+            zsh-users/zsh-completions
+        zinit ice depth=1
+        zinit light jeffreytse/zsh-vi-mode
+        zinit ice wait lucid light-mode
 
-      # History options
+        # Hex color support
+        zmodload zsh/nearcolor
 
-      # Completion bindings
-      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-      zstyle ':completion:*' menu no
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd $realpath'
-      zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'lsd $realpath'
+        # History options
 
-      # Pure Prompt colors
-      zstyle :prompt:pure:git:arrow color "#f16c75"
-      zstyle :prompt:pure:git:branch color "#04d1f9"
-      zstyle :prompt:pure:path color "#37f499"
-      zstyle :prompt:pure:prompt:error color "#f16c75"
-      zstyle :prompt:pure:prompt:success color "#37f499"
-      zstyle :prompt:pure:prompt:continuation color "#f7c67f"
-      zstyle :prompt:pure:suspended_jobs color "#f16c75"
-      zstyle :prompt:pure:user color "#a48cf2"
-      zstyle :prompt:pure:user:root color "#f1fc79"
+        # Completion bindings
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+        zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+        zstyle ':completion:*' menu no
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd $realpath'
+        zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'lsd $realpath'
+
+        # Pure Prompt colors
+        zstyle :prompt:pure:git:arrow color "#f16c75"
+        zstyle :prompt:pure:git:branch color "#04d1f9"
+        zstyle :prompt:pure:path color "#37f499"
+        zstyle :prompt:pure:prompt:error color "#f16c75"
+        zstyle :prompt:pure:prompt:success color "#37f499"
+        zstyle :prompt:pure:prompt:continuation color "#f7c67f"
+        zstyle :prompt:pure:suspended_jobs color "#f16c75"
+        zstyle :prompt:pure:user color "#a48cf2"
+        zstyle :prompt:pure:user:root color "#f1fc79"
 
 
-      # GH CLI Copilot
-      COPILOT_CLI=~/.local/share/gh/extensions/gh-copilot/gh-copilot
-      if [ -f "$COPILOT_CLI" ]; then
-        eval "$(gh copilot alias -- zsh)"
-      else
-        if command -v gh &> /dev/null; then
-          gh extension install github/gh-copilot 2>/dev/null || true
+        # GH CLI Copilot
+        COPILOT_CLI=~/.local/share/gh/extensions/gh-copilot/gh-copilot
+        if [ -f "$COPILOT_CLI" ]; then
+          eval "$(gh copilot alias -- zsh)"
+        else
+          if command -v gh &> /dev/null; then
+            gh extension install github/gh-copilot 2>/dev/null || true
+          fi
         fi
-      fi
 
-      # GH CLI clone-org
-      CLONE_ORG=~/.local/share/gh/extensions/gh-clone-org/gh-clone-org
-      if [ ! -f "$CLONE_ORG" ] && command -v gh &> /dev/null; then
-        gh extension install matt-bartel/gh-clone-org 2>/dev/null || true
-      fi
-
-      if command -v cmake &> /dev/null && command -v ninja &> /dev/null; then
-        alias cmakeninja='cmake -S . -B build -G Ninja'
-      fi
-
-      # Eval & Source
-      ${lib.optionalString (pkgs ? pay-respects) ''
-        eval "$(pay-respects zsh --alias)"
-      ''}
-
-      [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-      ${lib.optionalString (pkgs ? fnm) ''
-        export PATH="$HOME/.local/share/fnm:$PATH"
-        eval "$(fnm env --use-on-cd --shell zsh --fnm-dir ~/.cache/fnm)"
-      ''}
-
-      # SSH agent start if necessary
-      if [ -z $SSH_AGENT_PID ] && [ -z $SSH_TTY ]; then
-        eval `ssh-agent -s` > /dev/null
-      fi
-
-      if [ -f ~/.ssh/scm-script.sh ]; then
-        alias scm-ssh='bash ~/.ssh/scm-script.sh'
-        scm-ssh start_agent >/dev/null 2>&1
-      fi
-
-      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-
-      ${lib.optionalString config.programs.zoxide.enable ''
-        eval "$(zoxide init zsh --cmd cd --hook pwd)"
-      ''}
-
-      ${lib.optionalString (pkgs ? fastfetch) ''
-        if command -v fastfetch &> /dev/null; then
-          fastfetch
+        # GH CLI clone-org
+        CLONE_ORG=~/.local/share/gh/extensions/gh-clone-org/gh-clone-org
+        if [ ! -f "$CLONE_ORG" ] && command -v gh &> /dev/null; then
+          gh extension install matt-bartel/gh-clone-org 2>/dev/null || true
         fi
-      ''}
 
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
-        if [[ -f "/opt/homebrew/bin/brew" ]]; then
-          eval "$(/opt/homebrew/bin/brew shellenv)"
+        if command -v cmake &> /dev/null && command -v ninja &> /dev/null; then
+          alias cmakeninja='cmake -S . -B build -G Ninja'
         fi
-      ''}
-    '';
+
+        # Eval & Source
+        ${lib.optionalString (pkgs ? pay-respects) # bash
+        ''
+          eval "$(pay-respects zsh --alias)"
+        ''}
+
+        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+        ${lib.optionalString (pkgs ? fnm) # bash
+        ''
+          export PATH="$HOME/.local/share/fnm:$PATH"
+          eval "$(fnm env --use-on-cd --shell zsh --fnm-dir ~/.cache/fnm)"
+        ''}
+
+        # SSH agent start if necessary
+        if [ -z $SSH_AGENT_PID ] && [ -z $SSH_TTY ]; then
+          eval `ssh-agent -s` > /dev/null
+        fi
+
+        if [ -f ~/.ssh/scm-script.sh ]; then
+          alias scm-ssh='bash ~/.ssh/scm-script.sh'
+          scm-ssh start_agent >/dev/null 2>&1
+        fi
+
+        [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+
+        ${lib.optionalString config.programs.zoxide.enable # bash
+        ''
+          eval "$(zoxide init zsh --cmd cd --hook pwd)"
+        ''}
+
+        ${lib.optionalString (pkgs ? fastfetch) # bash
+        ''
+          if command -v fastfetch &> /dev/null; then
+            fastfetch
+          fi
+        ''}
+
+        ${lib.optionalString pkgs.stdenv.isDarwin # bash
+        ''
+          if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+          fi
+        ''}
+      '';
   };
 
   # Additional PATH entries
