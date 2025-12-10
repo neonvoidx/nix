@@ -1,14 +1,25 @@
 { pkgs, self, ... }: {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-devedition;
+    package = pkgs.firefox-devedition.override {
+      nativeMessagingHosts = [ pkgs.tridactyl-native ];
+    };
     profiles.neonvoid = {
+      settings = { extensions = { autoDisableScopes = 0; }; };
       isDefault = true;
-      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-        # TODO add other extensions
-        darkreader
-        ublock-origin
-      ];
+      extensions = {
+        packages = with pkgs.nur.repos.rycee.firefox-addons; [
+          darkreader
+          ublock-origin
+          violentmonkey
+          stylus
+          proton-pass
+          tab-reloader
+          proton-vpn
+          gesturefy
+          tridactyl
+        ];
+      };
       extraConfig = builtins.readFile "${self}/assets/.mozilla/user.js";
       userChrome =
         builtins.readFile "${self}/assets/.mozilla/chrome/userChrome.css";
@@ -24,6 +35,16 @@
             name = "Kagi";
             urls = [{ template = "https://kagi.com/search?q={searchTerms}"; }];
             icon = "https://kagi.com/favicon.ico";
+          };
+          "ProtonDB" = {
+            urls = [{
+              template = "https://www.protondb.com/search";
+              params = [{
+                name = "q";
+                value = "{searchTerms}";
+              }];
+            }];
+            definedAliases = [ "@p" ];
           };
           "Nix Packages" = {
             urls = [{
@@ -52,6 +73,7 @@
             definedAliases = [ "@nw" ];
           };
           bing.metaData.hidden = true;
+          google.metaData.hidden = true;
         };
       };
     };
