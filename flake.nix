@@ -39,7 +39,7 @@
           ./home/${username}/nixos.nix
           ./modules/network-drives.nix
           inputs.spicetify-nix.nixosModules.default
-          inputs.nixvim.homeManagerModues.nixvim
+          inputs.nixvim.homeManagerModules.nixvim
 
           home-manager.nixosModules.home-manager
           {
