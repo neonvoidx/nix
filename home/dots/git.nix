@@ -26,4 +26,9 @@
       branch = { sort = "-committerdate"; };
     };
   };
+
+  programs.gh = {
+    enable=true;
+    gitCredentialHelper.enable=true;
+  };
 }

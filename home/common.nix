@@ -19,6 +19,8 @@
   home.packages = with pkgs; [
     kitty
     kitty-themes
+    github-copilot-cli
+    gh
     proton-pass
     lazygit
     zoxide
