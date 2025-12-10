@@ -30,7 +30,6 @@
       dates = lib.mkDefault "daily";
       options = lib.mkDefault "--delete-older-than 5d";
     };
-    nixpkgs.config.allowUnfree = true;
     settings = {
       # enable flakes
       experimental-features = [ "nix-command" "flakes" ];
@@ -45,6 +44,7 @@
       ];
     };
   };
+  nixpkgs.config.allowUnfree = true;
 
   # System 
   time.hardwareClockInLocalTime = true;
