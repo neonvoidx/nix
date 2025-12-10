@@ -195,6 +195,7 @@
     hplip
     hypridle
     hyprpolkitagent
+    gcc
     libgcc
     lsd
     neovim

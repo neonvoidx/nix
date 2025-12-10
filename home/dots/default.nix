@@ -8,5 +8,6 @@
     ./btop.nix
     ./spicetify.nix
     ./nvim.nix
+    ./pics.nix
   ];
 }
