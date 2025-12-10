@@ -1,7 +1,7 @@
 { username, pkgs, inputs, ... }: {
   imports = [
     ./dots
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     inputs.spicetify-nix.homeManagerModules.default
   ];
   home = {
