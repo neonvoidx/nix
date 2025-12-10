@@ -34,7 +34,7 @@
       # enable flakes
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
-      substituters = [ "https://hyprland.cachix.org" ];
+      substituters = lib.mkForce [ "https://hyprland.cachix.org" ];
       trusted-users = [ "root" "neonvoid" "@wheel" ];
       allowed-users = [ "root" "neonvoid" "@wheel" ];
       # Cachix for hyprland-git
