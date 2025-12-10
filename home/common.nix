@@ -18,6 +18,8 @@
     kitty
     proton-pass
     lazygit
+    zoxide
+    ffmpeg
     pay-respects
     tealdeer
   ];

@@ -243,10 +243,9 @@
         fi
 
         # Eval & Source
-        ${lib.optionalString (pkgs ? pay-respects) # bash
-        ''
+        if command -v pay-respects &> /dev/null; then
           eval "$(pay-respects zsh --alias)"
-        ''}
+        fi
 
         # SSH agent start if necessary
         if [ -z $SSH_AGENT_PID ] && [ -z $SSH_TTY ]; then
@@ -260,17 +259,13 @@
 
         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
-        ${lib.optionalString config.programs.zoxide.enable # bash
-        ''
+        if command -v zoxide &> /dev/null; then
           eval "$(zoxide init zsh --cmd cd --hook pwd)"
-        ''}
+        fi
 
-        ${lib.optionalString (pkgs ? fastfetch) # bash
-        ''
-          if command -v fastfetch &> /dev/null; then
-            fastfetch
-          fi
-        ''}
+        if command -v fastfetch &> /dev/null; then
+          fastfetch
+        fi
 
         ${lib.optionalString pkgs.stdenv.isDarwin # bash
         ''

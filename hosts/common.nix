@@ -93,7 +93,6 @@
     unzip
     wget
     yazi
-    zoxide
     zsh
   ];
 
