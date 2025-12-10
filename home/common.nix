@@ -14,7 +14,7 @@
 
   # xdg = { enable = true; };
 
-  home.packages = with pkgs; [ kitty proton-pass zinit ];
+  home.packages = with pkgs; [ kitty proton-pass zinit lazygit ];
 
   programs.home-manager.enable = true;
 

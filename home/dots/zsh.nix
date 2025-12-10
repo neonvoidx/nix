@@ -34,7 +34,6 @@
     completionInit = ''
       autoload -Uz compinit
       compinit
-      setopt promptsubst
     '';
 
     # Environment variables
@@ -69,8 +68,6 @@
 
     # Shell aliases
     shellAliases = {
-      hypr = "e ~/.config/hypr/hyprland.conf";
-      yay = "paru";
       dev = "cd ~/dev";
       findhere = "find . -name";
       e = "nvim";
@@ -85,7 +82,6 @@
       l = lib.mkIf (pkgs ? lsd) "ls -Al";
       lt = lib.mkIf (pkgs ? lsd) "ls --tree --ignore-glob=node_modules";
       cat = lib.mkIf config.programs.bat.enable "bat";
-      pacq = lib.mkIf pkgs.stdenv.isLinux "~/scripts/fzfpac.sh";
       htop = lib.mkIf (pkgs ? btop) "btop";
       top = lib.mkIf (pkgs ? btop) "btop";
       brewup = lib.mkIf pkgs.stdenv.isDarwin
@@ -94,18 +90,98 @@
         "nvim --headless '+Lazy! sync' +qa && cd ~/.config/nvim && git add . && git commit -m 'upd' && git push";
     };
 
-    # Shell functions and init extra
-    initExtra = ''
+    setOptions = [
+      "promptsubst"
+      "BANG_HIST"
+      "HIST_REDUCE_BLANKS"
+      "HIST_VERIFY"
+      "HIST_BEEP"
+      "HIST_FIND_NO_DUPS"
+      "HIST_SAVE_NO_DUPS"
+    ];
+
+    siteFunctions = {
+      # Functions
+      findsyms = ''
+        local search_path="''${1:-.}"
+        find "$search_path" -type l -ls
+      '';
+
+      deleteall = ''
+        find . -name "$1" -exec rm -rf {} \;
+      '';
+
+      y = ''
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+          builtin cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+      '';
+
+      kk = lib.mkIf config.programs.kitty.enable ''
+        kitten @ send-text --match-tab state:focused $1 && kitten @ send-key --match-tab state:focused Enter
+      '';
+
+      reload-ssh = ''
+        ssh-add -e /usr/local/lib/opensc-pkcs11.so >> /dev/null
+        if [ $? -gt 0 ]; then
+          echo "Failed to remove previous card"
+        fi
+        ssh-add -s /usr/local/lib/opensc-pkcs11.so
+      '';
+
+      timezsh = ''
+        shell=''${1-$SHELL}
+        for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+      '';
+
+      ffmpeg-downsize = ''
+        if ! command -v ffmpeg &> /dev/null; then
+          echo "ffmpeg not found. Please install ffmpeg."
+          return 1
+        fi
+        if [ $# -eq 0 ]; then
+          echo "Usage: movconvert <inputfile.mov>"
+          return 1
+        fi
+        local output="''${1%.*}"
+        ffmpeg -i "$1" -c:v libx264 -c:a copy -crf 20 "''${output}-small.mov"
+      '';
+
+      ffmpeg-togif = ''
+        if ! command -v ffmpeg &> /dev/null; then
+          echo "ffmpeg not found. Please install ffmpeg."
+          return 1
+        fi
+        if [ $# -ne 3 ]; then
+          echo "Usage: togif <input.mp4> <start_time> <duration>"
+          echo "Example: togif movie.mp4 6 8.8"
+          return 1
+        fi
+        local input="$1"
+        local start="$2"
+        local duration="$3"
+        local base="''${input%.mp4}"
+        ffmpeg -ss "$start" -t "$duration" -i "$input" -vf "fps=30,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "''${base}.gif"
+      '';
+
+      yy = ''
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+          cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+      '';
+    };
+
+    initExtraFirst = ''
       # Hex color support
       zmodload zsh/nearcolor
 
       # History options
-      setopt BANG_HIST
-      setopt HIST_REDUCE_BLANKS
-      setopt HIST_VERIFY
-      setopt HIST_BEEP
-      setopt HIST_FIND_NO_DUPS
-      setopt HIST_SAVE_NO_DUPS
 
       # Completion bindings
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -125,109 +201,6 @@
       zstyle :prompt:pure:user color "#a48cf2"
       zstyle :prompt:pure:user:root color "#f1fc79"
 
-      # FZF functions
-      _fzf_compgen_path() {
-        fd --hidden --follow . "$1"
-      }
-      _fzf_compgen_dir() {
-        fd --type d --hidden --follow . "$1"
-      }
-
-      # Functions
-      findsyms() {
-        local search_path="''${1:-.}"
-        find "$search_path" -type l -ls
-      }
-
-      deleteall() {
-        find . -name "$1" -exec rm -rf {} \;
-      }
-
-      y() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          builtin cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      }
-
-      ${lib.optionalString config.programs.kitty.enable ''
-        kk() {
-          kitten @ send-text --match-tab state:focused $1 && kitten @ send-key --match-tab state:focused Enter
-        }
-      ''}
-
-      reload-ssh() {
-        ssh-add -e /usr/local/lib/opensc-pkcs11.so >> /dev/null
-        if [ $? -gt 0 ]; then
-          echo "Failed to remove previous card"
-        fi
-        ssh-add -s /usr/local/lib/opensc-pkcs11.so
-      }
-
-      timezsh() {
-        shell=''${1-$SHELL}
-        for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
-      }
-
-      ffmpeg-downsize() {
-        if ! command -v ffmpeg &> /dev/null; then
-          echo "ffmpeg not found. Please install ffmpeg."
-          return 1
-        fi
-        if [ $# -eq 0 ]; then
-          echo "Usage: movconvert <inputfile.mov>"
-          return 1
-        fi
-        local output="''${1%.*}"
-        ffmpeg -i "$1" -c:v libx264 -c:a copy -crf 20 "''${output}-small.mov"
-      }
-
-      _ffmpeg_downsize() {
-        _arguments '*:input file:_files'
-      }
-      compdef _ffmpeg_downsize ffmpeg-downsize
-
-      ffmpeg-togif() {
-        if ! command -v ffmpeg &> /dev/null; then
-          echo "ffmpeg not found. Please install ffmpeg."
-          return 1
-        fi
-        if [ $# -ne 3 ]; then
-          echo "Usage: togif <input.mp4> <start_time> <duration>"
-          echo "Example: togif movie.mp4 6 8.8"
-          return 1
-        fi
-        local input="$1"
-        local start="$2"
-        local duration="$3"
-        local base="''${input%.mp4}"
-        ffmpeg -ss "$start" -t "$duration" -i "$input" -vf "fps=30,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "''${base}.gif"
-      }
-
-      _ffmpeg_togif() {
-        _arguments \
-          '1:input file:_files' \
-          '2:start time (seconds):' \
-          '3:duration (seconds):'
-      }
-      compdef _ffmpeg_togif ffmpeg-togif
-
-      yy() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      }
-
-      ${lib.optionalString pkgs.stdenv.isLinux ''
-        if command -v wslu &> /dev/null; then
-          export BROWSER=wslview
-        fi
-      ''}
 
       # GH CLI Copilot
       COPILOT_CLI=~/.local/share/gh/extensions/gh-copilot/gh-copilot
@@ -288,45 +261,6 @@
           eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
       ''}
-    '';
-
-    # Zinit plugin manager (managed manually via initExtraFirst)
-    initExtraFirst = ''
-      # Zinit
-      ZINIT_HOME="''${XDG_DATA_HOME:-''${HOME}/.local/share}/zinit/zinit.git"
-      [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
-      [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-      source "''${ZINIT_HOME}/zinit.zsh"
-      autoload -Uz _zinit
-      (( ''${+_comps} )) && _comps[zinit]=_zinit
-
-      # Zinit Packages
-      zinit wait lucid light-mode for \
-        pick"async.sh" src"pure.zsh" wait"!0" sindresorhus/pure \
-          Aloxaf/fzf-tab \
-          trystan2k/zsh-tab-title \
-        atinit"zicompinit; zicdreplay" \
-          zdharma-continuum/fast-syntax-highlighting \
-          OMZP::colored-man-pages \
-          OMZP::fancy-ctrl-z \
-        atload"_zsh_autosuggest_start" \
-          zsh-users/zsh-autosuggestions \
-        blockf atpull'zinit creinstall -q .' \
-          zsh-users/zsh-completions
-      zinit ice depth=1
-      zinit light jeffreytse/zsh-vi-mode
-      zinit ice wait lucid light-mode
-    '';
-
-    # Profile options (commented out by default)
-    profileExtra = ''
-      # Uncomment to profile
-      # zmodload zsh/zprof
-    '';
-
-    loginExtra = ''
-      # Uncomment to profile
-      # zprof
     '';
   };
 
