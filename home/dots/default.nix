@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./git.nix ./zsh.nix ./firefox.nix ]; }
+{ ... }: { imports = [ ./git.nix ./zsh.nix ./firefox.nix ./bat.nix ]; }
