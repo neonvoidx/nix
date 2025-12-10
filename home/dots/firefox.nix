@@ -9,11 +9,11 @@
         darkreader
         ublock-origin
       ];
-      extraConfig = builtins.readFile "${self}" /assets/.mozilla/user.js;
+      extraConfig = builtins.readFile "${self}/assets/.mozilla/user.js";
       userChrome =
-        builtins.readFile "${self}" /assets/.mozilla/chrome/userChrome.css;
+        builtins.readFile "${self}/assets/.mozilla/chrome/userChrome.css";
       userContent =
-        builtins.readFile "${self}" /assets/.mozilla/chrome/userContent.css;
+        builtins.readFile "${self}/assets/.mozilla/chrome/userContent.css";
       search = {
         force = true;
         default = "kagi";

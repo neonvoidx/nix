@@ -23,7 +23,8 @@
         efiSysMountPoint = "/boot";
       };
     };
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    # TODO how to get cachyos kernel
+    # kernelPackages = pkgs.linuxPackages_cachyos;
     kernelParams = [
       "splash"
       "amdgpu_recovery=1"
