@@ -24,9 +24,6 @@
       strategy = [ "history" "completion" "match_prev_cmd" ];
     };
 
-    # Syntax highlighting
-    syntaxHighlighting.enable = true;
-
     # Enable completion
     enableCompletion = true;
 
@@ -35,6 +32,21 @@
       autoload -Uz compinit
       compinit
     '';
+
+    # Antidote plugin manager
+    antidote = {
+      enable = true;
+      plugins = [
+        "sindresorhus/pure"
+        "Aloxaf/fzf-tab"
+        "trystan2k/zsh-tab-title"
+        "zdharma-continuum/fast-syntax-highlighting"
+        "ohmyzsh/ohmyzsh path:plugins/colored-man-pages"
+        "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
+        "zsh-users/zsh-completions"
+        "jeffreytse/zsh-vi-mode"
+      ];
+    };
 
     # Environment variables
     sessionVariables = {
@@ -188,28 +200,8 @@
 
     initContent = lib.mkBefore # bash
       ''
-        source ${pkgs.zinit}/share/zinit/zinit.zsh
-        # Zinit Packages
-        zinit wait lucid light-mode for \
-          pick"async.sh" src"pure.zsh" wait"!0" sindresorhus/pure \
-            Aloxaf/fzf-tab \
-            trystan2k/zsh-tab-title \
-          atinit"zicompinit; zicdreplay" \
-            zdharma-continuum/fast-syntax-highlighting \
-            OMZP::colored-man-pages \
-            OMZP::fancy-ctrl-z \
-          atload"_zsh_autosuggest_start" \
-            zsh-users/zsh-autosuggestions \
-          blockf atpull'zinit creinstall -q .' \
-            zsh-users/zsh-completions
-        zinit ice depth=1
-        zinit light jeffreytse/zsh-vi-mode
-        zinit ice wait lucid light-mode
-
         # Hex color support
         zmodload zsh/nearcolor
-
-        # History options
 
         # Completion bindings
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -254,14 +246,6 @@
         ${lib.optionalString (pkgs ? pay-respects) # bash
         ''
           eval "$(pay-respects zsh --alias)"
-        ''}
-
-        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-        ${lib.optionalString (pkgs ? fnm) # bash
-        ''
-          export PATH="$HOME/.local/share/fnm:$PATH"
-          eval "$(fnm env --use-on-cd --shell zsh --fnm-dir ~/.cache/fnm)"
         ''}
 
         # SSH agent start if necessary
