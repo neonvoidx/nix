@@ -87,7 +87,6 @@
     nodejs_24
     sbctl
     steam
-    tealdeer
     tree
     tree-sitter
     udiskie

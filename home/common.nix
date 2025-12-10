@@ -14,7 +14,13 @@
 
   # xdg = { enable = true; };
 
-  home.packages = with pkgs; [ kitty proton-pass zinit lazygit ];
+  home.packages = with pkgs; [
+    kitty
+    proton-pass
+    lazygit
+    pay-respects
+    tealdeer
+  ];
 
   programs.home-manager.enable = true;
 
