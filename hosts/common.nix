@@ -170,9 +170,7 @@
     nerd-fonts.jetbrains-mono
     jetbrains-mono
     noto-fonts
-    noto-fonts-emoji
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
+    noto-fonts-color-emoji
     material-symbols
     material-icons
   ];
