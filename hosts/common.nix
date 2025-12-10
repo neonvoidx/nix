@@ -1,5 +1,5 @@
 { config, pkgs, lib, self, username, inputs, ... }: {
-  imports = [ ../modules/fonts.nix ];
+  imports = [ ];
   users.users.${username} = {
     isNormalUser = true;
     description = username;
@@ -92,7 +92,7 @@
       settings = {
         default_session = {
           command =
-            "${pkgs.greetd.tuigreet}/bin/tuigreet --remember  --asterisks  --container-padding 2 --no-xsession-wrapper";
+            "${pkgs.tuigreet}/bin/tuigreet --remember  --asterisks  --container-padding 2 --no-xsession-wrapper";
           user = "greeter";
         };
       };
