@@ -1,4 +1,4 @@
-{ config, pkgs, lib, username, inputs, ... }: {
+{ config, pkgs, lib, self, username, inputs, ... }: {
   imports = [ ../modules/fonts.nix ];
   users.users.${username} = {
     isNormalUser = true;

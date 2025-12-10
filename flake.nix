@@ -17,7 +17,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, nur, nixvim, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nur, nixvim, ... }@inputs: {
     nixosConfigurations = {
       void = let
         username = "neonvoid";
@@ -34,7 +34,7 @@
           ./modules/network-drives.nix
           inputs.spicetify-nix.nixosModules.default
 
-          inputs.home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
