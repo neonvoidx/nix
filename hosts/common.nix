@@ -1,4 +1,4 @@
-{ config, pkgs, lib, self, username, inputs, ... }: {
+{ config, pkgs, lib, username, inputs, ... }: {
   imports = [ ];
   users.users.${username} = {
     isNormalUser = true;
@@ -111,10 +111,6 @@
   };
 
   networking.nameservers = [ "192.168.86.7" "192.168.86.8" ];
-  # TODO DHCP
-  # networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp14s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp15s0.useDHCP = lib.mkDefault true;
 
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
