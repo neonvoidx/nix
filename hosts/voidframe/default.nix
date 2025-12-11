@@ -1,7 +1,7 @@
 { lib, inputs, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ../common.nix ];
+  imports = [ /etc/nixos/hardware-configuration.nix ../common.nix ];
 
   networking = {
     hostName = "voidframe";
