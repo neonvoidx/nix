@@ -1,4 +1,4 @@
-{ inputs, nvf, ... }: {
+{ ... }: {
   programs.nvf = {
     enable = true;
     settings = {

@@ -42,6 +42,7 @@
             ./modules/noctalia.nix
             ./home/${username}/nixos.nix
             ./modules/network-drives.nix
+            nvf.homeManagerModules.default
             inputs.spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
