@@ -10,5 +10,6 @@
     ./nvim.nix
     ./pics.nix
     ./kitty.nix
+    ./hyprland.nix
   ];
 }

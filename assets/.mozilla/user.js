@@ -86,7 +86,6 @@ user_pref("privacy.history.custom", true);
 /** SEARCH / URL BAR ***/
 user_pref("browser.urlbar.trimHttps", true);
 user_pref("browser.urlbar.untrimOnUserInteraction.featureGate", true);
-user_pref("browser.search.separatePrivateDefault.ui.enabled", true);
 user_pref("browser.urlbar.update2.engineAliasRefresh", true);
 user_pref("browser.search.suggest.enabled", false);
 user_pref("browser.urlbar.quicksuggest.enabled", false);
@@ -267,12 +266,20 @@ user_pref("places.frecency.bookmarkVisitBonus", 2000);
 user_pref("places.frecency.unvisitedBookmarkBonus", 2000);
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
-user_pref("extensions.webextensions.restrictedDomains", "");
-user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled",true);
+user_pref(
+  "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled",
+  true
+);
 user_pref("media.videocontrols.picture-in-picture.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true);
-user_pref("media.videocontrols.picture-in-picture.video-toggle.flyout-enabled",true);
-user_pref("media.videocontrols.picture-in-picture.respect-disablePictureInPicture",false);
+user_pref(
+  "media.videocontrols.picture-in-picture.video-toggle.flyout-enabled",
+  true
+);
+user_pref(
+  "media.videocontrols.picture-in-picture.respect-disablePictureInPicture",
+  false
+);
 user_pref("browser.preferences.experimental.hidden", false);
 user_pref("devtools.debugger.prompt-connection", false);
 user_pref("browser.startup.page", 3); // Restore session
