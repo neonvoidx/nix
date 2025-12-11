@@ -110,6 +110,14 @@
     };
   };
 
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    earlySetup = true;
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
+    packages = with pkgs; [ terminus_font ];
+    keyMap = "us";
+  };
+
   networking.nameservers = [ "192.168.86.7" "192.168.86.8" ];
 
   programs.zsh.enable = true;
