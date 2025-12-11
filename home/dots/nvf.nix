@@ -1,6 +1,4 @@
 { inputs, nvf, ... }: {
-  import = [ nvf.homeManagerModules.default ];
-
   programs.nvf = {
     enable = true;
     settings = {
