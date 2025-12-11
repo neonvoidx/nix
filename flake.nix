@@ -19,9 +19,14 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
+  outputs = { self, nvf, nixpkgs, home-manager, nur, ... }@inputs:
     let
       username = "neonvoid";
       specialArgs = {
