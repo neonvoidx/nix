@@ -34,13 +34,11 @@
       # enable flakes
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
-      substituters = lib.mkForce [ "https://hyprland.cachix.org" ];
+      substituters = lib.mkForce [ "https://nix-community.cachix.org" ];
       trusted-users = [ "root" "neonvoid" "@wheel" ];
       allowed-users = [ "root" "neonvoid" "@wheel" ];
-      # Cachix for hyprland-git
-      trusted-substituters = [ "https://hyprland.cachix.org" ];
       trusted-public-keys = [
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
   };
@@ -128,23 +126,14 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  programs.hyprland.enable = true;
+
   hardware = {
     steam-hardware.enable = true;
     graphics.enable = true;
     graphics.extraPackages = with pkgs; [ vulkan-loader vulkan-tools ];
     cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
-  };
-
-  programs.hyprland = {
-    enable = true;
-    package =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-    # TODO these below might go into home manager stuff, not here
-    xwayland.enable = true;
-    withUWSM = false;
   };
 
   xdg.portal = {
@@ -158,9 +147,10 @@
     ];
   };
 
-  environment.variables = {
+  environment.sessionVariables = {
     XCURSOR_SIZE = "24";
     QT_QPA_PLATFORM = "wayland";
+    NIXOS_OZONE_WL = "1";
   };
 
   fonts.packages = with pkgs; [
