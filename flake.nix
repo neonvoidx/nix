@@ -33,10 +33,10 @@
         nixpkgs.lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            ${self}/hosts/${hostname}
-            ${self}/modules/noctalia.nix
-            ${self}/home/${username}/nixos.nix
-            ${self}/modules/network-drives.nix
+            ./hosts/${hostname}
+            ./modules/noctalia.nix
+            ./home/${username}/nixos.nix
+            ./modules/network-drives.nix
             inputs.spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
