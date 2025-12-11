@@ -382,10 +382,6 @@
       binde=,j,resizeactive,0 20
       bind=,escape,submap,reset
       submap=reset
-
-      # Gesture configuration
-      gestures:workspace_swipe = true
-      gestures:workspace_swipe_fingers = 3
     '';
   };
 
