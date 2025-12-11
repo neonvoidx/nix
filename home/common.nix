@@ -7,7 +7,7 @@
     sessionVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
-      BROWSER = "firefox-developer-edition";
+      BROWSER = "firefox";
       TERMINAL = "kitty";
     };
   };

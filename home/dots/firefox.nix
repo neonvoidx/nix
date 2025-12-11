@@ -5,12 +5,15 @@
   };
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-devedition.override {
+    package = pkgs.firefox.override {
       nativeMessagingHosts = [ pkgs.tridactyl-native ];
     };
-    profiles.dev-edition-default = {
+    profiles.neonvoid = {
       isDefault = true;
-        settings ={force=true; extensions.autoDisableScopes=0;};
+      settings = {
+        force = true;
+        extensions.autoDisableScopes = 0;
+      };
       extensions = {
         packages = with pkgs.nur.repos.rycee.firefox-addons; [
           darkreader

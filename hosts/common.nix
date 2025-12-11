@@ -177,9 +177,9 @@
   # https://search.nixos.org 
   environment.systemPackages = with pkgs; [
     # TODO flatpak curseforge
-    (writeScriptBin "firefox-developer-edition" ''
-      exec ${firefox-devedition}/bin/firefox-devedition "$@"
-    '')
+    # (writeScriptBin "firefox-developer-edition" ''
+    #   exec ${firefox-devedition}/bin/firefox-devedition "$@"
+    # '')
     ananicy-cpp
     ananicy-rules-cachyos
     bat
@@ -189,7 +189,6 @@
     btop
     cmatrix
     fastfetch
-    firefox-devedition
     gamescope
     git
     hplip

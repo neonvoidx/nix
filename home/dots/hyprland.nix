@@ -183,8 +183,8 @@
         "$mod, delete, exec, qs -c noctalia-shell ipc call sessionMenu toggle"
         "$mod SHIFT, delete, exec, qs -c noctalia-shell ipc call lockScreen lock"
         "$mod, q, killactive,"
-        "$mod, b, exec, firefox-developer-edition"
-        "$mod SHIFT, b, exec, firefox-developer-edition --private-window"
+        "$mod, b, exec, firefox"
+        "$mod SHIFT, b, exec, firefox --private-window"
         "$mod, Space, exec, qs -c noctalia-shell ipc call launcher toggle"
         "$mod, v, exec, qs -c noctalia-shell ipc call launcher clipboard"
         "$mod SHIFT, c, exec, pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r"
@@ -325,12 +325,12 @@
         "float,class:^(kittyquick)$"
         "pin,class:^(kittyquick)$"
         # Firefox Picture-in-Picture
-        "suppressevent activatefocus,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
-        "nofocus,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
-        "float,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
-        "pin,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
-        "size 20% 30%,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
-        "move 100%-20%-10 100%-30%-10,class:^(firefox-developer-edition)$,title:^(Picture-in-Picture)$"
+        "suppressevent activatefocus,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "nofocus,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "size 20% 30%,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "move 100%-20%-10 100%-30%-10,class:^(firefox)$,title:^(Picture-in-Picture)$"
       ];
 
       # Layer rules
