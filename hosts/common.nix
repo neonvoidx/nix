@@ -136,16 +136,16 @@
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 
-  # programs.hyprland = {
-  #   enable = true;
-  #   package =
-  #     inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  #   portalPackage =
-  #     inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  #   # TODO these below might go into home manager stuff, not here
-  #   xwayland.enable = true;
-  #   withUWSM = false;
-  # };
+  programs.hyprland = {
+    enable = true;
+    package =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    # TODO these below might go into home manager stuff, not here
+    xwayland.enable = true;
+    withUWSM = false;
+  };
 
   xdg.portal = {
     enable = true;
