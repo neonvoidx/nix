@@ -34,7 +34,7 @@
       # enable flakes
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
-      substituters = lib.mkForce [ "https://nix-community.cachix.org" ];
+      substituters = [ "https://cache.nixos.org" "https://nix-community.cachix.org" ];
       trusted-users = [ "root" "neonvoid" "@wheel" ];
       allowed-users = [ "root" "neonvoid" "@wheel" ];
       trusted-public-keys = [
