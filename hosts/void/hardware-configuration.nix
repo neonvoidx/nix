@@ -6,25 +6,25 @@
 {
   imports = [ ];
 
-  boot.initrd.availableKernelModules =
-    [ "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/569de3c2-f8d1-400f-9993-d07b7cdff576";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/1ee903f1-1f8f-46ff-a11f-a659985eb1ce";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/E304-8E74";
-    fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8984-7E73";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/00d326a3-c9aa-47ad-8d68-1557f19863e6"; }];
+    [ { device = "/dev/disk/by-uuid/dce29960-3bd8-4459-8e06-bddfa6414cae"; }
+    ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   virtualisation.virtualbox.guest.enable = true;

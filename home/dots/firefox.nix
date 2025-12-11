@@ -22,7 +22,7 @@
           stylus
           proton-pass
           tab-reloader
-          proton-vpn
+          # proton-vpn
           gesturefy
           tridactyl
         ];
