@@ -35,6 +35,7 @@
         "DP-2,3440x1440@143.92,4880x1440,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
         "DP-3,3440x1440@143.92,4880x0,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
         "HDMI-A-1,2560x1440@59.95,3440x727,1.0,transform,1"
+        "eDP-1,2880x1920@120,0x0 ,1.0"
         ",preferred,auto,1"
       ];
 
