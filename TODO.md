@@ -1,6 +1,5 @@
 - Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
 - SSH key encrypted (nix-sops or shoji-nix?)
-- TTY colors
 - CachyOS kernel
 - Fix Synology network mount
 - Flatpak curseforge client
@@ -12,5 +11,5 @@
 - Vesktop setup?
 - Spicetify setup, get all extensions etc
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
-- Setup nvf or nixvim maybe?
+- Setup nixcat
 - Clean up imports, use self to reference files instead of relative?

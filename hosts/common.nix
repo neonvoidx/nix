@@ -210,7 +210,6 @@
     gcc
     libgcc
     lsd
-    neovim
     nodejs_24
     ripgrep
     pkgs.xwayland

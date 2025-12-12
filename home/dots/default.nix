@@ -11,5 +11,6 @@
     ./pics.nix
     ./kitty.nix
     ./hyprland.nix
+    ./nixcat
   ];
 }
