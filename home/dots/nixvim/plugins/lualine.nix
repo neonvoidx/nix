@@ -23,7 +23,7 @@
               tabline = [ "dashboard" ];
             };
           };
-          extensions = [ "lazy" ];
+          extensions = [ ];
           sections = {
             lualine_a = [
               {
