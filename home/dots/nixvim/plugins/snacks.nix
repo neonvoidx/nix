@@ -529,15 +529,7 @@
         '';
         options.desc = "Man Pages";
       }
-      {
-        key = "<leader>sp";
-        action.__raw = ''
-          function()
-            Snacks.picker.lazy()
-          end
-        '';
-        options.desc = "Search for Plugin Spec";
-      }
+
       {
         key = "<leader>sq";
         action.__raw = ''
