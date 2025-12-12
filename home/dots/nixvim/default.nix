@@ -16,6 +16,9 @@
 
     viAlias = true;
     vimAlias = true;
+    waylandSupport = true;
+    withNodeJs = true;
+    withPython3 = true;
 
     colorschemes.tokyonight.enable = true;
   };
