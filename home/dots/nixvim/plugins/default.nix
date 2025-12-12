@@ -1,1 +1,36 @@
-{ ... }: { imports = [ ./ai.nix ]; }
+{ ... }: {
+  imports = [
+    ./ai.nix
+    ./lsp.nix
+    ./blink.nix
+    ./treesitter.nix
+    ./format.nix
+    ./lint.nix
+    ./git.nix
+    ./mini.nix
+    ./flash.nix
+    ./yanky.nix
+    ./folds.nix
+    ./whichkey.nix
+    ./comments.nix
+    ./inc-rename.nix
+    ./highlight-colors.nix
+    ./numb.nix
+    ./guess-indent.nix
+    ./session.nix
+    ./overseer.nix
+    ./quickfix.nix
+    ./nix.nix
+    ./snacks.nix
+    ./bufferline.nix
+    ./lualine.nix
+    ./noice.nix
+    ./kitty.nix
+    ./yazi.nix
+    ./diff.nix
+    ./help.nix
+    ./eldritch.nix
+    ./snippets.nix
+    ./markdown.nix
+  ];
+}
