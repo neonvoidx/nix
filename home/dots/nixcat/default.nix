@@ -15,7 +15,7 @@ in {
         [ (utils.standardPluginOverlay inputs) ];
       # see the packageDefinitions below.
       # This says which of those to install.
-      packageNames = [ "myHomeModuleNvim" ];
+      packageNames = [ "e" ];
 
       luaPath = ./.;
 
