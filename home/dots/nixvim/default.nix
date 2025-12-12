@@ -1,5 +1,10 @@
 { inputs, ... }: {
-  imports = [ inputs.nixvim.homeModules.nixvim ];
+  imports = [
+    inputs.nixvim.homeModules.nixvim
+    ./opts.nix
+    ./autocmds.nix
+    ./keymaps.nix
+  ];
 
   programs.nixvim = {
     enable = true;
@@ -10,8 +15,5 @@
 
     viAlias = true;
     vimAlias = true;
-
-    inherit (import ./opts.nix) opts;
-    inherit (import ./autocmds.nix) autoGroups autoCmd;
   };
 }
