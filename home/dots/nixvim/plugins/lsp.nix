@@ -24,10 +24,10 @@
               action = "declaration";
               desc = "Goto declaration";
             };
-            "gd" = {
-              action = "definition";
-              desc = "Goto definition";
-            };
+#             "gd" = {
+#               action = "definition";
+#               desc = "Goto definition";
+#             };
             "K" = {
               action = "hover";
               desc = "Hover";
