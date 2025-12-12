@@ -1,0 +1,13 @@
+- Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
+- SSH key encrypted (nix-sops or shoji-nix?)
+- CachyOS kernel
+- Fix Synology network mount
+- Flatpak curseforge client
+- Mount /games for void
+- GRUB with dual boot/secure boot for void
+  - With theme
+- do i need xdg-portal-hyprland set?
+- Vesktop setup?
+- Spicetify setup, get all extensions etc
+- Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
+- Clean up imports, use self to reference files instead of relative?
