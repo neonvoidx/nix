@@ -114,22 +114,7 @@
                 __unkeyed-1 = "location";
               }
             ];
-            lualine_z = [
-              {
-                __unkeyed-1.__raw = ''
-                  function()
-                    local lazyStatus = require("lazy.status")
-                    local has_updates = lazyStatus.has_updates
-                    local packages = require("lazy.status").updates
-                    if has_updates() then
-                      return "󱧕 " .. packages
-                    else
-                      return "󰏗 󰄵"
-                    end
-                  end
-                '';
-              }
-            ];
+            lualine_z = [ ];
           };
         };
       };
