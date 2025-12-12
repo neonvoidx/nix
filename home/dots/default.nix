@@ -11,6 +11,6 @@
     ./pics.nix
     ./kitty.nix
     ./hyprland.nix
-    ./nixvim.nix
+    ./nixvim
   ];
 }
