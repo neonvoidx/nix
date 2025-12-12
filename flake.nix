@@ -19,7 +19,8 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
+
+    nixvim = { url = "github:nix-community/nixvim"; };
   };
 
   outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
