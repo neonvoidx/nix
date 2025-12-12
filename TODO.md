@@ -1,0 +1,25 @@
+- Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
+  - get extensions enabled by default
+  - Set ublock, gesturefy, violentmonkey, stylus settings by default
+  - Other bookmarks? remove
+  - Imported bookmarks? remove
+- SSH key encrypted (nix-sops or shoji-nix?)
+  - Get github ssh key saved, thats the most important
+- Fix Synology network mount to /mnt/synology, or better yet /synology
+- Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
+- cachyos kernel
+- fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
+- Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over. But also stuff like my gaming monitor config scripts
+- thunderbird, protonmailbridge setup
+- copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
+- get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
+- protontricks
+- Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
+- nixvim : go through the missing plugins and fix
+  - formatters are all timing ot
+  - kitty navigator nixvim, pass-keys.py already copied, need to setup nixvim for it
+  - word wrap keymap
+  - whichkey group labels
+- <https://github.com/Misterio77/nix-colors>
+- easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
+- sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
