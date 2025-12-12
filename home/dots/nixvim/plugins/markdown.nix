@@ -264,7 +264,7 @@
         options.desc = "Workspace";
       }
       {
-        key = "<leader>or";
+        key = "<leader>oR";
         action = "<cmd>ObsidianRename<CR>";
         options.desc = "Rename";
       }
