@@ -11,9 +11,10 @@
     defaultEditor = true;
 
     enableMan = true;
-    # colorscheme
 
     viAlias = true;
     vimAlias = true;
+
+    colorschemes.tokyonight.enable = true;
   };
 }
