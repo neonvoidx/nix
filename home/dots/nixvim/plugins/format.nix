@@ -43,7 +43,7 @@
 
     extraConfigLua = ''
       vim.g.disable_autoformat = false
-      vim.b.format = false
+      vim.b.disable_autoformat = false
     '';
 
     keymaps = [
