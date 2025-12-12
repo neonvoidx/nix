@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   programs.nixvim = {
-    colorschemes.tokyonight.enable = false; # Disable the existing colorscheme
     
     extraPlugins = with pkgs.vimPlugins; [
       {
