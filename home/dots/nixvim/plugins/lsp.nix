@@ -20,10 +20,6 @@
             };
           };
           lspBuf = {
-            "gD" = {
-              action = "declaration";
-              desc = "Goto declaration";
-            };
 #             "gd" = {
 #               action = "definition";
 #               desc = "Goto definition";
