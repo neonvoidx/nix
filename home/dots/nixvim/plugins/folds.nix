@@ -61,21 +61,5 @@
       }
     ];
 
-    extraConfigLua = ''
-      -- Setup folding capabilities for LSP
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
-      }
-      local language_servers = vim.lsp.get_clients()
-      for _, ls in ipairs(language_servers) do
-        if ls.name then
-          require("lspconfig")[ls.name].setup({
-            capabilities = capabilities,
-          })
-        end
-      end
-    '';
   };
 }
