@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, makeWrapper, gamescope, jq }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeWrapper,
+  gamescope,
+  jq,
+}:
 
 stdenv.mkDerivation rec {
   pname = "scopebuddy";
@@ -13,7 +20,10 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  buildInputs = [ gamescope jq ];
+  buildInputs = [
+    gamescope
+    jq
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -26,7 +36,12 @@ stdenv.mkDerivation rec {
     chmod +x $out/bin/scb
 
     wrapProgram $out/bin/scopebuddy \
-      --prefix PATH : ${lib.makeBinPath [ gamescope jq ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          gamescope
+          jq
+        ]
+      }
 
     runHook postInstall
   '';
