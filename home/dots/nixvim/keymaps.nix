@@ -346,7 +346,7 @@
       }
     ];
 
-    programs.nixvim.extraConfigLua = ''
+    extraConfigLua = ''
       -- Map to take current selection and search/replace it
       table.unpack = table.unpack or unpack
       local function get_visual()
