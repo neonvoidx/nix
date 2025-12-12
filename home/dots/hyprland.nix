@@ -105,7 +105,7 @@
       };
 
       # Gestures
-      gesture = { workspace_swipe = false; };
+      # gesture = { workspace_swipe = false; };
 
       # Decoration
       decoration = {
