@@ -4,9 +4,11 @@
     ./opts.nix
     ./autocmds.nix
     ./keymaps.nix
+    ./plugins
   ];
 
   programs.nixvim = {
+    nixpkgs.config.allowUnfree = true;
     enable = true;
     defaultEditor = true;
 
@@ -17,4 +19,5 @@
 
     colorschemes.tokyonight.enable = true;
   };
+
 }

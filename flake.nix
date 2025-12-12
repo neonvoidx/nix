@@ -20,7 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = { url = "github:nix-community/nixvim"; };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
@@ -35,6 +38,7 @@
         nixpkgs.lib.nixosSystem {
           inherit specialArgs;
           modules = [
+            { nixpkgs.config.allowUnfree = true; }
             ./hosts/${hostname}
             ./modules/noctalia.nix
             ./home/${username}/nixos.nix
@@ -42,6 +46,7 @@
             inputs.spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
+              nixpkgs.config.allowUnfree = true;
               home-manager.backupFileExtension = "backup";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

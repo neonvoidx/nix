@@ -1,5 +1,6 @@
 { username, pkgs, inputs, ... }: {
   imports = [ ./dots inputs.spicetify-nix.homeManagerModules.default ];
+
   home = {
     inherit username;
     homeDirectory = "/home/${username}";

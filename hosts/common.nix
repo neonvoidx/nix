@@ -43,7 +43,6 @@
       ];
     };
   };
-  nixpkgs.config.allowUnfree = true;
 
   # System 
   time.hardwareClockInLocalTime = true;
