@@ -59,5 +59,20 @@
   environment.variables.AMD_VULKAN_ICD = "RADV";
   environment.systemPackages = with pkgs; [ linuxKernel.packages.linux_6_12.xpadneo ];
 
+  # Install CurseForge flatpak via systemd service
+  systemd.services.install-curseforge-flatpak = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      ${pkgs.flatpak}/bin/flatpak install -y flathub com.overwolf.CurseForge || true
+    '';
+  };
+
   system.stateVersion = "25.11";
 }

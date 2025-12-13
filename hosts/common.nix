@@ -179,6 +179,8 @@
 
   programs.hyprland.enable = true;
 
+  services.flatpak.enable = true;
+
   hardware = {
     steam-hardware.enable = true;
     graphics.enable = true;
