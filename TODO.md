@@ -1,8 +1,9 @@
 - Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
+  - get extensions enabled by default
+  - Get eldritch theme selected by default
 - SSH key encrypted (nix-sops or shoji-nix?)
 - CachyOS kernel
 - Fix Synology network mount
-- Flatpak curseforge client
 - Mount /games for void
 - GRUB with dual boot/secure boot for void
   - With theme
