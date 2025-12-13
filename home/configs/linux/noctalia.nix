@@ -1,4 +1,12 @@
-{ inputs, ... }:
+{
+  inputs,
+  osConfig ? null,
+  ...
+}:
+let
+  hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
+  isVoidframe = hostname == "voidframe";
+in
 {
   imports = [ inputs.noctalia.homeModules.default ];
 
@@ -147,6 +155,20 @@
               useCustomFont = false;
               usePrimaryColor = true;
             }
+          ]
+          ++ (
+            if isVoidframe then
+              [
+                {
+                  alwaysShowPercentage = false;
+                  id = "Battery";
+                  warningThreshold = 30;
+                }
+              ]
+            else
+              [ ]
+          )
+          ++ [
             {
               hideWhenZero = true;
               id = "NotificationHistory";
