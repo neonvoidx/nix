@@ -1,8 +1,9 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   imports = [ inputs.noctalia.homeModules.default ];
 
   programs.noctalia-shell = {
-    systemd.enable = true;
+    enable = true;
     settings = {
       appLauncher = {
         customLaunchPrefix = "";
@@ -35,20 +36,25 @@
         floating = true;
         marginHorizontal = 0.3;
         marginVertical = 0.3;
-        monitors = [ "DP-3" "DP-2" ];
+        monitors = [
+          "DP-3"
+          "DP-2"
+        ];
         outerCorners = false;
         position = "top";
         showCapsule = true;
         widgets = {
-          center = [{
-            colorizeIcons = false;
-            hideMode = "hidden";
-            id = "ActiveWindow";
-            maxWidth = 350;
-            scrollingMode = "hover";
-            showIcon = true;
-            useFixedWidth = false;
-          }];
+          center = [
+            {
+              colorizeIcons = false;
+              hideMode = "hidden";
+              id = "ActiveWindow";
+              maxWidth = 350;
+              scrollingMode = "hover";
+              showIcon = true;
+              useFixedWidth = false;
+            }
+          ];
           left = [
             {
               colorizeDistroLogo = false;
@@ -217,7 +223,10 @@
             { id = "ScreenRecorder"; }
             { id = "WallpaperSelector"; }
           ];
-          right = [ { id = "Notifications"; } { id = "KeepAwake"; } ];
+          right = [
+            { id = "Notifications"; }
+            { id = "KeepAwake"; }
+          ];
         };
       };
       dock = {
@@ -274,7 +283,9 @@
         weatherEnabled = true;
         weatherShowEffects = true;
       };
-      network = { wifiEnabled = false; };
+      network = {
+        wifiEnabled = false;
+      };
       nightLight = {
         autoSchedule = true;
         dayTemp = "6500";

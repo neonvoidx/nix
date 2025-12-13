@@ -1,4 +1,5 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+{
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
@@ -35,7 +36,7 @@
         "DP-2,3440x1440@143.92,4880x1440,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
         "DP-3,3440x1440@143.92,4880x0,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
         "HDMI-A-1,2560x1440@59.95,3440x727,1.0,transform,1"
-        "eDP-1,2880x1920@120,0x0 ,1.0"
+        "eDP-1,2880x1920@120,0x0,1.3"
         ",preferred,auto,1"
       ];
 
@@ -141,7 +142,9 @@
       };
 
       # Experimental features
-      experimental = { xx_color_management_v4 = true; };
+      experimental = {
+        xx_color_management_v4 = true;
+      };
 
       # Miscellaneous
       misc = {
@@ -154,10 +157,14 @@
       };
 
       # Xwayland
-      xwayland = { force_zero_scaling = true; };
+      xwayland = {
+        force_zero_scaling = true;
+      };
 
       # Debug
-      debug = { disable_logs = true; };
+      debug = {
+        disable_logs = true;
+      };
 
       # Ecosystem
       ecosystem = {
@@ -272,7 +279,10 @@
         "$mod, minus, resizeactive, -10 -10%"
       ];
 
-      bindm = [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
 
       bindl = [
         ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -351,7 +361,7 @@
         "systemctl --user start hypridle"
         "wl-clip-persist --clipboard regular --reconnect-tries 0"
         "wl-paste --watch cliphist store"
-        "noctalia-shell"
+        "noctalia-shell -d"
         "systemctl --user start pipewire wireplumber"
         "sleep 5 && easyeffects --service-mode -w"
         "nm-applet"
