@@ -1,4 +1,10 @@
-{ pkgs, username, lib, ... }: {
+{
+  pkgs,
+  username,
+  lib,
+  ...
+}:
+{
   imports = [ ../common.nix ];
 
   home = {
