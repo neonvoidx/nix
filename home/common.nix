@@ -56,6 +56,7 @@
   };
 
   home.packages = with pkgs; [
+    home-manager
     kitty
     kitty-themes
     github-copilot-cli
@@ -76,5 +77,4 @@
   ];
 
   programs.home-manager.enable = true;
-
 }
