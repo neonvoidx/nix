@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.kitty = {
     enable = true;
 
@@ -24,8 +25,7 @@
       cursor_trail = 3;
 
       # Symbol map for Nerd Fonts
-      symbol_map =
-        "U+e000-U+e00a,U+ea60-U+ebeb,U+e0a0-U+e0c8,U+e0ca,U+e0cc-U+e0d4,U+e200-U+e2a9,U+e300-U+e3e3,U+e5fa-U+e6b1,U+e700-U+e7c5,U+f000-U+f2e0,U+f300-U+f372,U+f400-U+f532,U+f0001-U+f1af0 JetBrainsMono Nerd Font Mono";
+      symbol_map = "U+e000-U+e00a,U+ea60-U+ebeb,U+e0a0-U+e0c8,U+e0ca,U+e0cc-U+e0d4,U+e200-U+e2a9,U+e300-U+e3e3,U+e5fa-U+e6b1,U+e700-U+e7c5,U+f000-U+f2e0,U+f300-U+f372,U+f400-U+f532,U+f0001-U+f1af0 JetBrainsMono Nerd Font Mono";
 
       # Kitty modifier key
       kitty_mod = "ctrl+shift";
@@ -36,15 +36,13 @@
 
       # Scrollback
       scrollback_lines = 10000;
-      scrollback_pager =
-        "less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+      scrollback_pager = "less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
       scrollback_pager_history_size = 4096;
 
       # Mouse
       url_style = "dotted";
       open_url_with = "default";
-      url_prefixes =
-        "file ftp ftps gemini git gopher http https irc ircs kitty mailto news sftp ssh";
+      url_prefixes = "file ftp ftps gemini git gopher http https irc ircs kitty mailto news sftp ssh";
       detect_urls = true;
       underline_hyperlinks = "always";
       paste_actions = "quote-urls-at-prompt";
@@ -81,10 +79,8 @@
       tab_bar_style = "separator";
       tab_bar_min_tabs = 1;
       tab_separator = "";
-      tab_title_template =
-        "{fmt.fg._323449}{fmt.bg.default}{fmt.fg._04d1f9}{fmt.bg.default}{index}{fmt.fg._04d1f9}{fmt.bg._323449} {title} {fmt.fg._323449}{fmt.bg.default} ";
-      active_tab_title_template =
-        "{fmt.fg._37f499}{fmt.bg.default}{fmt.fg._212337}{fmt.bg._37f499}{fmt.fg._212337}{fmt.bg._37f499} {title} {fmt.fg._37f499}{fmt.bg.default} ";
+      tab_title_template = "{fmt.fg._323449}{fmt.bg.default}{fmt.fg._04d1f9}{fmt.bg.default}{index}{fmt.fg._04d1f9}{fmt.bg._323449} {title} {fmt.fg._323449}{fmt.bg.default} ";
+      active_tab_title_template = "{fmt.fg._37f499}{fmt.bg.default}{fmt.fg._212337}{fmt.bg._37f499}{fmt.fg._212337}{fmt.bg._37f499} {title} {fmt.fg._37f499}{fmt.bg.default} ";
 
       # Advanced
       editor = ".";
@@ -137,8 +133,7 @@
       "ctrl+t>left" = "layout_action move_to_screen_edge left";
 
       # Broadcast keys
-      "ctrl+t>i" =
-        "launch --allow-remote-control kitty +kitten broadcast --match-tab state:focused";
+      "ctrl+t>i" = "launch --allow-remote-control kitty +kitten broadcast --match-tab state:focused";
 
       # Resize mode
       "ctrl+t>r" = "kitten resize_window";
@@ -176,8 +171,7 @@
 
       # Scrollback with nvim
       "kitty_mod+h" = "kitty_scrollback_nvim";
-      "kitty_mod+g" =
-        "kitty_scrollback_nvim --config ksb_builtin_last_cmd_output";
+      "kitty_mod+g" = "kitty_scrollback_nvim --config ksb_builtin_last_cmd_output";
 
       # Font Management
       "kitty_mod+plus" = "change_font_size all +1.0";
