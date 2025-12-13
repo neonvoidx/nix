@@ -11,3 +11,4 @@
 - Spicetify setup, get all extensions etc
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - Clean up imports, use self to reference files instead of relative?
+- Set gtk theme to adwaita-dark, and QT_QPA_PLATFORMTHEME=gtk3

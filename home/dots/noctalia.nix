@@ -37,8 +37,6 @@
         marginHorizontal = 0.3;
         marginVertical = 0.3;
         monitors = [
-          "DP-3"
-          "DP-2"
         ];
         outerCorners = false;
         position = "top";

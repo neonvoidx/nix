@@ -1,4 +1,12 @@
-{ config, pkgs, lib, username, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  inputs,
+  ...
+}:
+{
   imports = [ ];
   users.users.${username} = {
     isNormalUser = true;
@@ -32,22 +40,37 @@
     };
     settings = {
       # enable flakes
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
-      substituters =
-        [ "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-      trusted-users = [ "root" "neonvoid" "@wheel" ];
-      allowed-users = [ "root" "neonvoid" "@wheel" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-users = [
+        "root"
+        "neonvoid"
+        "@wheel"
+      ];
+      allowed-users = [
+        "root"
+        "neonvoid"
+        "@wheel"
+      ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
   };
 
-  # System 
+  # System
   time.hardwareClockInLocalTime = true;
   time.timeZone = "America/New_York";
-  hardware = { bluetooth.enable = true; };
+  hardware = {
+    bluetooth.enable = true;
+  };
 
   services = {
     printing.enable = true;
@@ -89,8 +112,7 @@
       enable = true;
       settings = {
         default_session = {
-          command =
-            "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
+          command = "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
           user = "greeter";
         };
       };
@@ -98,7 +120,11 @@
   };
 
   systemd = {
-    settings = { Manager = { DefaultTimeoutStopSec = "10s"; }; };
+    settings = {
+      Manager = {
+        DefaultTimeoutStopSec = "10s";
+      };
+    };
     services.greetd.serviceConfig = {
       Type = "idle";
       StandardInput = "tty";
@@ -136,7 +162,10 @@
     ];
   };
 
-  networking.nameservers = [ "192.168.86.7" "192.168.86.8" ];
+  networking.nameservers = [
+    "192.168.86.7"
+    "192.168.86.8"
+  ];
 
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
@@ -153,14 +182,22 @@
   hardware = {
     steam-hardware.enable = true;
     graphics.enable = true;
-    graphics.extraPackages = with pkgs; [ vulkan-loader vulkan-tools ];
-    cpu.amd.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
+    graphics.extraPackages = with pkgs; [
+      vulkan-loader
+    ];
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 
   xdg.portal = {
     enable = true;
-    config = { common = { default = [ "hyprland" "gtk" ]; }; };
+    config = {
+      common = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+      };
+    };
     xdgOpenUsePortal = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal
@@ -172,6 +209,7 @@
   environment.sessionVariables = {
     XCURSOR_SIZE = "24";
     QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORMTHEME = "gtk";
     NIXOS_OZONE_WL = "1";
   };
 
@@ -179,6 +217,7 @@
     fira-sans
     roboto
     nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
     jetbrains-mono
     noto-fonts
     noto-fonts-color-emoji
@@ -186,7 +225,7 @@
     material-icons
   ];
 
-  # https://search.nixos.org 
+  # https://search.nixos.org
   environment.systemPackages = with pkgs; [
     # TODO flatpak curseforge
     # (writeScriptBin "firefox-developer-edition" ''
@@ -220,6 +259,7 @@
     udiskie
     unzip
     usbutils
+    vulkan-tools
     wget
     yarn
     yazi
