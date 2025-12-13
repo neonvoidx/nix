@@ -238,10 +238,7 @@
     bluez
     brightnessctl
     btop
-    cmatrix
     fd
-    fastfetch
-    gamescope
     git
     hplip
     hypridle
@@ -249,19 +246,15 @@
     gcc
     libgcc
     lsd
-    nodejs_24
     ripgrep
     pkgs.xwayland
     sbctl
-    steam
     tree
     tree-sitter
     udiskie
     unzip
     usbutils
-    vulkan-tools
     wget
-    yarn
     yazi
     zsh
   ];

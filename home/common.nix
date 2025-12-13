@@ -1,5 +1,14 @@
-{ username, pkgs, inputs, ... }: {
-  imports = [ ./dots inputs.spicetify-nix.homeManagerModules.default ];
+{
+  username,
+  pkgs,
+  inputs,
+  ...
+}:
+{
+  imports = [
+    ./dots
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
 
   home = {
     inherit username;
@@ -13,8 +22,12 @@
     };
   };
 
-  xresources.properties = { "Xcursor.size" = 24; };
-  programs.bash = { enable = true; };
+  xresources.properties = {
+    "Xcursor.size" = 24;
+  };
+  programs.bash = {
+    enable = true;
+  };
 
   gtk = {
     enable = true;
@@ -53,6 +66,13 @@
     ffmpeg
     pay-respects
     tealdeer
+    cmatrix
+    fastfetch
+    gamescope
+    nodejs_24
+    steam
+    vulkan-tools
+    yarn
   ];
 
   programs.home-manager.enable = true;
