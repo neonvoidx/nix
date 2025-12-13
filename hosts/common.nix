@@ -1,12 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  username,
-  inputs,
-  ...
-}:
-{
+{ config, pkgs, lib, username, inputs, ... }: {
   imports = [ ];
   users.users.${username} = {
     isNormalUser = true;
@@ -24,6 +16,8 @@
   };
 
   nixpkgs.overlays = [
+    # TODO
+    # inputs.nix-cachyos-kernel.overlays.default
     (final: prev: {
       nur = import inputs.nur {
         nurpkgs = prev;
@@ -31,6 +25,22 @@
       };
     })
   ];
+
+  # CachyOS Kernel
+  # TODO
+  # boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+  boot = {
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      limine = {
+        enable = true;
+        style = { backdrop = "212337"; };
+      };
+    };
+  };
 
   nix = {
     gc = {
@@ -40,39 +50,38 @@
     };
     settings = {
       # enable flakes
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
-      substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-      trusted-users = [
-        "root"
-        "neonvoid"
-        "@wheel"
-      ];
-      allowed-users = [
-        "root"
-        "neonvoid"
-        "@wheel"
-      ];
+      substituters =
+        [ "https://cache.nixos.org" "https://nix-community.cachix.org" ];
+      trusted-users = [ "root" "neonvoid" "@wheel" ];
+      allowed-users = [ "root" "neonvoid" "@wheel" ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
   };
 
-  # System
   time.hardwareClockInLocalTime = true;
   time.timeZone = "America/New_York";
+
   hardware = {
-    bluetooth.enable = true;
+    cpu.amd.updateMicrocode =
+      lib.mkDefault config.hardware.enableRedistributableFirmware;
+    bluetooth = {
+      enable = true;
+      network = { General = { DisableSecurity = true; }; };
+    };
   };
 
   services = {
+    flatpak.enable = true;
+    hypridle.enable = true;
+    ananicy = {
+      enable = true;
+      package = pkgs.ananicy-cpp;
+      rulesProvider = pkgs.ananicy-rules-cachyos;
+    };
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
@@ -112,7 +121,8 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
+          command =
+            "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
           user = "greeter";
         };
       };
@@ -120,11 +130,7 @@
   };
 
   systemd = {
-    settings = {
-      Manager = {
-        DefaultTimeoutStopSec = "10s";
-      };
-    };
+    settings = { Manager = { DefaultTimeoutStopSec = "10s"; }; };
     services.greetd.serviceConfig = {
       Type = "idle";
       StandardInput = "tty";
@@ -162,50 +168,26 @@
     ];
   };
 
-  networking.nameservers = [
-    "192.168.86.7"
-    "192.168.86.8"
-  ];
+  networking.nameservers = [ "192.168.86.7" "192.168.86.8" ];
 
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
 
   programs.steam = {
     enable = true;
+    protontricks.enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };
 
   programs.hyprland.enable = true;
-
-  services.flatpak.enable = true;
-
-  hardware = {
-    steam-hardware.enable = true;
-    graphics.enable = true;
-    graphics.extraPackages = with pkgs; [
-      vulkan-loader
-    ];
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  };
+  programs.dconf.enable = true;
 
   xdg.portal = {
     enable = true;
-    config = {
-      common = {
-        default = [
-          "hyprland"
-          "gtk"
-        ];
-      };
-    };
     xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal
-      # xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
+    extraPortals = with pkgs; [ xdg-desktop-portal xdg-desktop-portal-gtk ];
   };
 
   environment.sessionVariables = {
@@ -245,8 +227,7 @@
     hplip
     hypridle
     hyprpolkitagent
-    gcc
-    libgcc
+    just
     lsd
     ripgrep
     pkgs.xwayland

@@ -2,12 +2,9 @@
   - get extensions enabled by default
   - Get eldritch theme selected by default
 - SSH key encrypted (nix-sops or shoji-nix?)
-- CachyOS kernel
 - Fix Synology network mount
 - Mount /games for void
 - GRUB with dual boot/secure boot for void
   - With theme
-- do i need xdg-portal-hyprland set?
-- Vesktop setup?
-- Spicetify setup, get all extensions etc
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
+- cachyos kernel

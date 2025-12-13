@@ -1,6 +1,6 @@
-{ ... }:
-{
+{ ... }: {
   imports = [
+    ./easyeffects.nix
     ./firefox.nix
     ./flatpak.nix
     ./hyprland.nix

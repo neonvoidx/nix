@@ -23,22 +23,10 @@
 
   boot = {
     loader = {
-      # TODO GRUB 
-      #  efi = {
-      #    canTouchEfiVariables = true;
-      #    efiSysMountPoint = "/boot/efi";
-      #  };
-      #  grub = {
-      #    efiSupport = true;
-      #    device = "nodev";
-      #    enable=true;
-      #    useOSProber = true;
-      #  };
-      #};
-      systemd-boot.enable = true;
-      efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
+      limine = {
+        style = {
+          # interface = { resolution = "2880x1920"; };
+        };
       };
     };
   };

@@ -1,5 +1,4 @@
-{ inputs, pkgs, ... }:
-{
+{ inputs, pkgs, ... }: {
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
@@ -27,7 +26,7 @@
         "XDG_SESSION_DESKTOP,Hyprland"
         "MOZ_ENABLE_WAYLAND,1"
         "EGL_PLATFORM,wayland"
-        "HYPRCURSOR_THEME,catppuccin_hyprcursor"
+        "HYPRCURSOR_THEME,catppuccin-mocha-sapphire-cursors"
         "HYPRCURSOR_SIZE,24"
       ];
 
@@ -142,9 +141,7 @@
       };
 
       # Experimental features
-      experimental = {
-        xx_color_management_v4 = true;
-      };
+      experimental = { xx_color_management_v4 = true; };
 
       # Miscellaneous
       misc = {
@@ -157,14 +154,10 @@
       };
 
       # Xwayland
-      xwayland = {
-        force_zero_scaling = true;
-      };
+      xwayland = { force_zero_scaling = true; };
 
       # Debug
-      debug = {
-        disable_logs = true;
-      };
+      debug = { disable_logs = true; };
 
       # Ecosystem
       ecosystem = {
@@ -279,10 +272,7 @@
         "$mod, minus, resizeactive, -10 -10%"
       ];
 
-      bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-      ];
+      bindm = [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
 
       bindl = [
         ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -351,7 +341,7 @@
       exec-once = [
         "gnome-keyring-daemon --start --components=secrets"
         "dbus-update-activation-environment --systemd --all"
-        "hyprctl setcursor catppuccin_hyprcursor 28"
+        "hyprctl setcursor catppuccin-mocha-sapphire-cursors 24"
         "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
         "systemctl --user import-environment QT_QPA_PLATFORMTHEME"
         "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
@@ -401,5 +391,11 @@
     extraPortals = [
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
     ];
+    config = {
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+      };
+    };
   };
 }

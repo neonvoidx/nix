@@ -1,14 +1,6 @@
-{
-  username,
-  pkgs,
-  inputs,
-  ...
-}:
-{
-  imports = [
-    ./configs/common
-    inputs.spicetify-nix.homeManagerModules.default
-  ];
+{ username, pkgs, inputs, ... }: {
+  imports =
+    [ ./configs/common inputs.spicetify-nix.homeManagerModules.default ];
 
   home = {
     inherit username;
@@ -36,6 +28,13 @@
     tealdeer
     fastfetch
   ];
+
+  home.file.".config/scopebuddy" = {
+    source = ../assets/scopebuddy;
+    recursive = true;
+  };
+
+  services.udiskie.enable = true;
 
   programs.home-manager.enable = true;
 }

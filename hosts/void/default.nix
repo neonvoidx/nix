@@ -1,10 +1,7 @@
-{ inputs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [
-    /etc/nixos/hardware-configuration.nix
-    ../common.nix
-  ];
+  imports = [ /etc/nixos/hardware-configuration.nix ../common.nix ];
 
   boot = {
     loader = {
@@ -12,30 +9,35 @@
         canTouchEfiVariables = true;
         efiSysMountPoint = "/boot";
       };
-      # After rebuilding with the new GRUB config:
+      # After rebuilding with Limine:
       # sudo sbctl create-keys
-      # sudo sbctl enroll-keys -m  # -m flag keeps Microsoft keys for Windows
-      # sudo sbctl sign -s /boot/EFI/nixos/grubx64.efi
-      # sudo sbctl sign -s /boot/vmlinuz-*
-      # sudo sbctl sign -s /boot/initrd-*
-      grub = {
+      # sudo sbctl enroll-keys -m -f 
+      # sudo sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI
+      # sudo sbctl sign -s /boot/EFI/Linux/*.efi
+      # sbctl verify etc..
+      limine = {
         enable = true;
-        efiSupport = true;
-        device = "nodev";
-        useOSProber = true;
-        efiInstallAsRemovable = false;
+        secureBoot = {
+          # TODO enable this after doing above
+          enable = false;
+        };
+        # extraEntries = ''
+        #   menuentry "Windows Boot Manager" {
+        #       chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+        #   }
+        # '';
+        style = {
+          # interface = { resolution = "3440x1440"; };
+        };
       };
-      systemd-boot.enable = false;
     };
-    # TODO how to get cachyos kernel
-    # kernelPackages = pkgs.linuxPackages_cachyos;
+    initrd = { kernelModules = [ "amdgpu" ]; };
+    kernelModules = [ "amdgpu" ];
+    extraModprobeConfig = ''
+      options amdgpu gpu_recovery=1 ppfeaturemask=0xfffd7fff noretry=0 runpm=0 gpu_recovery=1
+    '';
     kernelParams = [
       "splash"
-      "amdgpu_recovery=1"
-      "amdgpu.ppfeaturemask=0xfffd7fff"
-      "amdgpu.noretry=0"
-      "amdgpu.runpm=0"
-      "amdgpu.gpu_recovery=1"
       "video=DP-1:3440x1440@144"
       "video=DP-2:3440x1440@144"
       "video=HDMI-A-1:2560x1440@144"
@@ -45,19 +47,22 @@
   networking = {
     hostName = "void";
     firewall.enable = false;
-    networkmanager = {
-      enable = true;
-    };
+    networkmanager = { enable = true; };
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
+  hardware = {
+    graphics = {
+      enable = lib.mkDefault true;
+      enable32Bit = lib.mkDefault true;
+    };
+    amdgpu = { initrd.enable = lib.mkDefault true; };
+    steam-hardware.enable = true;
   };
-  hardware.amdgpu.initrd.enable = true;
+
+  services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
 
   environment.variables.AMD_VULKAN_ICD = "RADV";
-  environment.systemPackages = with pkgs; [ linuxKernel.packages.linux_6_12.xpadneo ];
+  environment.systemPackages = with pkgs; [ amdgpu_top ];
 
   # Install CurseForge flatpak via systemd service
   systemd.services.install-curseforge-flatpak = {

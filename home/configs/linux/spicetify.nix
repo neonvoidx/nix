@@ -6,16 +6,17 @@ in {
   programs.spicetify = {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [
-      shuffle
       beautifulLyrics
-      loopyLoop
-      groupSession
-      fullAppDisplay
-      keyboardShortcut
-      popupLyrics
-      history
-      copyLyrics
       catJamSynced
+      copyLyrics
+      fullAlbumDate
+      fullAppDisplay
+      groupSession
+      history
+      keyboardShortcut
+      loopyLoop
+      popupLyrics
+      shuffle
     ];
     enabledCustomApps = with spicePkgs.apps; [ marketplace ];
     theme = spicePkgs.themes.sleek;
