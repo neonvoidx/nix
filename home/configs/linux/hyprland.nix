@@ -27,7 +27,7 @@
         "XDG_SESSION_DESKTOP,Hyprland"
         "MOZ_ENABLE_WAYLAND,1"
         "EGL_PLATFORM,wayland"
-        "HYPRCURSOR_THEME,catppuccin_hyprcursor"
+        "HYPRCURSOR_THEME,catppuccin-mocha-sapphire-cursors"
         "HYPRCURSOR_SIZE,24"
       ];
 
@@ -351,7 +351,7 @@
       exec-once = [
         "gnome-keyring-daemon --start --components=secrets"
         "dbus-update-activation-environment --systemd --all"
-        "hyprctl setcursor catppuccin_hyprcursor 28"
+        "hyprctl setcursor catppuccin-mocha-sapphire-cursors 24"
         "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
         "systemctl --user import-environment QT_QPA_PLATFORMTHEME"
         "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
