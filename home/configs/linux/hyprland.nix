@@ -362,7 +362,7 @@
         "nm-applet"
         "exec ~/.config/gtk-3.0/gtksettings.sh"
         "exec import-gsettings"
-        "exec /usr/bin/streamcontroller -b"
+        "exec streamcontroller -b"
         "[workspace 10 silent] steam"
         "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
         "[workspace 3 silent] vesktop"
