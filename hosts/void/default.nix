@@ -19,7 +19,7 @@
       limine = {
         enable = true;
         secureBoot = {
-          enable = false;
+          enable = true;
         };
         style = {
           interface = {
