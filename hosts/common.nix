@@ -46,6 +46,8 @@
       limine = {
         enable = true;
         enableEditor = true;
+        validateChecksums = lib.mkDefault false;
+        extraConfig = "hash_mismatch_panic: no";
         maxGenerations = 10;
         style = {
           backdrop = "212337";
