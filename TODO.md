@@ -15,3 +15,4 @@
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
 - Yazi config
 - hypridle
+- thunderbird, protonmailbridge
