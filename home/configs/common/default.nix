@@ -9,5 +9,6 @@
     ./lsd.nix
     ./nixcats
     ./zsh.nix
+    ./yazi.nix
   ];
 }

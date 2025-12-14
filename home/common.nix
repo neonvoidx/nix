@@ -21,6 +21,7 @@
       BROWSER = "firefox";
       TERMINAL = "kitty";
     };
+    shell.enableZshIntegration = true;
   };
 
   home.packages = with pkgs; [

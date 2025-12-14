@@ -6,7 +6,6 @@
 - Fix Synology network mount to /mnt/synology, or better yet /synology
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
-- Fix limine hash errors
 - Limine themeing
 - fbset resolution hook during boot for proper resolution pre graphical session
 - nixCats setup isn't using treesitter or lsps properly, think about nixvim, maybe...
@@ -19,4 +18,5 @@
   - <https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows> tldr set regedit in windows to use utc
 - test out games, make sure thats all good to go
 - get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
+- protontricks
 - Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
