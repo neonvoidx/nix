@@ -358,7 +358,7 @@
         # "systemctl --user start hypridle"
         # "wl-clip-persist --clipboard regular --reconnect-tries 0"
         # "wl-paste --watch cliphist store"
-        # "noctalia-shell -d"
+        "noctalia-shell -d"
         # "systemctl --user start pipewire wireplumber"
         # "sleep 5 && easyeffects --service-mode -w"
         # "nm-applet"
