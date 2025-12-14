@@ -9,11 +9,10 @@
 - Fix limine hash errors
 - Limine themeing
 - fbset resolution hook during boot for proper resolution pre graphical session
-- nixCats setup isn't using treesitter or lsps properly, think about nixvim
+- nixCats setup isn't using treesitter or lsps properly, think about nixvim, maybe...
 - Fix kitty tab separator character
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
 - Yazi config
-- hypridle setup
 - thunderbird, protonmailbridge setup
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
 - hardware clock time, windows is fucked up

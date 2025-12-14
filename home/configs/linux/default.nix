@@ -8,6 +8,8 @@
     ./flatpak.nix
     ./gnome-keyring.nix
     ./hyprland.nix
+    ./hypridle.nix
+    ./hyprpolkitagent.nix
     ./mpv.nix
     ./noctalia.nix
     ./pics.nix

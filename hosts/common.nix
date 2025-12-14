@@ -47,10 +47,18 @@
         enable = true;
         enableEditor = true;
         validateChecksums = lib.mkDefault false;
-        extraConfig = "hash_mismatch_panic: no";
+        panicOnChecksumMismatch = lib.mkDefault false;
         maxGenerations = 10;
         style = {
           backdrop = "212337";
+          graphicalTerminal = {
+            palette = "212337;f16c75;37f499;f1fc79;04d1f9;a48cf2;7081d0;ebfafa";
+            brightPalette = "323449;f16c75;37f499;f1fc79;04d1f9;a48cf2;7081d0;ebfafa";
+            background = "212337";
+            foreground = "37f499";
+            brightBackground = "323449";
+            brightForeground = "37f499";
+          };
         };
       };
     };

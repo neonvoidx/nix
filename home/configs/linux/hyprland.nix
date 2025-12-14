@@ -355,7 +355,6 @@
         # TODO hyprland starts as systemd now I believe with home manager, so some of these we should be able to automate outside
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         # "systemctl --user start hyprpolkitagent"
-        # "systemctl --user start hypridle"
         # "wl-clip-persist --clipboard regular --reconnect-tries 0"
         # "wl-paste --watch cliphist store"
         "noctalia-shell -d"
@@ -408,29 +407,4 @@
     };
   };
 
-  services.hypridle = {
-    enable = true;
-    settings = {
-      general = {
-        lock_cmd = "noctalia-shell ipc call lockScreen lock";
-        before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
-        after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
-      };
-      listener = [
-        {
-          timeout = 300; # 5min
-          on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
-        }
-        {
-          timeout = 600; # 10min
-          on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
-          on-resume = "hyprctl dispatch dpms on && brightnessctl -r"; # screen on when activity is detected after timeout has fired.
-        }
-        {
-          timeout = 3600; # 1 hour
-          on-timeout = "systemctl suspend"; # suspend pc
-        }
-      ];
-    };
-  };
 }

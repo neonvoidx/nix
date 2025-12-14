@@ -1,0 +1,6 @@
+{ ... }:
+{
+  services.hyprpolkitagent = {
+    enable = true;
+  };
+}
