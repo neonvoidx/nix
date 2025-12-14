@@ -16,3 +16,4 @@
 - Yazi config
 - hypridle
 - thunderbird, protonmailbridge
+- playerctl
