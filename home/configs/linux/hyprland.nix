@@ -13,7 +13,6 @@
         "QT_QPA_PLATFORMTHEME,gtk3"
         "AMD_VULKAND_ICD,RADV"
         "MESA_SHADER_CACHE_MAX_SIZE,32G"
-        "QT_QUICK_CONTROLS_STYLE,org.hyprland.style"
         "GDK_SCALE,1"
         "QT_SCALE_FACTOR,1"
         "GDK_BACKEND,wayland,x11,*"
