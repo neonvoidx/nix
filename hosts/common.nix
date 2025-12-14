@@ -39,6 +39,9 @@
   # TODO
   # boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   boot = {
+    plymouth = {
+      enable = true;
+    };
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -50,7 +53,6 @@
         maxGenerations = 10;
         extraConfig = "hash_mismatch_panic: no";
         style = {
-          wallpapers = [ pkgs.nixos-artwork.wallpapers.simple-dark-gray-bootloader.gnomeFilePath ];
           backdrop = "212337";
           graphicalTerminal = {
             palette = "212337;f16c75;37f499;f1fc79;04d1f9;a48cf2;7081d0;ebfafa";

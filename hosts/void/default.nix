@@ -34,6 +34,7 @@
       };
     };
     initrd = {
+      enable = true;
       kernelModules = [ "amdgpu" ];
     };
     kernelModules = [ "amdgpu" ];
