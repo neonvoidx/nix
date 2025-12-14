@@ -1,5 +1,9 @@
-{ pkgs, ... }: {
-  imports = [ ../common.nix ../configs/linux ];
+{ pkgs, ... }:
+{
+  imports = [
+    ../common.nix
+    ../configs/linux
+  ];
 
   home.packages = with pkgs; [
     (pkgs.callPackage ../../modules/scopebuddy.nix { })
@@ -54,7 +58,9 @@
   programs.git = {
     settings = {
       credential = {
-        "https://github.com" = { helper = "!/usr/bin/gh auth git-credential"; };
+        "https://github.com" = {
+          helper = "!/usr/bin/gh auth git-credential";
+        };
       };
       user = {
         name = "neonvoidx";
@@ -63,9 +69,14 @@
     };
   };
 
-  xresources.properties = { "Xcursor.size" = 24; };
-  programs.bash = { enable = true; };
+  xresources.properties = {
+    "Xcursor.size" = 24;
+  };
+  programs.bash = {
+    enable = true;
+  };
   gtk = {
+    colorScheme = "dark";
     enable = true;
     theme = {
       name = "adw-gtk3-dark";
@@ -83,8 +94,18 @@
       name = "Roboto Bold";
       size = 13;
     };
-    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk3 = {
+      colorScheme = "dark";
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+    };
+    gtk4 = {
+      colorScheme = "dark";
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+    };
   };
 
   # Misc dotfiles

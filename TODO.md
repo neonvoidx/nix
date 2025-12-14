@@ -8,3 +8,4 @@
   - With theme
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
+- Fix limine hash errors

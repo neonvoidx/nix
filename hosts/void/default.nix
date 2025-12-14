@@ -22,10 +22,11 @@
         secureBoot = {
           enable = true;
         };
+        extraConfig = "hash_mismatch_panic: no";
         extraEntries = ''
-          menuentry "Windows Boot Manager" {
-              chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-          }
+          /Windows
+              protocol: efi
+              path: uuid(77EB4755-6C70-448B-B27A-E8AA75BC339D):/EFI/Microsoft/Boot/bootmgfw.efi
         '';
       };
     };
