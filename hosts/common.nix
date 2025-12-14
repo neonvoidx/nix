@@ -102,6 +102,9 @@
     };
   };
 
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  services.gnome3.gnome-keyring.enable = true;
+
   services = {
     udisks2.enable = true;
     flatpak.enable = true;
