@@ -52,14 +52,8 @@ user_pref("dom.enable_web_task_scheduling", true);
  ****************************************************************************/
 /** TRACKING PROTECTION ***/
 user_pref("browser.contentblocking.category", "strict");
-user_pref(
-  "urlclassifier.trackingSkipURLs",
-  "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com"
-);
-user_pref(
-  "urlclassifier.features.socialtracking.skipURLs",
-  "*.instagram.com, *.twitter.com, *.twimg.com"
-);
+user_pref("urlclassifier.trackingSkipURLs", "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com");
+user_pref("urlclassifier.features.socialtracking.skipURLs", "*.instagram.com, *.twitter.com, *.twimg.com");
 user_pref("browser.download.start_downloads_in_tmp_dir", true);
 user_pref("browser.helperApps.deleteTempFileOnExit", true);
 user_pref("browser.uitour.enabled", false);
@@ -167,14 +161,8 @@ user_pref("extensions.getAddons.showPane", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 user_pref("browser.discovery.enabled", false);
 user_pref("browser.shell.checkDefaultBrowser", false);
-user_pref(
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons",
-  false
-);
-user_pref(
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features",
-  false
-);
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
 user_pref("browser.preferences.moreFromMozilla", false);
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.aboutwelcome.enabled", false);
@@ -266,20 +254,11 @@ user_pref("places.frecency.bookmarkVisitBonus", 2000);
 user_pref("places.frecency.unvisitedBookmarkBonus", 2000);
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
-user_pref(
-  "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled",
-  true
-);
+user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true);
-user_pref(
-  "media.videocontrols.picture-in-picture.video-toggle.flyout-enabled",
-  true
-);
-user_pref(
-  "media.videocontrols.picture-in-picture.respect-disablePictureInPicture",
-  false
-);
+user_pref("media.videocontrols.picture-in-picture.video-toggle.flyout-enabled", true);
+user_pref("media.videocontrols.picture-in-picture.respect-disablePictureInPicture", false);
 user_pref("browser.preferences.experimental.hidden", false);
 user_pref("devtools.debugger.prompt-connection", false);
 user_pref("browser.startup.page", 3); // Restore session
@@ -290,10 +269,7 @@ user_pref("sidebar.visibility", "always-show");
 user_pref("sidebar.expandOnHover", false);
 user_pref("browser.engagement.sidebar-button.has-used", true);
 user_pref("browser.toolbars.bookmarks.visibility", "always");
-user_pref(
-  "services.sync.prefs.sync-seen.browser.urlbar.showSearchSuggestionsFirst",
-  false
-);
+user_pref("services.sync.prefs.sync-seen.browser.urlbar.showSearchSuggestionsFirst", false);
 user_pref("browser.search.separatePrivateDefault", false);
 user_pref("browser.search.separatePrivateDefault.ui.enabled", true);
 user_pref("browser.search.suggest.enabled.private", true);
@@ -307,10 +283,7 @@ user_pref("browser.tabs.closeWindowWithLastTab", false);
 // PREF: improve font rendering by using DirectWrite everywhere like Chrome [WINDOWS]
 user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
 user_pref("gfx.font_rendering.cleartype_params.cleartype_level", 100);
-user_pref(
-  "gfx.font_rendering.cleartype_params.force_gdi_classic_for_families",
-  ""
-);
+user_pref("gfx.font_rendering.cleartype_params.force_gdi_classic_for_families", "");
 user_pref("gfx.font_rendering.directwrite.use_gdi_table_loading", false);
 user_pref("accessibility.force_disabled", true);
 user_pref("browser.urlbar.trimHttps", false);
