@@ -39,45 +39,45 @@
           type = "custom";
         }
         {
-          key = "│ {#31} user    {#keys}│";
+          key = "│  user    {#keys}│";
           type = "title";
           format = "{user-name}";
         }
         {
-          key = "│ {#32}󰇅 hname  {#keys}│";
+          key = "│ 󰇅 hname  {#keys}│";
           type = "title";
           format = "{host-name}";
         }
         {
-          key = "│ {#33}󰅐 uptime {#keys}│";
+          key = "│ 󰅐 uptime {#keys}│";
           type = "uptime";
         }
         {
-          key = "│ {#34}{icon} distro {#keys}│";
+          key = "│  distro {#keys}│";
           type = "os";
         }
         {
-          key = "│ {#35} kernel  {#keys}│";
+          key = "│  kernel  {#keys}│";
           type = "kernel";
         }
         {
-          key = "│ {#36}󰇄 desktop{#keys}│";
+          key = "│ 󰇄 desktop{#keys}│";
           type = "de";
         }
         {
-          key = "│ {#37}󰖲 wm     {#keys}│";
+          key = "│ 󰖲 wm     {#keys}│";
           type = "wm";
         }
         {
-          key = "│ {#31} term    {#keys}│";
+          key = "│  term    {#keys}│";
           type = "terminal";
         }
         {
-          key = "│ {#32} shell   {#keys}│";
+          key = "│ 󱆃 shell   {#keys}│";
           type = "shell";
         }
         {
-          key = "│ {#33}󰍛 cpu    {#keys}│";
+          key = "│ 󰍛 cpu    {#keys}│";
           type = "cpu";
           showPeCoreCount = true;
         }
