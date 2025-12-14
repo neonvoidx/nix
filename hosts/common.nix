@@ -46,10 +46,10 @@
       limine = {
         enable = true;
         enableEditor = true;
-        validateChecksums = lib.mkDefault false;
+        validateChecksums = lib.mkForce false;
         maxGenerations = 10;
         extraConfig = "hash_mismatch_panic: no";
-        panicOnChecksumMismatch = lib.mkDefault false;
+        panicOnChecksumMismatch = lib.mkForce false;
         style = {
           backdrop = "212337";
           graphicalTerminal = {

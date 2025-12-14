@@ -45,7 +45,7 @@ return {
 			if nixCats and nixCats.petShop and nixCats.petShop.lspsAndRuntimeDeps then
 				for pkg, servers in pairs(lsp_map) do
 					-- Check if the LSP binary exists on PATH
-					if vim.fn.executable(pkg) == 1 or vim.fn.executable(servers) == 1 then
+					if vim.fn.executable(pkg) == 1 or (type(servers) == "string" and vim.fn.executable(servers) == 1) then
 						if type(servers) == "table" then
 							for _, server in ipairs(servers) do
 								vim.lsp.enable(server)
