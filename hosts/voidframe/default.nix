@@ -30,13 +30,13 @@
 
   boot = {
     loader = {
-      limine = {
-        style = {
-          interface = {
-            resolution = "2880x1920";
-          };
-        };
-      };
+      # limine = {
+      #   style = {
+      #     interface = {
+      #       resolution = "2880x1920";
+      #     };
+      #   };
+      # };
     };
   };
 
