@@ -4,7 +4,6 @@
   pkgs,
   ...
 }:
-
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -12,12 +11,16 @@
   ];
 
   boot = {
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+    };
     loader = {
       efi = {
         canTouchEfiVariables = true;
         efiSysMountPoint = "/boot";
       };
-      systemd-boot.enable = true;
+      systemd-boot.enable = lib.mkForce false;
       # limine = {
       #   enable = true;
       #   secureBoot = {
@@ -78,7 +81,10 @@
   services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
 
   environment.variables.AMD_VULKAN_ICD = "RADV";
-  environment.systemPackages = with pkgs; [ amdgpu_top ];
+  environment.systemPackages = with pkgs; [
+    sbctl
+    amdgpu_top
+  ];
 
   # Install CurseForge flatpak via systemd service
   systemd.services.install-curseforge-flatpak = {

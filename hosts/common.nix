@@ -219,6 +219,7 @@
   networking = {
     enableIPv6 = false;
     firewall.enable = false;
+    useNetworkd = true;
   };
 
   programs.zsh.enable = true;
@@ -291,7 +292,6 @@
     rtkit
     pkgs.xwayland
     playerctl
-    sbctl
     swappy
     tree
     tree-sitter

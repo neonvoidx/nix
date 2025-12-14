@@ -19,15 +19,32 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixCats = { url = "github:BirdeeHub/nixCats-nvim"; };
-    # TODO 
+    nixCats = {
+      url = "github:BirdeeHub/nixCats-nvim";
+    };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.0.0";
+
+      # Optional but recommended to limit the size of your system closure.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # TODO
     # nix-cachyos-kernel = {
     #   url = "github:xddxdd/nix-cachyos-kernel";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, nixCats, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nur,
+      nixCats,
+      lanzaboote,
+      ...
+    }@inputs:
     let
       username = "neonvoid";
       specialArgs = {
@@ -35,7 +52,8 @@
         inherit username;
       };
 
-      mkHost = hostname:
+      mkHost =
+        hostname:
         nixpkgs.lib.nixosSystem {
           inherit specialArgs;
           modules = [
@@ -53,12 +71,13 @@
               home-manager.useUserPackages = true;
 
               home-manager.extraSpecialArgs = inputs // specialArgs;
-              home-manager.users.${username} =
-                import ./home/${username}/home.nix;
+              home-manager.users.${username} = import ./home/${username}/home.nix;
             }
+            lanzaboote.nixosModules.lanzaboote
           ];
         };
-    in {
+    in
+    {
       nixosConfigurations = {
         void = mkHost "void";
         voidframe = mkHost "voidframe";
@@ -67,8 +86,7 @@
       # Standalone home-manager configuration for macOS
       homeConfigurations = {
         "${username}" = home-manager.lib.homeManagerConfiguration {
-          pkgs =
-            nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
           extraSpecialArgs = specialArgs;
           modules = [
             { nixpkgs.config.allowUnfree = true; }
