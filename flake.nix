@@ -73,7 +73,6 @@
               home-manager.extraSpecialArgs = inputs // specialArgs;
               home-manager.users.${username} = import ./home/${username}/home.nix;
             }
-            lanzaboote.nixosModules.lanzaboote
           ];
         };
     in
