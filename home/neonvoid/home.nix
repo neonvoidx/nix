@@ -110,6 +110,6 @@
   };
 
   # Misc dotfiles
-  home.file.".face".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/.face";
-  home.file."scripts".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scripts";
+  home.file.".face".source = config.lib.file.mkOutOfStoreSymlink "/home/${config.home.username}/nix/assets/.face";
+  home.file."scripts".source = config.lib.file.mkOutOfStoreSymlink "/home/${config.home.username}/nix/assets/scripts";
 }
