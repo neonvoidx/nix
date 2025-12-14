@@ -6,10 +6,10 @@
       process-all-outputs = true;
     };
     "com/github/wwmm/easyeffects/streamoutputs" = {
-      input-preset = "microphone";
+      output-preset = "headphones";
     };
     "com/github/wwmm/easyeffects/streaminputs" = {
-      output-preset = "headphones";
+      input-preset = "microphone";
     };
   };
 

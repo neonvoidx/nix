@@ -38,9 +38,6 @@
     fastfetch
   ];
 
-  home.file.".config/scopebuddy".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scopebuddy";
-
   services.udiskie.enable = true;
   programs.home-manager.enable = true;
 }
