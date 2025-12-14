@@ -339,7 +339,8 @@
 
       # Startup applications
       exec-once = [
-        "gnome-keyring-daemon --start --components=secrets"
+        "gnome-keyring-daemon --start --components=secrets &"
+        "systemctl --user import-environment SSH_AUTH_SOCK"
         "dbus-update-activation-environment --systemd --all"
         "hyprctl setcursor catppuccin-mocha-sapphire-cursors 24"
         "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"

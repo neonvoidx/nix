@@ -1,7 +1,15 @@
-{ lib, inputs, pkgs, ... }:
+{
+  lib,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ /etc/nixos/hardware-configuration.nix ../common.nix ];
+  imports = [
+    /etc/nixos/hardware-configuration.nix
+    ../common.nix
+  ];
 
   networking = {
     hostName = "voidframe";
@@ -11,8 +19,7 @@
     wireless = {
       enable = true;
       userControlled.enable = true;
-      networks."LittyPitty".pskRaw =
-        "654787ccc87bf9e3520e3cc82840cf1e3dd182a466e92a70d5f47ecd160501e0";
+      networks."LittyPitty".pskRaw = "654787ccc87bf9e3520e3cc82840cf1e3dd182a466e92a70d5f47ecd160501e0";
     };
   };
 
@@ -25,7 +32,6 @@
     loader = {
       limine = {
         style = {
-          # interface = { resolution = "2880x1920"; };
         };
       };
     };
@@ -44,4 +50,3 @@
 
   system.stateVersion = "25.11";
 }
-

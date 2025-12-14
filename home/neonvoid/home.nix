@@ -22,6 +22,7 @@
     hyprsysteminfo
     kdePackages.ark
     kdePackages.okular
+    libsecret
     mangohud
     mpv
     nodejs_24
