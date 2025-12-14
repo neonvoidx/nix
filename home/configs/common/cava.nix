@@ -1,0 +1,22 @@
+{ ... }:
+{
+  programs.cava = {
+    enable = true;
+    settings = {
+    general.framerate = 60;
+    input.method = "pipewire";
+    smoothing.noise_reduction = 88;
+    color = {
+      gradient = 1;
+      gradient_color_1 = "'#37f499'";
+      gradient_color_2 = "'#04d1f9'";
+      gradient_color_3 = "'#7081d0'";
+      gradient_color_4 = "'#a48cf2'";
+      gradient_color_5 = "'#f265b5'";
+      gradient_color_6 = "'#f7c67f'";
+      gradient_color_7 = "'#f1fc79'";
+      gradient_color_8 = "'#f16c75'";
+    };
+  };
+  };
+}
