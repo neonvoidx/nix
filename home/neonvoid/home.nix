@@ -55,6 +55,7 @@
     xfce.thunar-volman
     yarn
   ];
+
   programs.git = {
     settings = {
       credential = {
@@ -110,4 +111,5 @@
 
   # Misc dotfiles
   home.file.".face".source = ../../assets/.face;
+  home.file."scripts" = { source = ../../assets/scripts; recursive = true; };
 }

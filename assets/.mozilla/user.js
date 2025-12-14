@@ -253,6 +253,7 @@ user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-f
 user_pref("places.frecency.bookmarkVisitBonus", 2000);
 user_pref("places.frecency.unvisitedBookmarkBonus", 2000);
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
+user_pref("ui.context_menus.after_mouseup", true);
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
 user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled", true);
 user_pref("media.videocontrols.picture-in-picture.enabled", true);

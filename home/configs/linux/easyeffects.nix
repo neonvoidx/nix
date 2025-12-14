@@ -1,9 +1,10 @@
-{ ... }: {
+{ ... }:
+{
   services.easyeffects = {
     enable = true;
     preset = "default";
     extraPresets = {
-      default = {
+      microphone = {
         input = {
           blocklist = [ ];
           "compressor#0" = {
@@ -279,7 +280,8 @@
             wet = 0.0;
           };
         };
-
+      };
+      headphones = {
         output = {
           blocklist = [ ];
           "equalizer#0" = {
@@ -436,4 +438,3 @@
     };
   };
 }
-

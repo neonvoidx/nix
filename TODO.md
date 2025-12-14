@@ -3,9 +3,6 @@
   - Get eldritch theme selected by default
 - SSH key encrypted (nix-sops or shoji-nix?)
 - Fix Synology network mount
-- Mount /games for void
-- GRUB with dual boot/secure boot for void
-  - With theme
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
 - Fix limine hash errors
