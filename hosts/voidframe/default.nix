@@ -30,6 +30,7 @@
 
   boot = {
     loader = {
+      systemd-boot.enable = true;
       # limine = {
       #   style = {
       #     interface = {

@@ -166,6 +166,11 @@
   };
 
   systemd = {
+    network.enable = true;
+    sleep.extraConfig = ''
+      AllowSuspend=yes
+      AllowHibernation=yes
+    '';
     settings = {
       Manager = {
         DefaultTimeoutStopSec = "10s";

@@ -17,6 +17,7 @@
         canTouchEfiVariables = true;
         efiSysMountPoint = "/boot";
       };
+      systemd-boot.enable = true;
       # limine = {
       #   enable = true;
       #   secureBoot = {
@@ -59,7 +60,7 @@
     };
     hostName = "void";
     networkmanager = {
-      enable = true;
+      enable = false;
     };
   };
 
