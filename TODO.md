@@ -7,13 +7,16 @@
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
 - Fix limine hash errors
-- NVIM not using lsps, possibly move to nixvim?, treesitter also borked
-- lsd config
-- scour old dotfiles for things to configure
-- Fix kitty tab separator
-- fix windows limine
+- Limine themeing
+- fbset resolution hook during boot for proper resolution pre graphical session
+- nixCats setup isn't using treesitter or lsps properly, think about nixvim
+- Fix kitty tab separator character
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
 - Yazi config
-- hypridle
+- hypridle setup
 - thunderbird, protonmailbridge
-- playerctl
+- playerctl, fn keys not play/pause rn
+- copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
+- hardware clock time, windows is fucked up
+- test out games, make sure thats all good to go
+- get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
