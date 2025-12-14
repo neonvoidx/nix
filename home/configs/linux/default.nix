@@ -3,6 +3,7 @@
   imports = [
     ./cava.nix
     ./easyeffects.nix
+    ./email.nix
     ./firefox.nix
     ./flatpak.nix
     ./gnome-keyring.nix
