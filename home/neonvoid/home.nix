@@ -6,7 +6,7 @@
   ];
 
   home.packages = with pkgs; [
-    (pkgs.callPackage ../../modules/scopebuddy.nix { })
+    (pkgs.callPackage ../../modules/programs/scopebuddy.nix { })
     adw-gtk3
     asciinema
     blender

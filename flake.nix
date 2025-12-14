@@ -41,9 +41,9 @@
           modules = [
             { nixpkgs.config.allowUnfree = true; }
             ./hosts/${hostname}
-            ./modules/noctalia.nix
+            ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
-            ./modules/network-drives.nix
+            ./modules/services/network-drives.nix
             inputs.spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
