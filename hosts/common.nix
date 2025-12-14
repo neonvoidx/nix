@@ -200,10 +200,10 @@
     ];
   };
 
-  networking.nameservers = [
-    "192.168.86.7"
-    "192.168.86.8"
-  ];
+  networking = {
+    enableIPv6 = false;
+    firewall.enable = false;
+  };
 
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
@@ -214,6 +214,9 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
   };
 
   programs.hyprland.enable = true;

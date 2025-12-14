@@ -50,8 +50,14 @@
   };
 
   networking = {
+    nameservers = [
+      "192.168.86.7"
+      "192.168.86.8"
+    ];
+    wireless = {
+      enable = false;
+    };
     hostName = "void";
-    firewall.enable = false;
     networkmanager = {
       enable = true;
     };
