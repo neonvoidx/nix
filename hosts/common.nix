@@ -286,6 +286,7 @@
     hyprpolkitagent
     just
     lsd
+    mediainfo
     ripgrep
     rtkit
     pkgs.xwayland
