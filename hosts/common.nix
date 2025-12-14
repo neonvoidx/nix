@@ -1,4 +1,12 @@
-{ config, pkgs, lib, username, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  inputs,
+  ...
+}:
+{
   imports = [ ];
   users.users.${username} = {
     isNormalUser = true;
@@ -37,7 +45,9 @@
       };
       limine = {
         enable = true;
-        style = { backdrop = "212337"; };
+        style = {
+          backdrop = "212337";
+        };
       };
     };
   };
@@ -50,12 +60,25 @@
     };
     settings = {
       # enable flakes
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
-      substituters =
-        [ "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-      trusted-users = [ "root" "neonvoid" "@wheel" ];
-      allowed-users = [ "root" "neonvoid" "@wheel" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-users = [
+        "root"
+        "neonvoid"
+        "@wheel"
+      ];
+      allowed-users = [
+        "root"
+        "neonvoid"
+        "@wheel"
+      ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
@@ -66,11 +89,14 @@
   time.timeZone = "America/New_York";
 
   hardware = {
-    cpu.amd.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     bluetooth = {
       enable = true;
-      network = { General = { DisableSecurity = true; }; };
+      network = {
+        General = {
+          DisableSecurity = true;
+        };
+      };
     };
   };
 
@@ -83,11 +109,13 @@
       rulesProvider = pkgs.ananicy-rules-cachyos;
     };
     printing.enable = true;
-    pulseaudio.enable = false;
     pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      audio.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
       pulse.enable = true;
       jack.enable = true;
     };
@@ -121,24 +149,32 @@
       enable = true;
       settings = {
         default_session = {
-          command =
-            "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
+          command = "${pkgs.tuigreet}/bin/tuigreet -g 'The Void' --asterisks -t -r --theme text=green;time=cyan;container=gray;border=magenta;title=cyan;greet=magenta;prompt=green;input=red;action=red;button=magenta";
           user = "greeter";
         };
       };
     };
   };
 
+  security.rtkit.enable = true;
+
   systemd = {
-    settings = { Manager = { DefaultTimeoutStopSec = "10s"; }; };
-    services.greetd.serviceConfig = {
-      Type = "idle";
-      StandardInput = "tty";
-      StandardOutput = "tty";
-      StandardError = "journal";
-      TTYReset = true;
-      TTYVHangup = true;
-      TTYVTDisallocate = true;
+    settings = {
+      Manager = {
+        DefaultTimeoutStopSec = "10s";
+      };
+    };
+    services = {
+      greetd.serviceConfig = {
+        Type = "idle";
+        StandardInput = "tty";
+        StandardOutput = "tty";
+        StandardError = "journal";
+        TTYReset = true;
+        TTYVHangup = true;
+        TTYVTDisallocate = true;
+      };
+
     };
   };
 
@@ -168,7 +204,10 @@
     ];
   };
 
-  networking.nameservers = [ "192.168.86.7" "192.168.86.8" ];
+  networking.nameservers = [
+    "192.168.86.7"
+    "192.168.86.8"
+  ];
 
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
@@ -187,7 +226,10 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal xdg-desktop-portal-gtk ];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal
+      xdg-desktop-portal-gtk
+    ];
   };
 
   environment.sessionVariables = {
@@ -230,6 +272,7 @@
     just
     lsd
     ripgrep
+    rtkit
     pkgs.xwayland
     sbctl
     tree
