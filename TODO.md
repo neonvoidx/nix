@@ -2,7 +2,8 @@
   - get extensions enabled by default
   - Get eldritch theme selected by default
 - SSH key encrypted (nix-sops or shoji-nix?)
-- Fix Synology network mount
+  - Get github ssh key saved, thats the most important
+- Fix Synology network mount to /mnt/synology, or better yet /synology
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
 - Fix limine hash errors
@@ -10,3 +11,7 @@
 - lsd config
 - scour old dotfiles for things to configure
 - Fix kitty tab separator
+- fix windows limine
+- Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
+- Yazi config
+- hypridle
