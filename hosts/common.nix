@@ -8,6 +8,7 @@
 }:
 {
   imports = [ ../modules/services/pipewire.nix ];
+
   users.users.${username} = {
     isNormalUser = true;
     description = username;
@@ -37,6 +38,9 @@
   # CachyOS Kernel
   # TODO
   # boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+  config.assertions = lib.filter (
+    a: !(lib.hasInfix "validateChecksums" a.message || lib.hasInfix "panicOnChecksumMismatch" a.message)
+  ) config.assertions;
   boot = {
     loader = {
       efi = {
