@@ -1,6 +1,14 @@
-{ username, pkgs, inputs, ... }: {
-  imports =
-    [ ./configs/common inputs.spicetify-nix.homeManagerModules.default ];
+{
+  username,
+  pkgs,
+  inputs,
+  ...
+}:
+{
+  imports = [
+    ./configs/common
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
 
   home = {
     inherit username;
@@ -29,12 +37,9 @@
     fastfetch
   ];
 
-  home.file.".config/scopebuddy" = {
-    source = ../assets/scopebuddy;
-    recursive = true;
-  };
+  home.file.".config/scopebuddy".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scopebuddy";
 
   services.udiskie.enable = true;
-
   programs.home-manager.enable = true;
 }

@@ -39,70 +39,60 @@
           type = "custom";
         }
         {
-          key = "│  user    {#keys}│";
+          key = "│ {#31} user    {#keys}│";
           type = "title";
           format = "{user-name}";
         }
         {
-          key = "│ 󰇅 hname  {#keys}│";
+          key = "│ {#32}󰇅 hname   {#keys}│";
           type = "title";
           format = "{host-name}";
         }
         {
-          key = "│ 󰅐 uptime {#keys}│";
+          key = "│ {#33}󰅐 uptime  {#keys}│";
           type = "uptime";
         }
         {
-          key = "│  distro {#keys}│";
+          key = "│ {#34}{icon} distro  {#keys}│";
           type = "os";
         }
         {
-          key = "│  kernel  {#keys}│";
+          key = "│ {#35} kernel  {#keys}│";
           type = "kernel";
         }
         {
-          key = "│ 󰇄 desktop{#keys}│";
+          key = "│ {#36}󰇄 desktop {#keys}│";
           type = "de";
         }
         {
-          key = "│ 󰖲 wm     {#keys}│";
+          key = "│ {#37}󰖲 wm      {#keys}│";
           type = "wm";
         }
         {
-          key = "│  term    {#keys}│";
+          key = "│ {#31} term    {#keys}│";
           type = "terminal";
         }
         {
-          key = "│ 󱆃 shell   {#keys}│";
+          key = "│ {#32} shell   {#keys}│";
           type = "shell";
         }
         {
-          key = "│ 󰍛 cpu    {#keys}│";
+          key = "│ {#33}󰍛 cpu     {#keys}│";
           type = "cpu";
-          showPeCoreCount = true;
         }
         {
-          key = "│ {#34}󰉉 disk   {#keys}│";
+          key = "│ {#34}󰉉 disk    {#keys}│";
           type = "disk";
           folders = "/";
         }
         {
-          key = "│ {#35} memory  {#keys}│";
+          key = "│ {#35} memory  {#keys}│";
           type = "memory";
         }
         {
-          key = "│ {#36}󰩟 network{#keys}│";
+          key = "│ {#36}󰩟 network {#keys}│";
           type = "localip";
           format = "{ipv4} ({ifname})";
-        }
-        {
-          key = "├───────────┤";
-          type = "custom";
-        }
-        {
-          key = "│ {#39} colors  {#keys}│";
-          type = "colors";
-          symbol = "circle";
         }
         {
           key = "╰───────────╯";

@@ -101,6 +101,7 @@
   };
 
   services = {
+    udisks2.enable = true;
     flatpak.enable = true;
     hypridle.enable = true;
     ananicy = {
