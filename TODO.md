@@ -14,7 +14,7 @@
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
 - Yazi config
 - hypridle setup
-- thunderbird, protonmailbridge
+- thunderbird, protonmailbridge setup
 - playerctl, fn keys not play/pause rn
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
 - hardware clock time, windows is fucked up

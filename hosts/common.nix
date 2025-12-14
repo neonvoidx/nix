@@ -274,6 +274,7 @@
     ripgrep
     rtkit
     pkgs.xwayland
+    playerctl
     sbctl
     swappy
     tree

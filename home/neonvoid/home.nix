@@ -109,6 +109,8 @@
     };
   };
 
+  services.playerctld.enable = true;
+
   # Dotfiles not managed via home manager yet
   # TODO
   home.file.".face".source =
