@@ -28,6 +28,7 @@
         "EGL_PLATFORM,wayland"
         "HYPRCURSOR_THEME,catppuccin-mocha-sapphire-cursors"
         "HYPRCURSOR_SIZE,24"
+        "GTK_THEME,adw-gtk3-dark"
       ];
 
       # Monitor configuration
