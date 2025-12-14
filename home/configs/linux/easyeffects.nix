@@ -1,8 +1,21 @@
 { ... }:
 {
+  dconf.settings = {
+    "com/github/wwmm/easyeffects" = {
+      process-all-inputs = true;
+      process-all-outputs = true;
+    };
+    "com/github/wwmm/easyeffects/streamoutputs" = {
+      input-preset = "microphone";
+    };
+    "com/github/wwmm/easyeffects/streaminputs" = {
+      output-preset = "headphones";
+    };
+  };
+
   services.easyeffects = {
     enable = true;
-    preset = "default";
+    # Remove the preset option since we're using dconf instead
     extraPresets = {
       microphone = {
         input = {
