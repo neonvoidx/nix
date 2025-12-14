@@ -15,9 +15,9 @@
 - Yazi config
 - hypridle setup
 - thunderbird, protonmailbridge setup
-- playerctl, fn keys not play/pause rn
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
 - hardware clock time, windows is fucked up
+  - <https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows> tldr set regedit in windows to use utc
 - test out games, make sure thats all good to go
 - get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
 - Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
