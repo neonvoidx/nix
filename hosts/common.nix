@@ -270,7 +270,6 @@
 
   # https://search.nixos.org
   environment.systemPackages = with pkgs; [
-    # TODO flatpak curseforge
     # (writeScriptBin "firefox-developer-edition" ''
     #   exec ${firefox-devedition}/bin/firefox-devedition "$@"
     # '')
@@ -300,6 +299,7 @@
     unzip
     usbutils
     wget
+    wowup-cf
     yazi
     zsh
   ];

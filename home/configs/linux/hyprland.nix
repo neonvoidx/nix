@@ -313,7 +313,6 @@
         "center,initialTitle:^(Sign in to Steam)$"
         "pin,class:^(hyprland-dialog)$"
         "workspace 4 silent,class:^(org.mozilla.Thunderbird)$"
-        "suppressevent activatefocus,class:^(CurseForge)$"
         "suppressevent activatefocus,class:^(steam)$"
         "workspace 4 silent,class:^(org.gnome.Fractal)$"
         "workspace 11,class:^(gamescope)$"
@@ -370,7 +369,6 @@
         "protonmail-bridge --no-window"
         "python3 ~/.config/startupscripts/launch_thunderbird.py"
         "[workspace 4 silent] fractal"
-        "[workspace 10 silent] curseforge"
       ];
     };
 
