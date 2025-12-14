@@ -45,6 +45,8 @@
       };
       limine = {
         enable = true;
+        enableEditor = true;
+        maxGenerations = 10;
         style = {
           backdrop = "212337";
         };

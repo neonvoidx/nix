@@ -23,6 +23,11 @@
           enable = true;
         };
         extraConfig = "hash_mismatch_panic: no";
+        style = {
+          interface = {
+            resolution = "3440x1440";
+          };
+        };
         extraEntries = ''
           /Windows
               protocol: efi
