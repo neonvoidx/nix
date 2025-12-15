@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, username, ... }:
 {
   nix = {
     gc = {
@@ -19,12 +19,12 @@
       ];
       trusted-users = [
         "root"
-        "neonvoid"
+        username
         "@wheel"
       ];
       allowed-users = [
         "root"
-        "neonvoid"
+        username
         "@wheel"
       ];
       trusted-public-keys = [
