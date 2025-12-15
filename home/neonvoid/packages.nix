@@ -1,0 +1,53 @@
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    (pkgs.callPackage ../../modules/programs/scopebuddy.nix { })
+    adw-gtk3
+    asciinema
+    blender
+    blueman
+    calibre
+    cava
+    cliphist
+    cmatrix
+    fractal
+    gamescope
+    gimp
+    gnome-keyring
+    grim
+    hyprcursor
+    hyprpicker
+    hyprshot
+    hyprsysteminfo
+    kdePackages.ark
+    kdePackages.okular
+    libsecret
+    mangohud
+    mpv
+    nodejs_24
+    nwg-look
+    obs-studio
+    oculante
+    protonmail-bridge
+    protontricks
+    protonup-rs
+    prusa-slicer
+    pwvucontrol
+    seahorse
+    sgdboop
+    slurp
+    steam
+    streamcontroller
+    tenacity
+    thunderbird
+    vesktop
+    vulkan-tools
+    wl-clip-persist
+    wl-clipboard
+    xfce.thunar
+    xfce.thunar-archive-plugin
+    xfce.thunar-media-tags-plugin
+    xfce.thunar-volman
+    yarn
+  ];
+}

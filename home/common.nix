@@ -1,13 +1,8 @@
-{
-  config,
-  username,
-  pkgs,
-  inputs,
-  ...
-}:
+{ username, inputs, ... }:
 {
   imports = [
     ./configs/common
+    ./packages.nix
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
@@ -23,21 +18,6 @@
     };
     shell.enableZshIntegration = true;
   };
-
-  home.packages = with pkgs; [
-    home-manager
-    kitty
-    kitty-themes
-    github-copilot-cli
-    gh
-    proton-pass
-    lazygit
-    zoxide
-    ffmpeg
-    pay-respects
-    tealdeer
-    fastfetch
-  ];
 
   services.udiskie.enable = true;
   programs.home-manager.enable = true;
