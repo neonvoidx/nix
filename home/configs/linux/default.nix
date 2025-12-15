@@ -7,7 +7,7 @@
     ./firefox.nix
     ./flatpak.nix
     ./gnome-keyring.nix
-    ./hyprland.nix
+    ./hyprland
     ./hypridle.nix
     ./hyprpolkitagent.nix
     ./mpv.nix
