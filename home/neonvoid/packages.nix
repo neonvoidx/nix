@@ -28,7 +28,6 @@
     nwg-look
     obs-studio
     oculante
-    protonmail-bridge
     protontricks
     protonup-rs
     prusa-slicer

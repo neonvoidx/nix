@@ -20,7 +20,6 @@
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox-developer-edition"
-    "protonmail-bridge --no-window"
     "python3 ~/.config/startupscripts/launch_thunderbird.py"
     "[workspace 4 silent] fractal"
   ];
