@@ -24,8 +24,6 @@
     };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
-
-      # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # TODO
@@ -61,7 +59,6 @@
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
-            ./modules/services/network-drives.nix
             inputs.spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {

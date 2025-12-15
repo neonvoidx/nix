@@ -1,10 +1,14 @@
-{ inputs, pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  # Import all the modular configuration files
   envVars = import ./environment.nix { inherit lib; };
   monitors = import ./monitors.nix { inherit lib; };
   keybindings = import ./keybindings.nix { inherit lib; };
-  windowRules = import ./window-rules.nix { inherit lib; };
+  windowRules = import ./windowrules.nix { inherit lib; };
   settings = import ./settings.nix { inherit lib; };
   startup = import ./startup.nix { inherit lib; };
 in
@@ -23,6 +27,7 @@ in
       startup
     ];
 
+    #TODO can we have submaps in keybindings.nix?
     extraConfig = # hyprlang
       ''
         # Resize submap bindings

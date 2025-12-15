@@ -1,11 +1,13 @@
 {
-  pkgs,
   username,
   lib,
   ...
 }:
 {
-  imports = [ ../common.nix ];
+  imports = [
+    ../common.nix
+    ../configs/mac
+  ];
 
   home = {
     inherit username;

@@ -1,15 +1,11 @@
 { pkgs, ... }:
 {
   services = {
-    xserver = {
-      enable = true;
-      videoDrivers = [ "amdgpu" ];
-    };
-    # Extra udev rules, like for streamdeck
     udev.packages = with pkgs; [
       game-devices-udev-rules
       steam-devices-udev-rules
     ];
+    # Extra udev rules for streamdeck
     udev.extraRules = ''
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0063", TAG+="uaccess"
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", TAG+="uaccess"
@@ -23,4 +19,5 @@
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="009a", TAG+="uaccess"
     '';
   };
+
 }

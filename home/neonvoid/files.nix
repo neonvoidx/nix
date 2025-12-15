@@ -1,13 +1,12 @@
 { config, ... }:
 {
   # Dotfiles not managed via home manager yet
-  # TODO
   home.file.".face".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/.face";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/.face";
   home.file."scripts".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scripts";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/scripts";
   home.file.".config/scopebuddy".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scopebuddy";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/scopebuddy";
   home.file.".config/hypr/scripts".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/hypr/scripts";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/scripts";
 }

@@ -8,7 +8,7 @@
         if pkgs.stdenv.isLinux then
           {
             type = "kitty-direct";
-            source = "~/nix/assets/neonvoid.png";
+            source = "~/nix/assets/linux/neonvoid.png";
             width = 25;
             padding = {
               top = 1;
@@ -18,7 +18,7 @@
         else if pkgs.stdenv.isDarwin then
           {
             type = "kitty-direct";
-            source = "~/nix/assets/darwin.png";
+            source = "~/nix/assets/common/darwin.png";
             width = 25;
             padding = {
               top = 1;

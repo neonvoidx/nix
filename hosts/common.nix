@@ -16,8 +16,10 @@
     # Services
     ../modules/services/pipewire.nix
     ../modules/services/desktop.nix
-    ../modules/services/xserver-udev.nix
+    ../modules/services/xserver.nix
+    ../modules/services/udev.nix
     ../modules/services/greetd.nix
+    ../modules/services/network-drives.nix
 
     # Desktop environment
     ../modules/desktop/fonts.nix
