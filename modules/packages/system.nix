@@ -1,0 +1,34 @@
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    ananicy-cpp
+    ananicy-rules-cachyos
+    bat
+    bluetui
+    bluez
+    brightnessctl
+    btop
+    fd
+    git
+    hplip
+    hypridle
+    hyprpolkitagent
+    just
+    lsd
+    mediainfo
+    ripgrep
+    rtkit
+    pkgs.xwayland
+    playerctl
+    swappy
+    tree
+    tree-sitter
+    udiskie
+    unzip
+    usbutils
+    wget
+    wowup-cf
+    yazi
+    zsh
+  ];
+}
