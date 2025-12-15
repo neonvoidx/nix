@@ -1,6 +1,5 @@
 {
   lib,
-  inputs,
   pkgs,
   ...
 }:
@@ -28,12 +27,13 @@
     enable32Bit = true;
   };
 
+  # override resolution for this system
   boot = {
     loader = {
       limine = {
         style = {
           interface = {
-            resolution = "2880x1920";
+            resolution = lib.mkDefault "2880x1920";
           };
         };
       };

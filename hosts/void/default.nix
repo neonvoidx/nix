@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -23,7 +22,7 @@
         };
         style = {
           interface = {
-            resolution = "3440x1440";
+            resolution = lib.mkDefault "3440x1440";
           };
         };
         extraEntries = ''
@@ -38,14 +37,17 @@
       kernelModules = [ "amdgpu" ];
     };
     kernelModules = [ "amdgpu" ];
-    extraModprobeConfig = ''
-      options amdgpu gpu_recovery=1 ppfeaturemask=0xfffd7fff noretry=0 runpm=0 gpu_recovery=1
-    '';
     kernelParams = [
       "splash"
       "video=DP-1:3440x1440@144"
       "video=DP-2:3440x1440@144"
       "video=HDMI-A-1:2560x1440@144"
+      # AMD GPU Kernel params
+      "amdgpu.gpu_recovery=1"
+      "amdgpu.ppfeaturemask=0xfffd7fff"
+      "amdgpu.noretry=0"
+      "amdgpu.runpm=0"
+      "amdgpu.gpu_recovery=1"
     ];
   };
 
@@ -65,18 +67,20 @@
 
   hardware = {
     graphics = {
-      enable = lib.mkDefault true;
-      enable32Bit = lib.mkDefault true;
+      enable = lib.mkDefault true; # Vulkan
+      enable32Bit = lib.mkDefault true; # Vulkan
     };
     amdgpu = {
-      initrd.enable = lib.mkDefault true;
+      initrd.enable = lib.mkDefault true; # Load amdgpu kernel module into init ram (faster)
     };
     steam-hardware.enable = true;
   };
 
   services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
 
+  # Forces RADV over AMDVLK
   environment.variables.AMD_VULKAN_ICD = "RADV";
+
   environment.systemPackages = with pkgs; [
     sbctl
     amdgpu_top

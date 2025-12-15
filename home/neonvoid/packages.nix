@@ -5,6 +5,7 @@
     adw-gtk3
     asciinema
     blender
+    blender-hip # adds hardware acceleration for AMD to Blender
     blueman
     calibre
     cava

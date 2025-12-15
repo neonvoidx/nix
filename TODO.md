@@ -19,3 +19,5 @@
 - get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
 - protontricks
 - Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
+- usb 3-7: device descriptor read/64, error -71 error during boot (not blocking)
+- gkr-pam: unable to locate daemon control file error during (not blocking)

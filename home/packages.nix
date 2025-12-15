@@ -11,6 +11,5 @@
     ffmpeg
     pay-respects
     tealdeer
-    fastfetch
   ];
 }
