@@ -1,7 +1,7 @@
 default:
 	echo -e "just rebuild -> nixos-rebuild switch --impure --flake\njust update -> nix flake update\njust history -> list generations\njust repl -> start nix repl with nixpkgs\njust clean -> clean older than 7days\njust gc -> clean old"
 rebuild:
-	sudo nixos-rebuild switch --impure --flake .
+	sudo nixos-rebuild switch --flake .
 update:
 	nix flake update
 history:
