@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    /etc/nixos/hardware-configuration.nix
+    ./hardware-configuration.nix
     ../common.nix
   ];
 
@@ -17,19 +17,19 @@
       };
       limine = {
         enable = true;
-        secureBoot = {
-          enable = true;
-        };
+        # secureBoot = {
+        #   enable = true;
+        # };
         style = {
           interface = {
             resolution = lib.mkDefault "3440x1440";
           };
         };
-        extraEntries = ''
-          /Windows
-              protocol: efi
-              path: uuid(b50de1eb-0ac8-4d18-bb81-5f59df4c5c1c):/EFI/Microsoft/Boot/bootmgfw.efi
-        '';
+        # extraEntries = ''
+        #   /Windows
+        #       protocol: efi
+        #       path: uuid(b50de1eb-0ac8-4d18-bb81-5f59df4c5c1c):/EFI/Microsoft/Boot/bootmgfw.efi
+        # '';
       };
     };
     initrd = {
