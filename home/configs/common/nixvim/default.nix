@@ -9,6 +9,9 @@
     viAlias = true;
     vimAlias = true;
     colorscheme = "eldritch";
-    imports = [./plugins];
+    imports = [
+      ./plugins
+      ./opts
+    ];
   };
 }

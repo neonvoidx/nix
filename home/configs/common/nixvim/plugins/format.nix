@@ -70,14 +70,14 @@
   keymaps = [
     {
       key = "<leader>cf";
-      action = ''
+      action.__raw = ''
         function()
              if vim.g.disable_autoformat then
                vim.g.disable_autoformat = false
-               vim.notify("Autoformat enabled", vim.log.levels.INFO, { title = "Conform" })
+               vim.notify("Autoformat enabled", vim.log.levels. INFO, { title = "Conform" })
              else
                vim.g.disable_autoformat = true
-               vim.notify("Autoformat disabled", vim.log.levels.INFO, { title = "Conform" })
+               vim.notify("Autoformat disabled", vim.log. levels.INFO, { title = "Conform" })
              end
         end
       '';
@@ -89,10 +89,10 @@
     }
     {
       key = "<leader>cF";
-      action = ''
+      action.__raw = ''
         function()
-             local bufnr = vim.api.nvim_get_current_buf()
-             if vim.b[bufnr].disable_autoformat then
+             local bufnr = vim. api.nvim_get_current_buf()
+             if vim. b[bufnr].disable_autoformat then
                vim.b[bufnr].disable_autoformat = false
                vim.notify("Autoformat enabled (buffer)", vim.log.levels.INFO, { title = "Conform" })
              else
