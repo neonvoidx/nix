@@ -1,46 +1,25 @@
-{ lib,... }:
+{ lib, ... }:
+let
+  servers = [ "vtsls" "eslint" "nixd" "basedpyright" "bashls" "biome" "clangd" "cmake" "copilot" "docker_compose_language_server" "dockerls" "elixirls" "gopls" "hyprls" "jsonls" "lua_ls" "qmlls" "rust_analyzer" "stylua"];
+in
 {
-  plugins = {
-    lsp = {
-      enable = true;
-      autoLoad = true;
-      keymaps = {
-        silent = true;
-        diagnostic = {
-          "]e" = "goto_next";
-          "[e" = "goto_prev";
-        };
-        lspBuf = {
-          gd = "definition";
-          gD = "references";
-          gt = "type_definition";
-          gi = "implementation";
-          K = "hover";
-        };
-        servers = {
-          "*" = {
-            config = {
-              capabilities = {
-                textDocument = {
-                  semanticTokens = {
-                    multilineTokenSupport = true;
-                  };
-                };
+  plugins.lspconfig. enable = true;
+  lsp = {
+    servers = {
+      "*" = {
+        config = {
+          capabilities = {
+            textDocument = {
+              semanticTokens = {
+                multilineTokenSupport = true;
               };
-              root_markers = [
-                ".git"
-              ];
             };
           };
-          vtsls = {
-            enable = true;
-          };
-          eslint = {
-            enable = true;
-          };
+          root_markers = [
+            ".git"
+          ];
         };
       };
-    };
-    lspconfig.enable = true;
+    } // lib.genAttrs servers (_: { enable = true; });
   };
 }
