@@ -56,7 +56,6 @@
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
-            nixvim.homeModules.nixvim
             spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
