@@ -18,16 +18,25 @@
           K = "hover";
         };
         servers = {
+          "*" = {
+            config = {
+              capabilities = {
+                textDocument = {
+                  semanticTokens = {
+                    multilineTokenSupport = true;
+                  };
+                };
+              };
+              root_markers = [
+                ".git"
+              ];
+            };
+          };
           vtsls = {
             enable = true;
-            autostart = true;
           };
         };
       };
-    };
-    lspconfig = {
-      enable = true;
-      autoLoad = true;
     };
   };
 }
