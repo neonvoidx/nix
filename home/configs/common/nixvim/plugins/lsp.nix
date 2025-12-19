@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  servers = [ "vtsls" "eslint" "nixd" "basedpyright" "bashls" "biome" "clangd" "cmake" "copilot" "docker_compose_language_server" "dockerls" "elixirls" "gopls" "hyprls" "jsonls" "lua_ls" "qmlls" "rust_analyzer" "stylua"];
+  servers = [ "vtsls" "eslint" "nixd" "basedpyright" "bashls" "biome" "clangd" "cmake" "docker_compose_language_server" "dockerls" "elixirls" "gopls" "hyprls" "jsonls" "lua_ls" "qmlls" "rust_analyzer" "stylua"];
 in
 {
   plugins.lspconfig. enable = true;

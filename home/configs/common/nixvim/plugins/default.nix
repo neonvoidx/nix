@@ -6,5 +6,6 @@
     ./lsp.nix
     ./diagnostics.nix
     ./lualine.nix
+    ./format.nix
   ];
 }
