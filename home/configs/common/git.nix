@@ -9,9 +9,6 @@
       init = {
         defaultBranch = "master";
       };
-      interactive = {
-        diffFilter = "delta --color-only";
-      };
 
       delta = {
         navigate = true;
@@ -53,4 +50,9 @@
     enableGitIntegration = true;
   };
 
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper = true;
+    git_protocol = "ssh";
+  };
 }

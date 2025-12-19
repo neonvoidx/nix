@@ -4,7 +4,6 @@
     home-manager
     kitty-themes
     github-copilot-cli
-    gh
     proton-pass
     lazygit
     zoxide
