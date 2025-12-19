@@ -9,12 +9,10 @@
       init = {
         defaultBranch = "master";
       };
-      core = {
-        pager = "delta";
-      };
       interactive = {
         diffFilter = "delta --color-only";
       };
+
       delta = {
         navigate = true;
         side-by-side = true;
