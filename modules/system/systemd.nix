@@ -5,6 +5,7 @@
     sleep.extraConfig = ''
       AllowSuspend=yes
       AllowHibernation=yes
+      SuspendState=freeze
     '';
     settings = {
       Manager = {
