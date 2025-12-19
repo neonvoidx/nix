@@ -1,8 +1,7 @@
-{ inputs, ... }:
+{ pkgs, inputs, ... }:
 {
   nixpkgs.overlays = [
-    # TODO
-    # inputs.nix-cachyos-kernel.overlays.default
+    inputs.nix-cachyos-kernel.overlays.default
     (final: prev: {
       nur = import inputs.nur {
         nurpkgs = prev;
@@ -12,6 +11,5 @@
   ];
 
   # CachyOS Kernel
-  # TODO
-  # boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 }

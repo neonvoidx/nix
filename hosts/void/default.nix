@@ -35,6 +35,11 @@
     initrd = {
       enable = true;
       kernelModules = [ "amdgpu" ];
+      availableKernelModules = [ "vfio-pci" ];
+      preDeviceCommands = ''
+        echo "vfio-pci" > /sys/bus/pci/devices/0000:0b:00.0/driver_override
+        modprobe -i vfio-pci
+      '';
     };
     kernelModules = [ "amdgpu" ];
     kernelParams = [

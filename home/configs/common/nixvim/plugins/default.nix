@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./blink.nix
     ./eldritch.nix
     ./treesitter.nix
     ./lsp.nix
