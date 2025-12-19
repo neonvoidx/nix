@@ -20,6 +20,7 @@
         servers = {
           vtsls = {
             enable = true;
+            autostart = true;
           };
         };
       };
