@@ -7,7 +7,7 @@
     ./git.nix
     ./kitty.nix
     ./lsd.nix
-    ./nixcats
+    ./nixvim
     ./zsh.nix
     ./yazi.nix
   ];

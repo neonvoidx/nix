@@ -19,18 +19,15 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixCats = {
-      url = "github:BirdeeHub/nixCats-nvim";
-    };
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # TODO
     # nix-cachyos-kernel = {
     #   url = "github:xddxdd/nix-cachyos-kernel";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -39,8 +36,8 @@
       nixpkgs,
       home-manager,
       nur,
-      nixCats,
-      lanzaboote,
+      nixvim,
+      spicetify-nix,
       ...
     }@inputs:
     let
@@ -59,7 +56,8 @@
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
-            inputs.spicetify-nix.nixosModules.default
+            nixvim.homeModules.nixvim
+            spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               nixpkgs.config.allowUnfree = true;
