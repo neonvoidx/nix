@@ -6,6 +6,8 @@
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
+  nixpkgs.config.allowUnfree=true;
+
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
