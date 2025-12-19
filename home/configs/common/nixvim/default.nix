@@ -11,7 +11,7 @@
     colorscheme = "eldritch";
     imports = [
       ./plugins
-      ./opts
+      ./opts.nix
     ];
   };
 }
