@@ -59,7 +59,7 @@
             spicetify-nix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
-              nixpkgs.config.allowUnfree = true;
+              # nixpkgs.config.allowUnfree = true;
               home-manager.backupFileExtension = "backup";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -82,7 +82,7 @@
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
           extraSpecialArgs = specialArgs;
           modules = [
-            { nixpkgs.config.allowUnfree = true; }
+            # { nixpkgs.config.allowUnfree = true; }
             ./home/${username}/home.nix
           ];
         };
