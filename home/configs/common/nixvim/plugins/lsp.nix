@@ -35,8 +35,12 @@
           vtsls = {
             enable = true;
           };
+          eslint = {
+            enable = true;
+          };
         };
       };
     };
+    lspconfig.enable = true;
   };
 }
