@@ -4,8 +4,47 @@
     autoInstall.enable=true;
     settings ={
      formatters_by_ft = {
-       nix = ["nil"]
+        javascript = [ "eslint_d" "prettierd" ];
+        typescript = [ "eslint_d" "prettierd" ];
+        javascriptreact = [ "eslint_d" "prettierd" ];
+        typescriptreact = [ "eslint_d" "prettierd" ];
+        "javascript.jsx" = [ "eslint_d" "prettierd" ];
+        "typescript.tsx" = [ "eslint_d" "prettierd" ];
+        css = [ "prettierd" ];
+        html = [ "prettierd" ];
+        json = [ "prettierd" ];
+        yaml = [ "prettierd" ];
+        lua = [ "stylua" ];
+        kdl = [ "kdlfmt" ];
+        python = [ "isort" "black" ];
+        markdown = [ "prettierd" "markdownlint-cli2" "markdown-toc" ];
+        "markdown.mdx" = [ "prettierd" "markdownlint-cli2" "markdown-toc" ];
+        nix = [ "nixfmt"]; 
      };
+     format_on_save = #lua
+      ''
+        function(bufnr)
+          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+            return
+          end
+
+          if slow_format_filetypes[vim.bo[bufnr].filetype] then
+            return
+          end
+
+          local function on_format(err)
+            if err and err:match("timeout$") then
+              slow_format_filetypes[vim.bo[bufnr].filetype] = true
+            end
+          end
+
+          return { timeout_ms = 200, lsp_fallback = true }, on_format
+         end
+      '';
+      notify_on_error=false;
+      notify_no_formatters=false;
+      formatters = {
+      };
     };
   };
 }
