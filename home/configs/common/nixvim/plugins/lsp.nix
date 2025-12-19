@@ -1,7 +1,9 @@
 { ... }:
 {
-  programs.nixvim.plugins.lsp = {
-    enable = true;
-    autoLoad = true;
+  programs.nixvim.plugins = {
+    lspconfig = {
+      enable = true;
+      autoLoad = true;
+    };
   };
 }
