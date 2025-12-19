@@ -12,11 +12,11 @@
         show_help = "<f1>";
       };
     };
-    luaConfig.pre = ''
-      function()
-        vim.g.loaded_netrwPlugin = 1
-      end
-    '';
+    # luaConfig.pre = ''
+    #   function()
+    #     vim.g.loaded_netrwPlugin = 1
+    #   end
+    # '';
   };
   keymaps = [
     {
