@@ -5,5 +5,6 @@
     ./treesitter.nix
     ./lsp.nix
     ./diagnostics.nix
+    ./lualine.nix
   ];
 }

@@ -3,13 +3,11 @@
   programs.nixvim.plugins = {
     treesitter = {
       enable = true;
-      autoLoad = true;
-      folding = true;
+      folding = false;
       nixvimInjections = true;
     };
     treesitter-context = {
       enable = true;
-      autoLoad = true;
     };
   };
 }
