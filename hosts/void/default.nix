@@ -35,6 +35,7 @@
     initrd = {
       enable = true;
       kernelModules = [ "amdgpu" ];
+      # Disable wifi module
       availableKernelModules = [ "vfio-pci" ];
       preDeviceCommands = ''
         echo "vfio-pci" > /sys/bus/pci/devices/0000:0b:00.0/driver_override
