@@ -2,11 +2,45 @@
 {
   clipboard.register = "unnamedplus";
   providers.wl-copy.enable = true;
+  globals.mapleader = " ";
+  globalOpts = {
+    termguicolors = true;
+    shiftwidth = 2;
+    undofile = true;
+    swapfile = false;
+    backup = false;
+    autoread = true;
+    cursorline = true;
+    ruler = true;
+  };
+  diagnostics = {
+    virtual_text = true;
+    signs = {
+      text = {
+        "vim.diagnostic.severity.ERROR" = "";
+        "vim.diagnostic.severity.WARN" = "";
+        "vim.diagnostic.severity.INFO" = "󰋼";
+        "vim.diagnostic.severity.HINT" = "󰌵";
+      };
+    };
+    update_in_insert = true;
+    severity_sort = true;
+    float = {
+      border = "rounded";
+      format.__raw = ''
+        function(d)
+          return ("%s (%s) [%s]"):format(d.message, d.source, d.code or d.user_data.lsp.code)
+        end
+      '';
+    };
+    jump = {
+      severity.__raw = "vim.diagnostic.severity.WARN";
+    };
+  };
   opts = {
     winborder = "rounded";
     autowrite = true;
     autoread = true;
-    clipboard = "unnamedplus";
     completeopt = "menu,menuone,noselect";
     conceallevel = 1;
     confirm = true;
@@ -26,16 +60,6 @@
     pumheight = 10;
     relativenumber = true;
     scrolloff = 4;
-    sessionoptions = [
-      "buffers"
-      "curdir"
-      "tabpages"
-      "winsize"
-      "help"
-      "globals"
-      "skiprtp"
-      "folds"
-    ];
     shiftround = true;
     shiftwidth = 2;
     showmode = false;
@@ -43,7 +67,7 @@
     signcolumn = "yes";
     smartcase = true;
     smartindent = true;
-    spelllang = [ "en" ];
+    spelllang = "en";
     splitbelow = true;
     splitkeep = "screen";
     splitright = true;

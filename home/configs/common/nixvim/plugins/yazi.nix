@@ -3,7 +3,7 @@
   plugins.yazi = {
     enable = true;
     settings = {
-      open_for_directors = true;
+      open_for_directories = true;
       pick_window_implementation = "snacks.picker";
       integrations = {
         grep_in_directory = "snacks.picker";
@@ -12,11 +12,7 @@
         show_help = "<f1>";
       };
     };
-    # luaConfig.pre = ''
-    #   function()
-    #     vim.g.loaded_netrwPlugin = 1
-    #   end
-    # '';
+    luaConfig.pre = "vim.g.loaded_netrwPlugin = 1";
   };
   keymaps = [
     {
