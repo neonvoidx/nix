@@ -1,6 +1,6 @@
 { ... }:
 {
-  programs.nixvim.plugins = {
+  plugins = {
     trouble = {
       enable = true;
       autoLoad = true;

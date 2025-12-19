@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  programs.nixvim.extraPlugins = [
+  extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
       name = "eldritch.nvim";
       src = pkgs.fetchFromGitHub {

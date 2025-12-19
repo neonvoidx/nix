@@ -2,7 +2,6 @@
 {
   imports = [
     nixvim.homeModules.nixvim
-    ./plugins
   ];
   programs.nixvim = {
     enable = true;
@@ -10,5 +9,6 @@
     viAlias = true;
     vimAlias = true;
     colorscheme = "eldritch";
+    imports = [./plugins];
   };
 }
