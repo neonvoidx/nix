@@ -62,7 +62,10 @@
         nixpkgs.lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = [ nur.overlay ];
+            }
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
@@ -92,7 +95,10 @@
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
           extraSpecialArgs = specialArgs;
           modules = [
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = [ nur.overlay ];
+            }
             ./home/${username}/home.nix
           ];
         };
