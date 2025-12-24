@@ -30,9 +30,9 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel";
-    };
+    # nix-cachyos-kernel = {
+    #   url = "github:xddxdd/nix-cachyos-kernel";
+    # };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +47,7 @@
       nur,
       nixvim,
       spicetify-nix,
-      nix-cachyos-kernel,
+      # nix-cachyos-kernel,
       ...
     }@inputs:
     let
