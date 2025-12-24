@@ -64,7 +64,7 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ nur.overlay ];
+              nixpkgs.overlays = [ nur.overlays.default ];
             }
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
@@ -97,7 +97,7 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ nur.overlay ];
+              nixpkgs.overlays = [ nur.overlays.default ];
             }
             ./home/${username}/home.nix
           ];
