@@ -1,6 +1,7 @@
 { ... }:
 {
   plugins = {
+    web-devicons.enable = true;
     trouble = {
       enable = true;
       autoLoad = true;

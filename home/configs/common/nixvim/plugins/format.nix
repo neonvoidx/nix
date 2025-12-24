@@ -2,7 +2,10 @@
 {
   plugins.conform-nvim = {
     enable = true;
-    autoInstall.enable = true;
+    autoInstall = {
+      enable = true;
+      overrides.markdown-toc = null;
+    };
     settings = {
       formatters_by_ft = {
         javascript = [

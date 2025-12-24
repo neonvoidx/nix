@@ -3,7 +3,7 @@
   plugins = {
     treesitter = {
       enable = true;
-      folding = false;
+      folding.enable = false;
       nixvimInjections = true;
     };
     treesitter-context = {

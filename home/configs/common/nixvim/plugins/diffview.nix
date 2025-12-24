@@ -2,13 +2,15 @@
 {
   plugins.diffview = {
     enable = true;
-    enhancedDiffHl = true;
-    useIcons = true;
-    view = {
-      mergeTool = {
-        layout = "diff3_horizontal";
-        winbarInfo = true;
-        disableDiagnostics = true;
+    settings = {
+      enhanced_diff_hl = true;
+      use_icons = true;
+      view = {
+        merge_tool = {
+          layout = "diff3_horizontal";
+          winbar_info = true;
+          disable_diagnostics = true;
+        };
       };
     };
   };
