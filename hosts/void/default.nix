@@ -52,8 +52,6 @@
       "amdgpu.gpu_recovery=1"
       "amdgpu.ppfeaturemask=0xfffd7fff"
       "amdgpu.noretry=0"
-      "amdgpu.runpm=0"
-      "amdgpu.gpu_recovery=1"
     ];
   };
 
