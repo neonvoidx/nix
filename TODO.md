@@ -8,7 +8,6 @@
 - cachyos kernel
 - Limine themeing
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
-- nixCats setup isn't using treesitter or lsps properly, think about nixvim, maybe...
 - Fix kitty tab separator character
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over
 - thunderbird, protonmailbridge setup
@@ -21,3 +20,4 @@
 - Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
 - usb 3-7: device descriptor read/64, error -71 error during boot (not blocking)
 - gkr-pam: unable to locate daemon control file error during (not blocking)
+- nixvim : go through the missing plugins and fix
