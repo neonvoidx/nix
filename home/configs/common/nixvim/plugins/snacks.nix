@@ -167,7 +167,6 @@
               end
             '';
           }
-          { section = "startup"; pane = 1; }
         ];
       };
     };

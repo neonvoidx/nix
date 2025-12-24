@@ -299,21 +299,6 @@
       key = "<Insert>";
       action = "<Esc>";
     }
-    {
-      mode = [
-        "i"
-        "n"
-        "v"
-        "x"
-        "o"
-        "t"
-        "s"
-        "c"
-        "l"
-      ];
-      key = "";
-      action = "<Esc>";
-    }
 
     # Unbind F1 help
     {
