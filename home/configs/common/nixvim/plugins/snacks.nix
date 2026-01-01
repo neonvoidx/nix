@@ -191,7 +191,6 @@
 
         -- Toggle mappings
         Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-        Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
         Snacks.toggle.diagnostics():map("<leader>ud")
         Snacks.toggle.line_number():map("<leader>ul")
@@ -449,6 +448,12 @@
       key = "<leader>uC";
       action.__raw = "function() Snacks.picker.colorschemes() end";
       options.desc = "Colorschemes";
+    }
+    {
+      mode = "n";
+      key = "<leader>uw";
+      action.__raw = "function() Snacks.toggle.option('wrap', { name = 'Wrap' })() end";
+      options.desc = "Toggle Wrap";
     }
     # LSP
     {
