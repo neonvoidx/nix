@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
     ananicy-cpp
@@ -13,6 +13,7 @@
     hplip
     hypridle
     hyprpolkitagent
+    inputs.nix-search-tv.packages.x86_64-linux.default
     just
     killall
     lsd

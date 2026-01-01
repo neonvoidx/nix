@@ -33,6 +33,10 @@
     # nix-cachyos-kernel = {
     #   url = "github:xddxdd/nix-cachyos-kernel";
     # };
+    nix-search-tv = {
+      url = "github:3timeslazy/nix-search-tv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +51,7 @@
       nur,
       nixvim,
       spicetify-nix,
+      nix-search-tv,
       # nix-cachyos-kernel,
       ...
     }@inputs:
