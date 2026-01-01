@@ -30,7 +30,11 @@
       statuscolumn = {
         enable = true;
         left = [ "sign" ];
-        right = [ "fold" "git" "mark" ];
+        right = [
+          "fold"
+          "git"
+          "mark"
+        ];
         folds = {
           open = false;
           git_hl = true;
@@ -63,9 +67,25 @@
             border = true;
             title = "{title} {live} {flags}";
             title_pos = "center";
-            __unkeyed-1 = { win = "input"; height = 1; border = "bottom"; };
-            __unkeyed-2 = { win = "list"; border = "none"; height = 0.4; wo = { wrap = true; }; };
-            __unkeyed-3 = { win = "preview"; title = "{preview}"; height = 0.6; border = "top"; };
+            __unkeyed-1 = {
+              win = "input";
+              height = 1;
+              border = "bottom";
+            };
+            __unkeyed-2 = {
+              win = "list";
+              border = "none";
+              height = 0.4;
+              wo = {
+                wrap = true;
+              };
+            };
+            __unkeyed-3 = {
+              win = "preview";
+              title = "{preview}";
+              height = 0.6;
+              border = "top";
+            };
           };
         };
         enabled = true;
@@ -97,7 +117,13 @@
         win = {
           input = {
             keys = {
-              "<c-q>" = { __unkeyed-1 = "qflist_append"; mode = [ "n" "i" ]; };
+              "<c-q>" = {
+                __unkeyed-1 = "qflist_append";
+                mode = [
+                  "n"
+                  "i"
+                ];
+              };
             };
           };
         };
@@ -144,13 +170,6 @@
               action.__raw = "function() require('persistence').load() end";
             }
             {
-              icon = "󰒲 ";
-              key = "L";
-              desc = "Lazy";
-              action = ":Lazy";
-              enabled = "package.loaded.lazy ~= nil";
-            }
-            {
               icon = " ";
               key = "q";
               desc = "Quit";
@@ -160,7 +179,11 @@
         };
         sections = [
           { section = "header"; }
-          { section = "keys"; gap = 1; padding = 1; }
+          {
+            section = "keys";
+            gap = 1;
+            padding = 1;
+          }
           {
             pane = 2;
             icon = " ";
@@ -381,7 +404,10 @@
       options.desc = "Grep";
     }
     {
-      mode = [ "n" "x" ];
+      mode = [
+        "n"
+        "x"
+      ];
       key = "<leader>sw";
       action.__raw = "function() Snacks.picker.grep_word() end";
       options.desc = "Visual selection or word";
@@ -584,7 +610,10 @@
       options.desc = "Rename File";
     }
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>gB";
       action.__raw = "function() Snacks.gitbrowse() end";
       options.desc = "Git Browse";
@@ -614,13 +643,19 @@
       options.desc = "which_key_ignore";
     }
     {
-      mode = [ "n" "t" ];
+      mode = [
+        "n"
+        "t"
+      ];
       key = "]]";
       action.__raw = "function() Snacks.words.jump(vim.v.count1) end";
       options.desc = "Next Reference";
     }
     {
-      mode = [ "n" "t" ];
+      mode = [
+        "n"
+        "t"
+      ];
       key = "[[";
       action.__raw = "function() Snacks.words.jump(-vim.v.count1) end";
       options.desc = "Prev Reference";

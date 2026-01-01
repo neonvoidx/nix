@@ -17,8 +17,6 @@ in
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "noctalia-shell -d"
     "nm-applet"
-    # "exec ~/.config/gtk-3.0/gtksettings.sh"
-    "exec import-gsettings"
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox"
   ]
