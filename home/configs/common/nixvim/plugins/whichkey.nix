@@ -51,6 +51,46 @@
           group = "Buffer";
           icon = "";
         }
+        {
+          __unkeyed-1 = "<leader>c";
+          group = "code";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>f";
+          group = "find";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>g";
+          group = "git";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>s";
+          group = "search";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>u";
+          group = "ui";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>z";
+          group = "zen";
+          icon = "󰰶 ";
+        }
+        {
+          __unkeyed-1 = "<leader>r";
+          group = "restart";
+          icon = " ";
+        }
+        {
+          __unkeyed-1 = "<leader>e";
+          group = "explorer";
+          icon = " ";
+        }
       ];
     };
   };
