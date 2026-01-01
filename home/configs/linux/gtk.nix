@@ -1,4 +1,4 @@
-{ pkgs, config, hostname ? "", ... }:
+{ pkgs, config, hostname ? "", nix-colors, ... }:
 {
   # Force Home Manager to overwrite existing GTK files
   xdg.configFile."gtk-4.0/gtk.css".force = true;
@@ -7,8 +7,10 @@
     colorScheme = "dark";
     enable = true;
     theme = {
-      name = "adw-gtk3-dark";
-      package = pkgs.adw-gtk3;
+      name = "nix-${config.colorScheme.slug}";
+      package = (nix-colors.lib-contrib { inherit pkgs; }).gtkThemeFromScheme { 
+        scheme = config.colorScheme;
+      };
     };
     iconTheme = {
       name = "Dracula";

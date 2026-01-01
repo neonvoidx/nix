@@ -41,6 +41,9 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
   };
 
   outputs =
@@ -52,6 +55,7 @@
       nixvim,
       spicetify-nix,
       nix-search-tv,
+      nix-colors,
       # nix-cachyos-kernel,
       ...
     }@inputs:
@@ -82,7 +86,13 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
-              home-manager.extraSpecialArgs = inputs // specialArgs // { inherit hostname; };
+              home-manager.extraSpecialArgs =
+                inputs
+                // specialArgs
+                // {
+                  inherit hostname;
+                  inherit nix-colors;
+                };
               home-manager.users.${username} = import ./home/${username}/home.nix;
             }
           ];

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let
+  c = config.colorScheme.palette;
+in
 {
   programs.fastfetch = {
     enable = true;
@@ -32,6 +35,10 @@
           };
       display = {
         separator = "  ";
+        color = {
+          keys = "#${c.base0D}";
+          title = "#${c.base0C}";
+        };
       };
       modules = [
         {

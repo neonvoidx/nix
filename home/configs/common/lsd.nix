@@ -1,52 +1,60 @@
-{ ... }:
+{ config, ... }:
+let
+  c = config.colorScheme.palette;
+in
 {
   programs.lsd = {
     enable = true;
     enableZshIntegration = false;
-    colors = {
-      user = 6;
-      group = 8;
-      permission = {
-        read = 120;
-        write = 11;
-        exec = 9;
-        exec-sticky = 5;
-        no-access = 59;
-        octal = 120;
-        acl = 120;
-        context = 120;
+    settings = {
+      color = {
+        theme = "custom";
       };
-      date = {
-        hour-old = 63;
-        day-old = 62;
-        older = 61;
-      };
-      size = {
-        none = 59;
-        small = 227;
-        medium = 222;
-        large = 203;
-      };
-      inode = {
-        valid = 59;
-        invalid = 52;
-      };
-      links = {
-        valid = 120;
-        invalid = 203;
-      };
-      tree-edge = 105;
-      git-status = {
-        default = 59;
-        unmodified = 236;
-        ignored = 59;
-        new-in-index = 120;
-        new-in-workdir = 120;
-        typechange = 222;
-        deleted = 203;
-        renamed = 222;
-        modified = 120;
-        conflicted = 203;
+      theme = {
+        user = "#${c.base0C}";
+        group = "#${c.base0E}";
+        permission = {
+          read = "#${c.base0B}";
+          write = "#${c.base0A}";
+          exec = "#${c.base08}";
+          exec-sticky = "#${c.base0F}";
+          no-access = "#${c.base03}";
+          octal = "#${c.base0C}";
+          acl = "#${c.base0C}";
+          context = "#${c.base0C}";
+        };
+        date = {
+          hour-old = "#${c.base0C}";
+          day-old = "#${c.base0D}";
+          older = "#${c.base0E}";
+        };
+        size = {
+          none = "#${c.base03}";
+          small = "#${c.base0A}";
+          medium = "#${c.base09}";
+          large = "#${c.base08}";
+        };
+        inode = {
+          valid = "#${c.base03}";
+          invalid = "#${c.base08}";
+        };
+        links = {
+          valid = "#${c.base0C}";
+          invalid = "#${c.base08}";
+        };
+        tree-edge = "#${c.base0E}";
+        git-status = {
+          default = "#${c.base03}";
+          unmodified = "#${c.base02}";
+          ignored = "#${c.base03}";
+          new-in-index = "#${c.base0B}";
+          new-in-workdir = "#${c.base0B}";
+          typechange = "#${c.base09}";
+          deleted = "#${c.base08}";
+          renamed = "#${c.base09}";
+          modified = "#${c.base0A}";
+          conflicted = "#${c.base08}";
+        };
       };
     };
   };

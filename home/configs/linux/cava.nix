@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  c = config.colorScheme.palette;
+in
 {
   programs.cava = {
     enable = true;
@@ -8,14 +11,14 @@
     smoothing.noise_reduction = 88;
     color = {
       gradient = 1;
-      gradient_color_1 = "'#37f499'";
-      gradient_color_2 = "'#04d1f9'";
-      gradient_color_3 = "'#7081d0'";
-      gradient_color_4 = "'#a48cf2'";
-      gradient_color_5 = "'#f265b5'";
-      gradient_color_6 = "'#f7c67f'";
-      gradient_color_7 = "'#f1fc79'";
-      gradient_color_8 = "'#f16c75'";
+      gradient_color_1 = "'#${c.base0B}'";
+      gradient_color_2 = "'#${c.base0C}'";
+      gradient_color_3 = "'#${c.base0D}'";
+      gradient_color_4 = "'#${c.base0E}'";
+      gradient_color_5 = "'#${c.base0F}'";
+      gradient_color_6 = "'#${c.base0A}'";
+      gradient_color_7 = "'#${c.base09}'";
+      gradient_color_8 = "'#${c.base08}'";
     };
   };
   };

@@ -2,8 +2,12 @@
   config,
   pkgs,
   lib,
+  nix-colors,
   ...
 }:
+let
+  c = config.colorScheme.palette;
+in
 {
   programs.zsh = {
     enable = true;
@@ -73,7 +77,7 @@
       ZSH_TAB_TITLE_ONLY_FOLDER = "true";
       ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS = "true";
       FZF_PREVIEW_ADVANCED = "bat";
-      FZF_DEFAULT_OPTS = "--color=fg:#ebfafa,bg:#282a36,hl:#37f499 --color=fg+:#ebfafa,bg+:#212337,hl+:#37f499 --color=info:#f7c67f,prompt:#04d1f9,pointer:#7081d0 --color=marker:#7081d0,spinner:#f7c67f,header:#323449 --height 80% --layout reverse --border";
+      FZF_DEFAULT_OPTS = "--color=fg:#${c.base05},bg:#${c.base00},hl:#${c.base0B} --color=fg+:#${c.base05},bg+:#${c.base01},hl+:#${c.base0B} --color=info:#${c.base0A},prompt:#${c.base0C},pointer:#${c.base0D} --color=marker:#${c.base0D},spinner:#${c.base0A},header:#${c.base03} --height 80% --layout reverse --border";
       FZF_PATH = "${config.home.homeDirectory}/.config/fzf";
       _ZO_EXCLUDE_DIRS = "/Applications/**:**/node_modules";
       _ZO_RESOLVE_SYMLINKS = "0";
@@ -234,15 +238,15 @@
           }
 
           # Pure Prompt colors
-          zstyle :prompt:pure:git:arrow color "#f16c75"
-          zstyle :prompt:pure:git:branch color "#04d1f9"
-          zstyle :prompt:pure:path color "#37f499"
-          zstyle :prompt:pure:prompt:error color "#f16c75"
-          zstyle :prompt:pure:prompt:success color "#37f499"
-          zstyle :prompt:pure:prompt:continuation color "#f7c67f"
-          zstyle :prompt:pure:suspended_jobs color "#f16c75"
-          zstyle :prompt:pure:user color "#a48cf2"
-          zstyle :prompt:pure:user:root color "#f1fc79"
+          zstyle :prompt:pure:git:arrow color "#${c.base08}"
+          zstyle :prompt:pure:git:branch color "#${c.base0C}"
+          zstyle :prompt:pure:path color "#${c.base0B}"
+          zstyle :prompt:pure:prompt:error color "#${c.base08}"
+          zstyle :prompt:pure:prompt:success color "#${c.base0B}"
+          zstyle :prompt:pure:prompt:continuation color "#${c.base0A}"
+          zstyle :prompt:pure:suspended_jobs color "#${c.base08}"
+          zstyle :prompt:pure:user color "#${c.base0E}"
+          zstyle :prompt:pure:user:root color "#${c.base0A}"
 
 
           # GH CLI Copilot
@@ -297,6 +301,11 @@
               fi
             ''
           }
+
+          # Apply nix-colors shell theme
+          sh ${(nix-colors.lib-contrib { inherit pkgs; }).shellThemeFromScheme { 
+            scheme = config.colorScheme;
+          }}
         '';
   };
 
