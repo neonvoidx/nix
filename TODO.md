@@ -3,9 +3,8 @@
   - Set ublock, gesturefy, violentmonkey, stylus settings by default
   - Other bookmarks? remove
   - Imported bookmarks? remove
-- SSH key encrypted (nix-sops or shoji-nix?)
+- SSH key encrypted (nix-sops)
   - Get github ssh key saved, thats the most important
-- Fix Synology network mount to /mnt/synology, or better yet /synology
 - Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
 - cachyos kernel
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
@@ -16,7 +15,7 @@
 - protontricks
 - Sort out the gtk theme, seems i have to set it in hyprland config, but I shouldnt have to with nix setup
 - nixvim : go through the missing plugins and fix
-  - kitty navigator nixvim, pass-keys.py already copied, need to setup nixvim for it
 - <https://github.com/Misterio77/nix-colors>
 - easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
+- noctalia, set keybinds for session menu
