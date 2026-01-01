@@ -28,17 +28,20 @@
     nodejs_24
     nwg-look
     obs-studio
-    oculante
+    # TODO fix after
+    # oculante
     protontricks
     protonup-rs
     prusa-slicer
     hyprpwcenter
     seahorse
-    sgdboop
+    # TODO uncomment after fix
+    # sgdboop
     slurp
     steam
     streamcontroller
-    tenacity
+    # TODO fix after
+    # tenacity
     thunderbird
     vesktop
     vulkan-tools

@@ -11,9 +11,8 @@
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over. But also stuff like my gaming monitor config scripts
 - thunderbird, protonmailbridge setup
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
-- get cachy proton, and ge proton setups, use protonupqt probably, i have it integrated with steam in nix
-- protontricks
 - nixvim : go through the missing plugins and fix
 - easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
+  - sgdboop is one of them, among oculante and tenacity
