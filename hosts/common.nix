@@ -5,7 +5,7 @@
     ../modules/system/boot.nix
     ../modules/system/nix.nix
     ../modules/system/users.nix
-    # ../modules/system/overlays.nix
+    ../modules/system/overlays.nix
     ../modules/system/systemd.nix
     ../modules/system/locale.nix
     ../modules/system/networking.nix
