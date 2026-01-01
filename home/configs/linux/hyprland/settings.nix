@@ -95,11 +95,6 @@ in
     cm_sdr_eotf = 0;
   };
 
-  # Experimental features
-  experimental = {
-    xx_color_management_v4 = true;
-  };
-
   # Miscellaneous
   misc = {
     disable_hyprland_logo = false;
