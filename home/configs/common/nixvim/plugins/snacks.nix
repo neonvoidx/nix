@@ -449,12 +449,6 @@
       action.__raw = "function() Snacks.picker.colorschemes() end";
       options.desc = "Colorschemes";
     }
-    {
-      mode = "n";
-      key = "<leader>uw";
-      action.__raw = "function() Snacks.toggle.option('wrap', { name = 'Wrap' })() end";
-      options.desc = "Toggle Wrap";
-    }
     # LSP
     {
       mode = "n";

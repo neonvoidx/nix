@@ -365,5 +365,18 @@
         desc = "Move to first non blank character";
       };
     }
+
+    # Toggle word wrap
+    {
+      mode = "n";
+      key = "<leader>uw";
+      action.__raw = ''
+        function()
+          vim.wo.wrap = not vim.wo.wrap
+          vim.notify("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
+        end
+      '';
+      options.desc = "Toggle Wrap";
+    }
   ];
 }
