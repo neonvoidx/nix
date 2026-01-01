@@ -3,6 +3,12 @@ let
   c = config.colorScheme.palette;
 in
 {
+  xdg.configFile."yazi/flavors/eldritch.yazi/flavor.toml".text = ''
+    [flavor]
+    dark = "#${c.base00}"
+    light = "#${c.base06}"
+  '';
+
   programs.yazi = {
     enable = true;
     keymap = {
@@ -172,6 +178,9 @@ in
       };
     };
     theme = {
+      flavor = {
+        dark = "eldritch";
+      };
       mgr = {
         cwd = { fg = "#${c.base0C}"; };
         hovered = { fg = "#${c.base00}"; bg = "#${c.base0D}"; };
@@ -204,18 +213,18 @@ in
       };
       input = {
         border = { fg = "#${c.base0D}"; };
-        title = { };
-        value = { };
-        selected = { bg = "#${c.base02}"; };
+        title = { fg = "#${c.base05}"; };
+        value = { fg = "#${c.base05}"; };
+        selected = { reversed = true; };
       };
       select = {
         border = { fg = "#${c.base0D}"; };
         active = { fg = "#${c.base0E}"; };
-        inactive = { };
+        inactive = { fg = "#${c.base05}"; };
       };
       tasks = {
         border = { fg = "#${c.base0D}"; };
-        title = { };
+        title = { fg = "#${c.base05}"; };
         hovered = { underline = true; };
       };
       which = {
@@ -236,17 +245,8 @@ in
       };
       filetype = {
         rules = [
-          { mime = "image/*"; fg = "#${c.base0C}"; }
-          { mime = "video/*"; fg = "#${c.base0A}"; }
-          { mime = "audio/*"; fg = "#${c.base0E}"; }
-          { mime = "application/zip"; fg = "#${c.base08}"; }
-          { mime = "application/gzip"; fg = "#${c.base08}"; }
-          { mime = "application/x-tar"; fg = "#${c.base08}"; }
-          { mime = "application/x-bzip"; fg = "#${c.base08}"; }
-          { mime = "application/x-7z-compressed"; fg = "#${c.base08}"; }
-          { mime = "application/x-rar"; fg = "#${c.base08}"; }
-          { name = "*"; fg = "#${c.base05}"; }
           { name = "*/"; fg = "#${c.base0D}"; }
+          { name = "*"; fg = "#${c.base05}"; }
         ];
       };
     };
