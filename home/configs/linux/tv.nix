@@ -4,7 +4,7 @@
     television = {
       enable = true;
       enableZshIntegration = true;
-      channels = [ ];
+      channels = { };
       settings = { };
     };
     nix-search-tv = {

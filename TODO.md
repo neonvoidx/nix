@@ -23,4 +23,3 @@
 - <https://github.com/Misterio77/nix-colors>
 - easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
-- add television, nixtv?
