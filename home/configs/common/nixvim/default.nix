@@ -9,6 +9,7 @@
     viAlias = true;
     vimAlias = true;
     colorscheme = "eldritch";
+
     imports = [
       ./plugins
       ./opts.nix
@@ -20,5 +21,11 @@
         command = "checktime";
       }
     ];
+    nixpkgs = {
+      config = {
+        allowUnfree = true;
+      };
+    };
   };
+
 }
