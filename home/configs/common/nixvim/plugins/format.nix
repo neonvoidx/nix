@@ -62,7 +62,7 @@
             end
 
 
-            return { timeout_ms = 200, lsp_fallback = true }, on_format
+            return { timeout_ms = 2000, lsp_fallback = true }, on_format
            end
         '';
       notify_on_error = false;
