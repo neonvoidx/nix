@@ -172,7 +172,7 @@ in
       };
     };
     theme = {
-      manager = {
+      mgr = {
         cwd = { fg = "#${c.base0C}"; };
         hovered = { fg = "#${c.base00}"; bg = "#${c.base0D}"; };
         preview_hovered = { underline = true; };
