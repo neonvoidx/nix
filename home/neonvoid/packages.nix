@@ -44,10 +44,10 @@
     vulkan-tools
     wl-clip-persist
     wl-clipboard
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    xfce.thunar-media-tags-plugin
-    xfce.thunar-volman
+    thunar
+    thunar-archive-plugin
+    thunar-media-tags-plugin
+    thunar-volman
     yarn
   ];
 }
