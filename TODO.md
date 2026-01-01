@@ -5,8 +5,6 @@
   - Imported bookmarks? remove
 - SSH key encrypted (nix-sops)
   - Get github ssh key saved, thats the most important
-- Create dev shells for programming and remove packages like nodejs gcc etc from system packages?
-  - nix direnv
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
 - Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over. But also stuff like my gaming monitor config scripts
 - thunderbird, protonmailbridge setup
