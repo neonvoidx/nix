@@ -43,5 +43,8 @@
     gvfs.enable = true;
   };
 
-  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services = {
+    greetd.enableGnomeKeyring = true;
+    login.enableGnomeKeyring = true;
+  };
 }
