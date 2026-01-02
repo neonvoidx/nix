@@ -26,11 +26,8 @@
     };
     profiles.neonvoid = {
       isDefault = true;
-      settings = {
-        force = true;
-        extensions.autoDisableScopes = 0;
-      };
       extensions = {
+        force = true;
         packages = with pkgs.nur.repos.rycee.firefox-addons; [
           darkreader
           ublock-origin

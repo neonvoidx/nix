@@ -1,6 +1,4 @@
 - Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
-  - get extensions enabled by default
-  - Set ublock, gesturefy, violentmonkey, stylus settings by default
   - Other bookmarks? remove
   - Imported bookmarks? remove
 - SSH key encrypted (nix-sops)
