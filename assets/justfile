@@ -1,8 +1,9 @@
-# Global justfile for development commands
-
 # Initialize a development environment from FlakeHub templates
 dev-init template:
     nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#{{template}}"
+# Initialize a development environment from FlakeHub templates creating a folder
 dev-init-folder template folder_name:
     nix flake new --template "https://flakehub.com/f/the-nix-way/dev-templates/*#{{template}}" {{folder_name}} 
-
+# find nixpkg outPath for pkg name
+find-nix-out pkg_name:
+    nix eval nixpkgs#{{pkg_name}}.outPath
