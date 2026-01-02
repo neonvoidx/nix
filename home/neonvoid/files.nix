@@ -1,5 +1,23 @@
 { config, ... }:
 {
+  # SSH keys from Synology (with fallback handling)
+  home.activation.checkSynologyKeys = config.lib.dag.entryBefore [ "writeBoundary" ] ''
+    if [ ! -e /synology/Secure/id_ed25519 ]; then
+      $DRY_RUN_CMD echo "Warning: Synology not mounted, SSH keys will not be available"
+    fi
+  '';
+  
+  home.file.".ssh/id_ed25519" = {
+    source = config.lib.file.mkOutOfStoreSymlink "/synology/Secure/id_ed25519";
+    onChange = ''
+      if [ -e ~/.ssh/id_ed25519 ]; then
+        chmod 600 ~/.ssh/id_ed25519
+      fi
+    '';
+  };
+  home.file.".ssh/id_ed25519.pub".source =
+    config.lib.file.mkOutOfStoreSymlink "/synology/Secure/id_ed25519.pub";
+
   # Dotfiles not managed via home manager yet
   home.file.".face".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/.face";
