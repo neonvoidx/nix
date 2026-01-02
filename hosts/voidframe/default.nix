@@ -43,18 +43,6 @@
     };
   };
 
-  # Set framebuffer resolution during boot
-  systemd.services.fbset-resolution = {
-    description = "Set framebuffer resolution";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "systemd-vconsole-setup.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.fbset}/bin/fbset -xres 2880 -yres 1920";
-      RemainAfterExit = true;
-    };
-  };
-
   # Prevent rfkill from softblocking bluetooth and wifi
   systemd.services.rfkill-unblock = {
     description = "Unblock rfkill devices";

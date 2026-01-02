@@ -62,18 +62,6 @@
     ];
   };
 
-  # Set framebuffer resolution during boot
-  systemd.services.fbset-resolution = {
-    description = "Set framebuffer resolution";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "systemd-vconsole-setup.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.fbset}/bin/fbset -xres 3440 -yres 1440";
-      RemainAfterExit = true;
-    };
-  };
-
   networking = {
     nameservers = [
       "192.168.86.7"
