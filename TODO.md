@@ -1,6 +1,4 @@
 - Firefox dev editions and my extensions (not a deal breaker i can jsut sign in)
-  - Other bookmarks? remove
-  - Imported bookmarks? remove
 - SSH key encrypted (nix-sops)
   - Get github ssh key saved, thats the most important
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
@@ -10,5 +8,3 @@
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity
-- Steam stealing focus on launch, sign in steam stealing focus as well
-- render markdown not displaying images from snacks
