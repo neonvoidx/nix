@@ -9,9 +9,9 @@ A comprehensive, modular NixOS and Home Manager configuration with flakes, featu
 just rebuild  # or: sudo nixos-rebuild switch --flake . --impure
 ```
 
-### Standalone Home Manager (macOS)
+### Standalone Home Manager (macOS - jrreed user)
 ```bash
-home-manager switch --flake .#neonvoid
+home-manager switch --flake .#jrreed
 ```
 
 ### Other Commands
@@ -41,7 +41,7 @@ Orchestrates the entire configuration with the following inputs:
 - **sops-nix** - Secrets management
 - **nix-index-database** - Pre-built nix-index database
 
-Defines two NixOS configurations (`void`, `voidframe`) and standalone Home Manager for macOS.
+Defines two NixOS configurations (`void`, `voidframe`) and standalone Home Manager for macOS (jrreed user).
 
 ### `/hosts/` - System Configurations
 
@@ -111,9 +111,8 @@ User environment management split into platform-specific configs:
 
 - **`/home/common.nix`** - Base Home Manager setup shared by all users
 - **`/home/packages.nix`** - Common user packages across all configurations
-- **`/home/neonvoid/`** - Primary user configuration
+- **`/home/neonvoid/`** - Primary user configuration (Linux only)
   - `home.nix` - Linux configuration entry point
-  - `home-mac.nix` - macOS configuration entry point
   - `nixos.nix` - NixOS module integration
   - `packages.nix` - User-specific packages
   - `git.nix` - Git user identity
@@ -343,14 +342,14 @@ nix-shell -p sops --run 'sops secrets/secrets.yaml'
 nix-shell -p ssh-to-age --run 'ssh-to-age < ~/.ssh/id_ed25519.pub'
 ```
 
-### Home Manager Standalone (macOS)
+### Home Manager Standalone (macOS - jrreed)
 
 ```bash
 # Switch to new configuration
-home-manager switch --flake .#neonvoid
+home-manager switch --flake .#jrreed
 
 # Build without activation
-home-manager build --flake .#neonvoid
+home-manager build --flake .#jrreed
 ```
 
 ## 📚 Additional Resources
