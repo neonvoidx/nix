@@ -26,6 +26,9 @@
         };
         ui = {
           enable = false;
+          external = {
+            enable = true;
+          };
         };
         workspaces = [
           {
