@@ -71,6 +71,7 @@
     }@inputs:
     let
       username = "neonvoid";
+      macUsername = "jrreed";
       specialArgs = {
         inherit inputs;
         inherit username;
@@ -117,11 +118,13 @@
         voidframe = mkHost "voidframe";
       };
 
-      # Standalone home-manager configuration for macOS
+      # Standalone home-manager configuration for macOS (jrreed user)
       homeConfigurations = {
-        "${username}" = home-manager.lib.homeManagerConfiguration {
+        "${macUsername}" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
-          extraSpecialArgs = specialArgs // {
+          extraSpecialArgs = {
+            inherit inputs;
+            username = macUsername;
             inherit nix-colors;
             nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
           };
@@ -131,7 +134,7 @@
               nixpkgs.overlays = [ nur.overlays.default ];
             }
             sops-nix.homeManagerModules.sops
-            ./home/${username}/home-mac.nix
+            ./home/${macUsername}/home.nix
           ];
         };
       };
