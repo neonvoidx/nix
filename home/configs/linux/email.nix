@@ -22,12 +22,11 @@
   accounts.email.accounts = {
     "proton" = {
       primary = true;
-      # TODO secret these out
       realName = "neonvoidx";
       address = "me@neonvoid.dev";
       userName = "me@neonvoid.dev";
 
-      # TODO protonmailbridge stuff
+      # Proton Mail Bridge configuration
       imap = {
         host = "127.0.0.1";
         port = 1143;
@@ -45,18 +44,16 @@
         authentication = "login";
       };
 
-      # sops-nix pw:
-      # passwordCommand = "cat ${hm-secrets.gmail_myname_smtp_pass}";
+      passwordCommand = "cat /run/secrets/proton-bridge-password";
 
       thunderbird = {
-        enable = true; # generate thunderbird config for this account
-        profiles = [ "default" ]; # attach to that profile
+        enable = true;
+        profiles = [ "default" ];
       };
     };
 
     "gmail" = {
       primary = false;
-      # TODO secret this out
       realName = "Jacob Reed";
       address = "jacob.russell.reed@gmail.com";
       userName = "jacob.russell.reed@gmail.com";
@@ -76,12 +73,11 @@
         };
       };
 
-      # sops-nix pw:
-      # passwordCommand = "cat ${hm-secrets.gmail_myname_smtp_pass}";
+      passwordCommand = "cat /run/secrets/gmail-app-password";
 
       thunderbird = {
-        enable = true; # generate thunderbird config for this account
-        profiles = [ "default" ]; # attach to that profile
+        enable = true;
+        profiles = [ "default" ];
       };
     };
   };

@@ -44,6 +44,10 @@
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -57,6 +61,7 @@
       nix-search-tv,
       nix-colors,
       nix-cachyos-kernel,
+      sops-nix,
       ...
     }@inputs:
     let
@@ -79,6 +84,7 @@
             ./modules/programs/noctalia.nix
             ./home/${username}/nixos.nix
             spicetify-nix.nixosModules.default
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               nixpkgs.config.allowUnfree = true;
@@ -114,6 +120,7 @@
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = [ nur.overlays.default ];
             }
+            sops-nix.homeManagerModules.sops
             ./home/${username}/home-mac.nix
           ];
         };
