@@ -95,6 +95,7 @@
             {
               nixpkgs.config.allowUnfree = true;
               home-manager.backupFileExtension = "backup";
+              home-manager.backupCommand = "${nixpkgs.legacyPackages.x86_64-linux.bash}/bin/bash -c 'rm -f \"$1.backup\" && mv \"$1\" \"$1.backup\"' -- ";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
