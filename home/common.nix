@@ -9,6 +9,7 @@
     ./configs/common
     ./packages.nix
     inputs.spicetify-nix.homeManagerModules.default
+    inputs.nix-index-database.homeModules.default
   ];
 
   home = {
