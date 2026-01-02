@@ -68,6 +68,7 @@
         "Music"
         "Movies"
         "software"
+        "Secure"
       ];
 
   # Ensure mount points exist
