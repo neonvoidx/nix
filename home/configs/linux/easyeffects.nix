@@ -1,8 +1,10 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 {
   xdg.configFile = {
-    "easyeffects/autoload/easyeffectsrc".source = ../../../assets/linux/easyeffects/autoload/easyeffectsrc;
-    "easyeffects/autoload/microphone.json".source = ../../../assets/linux/easyeffects/autoload/microphone.json;
+    "easyeffects/autoload/easyeffectsrc".source =
+      ../../../assets/linux/easyeffects/autoload/easyeffectsrc;
+    "easyeffects/autoload/microphone.json".source =
+      ../../../assets/linux/easyeffects/autoload/microphone.json;
     "easyeffects/autoload/speexrc".source = ../../../assets/linux/easyeffects/autoload/speexrc;
     "easyeffects/autoload/equalizerrc".source = ../../../assets/linux/easyeffects/autoload/equalizerrc;
   };
@@ -454,6 +456,12 @@
           plugins_order = [ "equalizer#0" ];
         };
       };
+    };
+  };
+
+  systemd.user.services.easyeffects = {
+    Service = {
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
     };
   };
 }
