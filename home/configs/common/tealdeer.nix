@@ -43,8 +43,6 @@
       updates = {
         auto_update = true;
         auto_update_interval_hours = 720;
-        archive_source = "https://github.com/tldr-pages/tldr/releases/latest/download/";
-        tls_backend = "rustls-with-webpki-roots";
       };
     };
   };
