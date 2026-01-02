@@ -46,7 +46,7 @@
           blink = true;
         };
         preferred_link_style = "markdown";
-        disable_frontmatter = false;
+        frontmatter.enabled = true;
         templates = {
           folder = "templates";
           date_format = "%d %b %Y";

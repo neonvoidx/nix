@@ -17,10 +17,17 @@
         enabled = true;
         resolve.__raw = ''
           function(path, src)
-            local api = require("obsidian.api")
-            if api.path_is_note(path) then
-              return api.resolve_attachment_path(src)
+            -- Check if we're in an obsidian workspace
+            local ok, obsidian = pcall(require, "obsidian")
+            if ok and obsidian.dir then
+              local vault_path = obsidian.dir
+              if src:match("^%.") then
+                -- Relative path, resolve from vault root
+                return tostring(vault_path / src)
+              end
             end
+            -- Fall back to default resolution
+            return nil
           end
         '';
       };
