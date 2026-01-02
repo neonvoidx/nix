@@ -29,6 +29,9 @@
 
     # System packages
     ../modules/packages/system.nix
+
+    # Secrets management
+    ../modules/sops.nix
   ];
 
   system.stateVersion = "25.11";

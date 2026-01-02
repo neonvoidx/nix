@@ -1,0 +1,12 @@
+# sops-nix configuration
+keys:
+  # Your SSH public key will be used to encrypt secrets
+  # Run: ssh-keyscan localhost | ssh-keygen -lf - to see your key fingerprint
+  # Or use: nix-shell -p ssh-to-age --run 'ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub'
+  - &admin_neonvoid age1p7jngse0vtfer554m7kq6dxkakfr5hpkl4sel4hfz3elpm0mmuxqcjcj6r # Replace with your age key
+
+creation_rules:
+  - path_regex: secrets/secrets\.yaml$
+    key_groups:
+      - age:
+          - *admin_neonvoid
