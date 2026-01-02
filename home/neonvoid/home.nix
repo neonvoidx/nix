@@ -6,6 +6,7 @@
     ./packages.nix
     ./git.nix
     ./files.nix
+    ./thunar.nix
   ];
 
   programs.bash.enable = true;
