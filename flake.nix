@@ -108,13 +108,13 @@
       homeConfigurations = {
         "${username}" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
-          extraSpecialArgs = specialArgs;
+          extraSpecialArgs = specialArgs // { inherit nix-colors; };
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = [ nur.overlays.default ];
             }
-            ./home/${username}/home.nix
+            ./home/${username}/home-mac.nix
           ];
         };
       };

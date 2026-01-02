@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./colors.nix
     ./bat.nix
     ./btop.nix
     ./direnv.nix
