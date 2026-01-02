@@ -16,6 +16,10 @@
         "proton"
         "gmail"
       ];
+      extensions = [ ];
+      settings = {
+        extensions.autoDisableScopes = 0;
+      };
     };
   };
 
