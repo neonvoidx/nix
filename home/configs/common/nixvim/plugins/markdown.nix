@@ -3,7 +3,6 @@
   plugins = {
     obsidian = {
       enable = true;
-      lazyLoad.settings.ft = "markdown";
       settings = {
         attachments = {
           image_text_func = ''

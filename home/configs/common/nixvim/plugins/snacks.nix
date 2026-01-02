@@ -14,13 +14,12 @@
         timeout = 3000;
       };
       image = {
+        enabled = true;
         resolve.__raw = ''
           function(path, src)
-            local ok, obsidian_api = pcall(require, "obsidian.api")
-            if ok then
-              if obsidian_api.path_is_note(path) then
-                return obsidian_api.resolve_image_path(src)
-              end
+            local api = require("obsidian.api")
+            if api.path_is_note(path) then
+              return api.resolve_attachment_path(src)
             end
           end
         '';
