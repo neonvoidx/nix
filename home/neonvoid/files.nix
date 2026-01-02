@@ -9,4 +9,9 @@
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/scopebuddy";
   home.file.".config/startupscripts".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/startupscripts";
+  # Hyprland configuration files
+  home.file.".config/hypr/scripts".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/scripts";
+  home.file.".config/hypr/hyprland/monitors".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/hyprland/monitors";
 }

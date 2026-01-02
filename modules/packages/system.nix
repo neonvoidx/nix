@@ -16,6 +16,7 @@
     inputs.nix-search-tv.packages.x86_64-linux.default
     just
     killall
+    libnotify
     lsd
     mediainfo
     ripgrep

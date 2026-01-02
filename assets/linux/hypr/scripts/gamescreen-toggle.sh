@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Toggle monitors not touching for gaming
 
 STATE_FILE="/tmp/hypr-gamescreen-state"
