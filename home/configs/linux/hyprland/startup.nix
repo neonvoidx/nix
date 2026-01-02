@@ -21,8 +21,7 @@ in
     "[workspace 2 silent] firefox"
   ]
   ++ lib.optionals isVoid [
-    "sleep 5 && easyeffects --service-mode -w"
-    # "exec streamcontroller -b"
+    "exec streamcontroller -b"
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 10 silent] steam"
     "python3 ~/.config/startupscripts/launch_thunderbird.py"
