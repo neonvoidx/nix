@@ -38,17 +38,36 @@
           stylus
           proton-pass
           tab-reloader
-          # proton-vpn
+          proton-vpn
           gesturefy
           tridactyl
         ];
         settings = {
+          # uBlock Origin
           "uBlock0@raymondhill.net".settings = {
             #TODO add filters
+            permissions = [ "internal:privateBrowsingAllowed" ];
           };
-          # Example with Stylus' UUID-form extensionID
+          # Dark Reader
+          "addon@darkreader.org".settings = {
+            permissions = [ "internal:privateBrowsingAllowed" ];
+          };
+          # Violentmonkey
+          "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}".settings = {
+            permissions = [ "internal:privateBrowsingAllowed" ];
+          };
+          # Stylus
           "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}".settings = {
-            dbInChromeStorage = true; # required for Stylus
+            dbInChromeStorage = true;
+            permissions = [ "internal:privateBrowsingAllowed" ];
+          };
+          # Proton Pass
+          "78272b6fa58f4a1abaac99321d503a20@proton.me".settings = {
+            permissions = [ "internal:privateBrowsingAllowed" ];
+          };
+          # Tridactyl
+          "tridactyl.vim@cmcaine.co.uk".settings = {
+            permissions = [ "internal:privateBrowsingAllowed" ];
           };
         };
       };
