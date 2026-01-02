@@ -6,7 +6,7 @@
 - SSH key encrypted (nix-sops)
   - Get github ssh key saved, thats the most important
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
-- Hyprland needs fixed, scripts for stream deck, startupscripts etc. because those scripts dont exist anymore need to copy them over. But also stuff like my gaming monitor config scripts
+- Hyprland, startup scripts for vesktop not working
 - thunderbird, protonmailbridge setup
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
 - nixvim : go through the missing plugins and fix
@@ -14,3 +14,4 @@
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity
+- desktop portal default allow restore token

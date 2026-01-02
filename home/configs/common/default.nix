@@ -8,6 +8,7 @@
     ./fzf.nix
     ./git.nix
     ./just.nix
+    ./jq.nix
     ./kitty.nix
     ./lsd.nix
     ./nixvim
