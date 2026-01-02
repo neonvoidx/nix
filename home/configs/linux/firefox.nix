@@ -68,6 +68,9 @@
           };
         };
       };
+      settings = {
+        "extensions.autoDisableScopes" = 0;
+      };
       extraConfig = builtins.readFile "${self}/assets/common/.mozilla/user.js";
       userChrome = builtins.readFile "${self}/assets/common/.mozilla/chrome/userChrome.css";
       userContent = builtins.readFile "${self}/assets/common/.mozilla/chrome/userContent.css";

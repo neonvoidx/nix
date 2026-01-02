@@ -24,7 +24,6 @@ in
     "exec streamcontroller -b"
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 10 silent] steam"
-    "python3 ~/.config/startupscripts/launch_thunderbird.py"
     "[workspace 4 silent] fractal"
   ]
   ++ lib.optionals isVoidFrame [
