@@ -6,7 +6,6 @@
 - SSH key encrypted (nix-sops)
   - Get github ssh key saved, thats the most important
 - fbset resolution hook during boot for proper resolution pre graphical session, maybe boot.postBootCommands?
-- Hyprland, startup scripts for vesktop not working
 - thunderbird, protonmailbridge setup
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
 - easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
