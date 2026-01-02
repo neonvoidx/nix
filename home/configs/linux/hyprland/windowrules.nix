@@ -15,9 +15,25 @@ in
       workspace = "3 silent";
     }
     {
+      name = "steampopup";
+      "match:title" = "Steamwebhelper";
+      workspace = "10 silent";
+      suppress_event = "activatefocus";
+    }
+    {
+      name = "steamsignin";
+      "match:initial_title" = "Sign in to Steam";
+      "match:initial_class" = "steam";
+      center = true;
+      float = "on";
+      suppress_event = "activatefocus";
+      workspace = "10 silent";
+    }
+    {
       name = "steam";
       "match:class" = "steam|Steam";
       workspace = "10 silent";
+      suppress_event = "activatefocus";
     }
     {
       name = "steamgames";
@@ -63,18 +79,6 @@ in
       pin = "on";
       size = "(monitor_w*0.2) (monitor_h*0.3)";
       move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
-    }
-    {
-      name = "steampopup";
-      "match:title" = "Steamwebhelper";
-      workspace = "10 silent";
-    }
-    {
-      name = "steamsignin";
-      "match:initial_title" = "Sign in to Steam";
-      center = true;
-      float = "on";
-      workspace = "10 silent";
     }
     {
       name = "sgdbooppopup";
