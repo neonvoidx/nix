@@ -10,6 +10,5 @@
     zoxide
     fzf
     ffmpeg
-    nix-index
   ];
 }

@@ -12,6 +12,7 @@
     ./hypridle.nix
     ./hyprpolkitagent.nix
     ./mpv.nix
+    ./nix-index.nix
     ./noctalia.nix
     ./pics.nix
     ./spicetify.nix
