@@ -1,0 +1,11 @@
+{
+  "plugin": {
+    "body": [
+      "return {",
+      "  \"${1}\",",
+      "  opts = {}",
+      "}"
+    ],
+    "prefix": "plugin"
+  }
+}

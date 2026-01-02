@@ -1,5 +1,14 @@
-{ ... }:
+{ pkgs, ... }:
 {
-  # Plugin: nacro90/numb.nvim not available in nixvim
-  # This plugin provides line number preview when entering :<number>
+  extraPlugins = [
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "numb.nvim";
+      src = pkgs.fetchFromGitHub {
+        owner = "nacro90";
+        repo = "numb.nvim";
+        rev = "8164fd3d4d0c3ad2b1b111e9a63a59178981b743";
+        hash = "sha256-VyvXsjCwSPXqFZle5+4MVS7BvBiA58tR1dTg6ZDTCJ4=";
+      };
+    })
+  ];
 }

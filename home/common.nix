@@ -1,4 +1,9 @@
-{ username, inputs, ... }:
+{
+  username,
+  inputs,
+  config,
+  ...
+}:
 {
   imports = [
     ./configs/common
@@ -28,4 +33,8 @@
   services.ssh-agent.enable = true;
 
   programs.home-manager.enable = true;
+
+  home.file.".config/nvim/snippets" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/nvim/snippets";
+  };
 }
