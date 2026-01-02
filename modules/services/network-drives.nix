@@ -36,6 +36,7 @@
         "Music"
         "Movies"
         "software"
+        "Secure"
       ];
 
   systemd.automounts =
@@ -82,6 +83,7 @@
     "Music"
     "Movies"
     "software"
+    "Secure"
   ];
 
   # Install utilities for network file systems
