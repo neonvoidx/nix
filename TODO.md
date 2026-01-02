@@ -9,7 +9,6 @@
 - Hyprland, startup scripts for vesktop not working
 - thunderbird, protonmailbridge setup
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
-- nixvim : go through the missing plugins and fix
 - easyeffects effects autoload - Not sure if possible, but at east theyre available to easily select
 - sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
