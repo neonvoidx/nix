@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 INTERNAL_MONITOR="DP-2"
 EXTERNAL_MONITOR="DP-3"
 WORKSPACES_TO_MOVE=(1 2 4 5 6 7 8 9 10 11) # everything but discord/spotify workspace

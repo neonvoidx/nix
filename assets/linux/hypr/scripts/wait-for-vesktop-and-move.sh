@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 while true; do
   result=$(hyprctl clients -j | jq '.[] | select(.class == "vesktop")')

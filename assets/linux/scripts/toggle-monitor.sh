@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DM="${XDG_CURRENT_DESKTOP}"
 
