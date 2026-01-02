@@ -23,7 +23,7 @@
       };
       "11-clock-rates" = {
         "context-properties" = {
-          "default.clock.rate" = 48000;
+          "default.clock.rate" = 96000;
           "default.clock.allowed-rates" = [
             44100
             48000
@@ -32,9 +32,9 @@
             176400
             192000
           ];
-          "default.clock.quantum" = 256;
-          "default.clock.min-quantum" = 64;
-          "default.clock.max-quantum" = 2048;
+          "default.clock.quantum" = 4096;
+          "default.clock.min-quantum" = 1025;
+          "default.clock.max-quantum" = 4096;
         };
       };
     };
