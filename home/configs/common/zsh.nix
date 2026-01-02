@@ -113,6 +113,7 @@ in
       htop = lib.mkIf (pkgs ? btop) "btop";
       top = lib.mkIf (pkgs ? btop) "btop";
       brewup = lib.mkIf pkgs.stdenv.isDarwin "brew upgrade && cd ~/.config/brew && ./brewbackup.sh";
+      ns = "tv nix-search-tv";
     };
 
     setOptions = [
@@ -269,11 +270,6 @@ in
             alias cmakeninja='cmake -S . -B build -G Ninja'
           fi
 
-          # Eval & Source
-          if command -v f &> /dev/null; then
-            eval "$(f --alias zsh)"
-          fi
-
           # SSH agent start if necessary
           if [ -z $SSH_AGENT_PID ] && [ -z $SSH_TTY ]; then
             eval `ssh-agent -s` > /dev/null
@@ -303,9 +299,11 @@ in
           }
 
           # Apply nix-colors shell theme
-          sh ${(nix-colors.lib-contrib { inherit pkgs; }).shellThemeFromScheme { 
-            scheme = config.colorScheme;
-          }}
+          sh ${
+            (nix-colors.lib-contrib { inherit pkgs; }).shellThemeFromScheme {
+              scheme = config.colorScheme;
+            }
+          }
         '';
   };
 

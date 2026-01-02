@@ -13,6 +13,7 @@
     ./kitty.nix
     ./lsd.nix
     ./nixvim
+    ./payrespects.nix
     ./tealdeer.nix
     ./tv.nix
     ./zsh.nix
