@@ -11,6 +11,5 @@
     fzf
     ffmpeg
     pay-respects
-    tealdeer
   ];
 }

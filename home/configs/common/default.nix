@@ -13,6 +13,8 @@
     ./kitty.nix
     ./lsd.nix
     ./nixvim
+    ./tealdeer.nix
+    ./tv.nix
     ./zsh.nix
     ./yazi.nix
   ];

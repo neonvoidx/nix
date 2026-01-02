@@ -459,9 +459,10 @@
     };
   };
 
+  # Add a small sleep so it shows in sys tray appropriately
   systemd.user.services.easyeffects = {
     Service = {
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
     };
   };
 }

@@ -98,6 +98,7 @@
                 // {
                   inherit hostname;
                   inherit nix-colors;
+                  nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
                 };
               home-manager.users.${username} = import ./home/${username}/home.nix;
             }
@@ -114,7 +115,10 @@
       homeConfigurations = {
         "${username}" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
-          extraSpecialArgs = specialArgs // { inherit nix-colors; };
+          extraSpecialArgs = specialArgs // {
+            inherit nix-colors;
+            nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
+          };
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
