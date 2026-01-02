@@ -1,5 +1,8 @@
-- Firefox dev editions
+- Firefox dev edition
 - look for anything that I can sops encrypt and auto login
-- sdgboop, look into backing up ~/.steam/steam/userdata/11247787/config/grid images, and also ~/.steam/steam/userdata/11247787/config/shortcuts.vdf editing with a parser like steam-binary-vdf nodejs to auto write
+  - spotify?
+  - vesktop
+  - firefox?
+  - thunderbird doesnt work, could look into neomutt or another email client
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity
