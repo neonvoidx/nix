@@ -34,4 +34,9 @@
   # MangoHud
   home.file.".config/MangoHud".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/MangoHud";
+  # electron flags
+  home.file.".config/electron-flags.conf".text = ''
+    --enable-features=UseOzonePlatform
+    --ozone-platform=wayland
+  '';
 }
