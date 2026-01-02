@@ -13,3 +13,4 @@
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity
 - Steam stealing focus on launch, sign in steam stealing focus as well
+- render markdown not displaying images from snacks
