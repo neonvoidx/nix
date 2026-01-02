@@ -446,9 +446,9 @@ in
       };
       ui = {
         fontDefault = "Roboto";
-        fontDefaultScale = 1.04;
+        fontDefaultScale = 1.00;
         fontFixed = "JetBrains Mono";
-        fontFixedScale = 1.15;
+        fontFixedScale = 1.03;
         panelBackgroundOpacity = 1;
         panelsAttachedToBar = true;
         settingsPanelMode = "attached";
