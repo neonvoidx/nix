@@ -14,6 +14,7 @@ in
     "hyprctl setcursor catppuccin-mocha-sapphire-cursors 24"
     "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+    "noctalia-shell -d"
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox"
     "[workspace 4 silent] thunderbird"
