@@ -9,87 +9,87 @@
         {
           __unkeyed-1 = "<leader>w";
           group = "window";
-          icon = " ";
+          icon = "󱂬";
         }
         {
           __unkeyed-1 = "<leader>p";
           group = "Yanky";
-          icon = " ";
+          icon = "󰅇";
         }
         {
           __unkeyed-1 = "<leader>a";
           group = "ai";
-          icon = " ";
+          icon = "󰧑";
         }
         {
           __unkeyed-1 = "<leader>.";
           group = "scratch";
-          icon = "";
+          icon = "󱓡";
         }
         {
           __unkeyed-1 = "<leader>S";
           group = "snippets";
-          icon = "✀";
+          icon = "󰩫";
         }
         {
           __unkeyed-1 = "<leader>n";
           group = "notifications";
-          icon = " ";
+          icon = "󰂚";
         }
         {
-          __unkeyed-1 = "<leader>L";
+          __unkeyed-1 = "<leader>l";
           group = "LSP";
-          icon = " ";
+          icon = "󰒋";
         }
         {
           __unkeyed-1 = "<leader>o";
           group = "Overseer";
-          icon = "";
+          icon = "󰜎";
         }
         {
           __unkeyed-1 = "<leader>b";
           group = "Buffer";
-          icon = "";
+          icon = "󰓩";
         }
         {
           __unkeyed-1 = "<leader>c";
           group = "code";
-          icon = " ";
+          icon = "󰨞";
         }
         {
           __unkeyed-1 = "<leader>f";
           group = "find";
-          icon = " ";
+          icon = "󰍉";
         }
         {
           __unkeyed-1 = "<leader>g";
           group = "git";
-          icon = " ";
+          icon = "󰊢";
         }
         {
           __unkeyed-1 = "<leader>s";
           group = "search";
-          icon = " ";
+          icon = "󰱼";
         }
         {
           __unkeyed-1 = "<leader>u";
           group = "ui";
-          icon = " ";
+          icon = "󰙵";
         }
         {
           __unkeyed-1 = "<leader>z";
           group = "zen";
-          icon = "󰰶 ";
+          icon = "󰰶";
         }
         {
           __unkeyed-1 = "<leader>r";
           group = "restart";
-          icon = " ";
+          icon = "󰑓";
         }
         {
           __unkeyed-1 = "<leader>e";
           group = "explorer";
-          icon = " ";
+          icon = "󰙅";
         }
       ];
     };

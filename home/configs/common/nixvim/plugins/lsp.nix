@@ -1,16 +1,38 @@
 { lib, pkgs, ... }:
 let
-  servers = [ "vtsls" "eslint" "nixd" "basedpyright" "bashls" "biome" "clangd" "cmake" "docker_compose_language_server" "dockerls" "elixirls" "gopls" "hyprls" "jsonls" "lua_ls" "qmlls" "rust_analyzer" "stylua"];
+  servers = [
+    "vtsls"
+    "eslint"
+    "nixd"
+    "basedpyright"
+    "bashls"
+    "biome"
+    "clangd"
+    "cmake"
+    "docker_compose_language_server"
+    "dockerls"
+    "elixirls"
+    "gopls"
+    "hyprls"
+    "jsonls"
+    "lua_ls"
+    "qmlls"
+    "rust_analyzer"
+    "stylua"
+  ];
 in
 {
   plugins.lspconfig.enable = true;
-  
+
   # Additional LSP plugins
   plugins.lazydev = {
     enable = true;
     settings = {
       library = [
-        { path = "\${3rd}/luv/library"; words = [ "vim%.uv" ]; }
+        {
+          path = "\${3rd}/luv/library";
+          words = [ "vim%.uv" ];
+        }
       ];
     };
   };
@@ -53,7 +75,10 @@ in
           ];
         };
       };
-    } // lib.genAttrs servers (_: { enable = true; });
+    }
+    // lib.genAttrs servers (_: {
+      enable = true;
+    });
   };
 
   keymaps = [
@@ -105,8 +130,8 @@ in
               },
             })
           end, vim.tbl_extend("force", opts, { desc = "Code action (buffer)" }))
-          vim.keymap.set("n", "<leader>Li", "<cmd>LspInfo<cr>", vim.tbl_extend("force", opts, { desc = "LSP Info" }))
-          vim.keymap.set("n", "<leader>Ll", "<cmd>LspLog<cr>", vim.tbl_extend("force", opts, { desc = "LSP Logs" }))
+          vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", vim.tbl_extend("force", opts, { desc = "LSP Info" }))
+          vim.keymap.set("n", "<leader>ll", "<cmd>LspLog<cr>", vim.tbl_extend("force", opts, { desc = "LSP Logs" }))
           vim.keymap.set("n", "<leader>r", "<cmd>LspRestart<cr>", vim.tbl_extend("force", opts, { desc = "LSP Restart" }))
         end
       '';

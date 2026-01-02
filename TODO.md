@@ -14,3 +14,6 @@
   - sgdboop is one of them, among oculante and tenacity
 - Steam stealing focus on launch, sign in steam stealing focus as well
 - render markdown not displaying images from snacks
+- nixvim:
+  - trouble
+  - inline diagnostics
