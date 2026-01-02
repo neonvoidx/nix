@@ -1,0 +1,6 @@
+{
+  "S": {
+    "body": "String::from(\"${1:}\")",
+    "prefix": "Str"
+  }
+}

@@ -1,6 +1,6 @@
 { ... }:
 {
-  plugins.nvim-colorizer = {
+  plugins.colorizer = {
     enable = true;
     settings = {
       user_commands = true;
