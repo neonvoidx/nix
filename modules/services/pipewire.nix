@@ -9,9 +9,6 @@
     };
     wireplumber = {
       enable = true;
-      extraConfig = {
-        # TODO set https://wiki.archlinux.org/title/WirePlumber#Disable_a_device/node 2.6 node prio
-      };
     };
     pulse.enable = true;
     jack.enable = true;

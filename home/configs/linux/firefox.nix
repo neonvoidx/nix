@@ -9,6 +9,21 @@
     package = pkgs.firefox.override {
       nativeMessagingHosts = [ pkgs.tridactyl-native ];
     };
+    policies = {
+      ExtensionSettings = {
+        # TODO add each extension here
+        "uBlock0@raymondhill.net" = {
+          default_area = "menupanel";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+          private_browsing = true;
+        };
+      };
+      DisableTelemetry = true;
+      DisplayBookmarksToolbar = "always";
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+    };
     profiles.neonvoid = {
       isDefault = true;
       settings = {
