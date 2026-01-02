@@ -48,6 +48,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -61,6 +65,7 @@
       nix-search-tv,
       nix-colors,
       nix-cachyos-kernel,
+      nix-index-database,
       sops-nix,
       ...
     }@inputs:
@@ -98,6 +103,7 @@
                 // {
                   inherit hostname;
                   inherit nix-colors;
+                  inherit nix-index-database;
                   nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
                 };
               home-manager.users.${username} = import ./home/${username}/home.nix;
