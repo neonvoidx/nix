@@ -15,10 +15,11 @@
       (share: {
         type = "nfs";
         mountConfig = {
-          Options = "noatime,vers=3,nolock,soft,timeo=30";
+          Options = "rw,noatime,vers=4,soft,timeo=30";
         };
         what = "192.168.86.6:/volume1/${share}";
         where = "/synology/${share}";
+        wantedBy = lib.mkForce [ ];
       })
       [
         "Books"
@@ -47,6 +48,9 @@
           TimeoutIdleSec = "600";
         };
         where = "/synology/${share}";
+        unitConfig = {
+          DefaultDependencies = "no";
+        };
       })
       [
         "Books"
