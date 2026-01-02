@@ -5,16 +5,19 @@ A comprehensive, modular NixOS and Home Manager configuration with flakes, featu
 ## 🚀 Quick Start
 
 ### NixOS System Rebuild
+
 ```bash
 just rebuild  # or: sudo nixos-rebuild switch --flake . --impure
 ```
 
 ### Standalone Home Manager (macOS - jrreed user)
+
 ```bash
 home-manager switch --flake .#jrreed
 ```
 
 ### Other Commands
+
 ```bash
 just update   # Update flake inputs
 just history  # List system generations
@@ -237,7 +240,7 @@ Binary and text assets symlinked into home directories:
 - **`scripts/`** - Shell scripts
   - `toggle-monitor.sh` - Monitor switching script
 - **`hypr/`** - Hyprland-related files
-  - `hyprlock.conf` - Screen locker configuration
+  - `hyprlock.conf` - Screen locker configuration (not used atm)
   - `xdph.conf` - XDG desktop portal Hyprland config
   - `scripts/` - Hyprland automation scripts
     - `wait-for-vesktop-and-move.sh` - Workspace automation
