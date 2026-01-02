@@ -2,7 +2,6 @@
 {
   imports = [
     ./cava.nix
-    ./colors.nix
     ./easyeffects.nix
     ./email.nix
     ./firefox.nix
