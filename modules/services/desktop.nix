@@ -19,6 +19,19 @@
           name = "Discord";
           type = "LowLatency_RT";
         }
+        # PipeWire audio server needs RT priority
+        {
+          name = "pipewire";
+          type = "LowLatency_RT";
+        }
+        {
+          name = "pipewire-pulse";
+          type = "LowLatency_RT";
+        }
+        {
+          name = "wireplumber";
+          type = "LowLatency_RT";
+        }
       ];
     };
     printing.enable = true;
