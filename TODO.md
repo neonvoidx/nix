@@ -5,4 +5,3 @@
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity
 - copy over any old dotfiles into nix, if i cant configure right away, just symlink it in at least
-  -fbset isnt working

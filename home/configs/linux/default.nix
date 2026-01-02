@@ -15,6 +15,5 @@
     ./noctalia.nix
     ./pics.nix
     ./spicetify.nix
-    ./tv.nix
   ];
 }
