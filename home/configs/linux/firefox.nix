@@ -42,6 +42,15 @@
           gesturefy
           tridactyl
         ];
+        settings = {
+          "uBlock0@raymondhill.net".settings = {
+            #TODO add filters
+          };
+          # Example with Stylus' UUID-form extensionID
+          "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}".settings = {
+            dbInChromeStorage = true; # required for Stylus
+          };
+        };
       };
       extraConfig = builtins.readFile "${self}/assets/common/.mozilla/user.js";
       userChrome = builtins.readFile "${self}/assets/common/.mozilla/chrome/userChrome.css";

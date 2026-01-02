@@ -20,6 +20,12 @@ in
       workspace = "10 silent";
     }
     {
+      name = "steamgames";
+      "match:class" = "^steam_app_.*$";
+      fullscreen = "on";
+      workspace = "11";
+    }
+    {
       name = "bnet";
       "match:title" = "Battle.net";
       float = "on";
@@ -68,6 +74,7 @@ in
       "match:initial_title" = "Sign in to Steam";
       center = true;
       float = "on";
+      workspace = "10 silent";
     }
     {
       name = "sgdbooppopup";
