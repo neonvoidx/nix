@@ -37,7 +37,6 @@ Orchestrates the entire configuration with the following inputs:
 - **noctalia** - Custom shell interface
 - **spicetify-nix** - Spotify theming framework
 - **nur** - Nix User Repository overlay
-- **nix-cachyos-kernel** - CachyOS kernel builds
 - **nix-search-tv** - Terminal UI for searching Nix packages
 - **nixvim** - Neovim configuration framework
 - **nix-colors** - Color scheme framework
