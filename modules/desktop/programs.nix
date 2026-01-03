@@ -14,6 +14,12 @@
     ];
   };
 
+  programs.gamemode = {
+    enable = true;
+    # Turn off renice, since we use ananicy-cpp
+    enableRenice = false;
+  };
+
   programs.streamcontroller.enable = true;
 
   programs.hyprland.enable = true;

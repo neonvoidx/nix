@@ -80,7 +80,7 @@ Organized system configuration split by concern:
 - **`fonts.nix`** - System font packages and fontconfig
 - **`environment.nix`** - System-wide environment variables
 - **`xdg.nix`** - XDG portals for desktop integration
-- **`programs.nix`** - Desktop programs (Hyprland, Steam, etc.)
+- **`programs.nix`** - Desktop programs (Hyprland, Steam, gamemode, etc.)
 
 #### `/modules/services/` - System Services
 
@@ -98,6 +98,7 @@ Organized system configuration split by concern:
 #### `/modules/programs/` - Custom Program Builds
 
 - **`noctalia.nix`** - Noctalia shell package derivation
+- **`scopebuddy.nix`** - ScopeBuddy game launcher package
 - **`hyprshutdown.nix`** - Graceful shutdown utility for Hyprland
 
 #### `/modules/` - Secrets
@@ -257,6 +258,11 @@ Binary and text assets symlinked into home directories:
   - `easyeffectsrc` - Main effects configuration
   - `speexrc` - Speex processor settings
   - `microphone.json` - Microphone effects chain
+- **`scopebuddy/`** - Game launcher configurations
+  - `scb.conf` - Main ScopeBuddy config
+  - `noscope.conf` - Alternative configuration
+  - `AppID/` - Per-game configurations
+    - Various `.conf` files for different games (Dota 2, Heroes of the Storm, Warframe, etc.)
 
 #### `/assets/mac/` - macOS Assets
 
@@ -305,7 +311,7 @@ Encrypted secrets using SOPS:
 - Hyprland Wayland compositor with complete configuration
 - Multiple monitor profile support
 - Comprehensive keybindings and window rules
-- Gaming optimizations (Steam, MangoHud)
+- Gaming optimizations (Steam, MangoHud, gamemode)
 
 ### 📝 Development Environment
 
