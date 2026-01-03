@@ -21,7 +21,6 @@
       VISUAL = "nvim";
       BROWSER = "firefox";
       TERMINAL = "kitty";
-      GTK_THEME = "adw-gtk3-dark";
     };
     shell.enableZshIntegration = true;
   };
