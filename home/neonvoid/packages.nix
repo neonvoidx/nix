@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-sgdboop, ... }:
 {
   home.packages = with pkgs; [
     (pkgs.callPackage ../../modules/programs/scopebuddy.nix { })
@@ -29,8 +29,7 @@
     prusa-slicer
     hyprpwcenter
     seahorse
-    # TODO uncomment after fix
-    # sgdboop
+    nixpkgs-sgdboop.legacyPackages.${pkgs.stdenv.hostPlatform.system}.sgdboop
     slurp
     steam
     streamcontroller
