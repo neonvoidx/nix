@@ -259,8 +259,6 @@ Binary and text assets symlinked into home directories:
   - `easyeffectsrc` - Main effects configuration
   - `speexrc` - Speex processor settings
   - `microphone.json` - Microphone effects chain
-- **`MangoHud/`** - Gaming overlay configuration
-  - `MangoHud.conf` - Performance overlay settings
 - **`scopebuddy/`** - Game launcher configurations
   - `scb.conf` - Main ScopeBuddy config
   - `noscope.conf` - Alternative configuration

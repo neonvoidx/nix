@@ -11,6 +11,7 @@
     ./hyprland
     ./hypridle.nix
     ./hyprpolkitagent.nix
+    ./mangohud.nix
     ./mpv.nix
     ./noctalia.nix
     ./pics.nix
