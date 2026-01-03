@@ -282,10 +282,6 @@ in
 
           [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
-          if command -v zoxide &> /dev/null; then
-            eval "$(zoxide init zsh --cmd cd --hook pwd)"
-          fi
-
           if command -v fastfetch &> /dev/null; then
             fastfetch
           fi

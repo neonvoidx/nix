@@ -11,11 +11,13 @@
     ./just.nix
     ./jq.nix
     ./kitty.nix
+    ./lazygit.nix
     ./lsd.nix
     ./nixvim
     ./payrespects.nix
     ./tealdeer.nix
     ./tv.nix
+    ./zoxide.nix
     ./zsh.nix
     ./yazi.nix
   ];
