@@ -187,6 +187,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-sgdboop": {
+      "locked": {
+        "lastModified": 1767214776,
+        "narHash": "sha256-SDNFObDOWXf2jUBlIFIrP/pDgMVutGvc33LTW3a7HBY=",
+        "owner": "fxzzi",
+        "repo": "nixpkgs",
+        "rev": "65ccb28169956a578527c484fc48eb754e0c671f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fxzzi",
+        "ref": "fix-sgdboop",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-vesktop": {
       "locked": {
         "lastModified": 1767388185,
@@ -273,6 +289,7 @@
         "nix-index-database": "nix-index-database",
         "nix-search-tv": "nix-search-tv",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-sgdboop": "nixpkgs-sgdboop",
         "nixpkgs-vesktop": "nixpkgs-vesktop",
         "nixvim": "nixvim",
         "noctalia": "noctalia",

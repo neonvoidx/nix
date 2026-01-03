@@ -3,17 +3,16 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://attic.xuyh0120.win/lantian"
       "https://cache.garnix.io"
     ];
     extra-trusted-public-keys = [
-      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
     ];
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # TODO remove these 2 after patches
     nixpkgs-vesktop.url = "github:nixos/nixpkgs/pull/476347/head";
     nixpkgs-sgdboop.url = "github:fxzzi/nixpkgs/fix-sgdboop";
     home-manager = {
@@ -32,9 +31,6 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nix-cachyos-kernel = {
-    #   url = "github:xddxdd/nix-cachyos-kernel";
-    # };
     nix-search-tv = {
       url = "github:3timeslazy/nix-search-tv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,7 +62,6 @@
       spicetify-nix,
       nix-search-tv,
       nix-colors,
-      # nix-cachyos-kernel,
       nix-index-database,
       sops-nix,
       ...
