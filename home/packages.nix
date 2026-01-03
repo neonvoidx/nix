@@ -5,6 +5,7 @@
     kitty-themes
     gamemode
     github-copilot-cli
+    godot
     proton-pass
     lazygit
     zoxide
