@@ -1,4 +1,10 @@
-{ pkgs, config, hostname ? "", nix-colors, ... }:
+{
+  pkgs,
+  config,
+  hostname ? "",
+  nix-colors,
+  ...
+}:
 {
   # Force Home Manager to overwrite existing GTK files
   xdg.configFile."gtk-4.0/gtk.css".force = true;
@@ -8,7 +14,7 @@
     enable = true;
     theme = {
       name = "nix-${config.colorScheme.slug}";
-      package = (nix-colors.lib-contrib { inherit pkgs; }).gtkThemeFromScheme { 
+      package = (nix-colors.lib-contrib { inherit pkgs; }).gtkThemeFromScheme {
         scheme = config.colorScheme;
       };
     };
@@ -34,9 +40,13 @@
         "file:///home/neonvoid/Downloads"
         "file:///home/neonvoid/.config"
         "file:///home/neonvoid/pics"
+        "file:///home/neonvoid/dev"
+        "file:///home/neonvoid/vault"
+        "file:///home/neonvoid/homepage"
       ]
       ++ pkgs.lib.optionals (hostname == "void") [
         "file:///games"
+        "file:///games/wow"
       ];
     };
     gtk4 = {
