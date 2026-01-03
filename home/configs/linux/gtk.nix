@@ -22,10 +22,6 @@
       name = "Dracula";
       package = pkgs.dracula-icon-theme;
     };
-    cursorTheme = {
-      name = "catppuccin-mocha-sapphire-cursors";
-      package = pkgs.catppuccin-cursors.mochaSapphire;
-    };
     font = {
       name = "Roboto Bold";
       size = 13;
@@ -55,9 +51,5 @@
         gtk-application-prefer-dark-theme = 1;
       };
     };
-  };
-
-  xresources.properties = {
-    "Xcursor.size" = 24;
   };
 }

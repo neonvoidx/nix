@@ -18,7 +18,5 @@
     "XDG_SESSION_DESKTOP,Hyprland"
     "MOZ_ENABLE_WAYLAND,1"
     "EGL_PLATFORM,wayland"
-    "HYPRCURSOR_THEME,catppuccin-mocha-sapphire-cursors"
-    "HYPRCURSOR_SIZE,24"
   ];
 }

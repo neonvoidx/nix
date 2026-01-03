@@ -2,6 +2,8 @@
 {
   imports = [
     ./cava.nix
+    ./cliphist.nix
+    ./cursor.nix
     ./easyeffects.nix
     ./email.nix
     ./firefox.nix
@@ -16,6 +18,7 @@
     ./noctalia.nix
     ./pics.nix
     ./spicetify.nix
+    ./thunar.nix
     ./vesktop.nix
   ];
 }
