@@ -5,17 +5,11 @@
     (pkgs.callPackage ../../modules/programs/hyprshutdown.nix { })
     asciinema
     blueman
-    calibre
-    cava
-    cliphist
     cmatrix
-    fractal
     gamescope
     gimp
-    gnome-keyring
     grim
     gvfs
-    hyprcursor
     hyprpicker
     hyprshot
     hyprsysteminfo
