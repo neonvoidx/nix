@@ -23,7 +23,7 @@ in
     "exec streamcontroller -b"
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 10 silent] steam"
-    "[workspace 4 silent] fractal"
+    # "[workspace 4 silent] fractal"
   ]
   ++ lib.optionals isVoidFrame [
     "[workspace 4 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
