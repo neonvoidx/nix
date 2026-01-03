@@ -41,9 +41,8 @@
     steam
     streamcontroller
     # TODO fix after
-    # tenacity
+    tenacity
     thunderbird
-    vesktop
     vulkan-tools
     wl-clip-persist
     wl-clipboard
