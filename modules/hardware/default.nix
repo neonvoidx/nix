@@ -10,6 +10,11 @@
           # Consider re-enabling with device-specific exceptions if needed
           DisableSecurity = true;
         };
+        LE = {
+          MinConnectionInterval = 7;
+          MaxConnectionInterval = 9;
+          ConnectionLatency = 0;
+        };
       };
     };
   };
