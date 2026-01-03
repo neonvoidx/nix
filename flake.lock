@@ -187,6 +187,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-vesktop": {
+      "locked": {
+        "lastModified": 1767388185,
+        "narHash": "sha256-bmDUBlqgpIAXQ0QFn1fWpurlc+j2sI+B5941PWsic3M=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "2e21f6c5797fcccfc1e8eced873aea8401a71135",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "pull/476347/head",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -257,6 +273,7 @@
         "nix-index-database": "nix-index-database",
         "nix-search-tv": "nix-search-tv",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-vesktop": "nixpkgs-vesktop",
         "nixvim": "nixvim",
         "noctalia": "noctalia",
         "nur": "nur",
