@@ -1,8 +1,2 @@
-- Firefox dev edition
-- look for anything that I can sops encrypt and auto login
-  - spotify?
-  - vesktop
-  - firefox?
-  - thunderbird doesnt work, could look into neomutt or another email client
 - issue with multiple packages from flake update from <https://github.com/NixOS/nixpkgs/issues/475479>
   - sgdboop is one of them, among oculante and tenacity

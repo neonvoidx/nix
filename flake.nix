@@ -30,9 +30,9 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel";
-    };
+    # nix-cachyos-kernel = {
+    #   url = "github:xddxdd/nix-cachyos-kernel";
+    # };
     nix-search-tv = {
       url = "github:3timeslazy/nix-search-tv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,7 +64,7 @@
       spicetify-nix,
       nix-search-tv,
       nix-colors,
-      nix-cachyos-kernel,
+      # nix-cachyos-kernel,
       nix-index-database,
       sops-nix,
       ...

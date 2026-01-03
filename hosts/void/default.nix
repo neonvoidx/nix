@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -47,6 +48,8 @@
       #   modprobe -i vfio-pci
       # '';
     };
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+    extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
     kernelModules = [ "amdgpu" ];
     kernelParams = [
       "splash"
