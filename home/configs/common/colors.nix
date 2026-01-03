@@ -2,6 +2,7 @@
 {
   imports = [ nix-colors.homeManagerModules.default ];
   # colorScheme = nix-colors.colorSchemes.eldritch;
+  # TODO wait for eldritch to show up?
   colorScheme = {
     slug = "eldritch";
     name = "Eldritch";
