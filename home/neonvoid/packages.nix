@@ -10,6 +10,7 @@
     gimp
     grim
     gvfs
+    # TODO from here down check for home manager configs
     hyprpicker
     hyprshot
     hyprsysteminfo
