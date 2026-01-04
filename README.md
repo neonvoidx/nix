@@ -80,7 +80,7 @@ Organized system configuration split by concern:
 - **`fonts.nix`** - System font packages and fontconfig
 - **`environment.nix`** - System-wide environment variables
 - **`xdg.nix`** - XDG portals for desktop integration
-- **`programs.nix`** - Desktop programs (Hyprland, Steam, gamemode, etc.)
+- **`programs.nix`** - Desktop programs (Hyprland, Steam, etc.)
 
 #### `/modules/services/` - System Services
 
@@ -311,7 +311,7 @@ Encrypted secrets using SOPS:
 - Hyprland Wayland compositor with complete configuration
 - Multiple monitor profile support
 - Comprehensive keybindings and window rules
-- Gaming optimizations (Steam, MangoHud, gamemode)
+- Gaming optimizations (Steam, MangoHud)
 
 ### 📝 Development Environment
 
