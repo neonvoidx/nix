@@ -227,16 +227,18 @@
                 ];
               };
 
-              defaultPackageDefinition = {
-                categories = {
-                  lspsAndRuntimeDeps = true;
-                  startupPlugins = true;
+              packageDefinitions = {
+                nixCats = {
+                  categories = {
+                    lspsAndRuntimeDeps = true;
+                    startupPlugins = true;
+                  };
                 };
               };
             in
             utils.baseBuilder luaPath {
               inherit pkgs;
-            } categoryDefinitions { nixCats = defaultPackageDefinition; };
+            } categoryDefinitions packageDefinitions;
         in
         {
           x86_64-linux.nixCats = (mkNixCats "x86_64-linux").nixCats;
