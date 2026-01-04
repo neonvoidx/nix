@@ -6,10 +6,9 @@
     name = "catppuccin-mocha-sapphire-cursors";
     dotIcons.enable = true;
     gtk.enable = true;
-    size = 26;
+    size = 32;
     hyprcursor = {
       enable = true;
-      size = 26;
     };
     x11 = {
       enable = true;
