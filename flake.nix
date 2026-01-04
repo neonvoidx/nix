@@ -35,8 +35,12 @@
       url = "github:3timeslazy/nix-search-tv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    # nixvim = {
+    #   url = "github:nix-community/nixvim";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    nixcats = {
+      url = "github:BirdeeHub/nixCats-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors = {
@@ -58,7 +62,8 @@
       nixpkgs,
       home-manager,
       nur,
-      nixvim,
+      # nixvim,
+      nixcats,
       spicetify-nix,
       nix-search-tv,
       nix-colors,
@@ -103,7 +108,7 @@
                   inherit hostname;
                   inherit nix-colors;
                   inherit nix-index-database;
-                  nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
+                  # nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
                 };
               home-manager.users.${username} = import ./home/${username}/home.nix;
             }
@@ -124,7 +129,7 @@
             inherit inputs;
             username = macUsername;
             inherit nix-colors;
-            nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
+            # nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
           };
           modules = [
             {
@@ -136,5 +141,105 @@
           ];
         };
       };
+
+      # nixcats neovim packages
+      packages = 
+        let
+          inherit (nixcats) utils;
+          luaPath = "${./configs/nixcats}";
+          
+          mkNixCats = system: 
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+              
+              categoryDefinitions = { pkgs, settings, categories, name, ... }@packageDef: {
+                lspsAndRuntimeDeps = with pkgs; [
+                  nodePackages.vtsls
+                  nodePackages.eslint
+                  nixd
+                  basedpyright
+                  nodePackages.bash-language-server
+                  biome
+                  clang-tools
+                  cmake-language-server
+                  docker-compose-language-server
+                  dockerfile-language-server-nodejs
+                  elixir-ls
+                  gopls
+                  hyprls
+                  nodePackages.vscode-langservers-extracted
+                  lua-language-server
+                  libsForQt5.qtdeclarative
+                  rust-analyzer
+                  stylua
+                  ripgrep
+                  fd
+                  tree-sitter
+                ];
+
+                startupPlugins = with pkgs.vimPlugins; [
+                  (pkgs.vimUtils.buildVimPlugin {
+                    name = "eldritch.nvim";
+                    src = pkgs.fetchFromGitHub {
+                      owner = "eldritch-theme";
+                      repo = "eldritch.nvim";
+                      rev = "0415fa72c348e814a7a6cc9405593a4f812fe12f";
+                      hash = "sha256-nEt25TqsYePRCYkCI9zEk/awFBQ9ENyYWR0hSyy24GY=";
+                    };
+                  })
+                  nvim-treesitter.withAllGrammars
+                  nvim-lspconfig
+                  lazydev-nvim
+                  rustaceanvim-nightly
+                  vim-illuminate
+                  lspkind-nvim
+                  blink-cmp
+                  lualine-nvim
+                  nvim-web-devicons
+                  bufferline-nvim
+                  noice-nvim
+                  nui-nvim
+                  nvim-notify
+                  which-key-nvim
+                  nvim-colorizer-lua
+                  flash-nvim
+                  yazi-nvim
+                  plenary-nvim
+                  nvim-autopairs
+                  mini-nvim
+                  yanky-nvim
+                  inc-rename-nvim
+                  comment-nvim
+                  nvim-ufo
+                  promise-async
+                  guess-indent-nvim
+                  gitsigns-nvim
+                  diffview-nvim
+                  conform-nvim
+                  nvim-lint
+                  snacks-nvim
+                  render-markdown-nvim
+                  persistence-nvim
+                  overseer-nvim
+                  numb-nvim
+                  helpview-nvim
+                  hmts-nvim
+                ];
+              };
+
+              defaultPackageDefinition = {
+                categories = {
+                  lspsAndRuntimeDeps = true;
+                  startupPlugins = true;
+                };
+              };
+            in
+            utils.baseBuilder luaPath {
+              inherit pkgs;
+            } categoryDefinitions { nixCats = defaultPackageDefinition; };
+        in
+        {
+          x86_64-linux.nixCats = (mkNixCats "x86_64-linux").nixCats;
+          aarch64-darwin.nixCats = (mkNixCats "aarch64-darwin").nixCats;
+        };
     };
-}

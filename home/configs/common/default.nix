@@ -13,7 +13,8 @@
     ./kitty.nix
     ./lazygit.nix
     ./lsd.nix
-    ./nixvim
+    # ./nixvim  # Disabled in favor of nixcats
+    ./nixcats.nix  # nixcats neovim configuration
     ./payrespects.nix
     ./tealdeer.nix
     ./tv.nix
