@@ -8,6 +8,7 @@
     cmatrix
     gamescope
     gimp
+    github-copilot-cli
     grim
     gvfs
     # TODO from here down check for home manager configs
