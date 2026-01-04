@@ -40,18 +40,18 @@ configs/nixcats/
 The nixcats configuration is integrated into the flake through:
 
 1. **Flake Input**: Added `nixcats` input from `github:BirdeeHub/nixCats-nvim`
-2. **Package Definition**: Defined in `flake.nix` under the `packages` output using `nixcats.utils.baseBuilder`
-3. **Home Manager**: Integrated via `home/configs/common/nixcats.nix`
+2. **Home Manager Module**: Using nixcats' built-in `homeModule` in `home/configs/common/nixcats.nix`
+3. **Configuration**: All plugin and LSP definitions are in the Home Manager module using nixcats' category system
 
 ## Configuration
 
 ### Plugins
 
-All plugins are defined in the flake's `categoryDefinitions.startupPlugins` and configured in individual Lua files under `lua/plugins/`.
+All plugins are defined in `home/configs/common/nixcats.nix` under `categoryDefinitions.startupPlugins` and configured in individual Lua files under `lua/plugins/`.
 
 ### LSP Servers
 
-Language servers are defined in `categoryDefinitions.lspsAndRuntimeDeps` and configured in `lua/plugins/lsp.lua`.
+Language servers are defined in `home/configs/common/nixcats.nix` under `categoryDefinitions.lspsAndRuntimeDeps` and configured in `lua/plugins/lsp.lua`.
 
 Included LSP servers:
 - TypeScript/JavaScript (vtsls, eslint)
@@ -88,11 +88,11 @@ This configuration was migrated from the previous nixvim setup. The original nix
 
 To customize the configuration:
 
-1. **Add/Remove Plugins**: Edit the `startupPlugins` list in `flake.nix`
+1. **Add/Remove Plugins**: Edit the `startupPlugins` list in `home/configs/common/nixcats.nix`
 2. **Configure Plugins**: Create or edit files in `lua/plugins/`
 3. **Change Settings**: Edit `lua/config/options.lua`
 4. **Add Keymaps**: Edit `lua/config/keymaps.lua`
-5. **Add LSP Servers**: Add to `lspsAndRuntimeDeps` in `flake.nix`
+5. **Add LSP Servers**: Add to `lspsAndRuntimeDeps` in `home/configs/common/nixcats.nix`
 
 ## Usage
 
