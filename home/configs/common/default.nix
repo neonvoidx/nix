@@ -13,7 +13,8 @@
     ./kitty.nix
     ./lazygit.nix
     ./lsd.nix
-    ./nixvim
+    ./nixcats.nix
+    # ./nixvim
     ./payrespects.nix
     ./tealdeer.nix
     ./tv.nix
