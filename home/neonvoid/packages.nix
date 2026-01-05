@@ -11,18 +11,11 @@
     github-copilot-cli
     grim
     gvfs
-    # TODO from here down check for home manager configs
     hyprpicker
-    hyprshot
     hyprsysteminfo
     kdePackages.ark
     kdePackages.okular
     libsecret
-    mangohud
-    mpv
-    nodejs_24
-    nwg-look
-    obs-studio
     # TODO fix after
     # oculante
     protontricks
@@ -35,14 +28,11 @@
     steam
     streamcontroller
     tenacity
-    thunderbird
     vulkan-tools
-    wl-clip-persist
     wl-clipboard
     thunar
     thunar-archive-plugin
     thunar-media-tags-plugin
     thunar-volman
-    yarn
   ];
 }
