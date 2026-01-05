@@ -16,6 +16,7 @@
     ./hyprshot.nix
     ./mangohud.nix
     ./mpv.nix
+    ./nh.nix
     ./noctalia.nix
     ./obs-studio.nix
     ./pics.nix
