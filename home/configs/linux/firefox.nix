@@ -1,4 +1,9 @@
-{ pkgs, self, ... }:
+{
+  config,
+  pkgs,
+  self,
+  ...
+}:
 {
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;

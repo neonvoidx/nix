@@ -38,6 +38,7 @@
         "file:///home/neonvoid/Downloads"
         "file:///home/neonvoid/.config"
         "file:///home/neonvoid/pics"
+        "file:///home/neonvoid/nix"
         "file:///home/neonvoid/dev"
         "file:///home/neonvoid/vault"
         "file:///home/neonvoid/homepage"
