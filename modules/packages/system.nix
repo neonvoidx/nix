@@ -8,6 +8,7 @@
     bluez
     brightnessctl
     btop
+    bind
     fd
     git
     hplip
