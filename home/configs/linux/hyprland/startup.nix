@@ -18,6 +18,7 @@ in
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox"
     "[workspace 4 silent] thunderbird"
+    "[workspace 4 silent] proton-mail"
   ]
   ++ lib.optionals isVoid [
     "exec streamcontroller -b"

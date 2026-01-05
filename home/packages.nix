@@ -5,6 +5,7 @@
     kitty-themes
     godot
     proton-pass
+    protonmail-desktop
     ffmpeg
   ];
 }
