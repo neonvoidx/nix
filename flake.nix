@@ -39,6 +39,9 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixCats = {
+      url = "github:BirdeeHub/nixCats-nvim";
+    };
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
@@ -50,6 +53,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvim-config = {
+      url = "git+ssh://git@github.com/neonvoidx/nvim.git";
+      flake = false;
+    };
   };
 
   outputs =
@@ -59,6 +66,7 @@
       home-manager,
       nur,
       nixvim,
+      nixCats,
       spicetify-nix,
       nix-search-tv,
       nix-colors,

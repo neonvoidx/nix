@@ -156,6 +156,21 @@
         "type": "github"
       }
     },
+    "nixCats": {
+      "locked": {
+        "lastModified": 1767604651,
+        "narHash": "sha256-itAnxzTpWpY1s3LA/oNngOuZDXT5U5JUZP5fApwx9gs=",
+        "owner": "BirdeeHub",
+        "repo": "nixCats-nvim",
+        "rev": "3c9bc4d7123e1b48d92f25ba505b889af541e897",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BirdeeHub",
+        "repo": "nixCats-nvim",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1767379071,
@@ -282,18 +297,36 @@
         "type": "github"
       }
     },
+    "nvim-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767659852,
+        "narHash": "sha256-uqdiDM+CX8Yv0Dmg+u6P/g9H67bPyis6fhSn2Ib3iyE=",
+        "ref": "refs/heads/master",
+        "rev": "36f12080b2fdee3ca1b74d2d4a3fed380db37374",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/neonvoidx/nvim.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/neonvoidx/nvim.git"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nix-colors": "nix-colors",
         "nix-index-database": "nix-index-database",
         "nix-search-tv": "nix-search-tv",
+        "nixCats": "nixCats",
         "nixpkgs": "nixpkgs",
         "nixpkgs-sgdboop": "nixpkgs-sgdboop",
         "nixpkgs-vesktop": "nixpkgs-vesktop",
         "nixvim": "nixvim",
         "noctalia": "noctalia",
         "nur": "nur",
+        "nvim-config": "nvim-config",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix"
       }
