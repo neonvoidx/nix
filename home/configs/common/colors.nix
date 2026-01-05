@@ -2,8 +2,9 @@
 {
   imports = [ nix-colors.homeManagerModules.default ];
   # colorScheme = nix-colors.colorSchemes.eldritch;
-  # TODO wait for eldritch to show up, has been merged already to base16, waiting on nix-colors to track?
-  # https://github.com/Misterio77/nix-colors/issues/64
+  # TODO wait for nix-colors to update to new base16/24 repo
+  # https://github.com/Misterio77/nix-colors/pull/58
+  # Project seems dead unfortunately
   colorScheme = {
     slug = "eldritch";
     name = "Eldritch";
