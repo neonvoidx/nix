@@ -91,6 +91,27 @@
           group = "explorer";
           icon = "󰙅";
         }
+        {
+          __unkeyed-1 = "<leader>x";
+          group = "trouble";
+          icon = "";
+        }
+        {
+          __unkeyed-1 = "<leader>N";
+          icon = "";
+        }
+        {
+          __unkeyed-1 = "<leader>E";
+          icon = "";
+        }
+        {
+          __unkeyed-1 = "<leader>/";
+          icon = "";
+        }
+        {
+          __unkeyed-1 = "<leader>:";
+          icon = "";
+        }
       ];
     };
   };
