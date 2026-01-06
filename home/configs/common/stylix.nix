@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   stylix.targets = {
     cava.rainbow.enable = true;
@@ -11,7 +11,7 @@
     obsidian.enable = false; # eldritch in master
     yazi.enable = false; # follows terminal theme
     qt = {
-      standardDialogs = "xdgdesktopportal";
+      enable = false;
     };
     spicetify.enable = false; # already setup with Sleek theme and eldritch
   };
