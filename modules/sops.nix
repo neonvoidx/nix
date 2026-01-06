@@ -8,9 +8,6 @@
     validateSopsFiles = false;
 
     secrets = {
-      proton-bridge-password = {
-        owner = "neonvoid";
-      };
       gmail-app-password = {
         owner = "neonvoid";
       };
