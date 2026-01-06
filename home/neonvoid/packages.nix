@@ -16,8 +16,7 @@
     kdePackages.ark
     kdePackages.okular
     libsecret
-    # TODO fix after
-    # oculante
+    oculante
     protontricks
     protonup-rs
     prusa-slicer
