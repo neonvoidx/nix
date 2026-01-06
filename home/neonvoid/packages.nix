@@ -13,7 +13,7 @@
     gvfs
     hyprpicker
     hyprsysteminfo
-    kdePackages.ark
+    file-roller
     kdePackages.okular
     libsecret
     nixpkgs-oculante.legacyPackages.${pkgs.stdenv.hostPlatform.system}.oculante
