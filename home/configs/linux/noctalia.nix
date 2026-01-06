@@ -1,6 +1,7 @@
 {
   inputs,
   osConfig ? null,
+  config,
   ...
 }:
 let
@@ -76,6 +77,10 @@ in
               useDistroLogo = false;
             }
             {
+              id = "Launcher";
+              icon = "apps";
+            }
+            {
               characterCount = 7;
               followFocusedScreen = false;
               hideUnoccupied = false;
@@ -119,7 +124,7 @@ in
               id = "SystemMonitor";
               showCpuTemp = true;
               showCpuUsage = true;
-              showDiskUsage = false;
+              showDiskUsage = true;
               showMemoryAsPercent = true;
               showMemoryUsage = true;
               showNetworkStats = true;
@@ -143,6 +148,7 @@ in
               id = "Bluetooth";
             }
             { id = "KeepAwake"; }
+            { id = "plugin:privacy-indicator"; }
             {
               displayMode = "onhover";
               id = "Microphone";
@@ -174,9 +180,15 @@ in
           )
           ++ [
             {
+              id = "plugin:github-feed";
+            }
+            {
               hideWhenZero = true;
               id = "NotificationHistory";
               showUnreadBadge = true;
+            }
+            {
+              id = "SessionMenu";
             }
           ];
         };
@@ -433,12 +445,12 @@ in
         foot = false;
         fuzzel = false;
         ghostty = false;
-        gtk = true;
-        kcolorscheme = true;
+        gtk = false;
+        kcolorscheme = false;
         kitty = false;
         niri = false;
         pywalfox = false;
-        qt = true;
+        qt = false;
         spicetify = false;
         telegram = false;
         vicinae = false;
@@ -495,4 +507,6 @@ in
       };
     };
   };
+  home.file.".config/noctalia/plugins.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/noctalia/plugins.json";
 }
