@@ -4,17 +4,6 @@
   lib,
   ...
 }:
-let
-  kittyScrollbackPlugin = pkgs.vimUtils.buildVimPlugin {
-    name = "kitty-scrollback.nvim";
-    src = pkgs.fetchFromGitHub {
-      owner = "mikesmithgh";
-      repo = "kitty-scrollback.nvim";
-      rev = "main";
-      sha256 = "sha256-UNBQMh7No5tMpgFFzjKPloqJNhy2V58nR4aFFjqOH0E=";
-    };
-  };
-in
 {
   programs.kitty = {
     enable = true;
@@ -22,7 +11,8 @@ in
     themeFile = "Eldritch";
 
     actionAliases = {
-      "kitty_scrollback_nvim" = "kitten ${kittyScrollbackPlugin}/python/kitty_scrollback_nvim.py";
+      "kitty_scrollback_nvim" =
+        "kitten ${config.home.homeDirectory}/.config/kitty/kitty_scrollback_nvim.py";
     };
 
     font = {
