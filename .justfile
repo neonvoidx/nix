@@ -1,5 +1,4 @@
-default:
-	echo -e "just rebuild -> nixos-rebuild switch --impure --flake\njust update -> nix flake update\njust history -> list generations\njust repl -> start nix repl with nixpkgs\njust clean -> clean older than 7days\njust gc -> clean old"
+default: rebuild
 rebuild:
 	nh os switch .
 update:
@@ -16,3 +15,7 @@ clean:
 	nh clean all
 search pkg:
 	nh search {{pkg}}
+run pkg +args:
+  nix-shell -p {{pkg}}.out --run '{{args}}'
+shell pkg:
+  nix-shell -p {{pkg}}
