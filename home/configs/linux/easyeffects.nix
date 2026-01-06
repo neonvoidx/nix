@@ -465,4 +465,9 @@
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
     };
   };
+
+  # Disable speech-dispatcher (not needed)
+  systemd.user.services.speech-dispatcher = {
+    Unit.ConditionPathExists = "/dev/null";
+  };
 }

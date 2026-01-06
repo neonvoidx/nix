@@ -91,7 +91,7 @@
     extraArgs = [ "--interface=enp10s0" ];
   };
 
-  boot.blacklistedKernelModules = [ "mt7925e" ];
+  boot.blacklistedKernelModules = [ "mt7925e" "snd_hda_intel" ];
 
   hardware = {
     graphics = {
