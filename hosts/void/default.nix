@@ -94,7 +94,10 @@
   # Only wait for ethernet during boot, wifi is disabled
   systemd.network.wait-online.anyInterface = true;
 
-  boot.blacklistedKernelModules = [ "mt7925e" "snd_hda_intel" ];
+  boot.blacklistedKernelModules = [
+    "mt7925e"
+    "snd_hda_intel"
+  ];
 
   hardware = {
     graphics = {
@@ -118,7 +121,7 @@
     sbctl
     amdgpu_top
     wowup-cf
-    blender-hip # adds hardware acceleration for AMD to Blender
+    (blender.override { rocmSupport = true; }) # adds hardware acceleration for AMD to Blender
   ];
 
   system.stateVersion = "25.11";

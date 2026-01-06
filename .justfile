@@ -1,6 +1,8 @@
 default: rebuild
 rebuild:
 	nh os switch .
+boot:
+  sudo nixos-rebuild boot --flake
 update:
 	nix flake update
 update-input input:
