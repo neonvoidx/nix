@@ -71,6 +71,8 @@
     };
   };
 
+  boot.blacklistedKernelModules = [ "mt7925e" ];
+
   hardware = {
     graphics = {
       enable = lib.mkDefault true; # Vulkan
