@@ -7,4 +7,9 @@
     firewall.enable = false;
     useNetworkd = true;
   };
+
+  systemd.network.wait-online = {
+    timeout = 10;
+    anyInterface = true;
+  };
 }
