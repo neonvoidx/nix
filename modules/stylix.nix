@@ -4,6 +4,16 @@
     enable = true;
     polarity = "dark";
 
+    targets.qt.enable = false;
+
+    targets.gtk.enable = true;
+    iconTheme = {
+      enable = true;
+      package = pkgs.dracula-icon-theme;
+      dark = "Dracula";
+      light = "Dracula";
+    };
+
     # TODO update to   base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml" when it gets updated in flake
     base16Scheme = {
       base00 = "212337";
