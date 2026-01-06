@@ -13,8 +13,6 @@ history:
 repl:
 	nix repl -f flake:nixpkgs
 clean:
-	nh clean
-gc:
-  sudo nix-collect-garbage --delete-old
+	nh clean all
 search pkg:
 	nh search {{pkg}}
