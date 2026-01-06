@@ -292,6 +292,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-oculante": {
+      "locked": {
+        "lastModified": 1767023390,
+        "narHash": "sha256-6V85ZXRIbvcVQMcdsKNoPkCEfX7FDyr3OSi0x16unGI=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "ecfa357f596cc27577f43f4832f94c8a2b30accf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "ecfa357f596c",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-sgdboop": {
       "locked": {
         "lastModified": 1767214776,
@@ -435,6 +451,7 @@
         "nix-search-tv": "nix-search-tv",
         "nixCats": "nixCats",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-oculante": "nixpkgs-oculante",
         "nixpkgs-sgdboop": "nixpkgs-sgdboop",
         "nixpkgs-vesktop": "nixpkgs-vesktop",
         "nixvim": "nixvim",
