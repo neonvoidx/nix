@@ -2,7 +2,6 @@
 {
   environment.sessionVariables = {
     QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "gtk3";
     NIXOS_OZONE_WL = "1";
     MANGOHUD_CONFIGFILE = "/home/neonvoid/.config/MangoHud/MangoHud.conf";
     MANGOHUD_CONFIG = "read_cfg";
