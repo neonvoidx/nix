@@ -7,5 +7,3 @@
     - currently using legacy package
   - oculante <https://github.com/NixOS/nixpkgs/issues/475989> (issue)
     - <https://github.com/njaard/libavif-rs/pull/121> (fix, waiting on merge into unstable)
-- Fix audio while gaming:
-  - pipewire, probably too small buffer or RT permissions
