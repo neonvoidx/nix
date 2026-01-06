@@ -86,10 +86,7 @@
   };
 
   # Only wait for ethernet during boot, wifi is disabled
-  systemd.network.wait-online = {
-    anyInterface = true;
-    extraArgs = [ "--interface=enp10s0" ];
-  };
+  systemd.network.wait-online.anyInterface = true;
 
   boot.blacklistedKernelModules = [ "mt7925e" "snd_hda_intel" ];
 
