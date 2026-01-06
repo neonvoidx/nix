@@ -2,11 +2,10 @@
   config,
   pkgs,
   lib,
-  nix-colors,
   ...
 }:
 let
-  c = config.colorScheme.palette;
+  c = config.lib.stylix.colors;
 in
 {
   programs.zsh = {
@@ -294,12 +293,6 @@ in
             ''
           }
 
-          # Apply nix-colors shell theme
-          sh ${
-            (nix-colors.lib-contrib { inherit pkgs; }).shellThemeFromScheme {
-              scheme = config.colorScheme;
-            }
-          }
         '';
   };
 

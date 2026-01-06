@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   kittyScrollbackPlugin = pkgs.vimUtils.buildVimPlugin {
     name = "kitty-scrollback.nvim";
@@ -14,21 +19,21 @@ in
   programs.kitty = {
     enable = true;
 
+    themeFile = "Eldritch";
+
+    actionAliases = {
+      "kitty_scrollback_nvim" = "kitten ${kittyScrollbackPlugin}/python/kitty_scrollback_nvim.py";
+    };
+
     font = {
       package = pkgs.nerd-fonts.jetbrains-mono;
       name = "JetBrainsMono Nerd Font";
       size = 16;
     };
 
-    themeFile = "Eldritch";
-
-    actionAliases = {
-      "kitty_scrollback_nvim" =
-        "kitten ${kittyScrollbackPlugin}/python/kitty_scrollback_nvim.py";
-    };
-
     settings = {
       copy_on_select = "clipboard";
+
       # Font settings
       bold_font = "auto";
       italic_font = "auto";
@@ -79,7 +84,7 @@ in
       single_window_margin_width = 1;
       inactive_text_alpha = "1.0";
       single_window_padding_width = 0;
-      background_opacity = "0.97";
+      background_opacity = lib.mkForce "0.97";
       hide_window_decorations = "titlebar-only";
       confirm_os_window_close = 0;
       background_blur = 20;

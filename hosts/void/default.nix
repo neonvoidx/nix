@@ -39,14 +39,6 @@
     initrd = {
       enable = true;
       kernelModules = [ "amdgpu" ];
-      # Disable wifi module manually
-      # TODO do this a better way?
-      # i have wireless disabled below under networking
-      # availableKernelModules = [ "vfio-pci" ];
-      # preDeviceCommands = ''
-      #   echo "vfio-pci" > /sys/bus/pci/devices/0000:0b:00.0/driver_override
-      #   modprobe -i vfio-pci
-      # '';
     };
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
     extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];

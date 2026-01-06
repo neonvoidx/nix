@@ -5,12 +5,7 @@
     settings = {
       legacy_layout = false;
       custom_text_center = "";
-      background_alpha = 0.2;
       round_corners = 10;
-      background_color = "000000";
-      font_file = /usr/share/fonts/TTF/Roboto-Regular.ttf;
-      font_size = 22;
-      text_color = "F0F0F0";
       position = "top-left";
       toggle_hud = "Shift_R+F12";
       hud_compact = true;
@@ -25,9 +20,6 @@
       toggle_fps_limit = "Shift_L+F1";
       fps_limit = 0;
       hdr = true;
-      fps_color_change = true;
-      fps_color = "B22222,FDFD09,39F900";
-      fps_value = "30,60";
       output_folder = /home/neonvoid;
       log_duration = 30;
       autostart_log = 0;

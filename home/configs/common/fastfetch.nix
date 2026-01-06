@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  c = config.colorScheme.palette;
+  c = config.lib.stylix.colors;
 in
 {
   programs.fastfetch = {

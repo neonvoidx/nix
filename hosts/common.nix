@@ -32,6 +32,9 @@
 
     # Secrets management
     ../modules/sops.nix
+    
+    # Stylix
+    ../modules/stylix.nix
   ];
 
   system.stateVersion = "25.11";
