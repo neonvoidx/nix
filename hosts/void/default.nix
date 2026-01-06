@@ -70,7 +70,7 @@
       enable = false;
     };
     # Static IP configuration
-    interfaces.enp10s0 = {
+    interfaces.eth0 = {
       useDHCP = false;
       ipv4.addresses = [
         {
@@ -81,8 +81,14 @@
     };
     defaultGateway = {
       address = "192.168.86.1";
-      interface = "enp10s0";
+      interface = "eth0";
     };
+  };
+
+  # Create stable interface name based on MAC address
+  systemd.network.links."10-eth0" = {
+    matchConfig.MACAddress = "9c:6b:00:98:96:96";
+    linkConfig.Name = "eth0";
   };
 
   # Only wait for ethernet during boot, wifi is disabled
