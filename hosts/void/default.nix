@@ -69,6 +69,26 @@
     networkmanager = {
       enable = false;
     };
+    # Static IP configuration
+    interfaces.enp10s0 = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = "192.168.86.20";
+          prefixLength = 24;
+        }
+      ];
+    };
+    defaultGateway = {
+      address = "192.168.86.1";
+      interface = "enp10s0";
+    };
+  };
+
+  # Only wait for ethernet during boot, wifi is disabled
+  systemd.network.wait-online = {
+    anyInterface = true;
+    extraArgs = [ "--interface=enp10s0" ];
   };
 
   boot.blacklistedKernelModules = [ "mt7925e" ];
