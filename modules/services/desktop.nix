@@ -43,8 +43,24 @@
     gvfs.enable = true;
   };
 
-  security.pam.services = {
-    greetd.enableGnomeKeyring = true;
-    login.enableGnomeKeyring = true;
+  security.pam = {
+    services = {
+      greetd.enableGnomeKeyring = true;
+      login.enableGnomeKeyring = true;
+    };
+    loginLimits = [
+      {
+        domain = "@audio";
+        type = "-";
+        item = "rtprio";
+        value = "95";
+      }
+      {
+        domain = "@audio";
+        type = "-";
+        item = "memlock";
+        value = "unlimited";
+      }
+    ];
   };
 }

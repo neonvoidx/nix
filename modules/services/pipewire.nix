@@ -13,6 +13,12 @@
     pulse.enable = true;
     jack.enable = true;
     extraConfig.pipewire = {
+      "10-low-latency.conf" = {
+        "context.properties" = {
+          "default.frags" = 8;
+          "default.frag-size" = 4096;
+        };
+      };
       "10-max-buffers" = {
         "context.properties" = {
           "link.max-buffers" = 64;
