@@ -42,8 +42,9 @@
     nixCats = {
       url = "github:BirdeeHub/nixCats-nvim";
     };
-    nix-colors = {
-      url = "github:misterio77/nix-colors";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -69,7 +70,7 @@
       nixCats,
       spicetify-nix,
       nix-search-tv,
-      nix-colors,
+      stylix,
       nix-index-database,
       sops-nix,
       ...
@@ -96,6 +97,7 @@
             ./home/${username}/nixos.nix
             spicetify-nix.nixosModules.default
             sops-nix.nixosModules.sops
+            stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
             {
               nixpkgs.config.allowUnfree = true;
@@ -109,7 +111,6 @@
                 // specialArgs
                 // {
                   inherit hostname;
-                  inherit nix-colors;
                   inherit nix-index-database;
                   nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
                 };
@@ -131,7 +132,6 @@
           extraSpecialArgs = {
             inherit inputs;
             username = macUsername;
-            inherit nix-colors;
             nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
           };
           modules = [
@@ -140,6 +140,7 @@
               nixpkgs.overlays = [ nur.overlays.default ];
             }
             sops-nix.homeManagerModules.sops
+            stylix.homeManagerModules.stylix
             ./home/${macUsername}/home.nix
           ];
         };

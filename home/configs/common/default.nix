@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./colors.nix
     ./bat.nix
     ./btop.nix
     ./direnv.nix
@@ -16,6 +15,7 @@
     ./nixcats.nix
     # ./nixvim
     ./payrespects.nix
+    ./stylix.nix
     ./tealdeer.nix
     ./tv.nix
     ./zoxide.nix

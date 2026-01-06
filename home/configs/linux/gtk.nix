@@ -1,8 +1,6 @@
 {
   pkgs,
-  config,
   hostname ? "",
-  nix-colors,
   ...
 }:
 {
@@ -12,24 +10,12 @@
   xdg.configFile."gtk-4.0/gtk.css".force = true;
 
   gtk = {
-    colorScheme = "dark";
     enable = true;
-    theme = {
-      name = config.colorScheme.slug;
-      package = (nix-colors.lib-contrib { inherit pkgs; }).gtkThemeFromScheme {
-        scheme = config.colorScheme;
-      };
-    };
     iconTheme = {
       name = "Dracula";
       package = pkgs.dracula-icon-theme;
     };
-    font = {
-      name = "Roboto Bold";
-      size = 13;
-    };
     gtk3 = {
-      colorScheme = "dark";
       extraConfig = {
         gtk-application-prefer-dark-theme = 1;
       };
@@ -49,7 +35,6 @@
       ];
     };
     gtk4 = {
-      colorScheme = "dark";
       extraConfig = {
         gtk-application-prefer-dark-theme = 1;
       };
