@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   boot = {
     plymouth = {
@@ -9,11 +9,11 @@
         canTouchEfiVariables = true;
         efiSysMountPoint = "/boot";
       };
+      timeout = 1;
       limine = {
         enable = true;
         enableEditor = true;
         maxGenerations = 10;
-        extraConfig = "hash_mismatch_panic: no";
       };
     };
   };
