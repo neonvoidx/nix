@@ -1,15 +1,9 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  services.protonmail-bridge = {
-    enable = true;
-    extraPackages = with pkgs; [ gnome-keyring ];
-  };
-
   programs.thunderbird = {
     enable = true;
     settings = {
       "privacy.donottrackheader.enabled" = true;
-      "security.enterprise_roots.enabled" = true;
     };
 
     profiles."default" = {
