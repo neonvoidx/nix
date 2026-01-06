@@ -9,8 +9,7 @@
     enable = true;
     settings = {
       "privacy.donottrackheader.enabled" = true;
-      # Allow untrusted certificates for localhost (Protonmail Bridge)
-      "mailnews.auto_config.guess.requireGoodCert" = false;
+      "security.enterprise_roots.enabled" = true;
     };
 
     profiles."default" = {
