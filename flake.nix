@@ -55,7 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-config = {
-      url = "git+ssh://git@github.com/neonvoidx/nvim.git";
+      url = "github:neonvoidx/nvim";
       flake = false;
     };
   };
