@@ -16,8 +16,7 @@ in
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox"
-    "[workspace 4 silent] thunderbird"
-    "[workspace 4 silent] protonmail-bridge-gui --no-window"
+    "[workspace 4 silent] protonmail-bridge-gui --no-window && sleep 5 && thunderbird"
   ]
   ++ lib.optionals isVoid [
     "exec streamcontroller -b"
