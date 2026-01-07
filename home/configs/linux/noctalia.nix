@@ -489,7 +489,7 @@ in
         overviewEnabled = true;
         panelPosition = "center";
         randomEnabled = true;
-        randomIntervalSec = 1800;
+        randomIntervalSec = 300;
         recursiveSearch = false;
         setWallpaperOnAllMonitors = false;
         transitionDuration = 1500;
