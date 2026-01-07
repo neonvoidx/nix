@@ -1,5 +1,10 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  services.protonmail-bridge = {
+    enable = true;
+    extraPackages = with pkgs; [ gnome-keyring ];
+  };
+
   programs.thunderbird = {
     enable = true;
     settings = {

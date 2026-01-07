@@ -17,7 +17,6 @@
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", TAG+="uaccess"
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0086", TAG+="uaccess"
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="009a", TAG+="uaccess"
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="ca04", ATTRS{idProduct}=="0011", ATTR{power/wakeup}="enabled"
     '';
   };
 
