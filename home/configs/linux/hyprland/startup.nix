@@ -19,7 +19,7 @@ in
     "[workspace 4 silent] sleep 2 && thunderbird"
   ]
   ++ lib.optionals isVoid [
-    "sleep 2 && streamcontroller -b"
+    "streamcontroller -b"
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 10 silent] steam"
     # "[workspace 4 silent] fractal"
