@@ -5,7 +5,6 @@
     kitty-themes
     godot
     proton-pass-cli
-    proton-pass
     ffmpeg
   ];
 }
