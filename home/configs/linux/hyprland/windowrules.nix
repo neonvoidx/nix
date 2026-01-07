@@ -45,7 +45,6 @@ in
       name = "bnet";
       "match:title" = "Battle.net";
       float = "on";
-      workspace = "10";
     }
     {
       name = "wow";
