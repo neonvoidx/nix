@@ -10,9 +10,6 @@
     noctalia-shell.enable = false; # eldritch in master
     obsidian.enable = false; # eldritch in master
     yazi.enable = false; # follows terminal theme
-    qt = {
-      enable = false;
-    };
     spicetify.enable = false; # already setup with Sleek theme and eldritch
   };
 }
