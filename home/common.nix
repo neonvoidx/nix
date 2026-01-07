@@ -23,6 +23,7 @@
       VISUAL = "nvim";
       BROWSER = "firefox";
       TERMINAL = "kitty";
+      SSH_ASKPASS_REQUIRE = "prefer";
     };
     shell.enableZshIntegration = true;
   };
