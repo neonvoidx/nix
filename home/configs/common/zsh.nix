@@ -269,11 +269,6 @@ in
             alias cmakeninja='cmake -S . -B build -G Ninja'
           fi
 
-          # SSH agent start if necessary
-          if [ -z $SSH_AGENT_PID ] && [ -z $SSH_TTY ]; then
-            eval `ssh-agent -s` > /dev/null
-          fi
-
           if [ -f ~/.ssh/scm-script.sh ]; then
             alias scm-ssh='bash ~/.ssh/scm-script.sh'
             scm-ssh start_agent >/dev/null 2>&1
@@ -284,6 +279,11 @@ in
           if command -v fastfetch &> /dev/null; then
             fastfetch
           fi
+
+          if [ -z "$SSH_AUTH_SOCK" ]; then
+            eval $(ssh-agent -s) > /dev/null
+          fi
+          ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519 2>/dev/null
 
           ${lib.optionalString pkgs.stdenv.isDarwin # bash
             ''
