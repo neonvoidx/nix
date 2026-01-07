@@ -5,3 +5,4 @@
   - oculante <https://github.com/NixOS/nixpkgs/issues/475989> (issue)
     - <https://github.com/njaard/libavif-rs/pull/121> (fix, waiting on merge into unstable)
     - currently using legacy package
+- fix qt themeing
