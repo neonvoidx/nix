@@ -5,6 +5,16 @@
     extraPackages = with pkgs; [ gnome-keyring ];
   };
 
+  systemd.user.services.protonmail-bridge = {
+    Unit = {
+      After = [ "graphical-session.target" "gnome-keyring.service" ];
+      Wants = [ "gnome-keyring.service" ];
+    };
+    Service = {
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+    };
+  };
+
   programs.thunderbird = {
     enable = true;
     settings = {
