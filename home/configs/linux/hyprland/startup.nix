@@ -16,10 +16,10 @@ in
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "[workspace 3 silent] vesktop"
     "[workspace 2 silent] firefox"
-    "[workspace 4 silent] protonmail-bridge-gui --no-window && sleep 5 && thunderbird"
+    "[workspace 4 silent] sleep 2 && thunderbird"
   ]
   ++ lib.optionals isVoid [
-    "exec streamcontroller -b"
+    "sleep 2 && streamcontroller -b"
     "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
     "[workspace 10 silent] steam"
     # "[workspace 4 silent] fractal"
