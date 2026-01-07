@@ -4,7 +4,7 @@
     home-manager
     kitty-themes
     godot
-    protonmail-bridge-gui
+    # protonmail-bridge-gui
     proton-pass
     ffmpeg
   ];
