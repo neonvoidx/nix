@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ ... }:
 {
   # sops-nix configuration at system level
   sops = {
@@ -8,9 +8,9 @@
     validateSopsFiles = false;
 
     secrets = {
-      gmail-app-password = {
-        owner = "neonvoid";
-      };
+      # gmail-app-password = {
+      #   owner = "neonvoid";
+      # };
     };
   };
 }

@@ -2,10 +2,6 @@
   - sgdboop <https://github.com/NixOS/nixpkgs/issues/475987> (issue)
     - <https://github.com/NixOS/nixpkgs/pull/475718> (fix, waiting on pr merge and merge to unstable)
     - currently using legacy pkg
-  - vesktop <https://github.com/NixOS/nixpkgs/issues/476669> (issue)
-    - <https://github.com/NixOS/nixpkgs/pull/476347> (fix, waiting on merge into unstable)
-    - currently using legacy package
   - oculante <https://github.com/NixOS/nixpkgs/issues/475989> (issue)
     - <https://github.com/njaard/libavif-rs/pull/121> (fix, waiting on merge into unstable)
-- systemd analyze fix
-- fix icons missing in noctalia
+    - currently using legacy package
