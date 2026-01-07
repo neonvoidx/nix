@@ -180,7 +180,7 @@
         QuickMention.enabled = false;
         QuickReply.enabled = false;
         ReactErrorDecoder.enabled = false;
-        ReadAllNotificationsButton.enabled = false;
+        ReadAllNotificationsButton.enabled = true;
         RelationshipNotifier.enabled = false;
         ReplaceGoogleSearch.enabled = false;
         ReplyTimestamp.enabled = false;
@@ -271,13 +271,6 @@
         position = "bottom-right";
         useNative = "not-focused";
         logLimit = 50;
-      };
-
-      cloud = {
-        authenticated = true;
-        url = "https://api.vencord.dev/";
-        settingsSync = true;
-        settingsSyncVersion = 1767726386710;
       };
     };
   };
