@@ -11,6 +11,12 @@ in
   windowrule = [
     {
       name = "vesktop";
+      "match:class" = "gcr-prompter";
+      float = "on";
+      pin = "on";
+    }
+    {
+      name = "vesktop";
       "match:class" = "vesktop";
       workspace = "3 silent";
     }
