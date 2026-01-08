@@ -11,5 +11,9 @@
     obsidian.enable = false; # eldritch in master
     yazi.enable = false; # follows terminal theme
     spicetify.enable = false; # already setup with Sleek theme and eldritch
+    qt = {
+      platform = lib.mkForce "gnome";
+      standardDialogs = "xdgdesktopportal";
+    };
   };
 }
