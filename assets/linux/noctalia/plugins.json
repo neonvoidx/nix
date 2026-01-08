@@ -1,20 +1,20 @@
 {
-  "sources": [
-    {
-      "enabled": true,
-      "name": "Official Noctalia Plugins",
-      "url": "https://github.com/noctalia-dev/noctalia-plugins"
-    }
-  ],
-  "states": {
-    "github-feed": {
-      "enabled": true,
-      "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+    "sources": [
+        {
+            "enabled": true,
+            "name": "Official Noctalia Plugins",
+            "url": "https://github.com/noctalia-dev/noctalia-plugins"
+        }
+    ],
+    "states": {
+        "github-feed": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "privacy-indicator": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        }
     },
-    "privacy-indicator": {
-      "enabled": true,
-      "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-    }
-  },
-  "version": 1
+    "version": 1
 }
