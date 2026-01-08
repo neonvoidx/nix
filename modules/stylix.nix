@@ -1,10 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   stylix = {
     enable = true;
     polarity = "dark";
 
-    targets.qt.enable = true;
+    targets.qt = {
+      enable = true;
+      platform = lib.mkForce "gnome";
+    };
     targets.gtk.enable = true;
 
     icons = {
