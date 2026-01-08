@@ -10,7 +10,7 @@ in
 {
   windowrule = [
     {
-      name = "vesktop";
+      name = "gnomekeyringprompt";
       "match:class" = "gcr-prompter";
       float = "on";
       pin = "on";
