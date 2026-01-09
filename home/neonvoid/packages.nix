@@ -1,4 +1,9 @@
-{ pkgs, nixpkgs-sgdboop, nixpkgs-oculante, ... }:
+{
+  pkgs,
+  nixpkgs-sgdboop,
+  nixpkgs-oculante,
+  ...
+}:
 {
   home.packages = with pkgs; [
     (pkgs.callPackage ../../modules/programs/scopebuddy.nix { })
@@ -17,6 +22,7 @@
     kdePackages.okular
     libsecret
     nixpkgs-oculante.legacyPackages.${pkgs.stdenv.hostPlatform.system}.oculante
+    pinta
     protontricks
     protonup-rs
     prusa-slicer
