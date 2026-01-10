@@ -45,6 +45,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-versions = {
+      url = "github:vic/nix-versions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvim-config = {
       url = "github:neonvoidx/nvim";
       flake = false;
@@ -64,6 +68,7 @@
       stylix,
       nix-index-database,
       sops-nix,
+      nix-versions,
       ...
     }@inputs:
     let
@@ -103,6 +108,7 @@
                 // {
                   inherit hostname;
                   inherit nix-index-database;
+                  inherit nix-versions;
                   nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
                 };
               home-manager.users.${username} = import ./home/${username}/home.nix;

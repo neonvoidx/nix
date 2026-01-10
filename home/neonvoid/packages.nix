@@ -2,6 +2,7 @@
   pkgs,
   nixpkgs-sgdboop,
   nixpkgs-oculante,
+  nix-versions,
   ...
 }:
 {
@@ -21,6 +22,7 @@
     file-roller
     kdePackages.okular
     libsecret
+    nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
     nixpkgs-oculante.legacyPackages.${pkgs.stdenv.hostPlatform.system}.oculante
     pinta
     protontricks
