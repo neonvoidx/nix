@@ -7,3 +7,8 @@ dev-init-folder template folder_name:
 # find nixpkg outPath for pkg name
 find-nix-out pkg_name:
     nix eval nixpkgs#{{pkg_name}}.outPath
+# Initialize a flake with dependencies
+flake-init pkgs:
+  curl https://nix-versions.oeiuwq.com/flake.nix/{{pkgs}} -o flake.nix && use flake
+search pkg:
+  nix search "https://flakehub.com/f/NixOS/nixpkgs/*" {{pkg}}
