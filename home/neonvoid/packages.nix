@@ -1,6 +1,5 @@
 {
   pkgs,
-  nixpkgs-sgdboop,
   nixpkgs-oculante,
   nix-versions,
   ...
@@ -30,7 +29,7 @@
     prusa-slicer
     hyprpwcenter
     seahorse
-    nixpkgs-sgdboop.legacyPackages.${pkgs.stdenv.hostPlatform.system}.sgdboop
+    sgdboop
     slurp
     steam
     streamcontroller

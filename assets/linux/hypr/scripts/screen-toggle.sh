@@ -17,6 +17,7 @@ move_all_workspaces_to_monitor() {
 }
 
 if [ "$1" = "1" ]; then
+  xrandr --output "$INTERNAL_MONITOR" --primary
   # Enable internal monitor
   if [ -f "$GAMESCREEN_STATE_FILE" ]; then
     hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-notouch.conf"
@@ -30,6 +31,7 @@ if [ "$1" = "1" ]; then
   echo "both" > "$SCREEN_STATE_FILE"
   exit
 else
+  xrandr --output "$EXTERNAL_MONITOR" --primary
   # Disable internal monitor
   if [ -f "$GAMESCREEN_STATE_FILE" ]; then
     hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch.conf"

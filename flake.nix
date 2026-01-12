@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     # TODO remove these 2 after patch
-    nixpkgs-sgdboop.url = "github:fxzzi/nixpkgs/fix-sgdboop";
     nixpkgs-oculante.url = "github:nixos/nixpkgs/ecfa357f596c";
     home-manager = {
       url = "github:nix-community/home-manager";
