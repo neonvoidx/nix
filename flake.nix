@@ -86,6 +86,11 @@
             {
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = [ nur.overlays.default ];
+              nix.extraOptions = ''
+                connect-timeout = 10
+                stalled-download-timeout = 100
+                download-attempts = 5
+              '';
             }
             ./hosts/${hostname}
             ./modules/programs/noctalia.nix
