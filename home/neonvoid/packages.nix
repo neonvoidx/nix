@@ -11,6 +11,7 @@
     asciinema
     blueman
     cmatrix
+    deadlock-mod-manager
     gamescope
     gimp
     github-copilot-cli
