@@ -6,7 +6,7 @@
       "10-low-latency.conf" = {
         "context.properties" = {
           "default.frags" = 8;
-          "default.frag-size" = 4096;
+          "default.frag-size" = 512;
         };
       };
       "10-max-buffers" = {
@@ -25,9 +25,9 @@
             176400
             192000
           ];
-          "default.clock.quantum" = 4096;
-          "default.clock.min-quantum" = 1025;
-          "default.clock.max-quantum" = 4096;
+          "default.clock.quantum" = 512;
+          "default.clock.min-quantum" = 32;
+          "default.clock.max-quantum" = 2048;
         };
       };
     };
@@ -81,6 +81,51 @@
           actions = {
             update-props = {
               "priority.session" = 2000;
+            };
+          };
+        }
+      ];
+    };
+    "53-gaming-low-latency" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            # Force lower quantum for games to get rid of crackling
+            # Wine/Proton games
+            { "application.process.binary" = "~.*wine.*"; }
+            { "application.process.binary" = "~.*proton.*"; }
+            { "application.name" = "~.*\.exe"; }
+            # Steam games
+            { "application.name" = "~.*steam_app.*"; }
+            { "application.name" = "~.*pressure-vessel.*"; }
+            { "application.process.binary" = "~.*reaper.*"; }
+            # Specific games
+            { "application.name" = "~.*World of Warcraft.*"; }
+            { "application.name" = "~.*Diablo.*"; }
+            { "application.name" = "~.*Overwatch.*"; }
+            { "application.name" = "~.*Counter-Strike.*"; }
+            { "application.name" = "~.*cs2.*"; }
+            { "application.name" = "~.*Dota.*"; }
+            { "application.name" = "~.*Apex.*"; }
+            { "application.name" = "~.*Fortnite.*"; }
+            # Game engines/launchers
+            { "application.name" = "~.*Unity.*"; }
+            { "application.name" = "~.*UnrealEngine.*"; }
+            { "application.name" = "~.*gameoverlayui.*"; }
+            # Emulators
+            { "application.process.binary" = "~.*retroarch.*"; }
+            { "application.process.binary" = "~.*dolphin-emu.*"; }
+            { "application.process.binary" = "~.*pcsx2.*"; }
+            { "application.process.binary" = "~.*rpcs3.*"; }
+            { "application.process.binary" = "~.*yuzu.*"; }
+            { "application.process.binary" = "~.*cemu.*"; }
+            { "application.process.binary" = "~.*ryujinx.*"; }
+          ];
+          actions = {
+            update-props = {
+              "node.latency" = "256/48000";
+              "api.alsa.period-size" = 256;
+              "api.alsa.headroom" = 1024;
             };
           };
         }
