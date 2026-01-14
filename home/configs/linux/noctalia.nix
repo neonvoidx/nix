@@ -140,10 +140,6 @@ in
               pinned = [ ];
             }
             {
-              displayMode = "onhover";
-              id = "VPN";
-            }
-            {
               displayMode = "alwaysShow";
               id = "Bluetooth";
             }
