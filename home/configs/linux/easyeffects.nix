@@ -14,19 +14,9 @@
     "easyeffects/autoload/equalizerrc".source = ../../../assets/linux/easyeffects/autoload/equalizerrc;
   };
 
-  dconf.settings = {
-    "com/github/wwmm/easyeffects" = {
-      process-all-inputs = true;
-      process-all-outputs = true;
-    };
-    "com/github/wwmm/easyeffects/streamoutputs" = {
-      output-preset = "headphones";
-    };
-    "com/github/wwmm/easyeffects/streaminputs" = {
-      input-preset = "microphone";
-    };
-  };
-
+  # EasyEffects 8.x uses Qt/KDE config instead of dconf
+  # Note: Qt version doesn't have system tray support - feature was removed in Qt port
+  # Settings are managed via ~/.config/easyeffects/autoload/easyeffectsrc and db/easyeffectsrc
   services.easyeffects = {
     enable = true;
     extraPresets = {
@@ -467,11 +457,14 @@
   # Ensure tray appears by waiting for noctalia-shell to be fully ready
   systemd.user.services.easyeffects = lib.mkIf config.programs.noctalia-shell.enable {
     Unit = {
-      After = [ "noctalia-shell.service" "pipewire.service" ];
+      After = [
+        "noctalia-shell.service"
+        "pipewire.service"
+      ];
       Wants = [ "noctalia-shell.service" ];
     };
     Service = {
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
     };
   };
 }
