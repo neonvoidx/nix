@@ -1,9 +1,14 @@
-{ ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   programs.vesktop = {
     enable = true;
     settings = {
-      minimizeToTray = true;
+      minimizeToTray = false;
       tray = true;
     };
     vencord.settings = {
@@ -272,6 +277,28 @@
         useNative = "not-focused";
         logLimit = 50;
       };
+    };
+  };
+
+  # Create systemd service for vesktop with proper ordering
+  systemd.user.services.vesktop = {
+    Unit = {
+      Description = "Vesktop Discord Client";
+      After = lib.mkIf config.programs.noctalia-shell.enable [
+        "graphical-session.target"
+        "noctalia-shell.service"
+      ];
+      Wants = lib.mkIf config.programs.noctalia-shell.enable [ "noctalia-shell.service" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
+      ExecStart = "${pkgs.vesktop}/bin/vesktop";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 }
