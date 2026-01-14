@@ -13,6 +13,8 @@ let
   windowRules = import ./windowrules.nix { inherit lib config hostname; };
   settings = import ./settings.nix { inherit lib config hostname; };
   startup = import ./startup.nix { inherit lib config hostname; };
+  workspace = import ./workspace.nix { inherit lib config hostname; };
+  layerrule = import ./layerrule.nix { inherit lib config hostname; };
 in
 {
   wayland.windowManager.hyprland = {
@@ -27,6 +29,8 @@ in
       windowRules
       settings
       startup
+      workspace
+      layerrule
     ];
 
     #TODO can we have submaps in keybindings.nix?
