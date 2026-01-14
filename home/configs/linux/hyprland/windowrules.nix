@@ -126,11 +126,4 @@ in
     }
   ];
 
-  layerrule = [
-    {
-      name = "noctaliahide";
-      "match:namespace" = "^noctalia-notifications.*$";
-      no_screen_share = "on";
-    }
-  ];
 }
