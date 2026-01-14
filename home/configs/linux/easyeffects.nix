@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   xdg.configFile = {
     "easyeffects/autoload/easyeffectsrc".source =
@@ -459,10 +464,14 @@
     };
   };
 
-  # Add a small sleep so it shows in sys tray appropriately
-  systemd.user.services.easyeffects = {
+  # Ensure tray appears by waiting for noctalia-shell to be fully ready
+  systemd.user.services.easyeffects = lib.mkIf config.programs.noctalia-shell.enable {
+    Unit = {
+      After = [ "noctalia-shell.service" "pipewire.service" ];
+      Wants = [ "noctalia-shell.service" ];
+    };
     Service = {
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
     };
   };
 }
