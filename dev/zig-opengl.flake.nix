@@ -1,0 +1,51 @@
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      utils,
+    }:
+    utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        bInputs = with pkgs; [
+          zig
+          zls
+          lldb
+          libglvnd
+          libGL
+          mesa
+          glfw
+          glm
+          libGLU
+          libgbm
+          xorg.libX11
+          xorg.libXrandr
+          xorg.libXinerama
+          xorg.libXcursor
+          xorg.libXi
+          wayland
+          wayland-protocols
+          libxkbcommon
+          pkg-config
+        ];
+      in
+      {
+        devShell =
+          with pkgs;
+          mkShell {
+            buildInputs = bInputs;
+            shellHook = ''
+              export LD_LIBRARY_PATH="/run/opengl-driver/lib/:${pkgs.lib.makeLibraryPath bInputs}";
+              export PKG_CONFIG_PATH="${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" bInputs}";
+            '';
+          };
+      }
+    );
+}
