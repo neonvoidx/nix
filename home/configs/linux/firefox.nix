@@ -29,7 +29,7 @@
       NoDefaultBookmarks = true;
       OfferToSaveLogins = false;
     };
-    profiles.neonvoid = {
+    profiles.${config.home.username} = {
       isDefault = true;
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         darkreader
@@ -129,5 +129,9 @@
         };
       };
     };
+  };
+  home.file.".mozilla/firefox/${config.home.username}/chrome/simpleMenuWizard" = {
+    recursive = true;
+    source = "${self}/assets/common/.mozilla/chrome/simpleMenuWizard";
   };
 }
