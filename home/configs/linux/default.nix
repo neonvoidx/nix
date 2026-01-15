@@ -3,6 +3,7 @@
   imports = [
     ./cava.nix
     ./clipboard.nix
+    ./curseforge.nix
     ./cursor.nix
     ./easyeffects.nix
     ./email.nix
