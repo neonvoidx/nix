@@ -1,6 +1,5 @@
 {
   pkgs,
-  nixpkgs-oculante,
   nix-versions,
   ...
 }:
@@ -23,7 +22,7 @@
     kdePackages.okular
     libsecret
     nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
-    nixpkgs-oculante.legacyPackages.${pkgs.stdenv.hostPlatform.system}.oculante
+    oculante
     pinta
     protontricks
     protonup-rs

@@ -3,8 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    # TODO remove these 2 after patch
-    nixpkgs-oculante.url = "github:nixos/nixpkgs/ecfa357f596c";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,14 +54,11 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       home-manager,
       nur,
       nixvim,
-      nixCats,
       spicetify-nix,
-      nix-search-tv,
       stylix,
       nix-index-database,
       sops-nix,
