@@ -52,6 +52,12 @@
       "amdgpu.gpu_recovery=1"
       "amdgpu.ppfeaturemask=0xfffd7fff"
       "amdgpu.noretry=0"
+      # RDNA4 stability fixes
+      "amdgpu.lockup_timeout=10000"
+      "amdgpu.mes_log_enable=1"
+      # Disable power management features that can cause hangs
+      "amdgpu.ppfeaturemask=0xffffffff"
+      "amdgpu.dcdebugmask=0x10"
       # runpm off fucks up hibernate/suspend
       # "amdgpu.runpm=0"
     ];
@@ -106,9 +112,14 @@
     };
     amdgpu = {
       initrd.enable = lib.mkDefault true; # Load amdgpu kernel module into init ram (faster)
+      # Enable latest firmware for RDNA4
+      opencl.enable = true;
     };
     steam-hardware.enable = true;
   };
+
+  # Update firmware for RDNA4 stability
+  hardware.firmware = [ pkgs.linux-firmware ];
 
   services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
 
