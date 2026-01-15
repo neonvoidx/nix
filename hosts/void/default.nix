@@ -47,7 +47,6 @@
       "splash"
       "video=DP-1:3440x1440@144"
       "video=DP-2:3440x1440@144"
-      "video=HDMI-A-1:2560x1440@144"
       # AMD GPU Kernel params
       "amdgpu.gpu_recovery=1"
       "amdgpu.ppfeaturemask=0xfffd7fff"
@@ -58,7 +57,11 @@
       # Disable power management features that can cause hangs
       "amdgpu.ppfeaturemask=0xffffffff"
       "amdgpu.dcdebugmask=0x10"
-      # runpm off fucks up hibernate/suspend
+      # NOTE: Disable CWSR, this really only affects multi workload
+      # i.e if trying to render in blender while gaming
+      # can try re-enabling later with AMD driver updates
+      "amdgpu.cwsr_enable=0"
+      # runpm off screws suspend/hibernate on Nix it seems
       # "amdgpu.runpm=0"
     ];
   };
