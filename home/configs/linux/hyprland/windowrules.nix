@@ -53,6 +53,13 @@ in
       float = "on";
     }
     {
+      name = "hytale";
+      "match:title" = "Hytale";
+      "match:class" = "HytaleClient";
+      fullscreen = "on";
+      workspace = "11";
+    }
+    {
       name = "wow";
       "match:title" = "^World of Warcraft$";
       fullscreen = "on";

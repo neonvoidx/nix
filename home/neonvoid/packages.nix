@@ -1,6 +1,7 @@
 {
   pkgs,
   nix-versions,
+  inputs,
   ...
 }:
 {
@@ -18,6 +19,7 @@
     gvfs
     hyprpicker
     hyprsysteminfo
+    inputs.hytale-launcher.packages.${pkgs.system}.default
     file-roller
     kdePackages.okular
     libsecret

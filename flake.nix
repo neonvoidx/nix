@@ -50,6 +50,10 @@
       url = "github:neonvoidx/nvim";
       flake = false;
     };
+    hytale-launcher = {
+      url = "github:JPyke3/hytale-launcher-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -63,6 +67,7 @@
       nix-index-database,
       sops-nix,
       nix-versions,
+      hytale-launcher,
       ...
     }@inputs:
     let
