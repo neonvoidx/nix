@@ -51,7 +51,7 @@
       flake = false;
     };
     hytale-launcher = {
-      url = "github:JPyke3/hytale-launcher-nix";
+      url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -67,7 +67,6 @@
       nix-index-database,
       sops-nix,
       nix-versions,
-      hytale-launcher,
       ...
     }@inputs:
     let

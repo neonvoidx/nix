@@ -285,16 +285,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1768346273,
-        "narHash": "sha256-1q+vzqjnjj6/uZm6RTZnjoOGsiA/OFVMvn9UaIaLeHk=",
-        "owner": "JPyke3",
-        "repo": "hytale-launcher-nix",
-        "rev": "226c36b20aa9450193241133735af51b1c43bfad",
+        "lastModified": 1768349407,
+        "narHash": "sha256-T8wgwnZcDLpAU9tQ1OUSYqFv2EYWkwH3+7R+cOnpak4=",
+        "owner": "TNAZEP",
+        "repo": "HytaleLauncherFlake",
+        "rev": "52bde7280b55863f9cc21cc1c063c7f657206fb6",
         "type": "github"
       },
       "original": {
-        "owner": "JPyke3",
-        "repo": "hytale-launcher-nix",
+        "owner": "TNAZEP",
+        "repo": "HytaleLauncherFlake",
         "type": "github"
       }
     },
@@ -438,11 +438,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768486724,
-        "narHash": "sha256-6AXczXbuTYhxXwM45O7zp/c1t0ZP8NJ1x0cDKZ21SFU=",
+        "lastModified": 1768488579,
+        "narHash": "sha256-FNMk8sJCStD5BoB4yZJcyVqPCs4kGyZ3AA3k/TExRQs=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "ed7693b3fd8886c4cb3f11e484d91e715831dbd5",
+        "rev": "4f8660f8a2e3d78911315f907edfedb1a7eb3ed6",
         "type": "github"
       },
       "original": {
@@ -459,11 +459,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768487479,
-        "narHash": "sha256-OSUpdLndxIXFg7thAGKBCBX7Z23qsvDbCICX0Rfsj3Y=",
+        "lastModified": 1768488181,
+        "narHash": "sha256-n2WKNbF2aFvwIYicGSV/U98vEzdbkYi7tIUuLLJSt/g=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "36f5eb0e74f9a76087d65e18b254e5344a83e794",
+        "rev": "84e05ebe917f5a5adc37b472930b09971e990632",
         "type": "github"
       },
       "original": {
