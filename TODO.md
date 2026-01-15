@@ -1,4 +1,0 @@
-- Package build issues:
-  - oculante <https://github.com/NixOS/nixpkgs/issues/475989> (issue)
-    - <https://github.com/NixOS/nixpkgs/pull/476565> (fix, waiting on merge into unstable)
-    - currently using legacy package
