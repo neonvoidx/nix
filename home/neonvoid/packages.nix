@@ -8,6 +8,7 @@
   home.packages = with pkgs; [
     (pkgs.callPackage ../../modules/programs/scopebuddy.nix { })
     (pkgs.callPackage ../../modules/programs/hyprshutdown.nix { })
+    aseprite
     asciinema
     blueman
     cmatrix
