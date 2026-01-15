@@ -204,6 +204,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -259,6 +277,27 @@
         "type": "github"
       }
     },
+    "hytale-launcher": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768346273,
+        "narHash": "sha256-1q+vzqjnjj6/uZm6RTZnjoOGsiA/OFVMvn9UaIaLeHk=",
+        "owner": "JPyke3",
+        "repo": "hytale-launcher-nix",
+        "rev": "226c36b20aa9450193241133735af51b1c43bfad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JPyke3",
+        "repo": "hytale-launcher-nix",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -281,7 +320,7 @@
     },
     "nix-search-tv": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -307,7 +346,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "systems": "systems_2",
+        "systems": "systems_3",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
@@ -376,7 +415,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "systems": "systems_3"
+        "systems": "systems_4"
       },
       "locked": {
         "lastModified": 1767906546,
@@ -399,11 +438,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768446741,
-        "narHash": "sha256-zOU/ciWqLhZi0e2SwdbqILR4abxjgHZRwHWmIpS8rV0=",
+        "lastModified": 1768483843,
+        "narHash": "sha256-KvaSckLD8KJw+kNkuXzntVJWLLkQ2NwW13YMCjp1jAQ=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "6f9d9c0dcd011c188ec8e18dec051bc68f48ad8b",
+        "rev": "662154f390b13759619140cbf7e8f3aad19a00f7",
         "type": "github"
       },
       "original": {
@@ -420,11 +459,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768447158,
-        "narHash": "sha256-wRnfbqp/VmCAFgQdAWo2Wf+XwQrZjz9K6P0/2E4+nN0=",
+        "lastModified": 1768484672,
+        "narHash": "sha256-Guod7P34XNinx5p0+RM58XvQma/xQ3vOEoaCj24nup0=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "bbde072755b55b5bda3b70fb07c45448a7d4b052",
+        "rev": "a0129213a87a74fb843b979566ca70c4cf1dae2b",
         "type": "github"
       },
       "original": {
@@ -477,6 +516,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "hytale-launcher": "hytale-launcher",
         "nix-index-database": "nix-index-database",
         "nix-search-tv": "nix-search-tv",
         "nix-versions": "nix-versions",
@@ -498,11 +538,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768271704,
-        "narHash": "sha256-jJqlW8A3OZ5tYbXphF7U8P8g/3Cn8PPwPa4YlJ/9agg=",
+        "lastModified": 1768481291,
+        "narHash": "sha256-NjKtkJraCZEnLHAJxLTI+BfdU//9coAz9p5TqveZwPU=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "691b8b6713855d0fe463993867291c158472fc6f",
+        "rev": "e085e303dfcce21adcb5fec535d65aacb066f101",
         "type": "github"
       },
       "original": {
@@ -516,7 +556,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "systems": "systems_4"
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1768107098,
@@ -545,7 +585,7 @@
           "nixpkgs"
         ],
         "nur": "nur_2",
-        "systems": "systems_5",
+        "systems": "systems_6",
         "tinted-foot": "tinted-foot",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
@@ -627,6 +667,21 @@
       }
     },
     "systems_5": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_6": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
