@@ -2,6 +2,7 @@
   pkgs,
   nix-versions,
   inputs,
+  hostname,
   ...
 }:
 {
@@ -12,7 +13,6 @@
     asciinema
     blueman
     cmatrix
-    deadlock-mod-manager
     gamescope
     gimp
     github-copilot-cli
@@ -20,7 +20,6 @@
     gvfs
     hyprpicker
     hyprsysteminfo
-    inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
     file-roller
     kdePackages.okular
     libsecret
@@ -43,5 +42,8 @@
     thunar-archive-plugin
     thunar-media-tags-plugin
     thunar-volman
-  ];
+  ] ++ (if hostname == "void" then [
+    deadlock-mod-manager
+    inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ] else []);
 }

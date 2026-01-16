@@ -1,9 +1,8 @@
-{ ... }:
+{ hostname, ... }:
 {
   imports = [
     ./cava.nix
     ./clipboard.nix
-    ./curseforge.nix
     ./cursor.nix
     ./easyeffects.nix
     ./email.nix
@@ -24,5 +23,7 @@
     ./spicetify.nix
     ./thunar.nix
     ./vesktop.nix
-  ];
+  ] ++ (if hostname == "void" then [
+    ./curseforge.nix
+  ] else []);
 }
