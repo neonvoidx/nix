@@ -9,6 +9,8 @@
     brightnessctl
     btop
     bind
+    choose
+    dust
     fd
     git
     hplip
@@ -19,11 +21,13 @@
     killall
     libnotify
     lsd
+    lsof
     mediainfo
     ripgrep
     rtkit
-    pkgs.xwayland
+    xwayland
     playerctl
+    sd
     swappy
     tree
     tree-sitter
