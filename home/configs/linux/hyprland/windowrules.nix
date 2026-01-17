@@ -10,6 +10,12 @@ in
 {
   windowrule = [
     {
+      name = "godot";
+      "match:title" = ".*DEBUG";
+      "match:initial_title" = "Godot";
+      workspace = "6";
+    }
+    {
       name = "gnomekeyringprompt";
       "match:class" = "gcr-prompter";
       float = "on";
