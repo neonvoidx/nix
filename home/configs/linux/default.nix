@@ -8,6 +8,7 @@
     ./email.nix
     ./firefox.nix
     ./flatpak.nix
+    ./gpu-screen-recorder.nix
     ./gnome-keyring.nix
     ./gtk.nix
     ./hyprland
@@ -23,7 +24,13 @@
     ./spicetify.nix
     ./thunar.nix
     ./vesktop.nix
-  ] ++ (if hostname == "void" then [
-    ./curseforge.nix
-  ] else []);
+  ]
+  ++ (
+    if hostname == "void" then
+      [
+        ./curseforge.nix
+      ]
+    else
+      [ ]
+  );
 }
