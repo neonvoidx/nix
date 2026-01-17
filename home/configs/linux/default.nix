@@ -8,7 +8,6 @@
     ./email.nix
     ./firefox.nix
     ./flatpak.nix
-    ./gpu-screen-recorder.nix
     ./gnome-keyring.nix
     ./gtk.nix
     ./hyprland
