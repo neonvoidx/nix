@@ -150,7 +150,6 @@ in
               id = "Bluetooth";
             }
             { id = "KeepAwake"; }
-            { id = "plugin:privacy-indicator"; }
             {
               displayMode = "onhover";
               id = "Microphone";
