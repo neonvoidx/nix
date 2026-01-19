@@ -18,13 +18,14 @@
       };
       bookmarks = [
         "file:///synology"
-        "file:///home/neonvoid/Downloads"
         "file:///home/neonvoid/.config"
-        "file:///home/neonvoid/pics"
-        "file:///home/neonvoid/nix"
+        "file:///home/neonvoid/Downloads"
+        "file:///home/neonvoid/Videos"
         "file:///home/neonvoid/dev"
-        "file:///home/neonvoid/vault"
         "file:///home/neonvoid/homepage"
+        "file:///home/neonvoid/nix"
+        "file:///home/neonvoid/pics"
+        "file:///home/neonvoid/vault"
       ]
       ++ pkgs.lib.optionals (hostname == "void") [
         "file:///games"
