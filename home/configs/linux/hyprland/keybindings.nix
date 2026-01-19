@@ -10,6 +10,7 @@
     "$mod, code:49, exec, kitten quick-access-terminal"
     "$mod, delete, exec, noctalia-shell ipc call sessionMenu toggle"
     "$mod SHIFT, delete, exec, noctalia-shell ipc call lockScreen lock"
+    "$mod, slash, exec, noctalia-shell ipc call keybind-cheatsheet toggle"
     "$mod, q, killactive,"
     "$mod, b, exec, firefox"
     "$mod SHIFT, b, exec, firefox --private-window"
