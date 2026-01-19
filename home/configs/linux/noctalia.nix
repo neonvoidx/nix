@@ -1,12 +1,21 @@
 {
   inputs,
   osConfig ? null,
-  config,
   ...
 }:
 let
   hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
   isVoidframe = hostname == "voidframe";
+
+  # Helper function to generate plugin states
+  noctaliaPluginsUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+  mkPluginState = name: {
+    name = name;
+    value = {
+      enabled = true;
+      sourceUrl = noctaliaPluginsUrl;
+    };
+  };
 in
 {
   imports = [ inputs.noctalia.homeModules.default ];
@@ -14,6 +23,25 @@ in
   programs.noctalia-shell = {
     enable = true;
     systemd.enable = true;
+    plugins = {
+      sources = [
+        {
+          enabled = true;
+          name = "Official Noctalia Plugins";
+          url = noctaliaPluginsUrl;
+        }
+      ];
+      states = builtins.listToAttrs (
+        map mkPluginState [
+          "catwalk"
+          "privacy-indicator"
+          "screen-recorder"
+          "pomodoro"
+          "timer"
+        ]
+      );
+      version = 1;
+    };
     settings = {
       appLauncher = {
         customLaunchPrefix = "";
@@ -137,7 +165,9 @@ in
             {
               "id" = "plugin:privacy-indicator";
             }
-            { id = "ScreenRecorder"; }
+            {
+              "id" = "plugin:screen-recorder";
+            }
             {
               blacklist = [ ];
               colorizeIcons = false;
@@ -180,6 +210,8 @@ in
               [ ]
           )
           ++ [
+            { id = "plugin:pomodoro"; }
+            { id = "plugin:timer"; }
             {
               hideWhenZero = true;
               id = "NotificationHistory";
@@ -505,6 +537,4 @@ in
       };
     };
   };
-  home.file.".config/noctalia/plugins.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/noctalia/plugins.json";
 }
