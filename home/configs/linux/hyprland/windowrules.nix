@@ -12,6 +12,20 @@ in
     {
       name = "godot";
       "match:title" = ".*(DEBUG).*";
+      "match:initial_class" = "Godot";
+      fullscreen = "off";
+      maximize = "on";
+      workspace = "11";
+      float = "off";
+    }
+    {
+      name = "godot_game";
+      "match:title" = ".*(DEBUG).*";
+      "match:initial_title" = "Godot";
+      fullscreen = "off";
+      maximize = "off";
+      center = "on";
+      float = "on";
       workspace = "11";
     }
     {
