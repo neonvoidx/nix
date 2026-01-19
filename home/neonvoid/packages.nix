@@ -19,7 +19,6 @@
       gimp
       github-copilot-cli
       gpu-screen-recorder
-      gpu-screen-recorder-gtk
       grim
       gvfs
       hyprpicker

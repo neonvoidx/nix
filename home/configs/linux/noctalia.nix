@@ -120,6 +120,9 @@ in
           ];
           right = [
             {
+              "id" = "plugin:catwalk";
+            }
+            {
               diskPath = "/";
               id = "SystemMonitor";
               showCpuTemp = true;
@@ -131,6 +134,9 @@ in
               usePrimaryColor = true;
             }
             { id = "WallpaperSelector"; }
+            {
+              "id" = "plugin:privacy-indicator";
+            }
             { id = "ScreenRecorder"; }
             {
               blacklist = [ ];
@@ -175,9 +181,6 @@ in
               [ ]
           )
           ++ [
-            {
-              id = "plugin:github-feed";
-            }
             {
               hideWhenZero = true;
               id = "NotificationHistory";
