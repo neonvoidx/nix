@@ -34,7 +34,15 @@
         }
       ];
     };
-    printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = with pkgs; [ hplipWithPlugin ];
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
     dbus.enable = true;
     dbus.packages = with pkgs; [ bluez ];
     libinput.enable = true;
