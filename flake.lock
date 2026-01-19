@@ -68,18 +68,6 @@
         "type": "github"
       }
     },
-    "curseforge": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-qOvJls4f0LU+VrdbWRpRVUeRniykvbUoUPvWHpXb1Zs=",
-        "type": "file",
-        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
-      }
-    },
     "devshell": {
       "inputs": {
         "nixpkgs": [
@@ -276,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768598210,
-        "narHash": "sha256-kkgA32s/f4jaa4UG+2f8C225Qvclxnqs76mf8zvTVPg=",
+        "lastModified": 1768770171,
+        "narHash": "sha256-JPmLGZgdWa8QcQbbtBqyZhpmxIHZ3lUO48laERjw+4k=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c47b2cc64a629f8e075de52e4742de688f930dc6",
+        "rev": "521d5ea1a229ba315dd1cceaf869946ddcc83d36",
         "type": "github"
       },
       "original": {
@@ -377,11 +365,11 @@
     },
     "nixCats": {
       "locked": {
-        "lastModified": 1768594882,
-        "narHash": "sha256-KmVXwe4QDkcZlJbICj4FC83J+ZIT1r5t8nP+dCY/NDk=",
+        "lastModified": 1768727497,
+        "narHash": "sha256-oBhjXBWUMRSCSKobRHMb8X+WIetU76SdZAOtvVy+000=",
         "owner": "BirdeeHub",
         "repo": "nixCats-nvim",
-        "rev": "6a04f1c7d741b1f084324159ab7c15bcedbb1e0a",
+        "rev": "742da085b07b845d7987d771694742e6432b10ef",
         "type": "github"
       },
       "original": {
@@ -450,11 +438,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768603088,
-        "narHash": "sha256-yplh2XLfcZKc96cvA0UaOQjY0u9HQPDelWd1liZ4ygs=",
+        "lastModified": 1768776704,
+        "narHash": "sha256-2dqLSKNHAtr0tlf1IDaeycJpFCZ0ago8EKImmzxiiiY=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "6383a2be15c940c6176a6de18e3147d982edd7b6",
+        "rev": "23de0868149472241521d82104217b721a69551a",
         "type": "github"
       },
       "original": {
@@ -471,11 +459,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768600489,
-        "narHash": "sha256-0yyXG/Gqj+69utCC7EfQgNu2GphR229ppp02T4M4jx0=",
+        "lastModified": 1768770984,
+        "narHash": "sha256-bkpOYuAbcm4JRIHcb62ChTnoknMoukCXxEOEOweO1so=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "d449c1bf6a0737e16a0d6b83706e7fa45f0a58a6",
+        "rev": "e7ecbe13cc3a32384f866baca8a4acf18480a96d",
         "type": "github"
       },
       "original": {
@@ -527,7 +515,6 @@
     },
     "root": {
       "inputs": {
-        "curseforge": "curseforge",
         "home-manager": "home-manager",
         "hytale-launcher": "hytale-launcher",
         "nix-index-database": "nix-index-database",
@@ -551,11 +538,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768481291,
-        "narHash": "sha256-NjKtkJraCZEnLHAJxLTI+BfdU//9coAz9p5TqveZwPU=",
+        "lastModified": 1768709255,
+        "narHash": "sha256-aigyBfxI20FRtqajVMYXHtj5gHXENY2gLAXEhfJ8/WM=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "e085e303dfcce21adcb5fec535d65aacb066f101",
+        "rev": "5e8fae80726b66e9fec023d21cd3b3e638597aa9",
         "type": "github"
       },
       "original": {
@@ -572,11 +559,11 @@
         "systems": "systems_5"
       },
       "locked": {
-        "lastModified": 1768107098,
-        "narHash": "sha256-mSthw4k7jkB5S8+NYZwrQFItLj+17Se7Wn0pIfdASbc=",
+        "lastModified": 1768656845,
+        "narHash": "sha256-xNlXMyn7yc3Z/NOsz4NchO7gWFwsoCvtJ26pys4s2/M=",
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
-        "rev": "2e40e07527f9d724b1578f0af590ab345e836ec3",
+        "rev": "8bd7e49d5ac62756bee6e4b02221fb96bfc3c99a",
         "type": "github"
       },
       "original": {
@@ -606,11 +593,11 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1768603455,
-        "narHash": "sha256-ih6dYNhX1oSg0emfSAvf3iRcgsJtMmS6RUaoCX8kNoU=",
+        "lastModified": 1768744881,
+        "narHash": "sha256-3+h7OxqfrPIB/tRsiZXWE9sCbTm7NQN5Ie428p+S6BA=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "590e5c68c4d5e8c766420473c0185d75113f653b",
+        "rev": "06684f00cfbee14da96fd4307b966884de272d3a",
         "type": "github"
       },
       "original": {

@@ -134,6 +134,7 @@
   environment.systemPackages = with pkgs; [
     sbctl
     amdgpu_top
+    wowup-cf
     (blender.override { rocmSupport = true; }) # adds hardware acceleration for AMD to Blender
   ];
 
