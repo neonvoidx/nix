@@ -14,9 +14,9 @@
       ];
       auto-optimise-store = true;
       substituters = [
-        "https://cache.garnix.io"
-        "https://nix-community.cachix.org"
         "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://cache.garnix.io"
       ];
       trusted-users = [
         "root"

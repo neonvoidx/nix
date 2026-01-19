@@ -1,5 +1,5 @@
 { pkgs, curseforge, ... }:
-
+# not using atm
 {
   home.packages = [
     (pkgs.appimageTools.wrapType2 {

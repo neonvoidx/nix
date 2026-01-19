@@ -27,7 +27,7 @@
   ++ (
     if hostname == "void" then
       [
-        ./curseforge.nix
+        # ./curseforge.nix
       ]
     else
       [ ]
