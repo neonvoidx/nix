@@ -4,6 +4,7 @@
     home-manager
     kitty-themes
     godot
+    godotPackages.export-template
     proton-pass-cli
     ffmpeg
   ];
