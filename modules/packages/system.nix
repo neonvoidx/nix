@@ -4,16 +4,21 @@
     ananicy-cpp
     ananicy-rules-cachyos
     bat
+    bc
+    bind
     bluetui
     bluez
     brightnessctl
     btop
-    bind
     choose
+    cron
+    dig
     dust
     fd
+    file
     git
-    hplip
+    gnupg
+    gzip
     hypridle
     hyprpolkitagent
     inputs.nix-search-tv.packages.x86_64-linux.default
@@ -23,19 +28,26 @@
     lsd
     lsof
     mediainfo
+    pciutils
+    playerctl
     ripgrep
     rtkit
-    xwayland
-    playerctl
     sd
     swappy
+    traceroute
     tree
     tree-sitter
     udiskie
     unzip
+    unzip
     usbutils
     wget
+    whois
+    xwayland
     yazi
+    yubico-pam
+    yubico-piv-tool
+    zip
     zsh
   ];
 }
