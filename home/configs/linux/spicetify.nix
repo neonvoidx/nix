@@ -22,7 +22,10 @@ in
       popupLyrics
       shuffle
     ];
-    enabledCustomApps = with spicePkgs.apps; [ marketplace ];
+    enabledCustomApps = with spicePkgs.apps; [
+      marketplace
+      newReleases
+    ];
     theme = spicePkgs.themes.sleek;
     colorScheme = "Eldritch";
     wayland = true;
