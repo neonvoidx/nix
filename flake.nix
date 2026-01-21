@@ -54,10 +54,7 @@
       url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    curseforge = {
-      url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
-      flake = false;
-    };
+
   };
 
   outputs =
