@@ -68,18 +68,6 @@
         "type": "github"
       }
     },
-    "curseforge": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-M94cmO6zanlt0KKxbiIlpSMz22hUNDTe5GSYQFSW+tU=",
-        "type": "file",
-        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
-      }
-    },
     "devshell": {
       "inputs": {
         "nixpkgs": [
@@ -392,11 +380,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1768564909,
-        "narHash": "sha256-Kell/SpJYVkHWMvnhqJz/8DqQg2b6PguxVWOuadbHCc=",
+        "lastModified": 1768886240,
+        "narHash": "sha256-C2TjvwYZ2VDxYWeqvvJ5XPPp6U7H66zeJlRaErJKoEM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e4bae1bd10c9c57b2cf517953ab70060a828ee6f",
+        "rev": "80e4adbcf8992d3fd27ad4964fbb84907f9478b0",
         "type": "github"
       },
       "original": {
@@ -450,11 +438,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768963447,
-        "narHash": "sha256-aKhVgiPglpY19abnOjSBtM/dKChRDPAIEqEHEtWDc4E=",
+        "lastModified": 1768971481,
+        "narHash": "sha256-w7mMbLOC664dDGn/j1AbtU2auWGMAYvh99tt5WNMX+U=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "7311024d92c6c5f386fc6853418af5ccc2fedb59",
+        "rev": "1a9aa31017bd34f7f5969f050264d7f9b5c6798e",
         "type": "github"
       },
       "original": {
@@ -471,11 +459,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768962809,
-        "narHash": "sha256-lp4LcEsgRyGBMS9oj4AgYapksCBCsriefDBVjmlj56s=",
+        "lastModified": 1768971680,
+        "narHash": "sha256-6S9/oZW1U2slM1wDiFseE5gtTSKdqnc535SQI9qBcyQ=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "6721668492d3e2516d591862cad7e314472bacda",
+        "rev": "f0c2513471672796f430bf4b5afec737fa289c30",
         "type": "github"
       },
       "original": {
@@ -527,7 +515,6 @@
     },
     "root": {
       "inputs": {
-        "curseforge": "curseforge",
         "home-manager": "home-manager",
         "hytale-launcher": "hytale-launcher",
         "nix-index-database": "nix-index-database",

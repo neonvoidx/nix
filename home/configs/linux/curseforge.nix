@@ -1,18 +1,24 @@
-{ pkgs, curseforge, ... }:
+{ pkgs, ... }:
 # not using atm
+let
+  curseforge = pkgs.fetchurl {
+    url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
+    hash = "sha256-IqdGtblWD4wnqWp2kGJT3O40Xz3ORZpyKCFikIjb2S4=";
+  };
+in
 {
   home.packages = [
     (pkgs.appimageTools.wrapType2 {
       pname = "CurseForge";
       name = "curseforge";
       version = "1.296";
-      src = "${curseforge}";
+      src = curseforge;
       extraInstallCommands =
         let
           contents = pkgs.appimageTools.extract {
             pname = "CurseForge";
             version = "1.296";
-            src = "${curseforge}";
+            src = curseforge;
           };
         in
         ''
