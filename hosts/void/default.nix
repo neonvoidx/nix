@@ -121,6 +121,9 @@
     steam-hardware.enable = true;
   };
 
+  # CPU governor for audio performance under load
+  powerManagement.cpuFreqGovernor = "performance";
+
   # Update firmware for RDNA4 stability
   hardware.firmware = [ pkgs.linux-firmware ];
 
