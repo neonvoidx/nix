@@ -21,10 +21,10 @@
           "default.clock.rate" = 48000;
           "default.clock.allowed-rates" = [
             44100
-            48000
             88200
-            96000
             176400
+            48000
+            96000
             192000
           ];
           "default.clock.quantum" = 1024;

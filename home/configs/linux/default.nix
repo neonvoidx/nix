@@ -18,6 +18,7 @@
     ./mpv.nix
     ./nh.nix
     ./noctalia.nix
+    ./noisetorch.nix
     ./obs-studio.nix
     ./pics.nix
     ./spicetify.nix
