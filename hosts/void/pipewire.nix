@@ -5,8 +5,8 @@
     extraConfig.pipewire = {
       "10-low-latency.conf" = {
         "context.properties" = {
-          "default.frags" = 8;
-          "default.frag-size" = 512;
+          "default.frags" = 16;
+          "default.frag-size" = 1024;
         };
       };
       "10-max-buffers" = {
@@ -16,7 +16,7 @@
       };
       "11-clock-rates" = {
         "context-properties" = {
-          "default.clock.rate" = 96000;
+          "default.clock.rate" = 48000;
           "default.clock.allowed-rates" = [
             44100
             48000
@@ -25,9 +25,9 @@
             176400
             192000
           ];
-          "default.clock.quantum" = 512;
-          "default.clock.min-quantum" = 32;
-          "default.clock.max-quantum" = 2048;
+          "default.clock.quantum" = 1024;
+          "default.clock.min-quantum" = 256;
+          "default.clock.max-quantum" = 8192;
         };
       };
     };
@@ -123,9 +123,9 @@
           ];
           actions = {
             update-props = {
-              "node.latency" = "256/48000";
-              "api.alsa.period-size" = 256;
-              "api.alsa.headroom" = 1024;
+              "node.latency" = "512/48000";
+              "api.alsa.period-size" = 512;
+              "api.alsa.headroom" = 2048;
             };
           };
         }
