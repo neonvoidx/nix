@@ -27,8 +27,8 @@
   ++ (
     if hostname == "void" then
       [
-        # ./curseforge.nix
-        ./wowup-cf.nix
+        ./curseforge.nix
+        # ./wowup-cf.nix
       ]
     else
       [ ]
