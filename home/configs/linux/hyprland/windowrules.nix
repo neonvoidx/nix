@@ -69,7 +69,16 @@ in
     {
       name = "bnet";
       "match:title" = "Battle.net";
+      float = "off";
+      fullscreen = "off";
+      workspace = "10";
+    }
+    {
+      name = "bnetsettings";
+      "match:title" = "Battle.net Settings";
       float = "on";
+      fullscreen = "off";
+      workspace = "10";
     }
     {
       name = "hytale";
