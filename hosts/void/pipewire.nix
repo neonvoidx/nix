@@ -11,7 +11,9 @@
       };
       "10-max-buffers" = {
         "context.properties" = {
-          "link.max-buffers" = 64;
+          "link.max-buffers" = 128;
+          "mem.allow-mlock" = true;
+          "mem.mlock-all" = false;
         };
       };
       "11-clock-rates" = {
@@ -123,9 +125,36 @@
           ];
           actions = {
             update-props = {
-              "node.latency" = "512/48000";
-              "api.alsa.period-size" = 512;
-              "api.alsa.headroom" = 2048;
+              "node.latency" = "1024/48000";
+              "api.alsa.period-size" = 1024;
+              "api.alsa.headroom" = 4096;
+              "resample.quality" = 4;
+            };
+          };
+        }
+      ];
+    };
+    "54-voip-optimize" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            # Discord/Vesktop
+            { "application.process.binary" = "~.*vesktop.*"; }
+            { "application.process.binary" = "~.*discord.*"; }
+            { "application.process.binary" = "~.*Discord.*"; }
+            { "application.name" = "~.*Vesktop.*"; }
+            { "application.name" = "~.*Discord.*"; }
+            # Other VoIP
+            { "application.process.binary" = "~.*teamspeak.*"; }
+            { "application.process.binary" = "~.*mumble.*"; }
+            { "application.process.binary" = "~.*slack.*"; }
+          ];
+          actions = {
+            update-props = {
+              "node.latency" = "1024/48000";
+              "api.alsa.period-size" = 1024;
+              "api.alsa.headroom" = 4096;
+              "resample.quality" = 4;
             };
           };
         }

@@ -68,6 +68,18 @@
         "type": "github"
       }
     },
+    "curseforge": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-M94cmO6zanlt0KKxbiIlpSMz22hUNDTe5GSYQFSW+tU=",
+        "type": "file",
+        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage"
+      }
+    },
     "devshell": {
       "inputs": {
         "nixpkgs": [
@@ -438,11 +450,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768954743,
-        "narHash": "sha256-FT+UXylarA9KePe4+mijG67u664HWeggISNILtU28wI=",
+        "lastModified": 1768963447,
+        "narHash": "sha256-aKhVgiPglpY19abnOjSBtM/dKChRDPAIEqEHEtWDc4E=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "cf0265a885cd5f641eef32ac3b6d67299c82726b",
+        "rev": "7311024d92c6c5f386fc6853418af5ccc2fedb59",
         "type": "github"
       },
       "original": {
@@ -459,11 +471,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768947911,
-        "narHash": "sha256-VsA5aEqMlY82nbCZmEupHGbVAvWuaHGroWJreqlgrfU=",
+        "lastModified": 1768962809,
+        "narHash": "sha256-lp4LcEsgRyGBMS9oj4AgYapksCBCsriefDBVjmlj56s=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "dfc07ec141ecab8b657eb831d73687d46802a220",
+        "rev": "6721668492d3e2516d591862cad7e314472bacda",
         "type": "github"
       },
       "original": {
@@ -515,6 +527,7 @@
     },
     "root": {
       "inputs": {
+        "curseforge": "curseforge",
         "home-manager": "home-manager",
         "hytale-launcher": "hytale-launcher",
         "nix-index-database": "nix-index-database",
