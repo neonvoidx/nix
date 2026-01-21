@@ -24,7 +24,7 @@
     inputs.nix-search-tv.packages.x86_64-linux.default
     just
     killall
-    kdePackages.plasma-workspace.xembedsniproxy
+    libappindicator-gtk3
     libnotify
     lsd
     lsof
