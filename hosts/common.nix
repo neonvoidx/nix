@@ -16,6 +16,7 @@
     # Services
     ../modules/services/pipewire.nix
     ../modules/services/desktop.nix
+    ../modules/services/pcscd.nix
     ../modules/services/xserver.nix
     ../modules/services/udev.nix
     ../modules/services/greetd.nix
@@ -32,7 +33,7 @@
 
     # Secrets management
     ../modules/sops.nix
-    
+
     # Stylix
     ../modules/stylix.nix
   ];
