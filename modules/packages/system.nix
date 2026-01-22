@@ -31,6 +31,7 @@
     mediainfo
     pciutils
     playerctl
+    pcscliteWithPolkit
     ripgrep
     rtkit
     sd
@@ -47,7 +48,7 @@
     xwayland
     yazi
     yubico-pam
-    yubico-piv-tool
+    yubioath-flutter
     zip
     zsh
   ];
