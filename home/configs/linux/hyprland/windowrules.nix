@@ -30,7 +30,7 @@ in
     }
     {
       name = "gnomekeyringprompt";
-      "match:class" = "gcr-prompter";
+      "match:title" = "Unlock Login Keying";
       float = "on";
       pin = "on";
     }
