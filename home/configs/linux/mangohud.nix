@@ -13,6 +13,8 @@
       cpu_load_change = true;
       ram = true;
       fps = true;
+      frametime = 0;
+      fps_text = "FPS";
       fps_color_change = true;
       toggle_logging = "Shift_L+F2";
       toggle_hud_position = "Shift_R+F11";
