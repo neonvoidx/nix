@@ -67,6 +67,15 @@ in
       workspace = "11";
     }
     {
+      name = "lostarksplash";
+      "match:class" = "^steam_app_.*$";
+      "match:initial_title" = "SplashScreen";
+      fullscreen = "off";
+      float = "on";
+      center = "on";
+      workspace = "11";
+    }
+    {
       name = "bnet";
       "match:title" = "Battle.net";
       float = "off";
