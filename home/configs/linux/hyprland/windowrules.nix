@@ -76,6 +76,13 @@ in
       workspace = "11";
     }
     {
+      name = "ffxiv";
+      "match:title" = "FINAL FANTASY XIV";
+      float = "off";
+      fullscreen = "on";
+      workspace = "11";
+    }
+    {
       name = "bnet";
       "match:title" = "Battle.net";
       float = "off";
