@@ -23,7 +23,7 @@
       toggle_fps_limit = "Shift_L+F1";
       round_corners = 15;
       background_alpha = 0.2;
-      position = "top-right";
+      position = "top-left";
       table_columns = 2;
       toggle_hud = "Shift_R+F12";
       font_size = 16;
