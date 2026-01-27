@@ -20,9 +20,11 @@ if [ "$1" = "1" ]; then
   xrandr --output "$INTERNAL_MONITOR" --primary
   # Enable internal monitor
   if [ -f "$GAMESCREEN_STATE_FILE" ]; then
-    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-notouch.conf"
+    # hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-notouch.conf"
+    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-notouch-nohdr.conf"
   else
-    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors.conf"
+    # hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors.conf"
+    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-nohdr.conf"
   fi
   move_all_workspaces_to_monitor "$INTERNAL_MONITOR"
   hyprctl dispatch moveworkspacetomonitor 2 "$EXTERNAL_MONITOR"
@@ -34,9 +36,11 @@ else
   xrandr --output "$EXTERNAL_MONITOR" --primary
   # Disable internal monitor
   if [ -f "$GAMESCREEN_STATE_FILE" ]; then
-    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch.conf"
+    # hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch.conf"
+    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch-nohdr.conf"
   else
-    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work.conf"
+    # hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work.conf"
+    hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-nohdr.conf"
   fi
   move_all_workspaces_to_monitor "$EXTERNAL_MONITOR"
   echo "external" > "$SCREEN_STATE_FILE"
