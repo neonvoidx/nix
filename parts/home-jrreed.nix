@@ -1,8 +1,11 @@
 # Standalone home-manager configuration for macOS (jrreed user)
 { config, inputs, ... }:
+let
+  macUsername = config.macUsername;
+in
 {
   configurations.home.jrreed = {
-    username = config.macUsername;
+    username = macUsername;
     system = "aarch64-darwin";
     module = {
       imports = [
@@ -13,8 +16,8 @@
         
         ({ lib, ... }: {
           home = {
-            username = config.macUsername;
-            homeDirectory = lib.mkForce "/Users/${config.macUsername}";
+            username = macUsername;
+            homeDirectory = lib.mkForce "/Users/${macUsername}";
           };
           
           programs.git = {
