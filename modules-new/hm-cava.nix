@@ -1,0 +1,13 @@
+{ config, ... }:
+{
+  flake.modules.homeManager.cava = { pkgs, lib, config, ... }: {
+    programs.cava = {
+      enable = true;
+      settings = {
+        general.framerate = 60;
+        input.method = "pipewire";
+        smoothing.noise_reduction = 88;
+      };
+    };
+  };
+}
