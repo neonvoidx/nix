@@ -7,6 +7,7 @@
     ./fastfetch.nix
     ./fzf.nix
     ./git.nix
+    ./ghostty.nix
     ./just.nix
     ./jq.nix
     ./kitty.nix
