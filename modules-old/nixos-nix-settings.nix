@@ -1,6 +1,7 @@
-{ config, lib, ... }:
+# NixOS module: Nix configuration with flakes and caching
+{ lib, ... }:
 {
-  flake.modules.nixos.nix-settings = { username, ... }: {
+  flake.modules.nixos.nix-settings = {
     nix = {
       gc = {
         automatic = lib.mkDefault true;
@@ -20,12 +21,12 @@
         ];
         trusted-users = [
           "root"
-          username
+          "neonvoid"
           "@wheel"
         ];
         allowed-users = [
           "root"
-          username
+          "neonvoid"
           "@wheel"
         ];
         trusted-public-keys = [
@@ -35,5 +36,11 @@
         ];
       };
     };
+    
+    nix.extraOptions = ''
+      connect-timeout = 10
+      stalled-download-timeout = 100
+      download-attempts = 5
+    '';
   };
 }

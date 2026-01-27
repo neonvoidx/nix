@@ -1,4 +1,4 @@
-{ config, ... }:
+# NixOS module: Locale and time configuration
 {
   flake.modules.nixos.locale = { pkgs, ... }: {
     i18n.defaultLocale = "en_US.UTF-8";

@@ -1,4 +1,4 @@
-{ config, ... }:
+# NixOS module: Fonts configuration
 {
   flake.modules.nixos.fonts = { pkgs, ... }: {
     fonts.packages = with pkgs; [

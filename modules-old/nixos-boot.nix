@@ -1,4 +1,4 @@
-{ config, ... }:
+# NixOS module: Boot configuration with Plymouth and Limine
 {
   flake.modules.nixos.boot = {
     boot = {

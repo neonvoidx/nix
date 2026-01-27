@@ -1,4 +1,4 @@
-# NixOS module: Pipewire audio configuration
+{ config, ... }:
 {
   flake.modules.nixos.pipewire = {
     services.pipewire = {

@@ -1,9 +1,10 @@
-{ config, ... }:
+# NixOS module: User configuration
+{ inputs, ... }:
 {
-  flake.modules.nixos.users = { pkgs, username, ... }: {
-    users.users.${username} = {
+  flake.modules.nixos.users = { pkgs, ... }: {
+    users.users.neonvoid = {
       isNormalUser = true;
-      description = username;
+      description = "neonvoid";
       extraGroups = [
         "networkmanager"
         "wheel"

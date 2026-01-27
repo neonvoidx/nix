@@ -3,7 +3,7 @@
   flake.modules.nixos.scopebuddy = { pkgs, ... }: {
     nixpkgs.overlays = [
       (final: prev: {
-        scopebuddy = final.callPackage ../modules/programs/scopebuddy.nix { };
+        scopebuddy = final.callPackage ../modules-old/programs/scopebuddy.nix { };
       })
     ];
   };
