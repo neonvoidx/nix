@@ -1,11 +1,10 @@
 { config, ... }:
 {
-  flake.modules.homeManager.hyprland-environment = { pkgs, lib, config, hostname, ... }: {
+  flake.modules.homeManager.hyprland-environment = { ... }: {
     env = [
       "ENABLE_HDR_WSI,1"
       "DXVK_HDR,1"
       "ELECTRON_OZONE_PLATFORM_HINT,auto"
-      # QT_QPA_PLATFORMTHEME managed by Stylix
       "AMD_VULKAND_ICD,RADV"
       "GDK_SCALE,1"
       "QT_SCALE_FACTOR,1"

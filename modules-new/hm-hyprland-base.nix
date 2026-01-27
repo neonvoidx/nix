@@ -1,14 +1,29 @@
 { config, ... }:
 {
-  flake.modules.homeManager.hyprland-base = { inputs, pkgs, lib, config, hostname, ... }: {
+  flake.modules.homeManager.hyprland-base = {
+    inputs,
+    pkgs,
+    lib,
+    config,
+    hostname,
+    ...
+  }: {
     wayland.windowManager.hyprland = {
       enable = true;
       package = null;
       portalPackage = null;
 
-      settings = { };
+      settings = lib.mkMerge [
+        (import ../../home/configs/linux/hyprland/environment.nix { inherit lib config; })
+        (import ../../home/configs/linux/hyprland/monitors.nix { inherit lib config hostname; })
+        (import ../../home/configs/linux/hyprland/keybindings.nix { inherit lib config; })
+        (import ../../home/configs/linux/hyprland/windowrules.nix { inherit lib config hostname; })
+        (import ../../home/configs/linux/hyprland/settings.nix { inherit lib config hostname; })
+        (import ../../home/configs/linux/hyprland/startup.nix { inherit lib config hostname; })
+        (import ../../home/configs/linux/hyprland/workspace.nix { inherit lib config hostname; })
+        (import ../../home/configs/linux/hyprland/layerrule.nix { inherit lib config hostname; })
+      ];
 
-      #TODO can we have submaps in keybindings.nix?
       extraConfig = # hyprlang
         ''
           # Resize submap bindings
@@ -26,7 +41,6 @@
         '';
     };
 
-    # Portal package configuration
     xdg.portal = {
       extraPortals = [
         inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
@@ -42,7 +56,6 @@
       };
     };
 
-    # Hyprland configuration files
     home.file.".config/hypr/xdph.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/xdph.conf";
     home.file.".config/hypr/scripts".source =
