@@ -1,0 +1,10 @@
+{ config, ... }:
+{
+  flake.modules.nixos.hyprshutdown = { pkgs, ... }: {
+    nixpkgs.overlays = [
+      (final: prev: {
+        hyprshutdown = final.callPackage ../modules/programs/hyprshutdown.nix { };
+      })
+    ];
+  };
+}

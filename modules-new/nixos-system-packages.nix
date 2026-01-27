@@ -1,0 +1,56 @@
+{ config, inputs, ... }:
+{
+  flake.modules.nixos.system-packages = { pkgs, ... }: {
+    environment.systemPackages = with pkgs; [
+      ananicy-cpp
+      ananicy-rules-cachyos
+      bat
+      bc
+      bind
+      bluetui
+      bluez
+      brightnessctl
+      btop
+      choose
+      cron
+      dig
+      dust
+      fd
+      file
+      git
+      gnupg
+      gzip
+      hypridle
+      hyprpolkitagent
+      inputs.nix-search-tv.packages.x86_64-linux.default
+      just
+      killall
+      libappindicator-gtk3
+      libnotify
+      lsd
+      lsof
+      mediainfo
+      pciutils
+      playerctl
+      pcscliteWithPolkit
+      ripgrep
+      rtkit
+      sd
+      swappy
+      traceroute
+      tree
+      tree-sitter
+      udiskie
+      unzip
+      usbutils
+      wget
+      whois
+      xwayland
+      yazi
+      yubico-pam
+      yubioath-flutter
+      zip
+      zsh
+    ];
+  };
+}
