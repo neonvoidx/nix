@@ -10,6 +10,7 @@
       ../../modules/system/locale.nix
       ../../modules/system/networking.nix
       ../../modules/programs/noctalia.nix
+      ../../home/neonvoid/nixos.nix
     ];
   };
 }
