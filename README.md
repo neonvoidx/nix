@@ -1,6 +1,24 @@
 # The Void Hungers - Nix Configuration
 
-A modular NixOS and Home Manager flake configuration with cross-platform support (NixOS + macOS), featuring secrets management via sops-nix and Stylix theming.
+A modular NixOS and Home Manager configuration using the **[Dendritic Pattern](https://github.com/mightyiam/dendritic)**, featuring cross-platform support (NixOS + macOS), secrets management via sops-nix, and Stylix theming.
+
+## 🌳 Dendritic Pattern
+
+This configuration follows the dendritic pattern where:
+
+- **Every `.nix` file** under `./parts/` is a [flake-parts](https://flake.parts) module
+- Files implement **single features** across all configurations
+- Lower-level configs (NixOS, home-manager) are stored as **deferred modules**
+- All modules are **automatically imported** using [import-tree](https://github.com/vic/import-tree)
+- Values are shared through **top-level config** (not `specialArgs`)
+
+### Benefits
+
+✅ **Type consistency** - All files are flake-parts modules  
+✅ **Automatic importing** - No manual module imports needed  
+✅ **Feature-based organization** - Path names describe features, not file types  
+✅ **Easy refactoring** - Files can be freely renamed, moved, or split  
+✅ **Better sharing** - Values accessible through top-level config
 
 ## 🚀 Quick Start
 
@@ -42,39 +60,66 @@ just repl     # Start Nix REPL
 
 ### `/flake.nix`
 
-Main entry point defining:
+Main entry point using flake-parts. Declares inputs and automatically imports all modules from `./parts/`.
 
-- **NixOS Hosts**: `void`, `voidframe`
-- **Home Manager Configuration**: `jrreed` (macOS standalone)
-- **Flake Inputs**: nixpkgs, home-manager, sops-nix, stylix, nixvim, spicetify-nix, noctalia, and more
+### `/parts/` ⭐ **Dendritic Modules**
+
+Feature-based flake-parts modules (automatically imported):
+
+- **`flake-parts.nix`** - Enables flake-parts.modules for deferredModule support
+- **`systems.nix`** - Supported system architectures
+- **`meta.nix`** - Top-level configuration options (usernames, etc.)
+- **`nixos.nix`** - Infrastructure for NixOS configurations
+- **`home-manager.nix`** - Infrastructure for standalone home-manager configs
+- **`host-*.nix`** - Individual host configurations (void, voidframe)
+- **`home-*.nix`** - Home manager configurations per user
+- **Feature modules**:
+  - `nixpkgs-config.nix` - Common nixpkgs settings
+  - `nix-settings.nix` - Nix daemon configuration
+  - `system.nix` - Core system modules
+  - `hardware.nix` - Hardware configuration
+  - `desktop.nix` - Desktop environment
+  - `services.nix` - System services
 
 ### `/hosts/`
 
-NixOS system configurations:
+Host-specific hardware and configurations:
 
-- **`common.nix`** - Shared base configuration for all hosts
-- **`void/`** - Primary workstation
-- **`voidframe/`** - Secondary system
+### `/hosts/`
+
+Host-specific hardware and configurations:
+
+- **`void/`** - Primary workstation (hardware-configuration.nix, pipewire.nix)
+- **`voidframe/`** - Secondary system/laptop (hardware-configuration.nix)
+- ~~**`common.nix`**~~ - ⚠️ **Deprecated** (functionality moved to parts/)
 
 ### `/modules/`
 
-System-level NixOS modules organized by category:
+⚠️ **Legacy modules** (imported by parts/, will be migrated):
 
-- **`desktop/`** - Desktop environment & window manager configs
-- **`hardware/`** - Hardware-specific configurations
-- **`packages/`** - Package management & overlays
-- **`programs/`** - System-wide program configurations
+- **`desktop/`** - Desktop environment configurations
+- **`hardware/`** - Hardware-specific settings
+- **`packages/`** - System packages
+- **`programs/`** - Custom program derivations (scopebuddy, hyprshutdown, noctalia)
 - **`services/`** - System services
 - **`system/`** - Core system settings
+- **`sops.nix`**, **`stylix.nix`** - Secrets and theming
 
 ### `/home/`
 
 Home Manager user configurations:
 
-- **`neonvoid/`** - NixOS user configuration
+- **`neonvoid/`** - Linux user configuration
+  - `home.nix` - Main entry point
+  - `packages.nix` - User packages (consolidated with common packages)
+  - `git.nix` - Git & GitHub CLI config
+  - `files.nix` - File management & SSH keys
 - **`jrreed/`** - macOS user configuration
 - **`common.nix`** - Shared cross-platform settings
 - **`configs/`** - Application dotfiles & configs
+  - `common/` - Platform-independent configs (~60 files: nvim, kitty, zsh, etc.)
+  - `linux/` - Linux-only configs (~35 files: Hyprland, audio, gaming)
+  - `mac/` - macOS configs
 
 ### `/secrets/`
 
@@ -88,7 +133,51 @@ SOPS-encrypted secrets with age encryption:
 
 Static files and resources referenced by configurations
 
-## 🔐 SOPS Secrets Management
+## 🏗️ Architecture
+
+### Configuration Flow
+
+```
+flake.nix (flake-parts entry point)
+    ↓
+./parts/* (auto-imported via import-tree)
+    ↓
+Flake outputs: nixosConfigurations.{void,voidframe}
+               homeConfigurations.{jrreed}
+```
+
+### How It Works
+
+1. **flake.nix** uses flake-parts to set up the top-level configuration
+2. **import-tree** automatically imports all `.nix` files from `./parts/`
+3. Each part declares:
+   - Options (via `options.*`)
+   - Module storage (via `flake.modules.nixos.*` or `flake.modules.home.*`)
+   - Configurations (via `configurations.nixos.*` or `configurations.home.*`)
+4. Infrastructure modules (`nixos.nix`, `home-manager.nix`) convert configurations to flake outputs
+
+### Adding a New Feature
+
+Simply create a new `.nix` file in `./parts/` - it will be automatically imported!
+
+```nix
+# parts/new-feature.nix
+{ config, ... }:
+{
+  flake.modules.nixos.my-feature = { pkgs, ... }: {
+    # Your NixOS module here
+  };
+}
+```
+
+Then reference it in host configurations:
+
+```nix
+# parts/host-void.nix
+imports = [ nixos.my-feature ];
+```
+
+## 📚 Additional Files
 
 ### Initial Setup
 
@@ -131,3 +220,6 @@ nix-shell -p sops --run 'sops secrets/secrets.yaml'
 - **`.justfile`** - Task runner with common commands
 - **`TODO.md`** - Planned improvements
 - **`flake.lock`** - Locked dependency versions
+- **`flake.nix.old`** - Previous non-dendritic configuration (backup)
+
+## 🔐 SOPS Secrets Management
