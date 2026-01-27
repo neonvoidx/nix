@@ -1,5 +1,8 @@
 # Nix daemon and package manager settings
 { config, ... }:
+let
+  username = config.username;
+in
 {
   flake.modules.nixos.nix-settings = { lib, ... }: {
     nix = {
@@ -21,12 +24,12 @@
         ];
         trusted-users = [
           "root"
-          config.username
+          username
           "@wheel"
         ];
         allowed-users = [
           "root"
-          config.username
+          username
           "@wheel"
         ];
         trusted-public-keys = [

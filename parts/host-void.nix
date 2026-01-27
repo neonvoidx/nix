@@ -11,6 +11,7 @@ in
       imports = [
         # Hardware
         ../../hosts/void/hardware-configuration.nix
+        ../../hosts/void/pipewire.nix
         
         # Base modules
         nixos.nixpkgs-config
