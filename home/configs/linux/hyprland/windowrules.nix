@@ -84,7 +84,14 @@ in
     }
     {
       name = "bnet";
-      "match:title" = "Battle.net";
+      "match:title" = "Battle.net.*";
+      float = "off";
+      fullscreen = "off";
+      workspace = "10";
+    }
+    {
+      name = "bnetlogin";
+      "match:title" = "Battle.net Login";
       float = "off";
       fullscreen = "off";
       workspace = "10";
