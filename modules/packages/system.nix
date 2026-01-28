@@ -24,7 +24,6 @@
     inputs.nix-search-tv.packages.x86_64-linux.default
     just
     killall
-    libappindicator-gtk3
     libnotify
     lsd
     lsof
