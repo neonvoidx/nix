@@ -1,11 +1,9 @@
-{ ... }:
+{ config, ... }:
 {
   programs.ghostty = {
     enable = true;
     settings = {
       theme = "eldritch";
-      font-family = "JetBrainsMono Nerd Font";
-      font-size = 16;
       background-opacity = 0.99;
       cursor-style = "bar";
       class = "ghostty";
@@ -18,6 +16,7 @@
       window-theme = "ghostty";
       shell-integration = "detect";
       gtk-tabs-location = "bottom";
+      gtk-wide-tabs = false;
       window-show-tab-bar = "always";
       shell-integration-features = "cursor,sudo,title,ssh-env,ssh-terminfo";
       window-save-state = "always";
@@ -30,6 +29,7 @@
       copy-on-select = "clipboard";
       confirm-close-surface = false;
       link-previews = true;
+      custom-shader = "shaders/cursor_warp.glsl";
       gtk-custom-css = "~/.config/ghostty/gtk.css";
       keybind = [
         "ctrl+shift+c=copy_to_clipboard"
@@ -92,43 +92,8 @@
       };
     };
   };
-  home.file.".config/ghostty/gtk.css" = {
-    text = ''
-      /*
-      debug: env GTK_DEBUG=interactive ghostty
-      https://docs.gtk.org/gtk4/css-overview.html
-      https://docs.gtk.org/gtk4/css-properties.html
-      */
-      headerbar {
-        margin: 0;
-        padding: 0;
-        min-height: 20px;
-      }
-
-      tabbar tabbox {
-        margin: 0;
-        padding: 0;
-        min-height: 10px;
-        background-color: #1a1a1a;
-        font-family: JetBrainsMono Nerd Font;
-      }
-
-      tabbar tabbox tab {
-        margin: 0;
-        padding: 0;
-        color: #9ca3af;
-        border-right: 1px solid #374151;
-      }
-
-      tabbar tabbox tab:selected {
-        background-color: #2d2d2d;
-        color: #ffffff;
-      }
-
-      tabbar tabbox tab label {
-        font-size: 14px;
-        font-weight: bold;
-      }
-    '';
-  };
+  home.file.".config/ghostty/gtk.css".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/ghostty/gtk.css";
+  home.file.".config/ghostty/cursor_warp.glsl".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/ghostty/shaders/cursor_warp.glsl";
 }
