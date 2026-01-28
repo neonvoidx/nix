@@ -52,7 +52,6 @@
           deadlock-mod-manager
           inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
           noisetorch
-          xivlauncher
         ]
       else
         [ ]
