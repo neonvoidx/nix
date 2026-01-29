@@ -1,6 +1,6 @@
 # The Void Hungers - Nix Configuration
 
-A modular NixOS and Home Manager flake configuration with cross-platform support (NixOS + macOS), featuring secrets management via sops-nix and Stylix theming.
+A modular NixOS and Home Manager flake configuration featuring secrets management via sops-nix and Stylix theming.
 
 ## 🚀 Quick Start
 
@@ -16,16 +16,6 @@ sudo nixos-rebuild switch --flake .#voidframe
 
 # Using justfile
 just rebuild
-```
-
-### Home Manager on macOS
-
-```bash
-# Switch configuration for jrreed user
-home-manager switch --flake .#jrreed
-
-# Build without activating
-home-manager build --flake .#jrreed
 ```
 
 ### Utility Commands
@@ -45,7 +35,6 @@ just repl     # Start Nix REPL
 Main entry point defining:
 
 - **NixOS Hosts**: `void`, `voidframe`
-- **Home Manager Configuration**: `jrreed` (macOS standalone)
 - **Flake Inputs**: nixpkgs, home-manager, sops-nix, stylix, nixvim, spicetify-nix, noctalia, and more
 
 ### `/hosts/`
@@ -71,9 +60,8 @@ System-level NixOS modules organized by category:
 
 Home Manager user configurations:
 
-- **`neonvoid/`** - NixOS user configuration
-- **`jrreed/`** - macOS user configuration
-- **`common.nix`** - Shared cross-platform settings
+- **`neonvoid/`** - User configuration
+- **`common.nix`** - Base Home Manager settings
 - **`configs/`** - Application dotfiles & configs
 
 ### `/secrets/`

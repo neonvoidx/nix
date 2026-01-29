@@ -10,8 +10,6 @@
       supportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
       ];
       forEachSupportedSystem =
         f:
@@ -47,8 +45,8 @@
                     lcov
                     vcpkg
                     vcpkg-tool
-                  ]
-                  ++ (if stdenv.hostPlatform.system == "aarch64-darwin" then [ ] else [ gdb ]);
+                    gdb
+                  ];
 
               };
         }
