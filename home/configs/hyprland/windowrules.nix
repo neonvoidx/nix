@@ -112,8 +112,9 @@ in
     }
     {
       name = "wow";
-      "match:title" = "^World of Warcraft$";
+      "match:title" = "World of Warcraft";
       fullscreen = "on";
+      float = "off";
       workspace = "11";
     }
     {

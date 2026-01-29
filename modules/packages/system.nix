@@ -25,6 +25,7 @@
     just
     killall
     libnotify
+    libappindicator-gtk3
     lsd
     lsof
     mediainfo
