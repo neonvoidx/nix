@@ -7,5 +7,6 @@
     godotPackages.export-template
     proton-pass-cli
     ffmpeg
+    kdePackages.plasma-workspace # TODO this is only for xembedsniproxy, which is annoying
   ];
 }

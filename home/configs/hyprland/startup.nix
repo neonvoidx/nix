@@ -15,6 +15,7 @@ in
     "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "xrandr --output DP-2 --primary"
+    "xembedsniproxy" # Wine/XWayland tray icons support
     "[workspace 2 silent] firefox"
     "[workspace 4 silent] sleep 2 && thunderbird"
   ]

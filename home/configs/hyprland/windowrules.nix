@@ -159,6 +159,17 @@ in
       "match:class" = "gamescope";
       workspace = "11";
     }
+    {
+      name = "xwaylandhelper";
+      "match:xwayland" = "true";
+      "match:title" = "^$";
+      "match:class" = "^$";
+      "match:initial_class" = "^$";
+      "match:initial_title" = "^$";
+      opacity = "0.0";
+      float = "true";
+      no_blur = "on";
+    }
   ]
   ++ lib.optionals isVoid [
     {
