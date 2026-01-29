@@ -213,6 +213,37 @@ in
             { id = "plugin:pomodoro"; }
             { id = "plugin:timer"; }
             {
+              id = "CustomButton";
+              "colorizeSystemIcon" = "none";
+              "enableColorization" = false;
+              "hideMode" = "alwaysExpanded";
+              "icon" = "screen-share";
+              "ipcIdentifier" = "";
+              "leftClickExec" = "~/scripts/toggle-monitor.sh 1";
+              "leftClickUpdateText" = true;
+              "maxTextLength" = {
+                "horizontal" = 10;
+                "vertical" = 10;
+              };
+              "middleClickExec" = "";
+              "middleClickUpdateText" = false;
+              "parseJson" = false;
+              "rightClickExec" = "~/scripts/toggle-monitor.sh 0";
+              "rightClickUpdateText" = true;
+              "showIcon" = true;
+              "textCollapse" = "";
+              "textCommand" = "cat /tmp/hypr-screen-state";
+              "textIntervalMs" = 1000;
+              "textStream" = false;
+              "wheelDownExec" = "";
+              "wheelDownUpdateText" = false;
+              "wheelExec" = "";
+              "wheelMode" = "unified";
+              "wheelUpExec" = "";
+              "wheelUpUpdateText" = false;
+              "wheelUpdateText" = false;
+            }
+            {
               hideWhenZero = true;
               id = "NotificationHistory";
               showUnreadBadge = true;
