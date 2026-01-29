@@ -45,9 +45,9 @@
       settings = {
         "extensions.autoDisableScopes" = 0;
       };
-      extraConfig = builtins.readFile "${self}/assets/common/.mozilla/user.js";
-      userChrome = builtins.readFile "${self}/assets/common/.mozilla/chrome/userChrome.css";
-      userContent = builtins.readFile "${self}/assets/common/.mozilla/chrome/userContent.css";
+      extraConfig = builtins.readFile "${self}/assets/.mozilla/user.js";
+      userChrome = builtins.readFile "${self}/assets/.mozilla/chrome/userChrome.css";
+      userContent = builtins.readFile "${self}/assets/.mozilla/chrome/userContent.css";
       search = {
         force = true;
         default = "kagi";
@@ -132,6 +132,6 @@
   };
   home.file.".mozilla/firefox/${config.home.username}/chrome/simpleMenuWizard" = {
     recursive = true;
-    source = "${self}/assets/common/.mozilla/chrome/simpleMenuWizard";
+    source = "${self}/assets/.mozilla/chrome/simpleMenuWizard";
   };
 }

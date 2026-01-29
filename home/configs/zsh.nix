@@ -111,7 +111,6 @@ in
       cat = lib.mkIf config.programs.bat.enable "bat";
       htop = lib.mkIf (pkgs ? btop) "btop";
       top = lib.mkIf (pkgs ? btop) "btop";
-      brewup = lib.mkIf pkgs.stdenv.isDarwin "brew upgrade && cd ~/.config/brew && ./brewbackup.sh";
       ns = "tv nix-search-tv";
     };
 
@@ -285,14 +284,6 @@ in
           fi
           ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519 2>/dev/null
 
-          ${lib.optionalString pkgs.stdenv.isDarwin # bash
-            ''
-              if [[ -f "/opt/homebrew/bin/brew" ]]; then
-                eval "$(/opt/homebrew/bin/brew shellenv)"
-              fi
-            ''
-          }
-
         '';
   };
 
@@ -304,6 +295,5 @@ in
     "$HOME/dev/bin"
     "$HOME/.local/bin"
     "$HOME/go/bin"
-  ]
-  ++ lib.optionals pkgs.stdenv.isDarwin [ "/Applications/flameshot.app/" ];
+  ];
 }

@@ -12,7 +12,6 @@
       window-vsync = true;
       window-inherit-working-directory = true;
       window-decoration = false;
-      macos-titlebar-style = "hidden";
       window-theme = "ghostty";
       shell-integration = "detect";
       gtk-tabs-location = "bottom";
@@ -93,7 +92,7 @@
     };
   };
   home.file.".config/ghostty/gtk.css".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/ghostty/gtk.css";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/ghostty/gtk.css";
   home.file.".config/ghostty/cursor_warp.glsl".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/ghostty/shaders/cursor_warp.glsl";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/ghostty/cursor_warp.glsl";
 }

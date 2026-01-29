@@ -208,5 +208,5 @@
   };
 
   home.file.".config/kitty/pass_keys.py".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/common/kitty/pass_keys.py";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/pass_keys.py";
 }

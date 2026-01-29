@@ -54,7 +54,6 @@
       url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
   outputs =
@@ -72,7 +71,6 @@
     }@inputs:
     let
       username = "neonvoid";
-      macUsername = "jrreed";
       specialArgs = {
         inherit inputs;
         inherit username;
@@ -124,27 +122,6 @@
       nixosConfigurations = {
         void = mkHost "void";
         voidframe = mkHost "voidframe";
-      };
-
-      # Standalone home-manager configuration for macOS (jrreed user)
-      homeConfigurations = {
-        "${macUsername}" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Use x86_64-darwin for Intel Mac
-          extraSpecialArgs = {
-            inherit inputs;
-            username = macUsername;
-            nixvimOptions = nixvim.packages.aarch64-darwin.options-json + /share/doc/nixos/options.json;
-          };
-          modules = [
-            {
-              nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ nur.overlays.default ];
-            }
-            sops-nix.homeManagerModules.sops
-            stylix.homeManagerModules.stylix
-            ./home/${macUsername}/home.nix
-          ];
-        };
       };
     };
 }

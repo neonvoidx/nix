@@ -69,9 +69,9 @@ in
 
   # Hyprland configuration files
   home.file.".config/hypr/xdph.conf".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/xdph.conf";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/hypr/xdph.conf";
   home.file.".config/hypr/scripts".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/scripts";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/hypr/scripts";
   home.file.".config/hypr/hyprland/monitors".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/linux/hypr/hyprland/monitors";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/hypr/hyprland/monitors";
 }

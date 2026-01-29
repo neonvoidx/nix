@@ -2,7 +2,7 @@
 {
   imports = [
     ../common.nix
-    ../configs/linux
+    ../configs
     ./packages.nix
     ./git.nix
     ./files.nix
