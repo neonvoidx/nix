@@ -12,5 +12,6 @@
   services = {
     udiskie.enable = true;
     playerctld.enable = true;
+    xembed-sni-proxy.enable = true;
   };
 }
