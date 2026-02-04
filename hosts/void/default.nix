@@ -40,7 +40,8 @@
       enable = true;
       kernelModules = [ "amdgpu" ];
     };
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
     extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
     kernelModules = [ "amdgpu" ];
     kernelParams = [
@@ -58,6 +59,7 @@
       "amdgpu.ppfeaturemask=0xffffffff"
       "amdgpu.dcdebugmask=0x10"
       # NOTE: Disable CWSR, this really only affects multi workload
+      # This really is just a bandaid fix for Hytale
       # i.e if trying to render in blender while gaming
       # can try re-enabling later with AMD driver updates
       "amdgpu.cwsr_enable=0"
