@@ -54,6 +54,7 @@
       url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs =
@@ -67,6 +68,7 @@
       nix-index-database,
       sops-nix,
       nix-versions,
+      nix-cachyos-kernel,
       ...
     }@inputs:
     let
@@ -83,7 +85,10 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ nur.overlays.default ];
+              nixpkgs.overlays = [
+                nur.overlays.default
+                nix-cachyos-kernel.overlays.pinned
+              ];
               nix.extraOptions = ''
                 connect-timeout = 10
                 stalled-download-timeout = 100

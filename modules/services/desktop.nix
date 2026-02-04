@@ -53,7 +53,8 @@
 
   security.pam = {
     services = {
-      greetd.enableGnomeKeyring = true;
+      # Disabled for greetd since auto-login has no password to unlock keyring
+      # greetd.enableGnomeKeyring = true;
       login.enableGnomeKeyring = true;
     };
     loginLimits = [
