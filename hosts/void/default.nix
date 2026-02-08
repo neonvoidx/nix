@@ -20,27 +20,26 @@
       limine = {
         enable = true;
         # If using secure boot (for dual booting windows)
-        # secureBoot = {
-        #   enable = true;
-        # };
+        secureBoot = {
+          enable = true;
+        };
         style = {
           interface = {
             resolution = lib.mkDefault "3440x1440";
           };
         };
         # If dual booting windows, add Windows to limine, use uuid
-        # extraEntries = ''
-        #   /Windows
-        #       protocol: efi
-        #       path: uuid(b50de1eb-0ac8-4d18-bb81-5f59df4c5c1c):/EFI/Microsoft/Boot/bootmgfw.efi
-        # '';
+        extraEntries = ''
+          /Windows
+              protocol: efi
+              path: boot():/efi/Microsoft/Boot/bootmgfw.efi
+        '';
       };
     };
     initrd = {
       enable = true;
       kernelModules = [ "amdgpu" ];
     };
-    # kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
     extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
     kernelModules = [ "amdgpu" ];
