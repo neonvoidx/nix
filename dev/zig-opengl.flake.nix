@@ -16,7 +16,9 @@
         pkgs = import nixpkgs { inherit system; };
         bInputs = with pkgs; [
           zig
-          zls
+          (zls.overrideAttrs (old: {
+            patchPhase = ""; # Skip broken patchPhase
+          }))
           lldb
           libglvnd
           libGL
