@@ -29,7 +29,9 @@
           default = pkgs.mkShellNoCC {
             packages = with pkgs; [
               zig
-              zls
+              (zls.overrideAttrs (old: {
+                patchPhase = ""; # Skip broken patchPhase
+              }))
               lldb
             ];
           };
