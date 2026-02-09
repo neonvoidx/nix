@@ -28,7 +28,9 @@
             resolution = lib.mkDefault "3440x1440";
           };
         };
-        # If dual booting windows, add Windows to limine, use uuid
+        # If dual booting windows, add Windows to limine, use uuid if on separate drive
+        # with uuid = PARTUUID
+        # otherwise use boot() if on same boot partition as limine
         extraEntries = ''
           /Windows
               protocol: efi
