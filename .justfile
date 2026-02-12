@@ -21,3 +21,7 @@ run pkg +args:
   nix-shell -p {{pkg}}.out --run '{{args}}'
 shell pkg:
   nix-shell -p {{pkg}}
+fetch-hash url:
+    @raw_hash=`nix-prefetch-url --type sha256 "{{url}}" | tail -n1`
+    @echo "Hex hash: $$raw_hash"
+    @echo "Nix hash: $$(nix hash convert --hash-algo sha256 "$$raw_hash")"

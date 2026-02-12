@@ -3,7 +3,7 @@
 let
   curseforge = pkgs.fetchurl {
     url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
-    hash = "sha256-IqdGtblWD4wnqWp2kGJT3O40Xz3ORZpyKCFikIjb2S4=";
+    hash = "sha256-9qGsqRRGpzw0Xfygt0lzafWdd9hwuKhR1hW/yn8JXNY=";
   };
 in
 {
