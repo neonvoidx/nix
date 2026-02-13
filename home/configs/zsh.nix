@@ -247,23 +247,6 @@ in
           zstyle :prompt:pure:user color "#${c.base0E}"
           zstyle :prompt:pure:user:root color "#${c.base0A}"
 
-
-          # GH CLI Copilot
-          COPILOT_CLI=~/.local/share/gh/extensions/gh-copilot/gh-copilot
-          if [ -f "$COPILOT_CLI" ]; then
-            eval "$(gh copilot alias -- zsh)"
-          else
-            if command -v gh &> /dev/null; then
-              gh extension install github/gh-copilot 2>/dev/null || true
-            fi
-          fi
-
-          # GH CLI clone-org
-          CLONE_ORG=~/.local/share/gh/extensions/gh-clone-org/gh-clone-org
-          if [ ! -f "$CLONE_ORG" ] && command -v gh &> /dev/null; then
-            gh extension install matt-bartel/gh-clone-org 2>/dev/null || true
-          fi
-
           if command -v cmake &> /dev/null && command -v ninja &> /dev/null; then
             alias cmakeninja='cmake -S . -B build -G Ninja'
           fi
