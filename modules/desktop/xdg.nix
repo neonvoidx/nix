@@ -61,6 +61,9 @@
         "application/x-bzip2" = "org.gnome.FileRoller.desktop";
         "application/x-7z-compressed" = "org.gnome.FileRoller.desktop";
         "application/x-rar" = "org.gnome.FileRoller.desktop";
+
+        # File manager
+        "inode/directory" = "thunar.desktop";
       };
     };
   };
