@@ -27,11 +27,11 @@
           glm
           libGLU
           libgbm
-          xorg.libX11
-          xorg.libXrandr
-          xorg.libXinerama
-          xorg.libXcursor
-          xorg.libXi
+          libx11
+          libxrandr
+          libxinerama
+          libxcursor
+          libxi
           wayland
           wayland-protocols
           libxkbcommon
