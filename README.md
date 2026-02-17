@@ -111,3 +111,51 @@ imports = with inputs.self.modules.nixos; [
 See [secrets/README.md](./secrets/README.md) for setup instructions.
 
 Secrets are encrypted with age keys derived from SSH keys and decrypted to `/run/secrets/` at boot.
+
+## Adding New Modules
+
+### System Module
+
+1. Create `modules/category/my-feature.nix`:
+```nix
+{ ... }:
+{
+  flake.modules.nixos.my-feature = { pkgs, ... }: {
+    services.myservice.enable = true;
+    environment.systemPackages = [ pkgs.mypackage ];
+  };
+}
+```
+
+2. Add to host in `modules/hosts/yourhost/default.nix`:
+```nix
+imports = [
+  m.my-feature  # Just add the module name
+];
+```
+
+### Home-Manager Module
+
+1. Create `modules/home/configs/my-program.nix`:
+```nix
+{ ... }:
+{
+  flake.modules.homeManager.my-program = { pkgs, ... }: {
+    programs.myprogram = {
+      enable = true;
+      # configuration here
+    };
+  };
+}
+```
+
+2. Add to user in `modules/users/username/default.nix`:
+```nix
+flake.modules.homeManager.username = {
+  imports = [
+    self.modules.homeManager.my-program
+  ];
+};
+```
+
+The dendritic pattern auto-discovers modules via `import-tree`.
