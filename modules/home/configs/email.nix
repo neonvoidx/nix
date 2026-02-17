@@ -16,9 +16,6 @@
           ];
           Wants = [ "gnome-keyring.service" ];
         };
-        Service = {
-          ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
-        };
       };
 
       programs.thunderbird = {

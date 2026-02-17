@@ -17,7 +17,7 @@ in
     "xrandr --output DP-2 --primary"
     "xembedsniproxy" # Wine/XWayland tray icons support
     "[workspace 2 silent] firefox"
-    "[workspace 4 silent] sleep 2 && thunderbird"
+    "[workspace 4 silent] sleep 8 && thunderbird"
   ]
   ++ lib.optionals isVoid [
     "sleep 3 && streamcontroller -b"
