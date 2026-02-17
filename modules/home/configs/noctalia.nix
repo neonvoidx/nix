@@ -36,7 +36,6 @@
           states = builtins.listToAttrs (
             map mkPluginState [
               "catwalk"
-              "privacy-indicator"
               "screen-recorder"
               "pomodoro"
               "timer"
@@ -165,9 +164,6 @@
                 }
                 { id = "WallpaperSelector"; }
                 {
-                  "id" = "plugin:privacy-indicator";
-                }
-                {
                   "id" = "plugin:screen-recorder";
                 }
                 {
@@ -189,14 +185,6 @@
                 {
                   displayMode = "onhover";
                   id = "Volume";
-                }
-                {
-                  customFont = "";
-                  formatHorizontal = "HH:mm ddd, MMM dd";
-                  formatVertical = "HH mm - dd MM";
-                  id = "Clock";
-                  useCustomFont = false;
-                  usePrimaryColor = true;
                 }
               ]
               ++ (
@@ -244,6 +232,14 @@
                   "wheelUpExec" = "";
                   "wheelUpUpdateText" = false;
                   "wheelUpdateText" = false;
+                }
+                {
+                  customFont = "";
+                  formatHorizontal = "HH:mm ddd, MMM dd";
+                  formatVertical = "HH mm - dd MM";
+                  id = "Clock";
+                  useCustomFont = false;
+                  usePrimaryColor = true;
                 }
                 {
                   hideWhenZero = true;
