@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +40,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    scopebuddy = {
+      url = "github:OpenGamingCollective/ScopeBuddy";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,75 +64,13 @@
   };
 
   outputs =
-    {
-      nixpkgs,
-      home-manager,
-      nur,
-      nixvim,
-      spicetify-nix,
-      stylix,
-      nix-index-database,
-      sops-nix,
-      nix-versions,
-      nix-cachyos-kernel,
-      ...
-    }@inputs:
-    let
-      username = "neonvoid";
-      specialArgs = {
-        inherit inputs;
-        inherit username;
-      };
-
-      mkHost =
-        hostname:
-        nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            {
-              nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [
-                nur.overlays.default
-                nix-cachyos-kernel.overlays.pinned
-              ];
-              nix.extraOptions = ''
-                connect-timeout = 10
-                stalled-download-timeout = 100
-                download-attempts = 5
-              '';
-            }
-            ./hosts/${hostname}
-            ./modules/programs/noctalia.nix
-            ./home/${username}/nixos.nix
-            spicetify-nix.nixosModules.default
-            sops-nix.nixosModules.sops
-            stylix.nixosModules.stylix
-            home-manager.nixosModules.home-manager
-            {
-              nixpkgs.config.allowUnfree = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.backupCommand = "${nixpkgs.legacyPackages.x86_64-linux.bash}/bin/bash -c 'rm -f \"$1.backup\" && mv \"$1\" \"$1.backup\"' -- ";
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.extraSpecialArgs =
-                inputs
-                // specialArgs
-                // {
-                  inherit hostname;
-                  inherit nix-index-database;
-                  inherit nix-versions;
-                  nixvimOptions = nixvim.packages.x86_64-linux.options-json + /share/doc/nixos/options.json;
-                };
-              home-manager.users.${username} = import ./home/${username}/home.nix;
-            }
-          ];
-        };
-    in
-    {
-      nixosConfigurations = {
-        void = mkHost "void";
-        voidframe = mkHost "voidframe";
-      };
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+      imports = [
+        ./modules/flake-modules-option.nix # Define flake.modules option
+        ./modules/lib.nix # Helper functions
+        (inputs.import-tree ./modules)
+      ];
     };
 }

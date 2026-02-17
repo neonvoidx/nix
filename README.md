@@ -1,121 +1,113 @@
-# The Void Hungers - Nix Configuration
+# NixOS Configuration
 
-A modular NixOS and Home Manager flake configuration featuring secrets management via sops-nix and Stylix theming.
+My NixOS configuration using the [dendritic pattern](https://github.com/mightyiam/dendritic) with [flake-parts](https://flake.parts/).
 
-## 🚀 Quick Start
+## Structure
 
-### NixOS (System Configuration)
+```
+├── flake.nix              # Flake entry point
+├── modules/
+│   ├── lib.nix            # Helper functions (mkNixos)
+│   ├── system/            # System aspects (boot, networking, locale, etc.)
+│   ├── services/          # Service aspects (pipewire, greetd, etc.)
+│   ├── desktop/           # Desktop aspects (fonts, xdg, programs)
+│   ├── hardware/          # Hardware configuration aspects
+│   ├── programs/          # Program aspects (system packages)
+│   ├── nix/               # Nix settings and overlays
+│   ├── home/              # Home-Manager aspects
+│   │   ├── common.nix     # Base HM config
+│   │   ├── packages.nix   # User packages
+│   │   ├── git.nix        # Git config
+│   │   ├── files.nix      # Dotfiles and secrets
+│   │   └── configs/       # Program configs (45 files)
+│   ├── hosts/             # Host collector aspects
+│   │   ├── void/          # Desktop configuration
+│   │   └── voidframe/     # Laptop configuration
+│   └── users/             # User aspects
+│       └── neonvoid/      # User definition (system + HM)
+└── secrets/               # SOPS encrypted secrets
+```
+
+## Hosts
+
+- **void** - Main desktop (AMD Ryzen 9 9950X, RX 9070 XT)
+- **voidframe** - Framework laptop (AMD Ryzen 7 7840U)
+
+## Key Features
+
+- **Dendritic Pattern** - Modular aspect-based configuration
+- **Home-Manager** - Full user environment management
+- **Hyprland** - Wayland compositor with custom configuration
+- **Stylix** - System-wide theming
+- **SOPS** - Encrypted secrets management
+- **Noctalia Shell** - Quickshell bar, launcher, lock screen
+
+## Usage
+
+### Build
 
 ```bash
-# Rebuild current system
-sudo nixos-rebuild switch --flake .
+nix build .#nixosConfigurations.void.config.system.build.toplevel
+nix build .#nixosConfigurations.voidframe.config.system.build.toplevel
+```
 
-# Rebuild specific host
+### Deploy
+
+```bash
 sudo nixos-rebuild switch --flake .#void
 sudo nixos-rebuild switch --flake .#voidframe
+```
 
-# Using justfile
-just rebuild
+### Update
+
+```bash
+nix flake update
 ```
 
 ### Utility Commands
 
 ```bash
+just # short for just rebuild, rebuilds system
 just update   # Update flake inputs
-just history  # List system generations
-just clean    # Clean generations older than 7 days
-just gc       # Garbage collect old derivations
-just repl     # Start Nix REPL
+just clean    # Clean old generations
+just search # search for nixpkgs
+just run args... # runs a package with the args
+just shell pkg # drops you into a shell with that pkg available
+just history
+just check
+just boot # rebuilds with reboot
 ```
 
-## 📁 Repository Structure
+## Dendritic Pattern
 
-### `/flake.nix`
+Each feature is defined as an **aspect** in its own file:
 
-Main entry point defining:
-
-- **NixOS Hosts**: `void`, `voidframe`
-- **Flake Inputs**: nixpkgs, home-manager, sops-nix, stylix, nixvim, spicetify-nix, noctalia, and more
-
-### `/hosts/`
-
-NixOS system configurations:
-
-- **`common.nix`** - Shared base configuration for all hosts
-- **`void/`** - Primary workstation
-- **`voidframe/`** - Secondary system
-
-### `/modules/`
-
-System-level NixOS modules organized by category:
-
-- **`desktop/`** - Desktop environment & window manager configs
-- **`hardware/`** - Hardware-specific configurations
-- **`packages/`** - Package management & overlays
-- **`programs/`** - System-wide program configurations
-- **`services/`** - System services
-- **`system/`** - Core system settings
-
-### `/home/`
-
-Home Manager user configurations:
-
-- **`neonvoid/`** - User configuration
-- **`common.nix`** - Base Home Manager settings
-- **`configs/`** - Application dotfiles & configs
-
-### `/secrets/`
-
-SOPS-encrypted secrets with age encryption:
-
-- **`secrets.yaml`** - Encrypted secrets file
-- **`README.md`** - Detailed setup instructions
-- **`.sops.yaml`** - SOPS configuration (in repo root)
-
-### `/assets/`
-
-Static files and resources referenced by configurations
-
-## 🔐 SOPS Secrets Management
-
-### Initial Setup
-
-1. **Generate age key from your SSH key:**
-
-```bash
-# Generate age public key
-nix-shell -p ssh-to-age --run 'ssh-to-age < ~/.ssh/id_ed25519.pub'
-
-# Generate private age key
-mkdir -p ~/.config/sops/age
-nix-shell -p ssh-to-age --run 'ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'
-chmod 600 ~/.config/sops/age/keys.txt
+```nix
+{ ... }:
+{
+  flake.modules.nixos.feature-name = { pkgs, ... }: {
+    # NixOS configuration
+  };
+}
 ```
 
-2. **Update `.sops.yaml` with your age public key** (replace the existing key)
+**Host collectors** import aspects they need:
 
-3. **Create/edit secrets file:**
-
-```bash
-# Edit encrypted secrets
-nix-shell -p sops --run 'sops secrets/secrets.yaml'
+```nix
+imports = with inputs.self.modules.nixos; [
+  boot networking pipewire fonts # etc
+];
 ```
 
-4. **Rebuild system to apply secrets**
+**Benefits:**
 
-### Managing Secrets
+- Modular and reusable
+- No relative path imports
+- Clear dependency structure
+- Easy to enable/disable features
 
-```bash
-# Edit existing secrets
-nix-shell -p sops --run 'sops secrets/secrets.yaml'
+## SOPS Secrets
 
-# Secrets are automatically decrypted to /run/secrets/ at boot
-```
+See [secrets/README.md](./secrets/README.md) for setup instructions.
 
-**Note**: Secrets are encrypted with your age key derived from your SSH key. Keep `~/.ssh/id_ed25519` backed up! See `secrets/README.md` for recovery options.
-
-## 📚 Additional Files
-
-- **`.justfile`** - Task runner with common commands
-- **`TODO.md`** - Planned improvements
-- **`flake.lock`** - Locked dependency versions
+Secrets are encrypted with age keys derived from SSH keys and decrypted to `/run/secrets/` at boot.

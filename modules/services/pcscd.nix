@@ -1,6 +1,8 @@
 { ... }:
 {
-  services.pcscd = {
-    enable = true;
+  flake.modules.nixos.pcscd = {
+    services.pcscd = {
+      enable = true;
+    };
   };
 }
