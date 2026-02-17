@@ -18,6 +18,9 @@
         };
       };
 
+      # Suppress kernel messages on the TTY where greetd runs
+      boot.kernelParams = [ "quiet" "loglevel=3" "systemd.show_status=auto" "rd.udev.log_level=3" ];
+
       systemd.services.greetd = lib.mkIf (config.networking.hostName == "void") {
         preStart = ''
           ${pkgs.fbset}/bin/fbset -xres 3440 -yres 1440
