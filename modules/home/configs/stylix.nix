@@ -9,7 +9,6 @@
         hyprland.enable = false; # hyprland already setup as wanted
         kitty.enable = false; # eldritch in master
         neovim.enable = false; # eldritch in master
-        nixvim.enable = false;
         noctalia-shell.enable = false; # eldritch in master
         obsidian.enable = false; # eldritch in master
         yazi.enable = false; # follows terminal theme
