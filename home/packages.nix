@@ -1,11 +1,12 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    home-manager
-    kitty-themes
+    appimage-run
+    ffmpeg
     godot
     godotPackages.export-template
-    proton-pass-cli
-    ffmpeg
+    home-manager
+    kitty-themes
+    proton-pass
   ];
 }

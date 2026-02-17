@@ -37,5 +37,6 @@
     # https://github.com/DadSchoorse/vkBasalt
     # For adding post processing layers, such as adaptive sharpening
     # ENABLE_VKBASALT=1
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
 }
