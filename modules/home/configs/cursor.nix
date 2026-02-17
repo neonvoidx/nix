@@ -1,0 +1,22 @@
+{ ... }:
+{
+  flake.modules.homeManager.cursor =
+    { pkgs, ... }:
+    {
+      home.pointerCursor = {
+        enable = true;
+        package = pkgs.catppuccin-cursors.mochaSapphire;
+        name = "catppuccin-mocha-sapphire-cursors";
+        dotIcons.enable = true;
+        gtk.enable = true;
+        size = 32;
+        hyprcursor = {
+          enable = true;
+        };
+        x11 = {
+          enable = true;
+          defaultCursor = "catppuccin-mocha-sapphire-cursors";
+        };
+      };
+    };
+}

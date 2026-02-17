@@ -1,18 +1,9 @@
-{ pkgs, username, ... }:
+{ ... }:
 {
-  users.users.${username} = {
-    isNormalUser = true;
-    description = username;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "audio"
-      "sambashare"
-      "video"
-      "plugdev"
-      "input"
-      "bluetooth"
-    ];
-    shell = pkgs.zsh;
-  };
+  # Individual users are defined in modules/users/
+  flake.modules.nixos.user-accounts =
+    { ... }:
+    {
+      # Global user defaults can go here if needed
+    };
 }
