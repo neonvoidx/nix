@@ -17,6 +17,7 @@
         cron
         dig
         dust
+        fbset
         fd
         file
         git
