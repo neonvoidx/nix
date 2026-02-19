@@ -10,7 +10,7 @@
           canTouchEfiVariables = true;
           efiSysMountPoint = "/boot";
         };
-        timeout = 5;
+        timeout = 3;
         limine = {
           enable = true;
           enableEditor = true;
