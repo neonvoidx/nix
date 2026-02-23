@@ -29,6 +29,7 @@
 
         # Services
         m.pipewire
+        m.print
         m.desktop-services
         m.pcscd
         m.xserver

@@ -20,6 +20,7 @@
         m.nix-settings
         m.user-accounts
         m.locale
+        m.print
         m.networking
         m.systemd
         m.overlays
