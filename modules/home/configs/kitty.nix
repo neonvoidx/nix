@@ -178,6 +178,9 @@
           "ctrl+t>z" = "close_other_tabs_in_os_window";
           "ctrl+t>," = "move_tab_backward";
           "ctrl+t>." = "move_tab_forward";
+          "ctrl+t>d" =
+            "save_as_session --save-only --use-foreground-process --relocatable ~/.local/share/kitty/last-session.session";
+          "ctrl+t>a" = "goto_session ~/.local/share/kitty/last-session.session";
 
           # Scrollback with nvim
           "kitty_mod+h" = "kitty_scrollback_nvim";
@@ -196,10 +199,6 @@
           # Marks
           "f1" = "toggle_marker text 1 TEST";
           "f2" = "toggle_marker text 2 ERROR";
-          "f6" =
-            "save_as_session --use-foreground-process --relocatable ~/.local/share/kitty/last-session.session";
-          "f5" = "goto_session ~/.local/share/kitty/last-session.session";
-
           "ctrl+shift+t" = "set_tab_title";
         };
 
@@ -212,5 +211,9 @@
 
       home.file.".config/kitty/pass_keys.py".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/pass_keys.py";
+      home.file.".config/kitty/kitty_scrollback_nvim.py".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/kitty_scrollback_nvim.py";
+      home.file.".config/kitty/kitty_scroll_prompt.py".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/kitty_scroll_prompt.py";
     };
 }
