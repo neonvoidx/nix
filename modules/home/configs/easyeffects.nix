@@ -306,170 +306,156 @@
             output = {
               blocklist = [ ];
               "equalizer#0" = {
-                input-gain = -4.46;
+                input-gain = -4.78;
                 num-bands = 10;
                 left = {
                   band0 = {
                     frequency = 105.0;
-                    gain = 4.5;
+                    gain = 2.5;
                     mode = "BWC (BT)";
-                    q = 0.6666666865348816;
-                    type = "Hi-shelf";
+                    q = 0.70;
+                    type = "Lo-shelf";
                   };
                   band1 = {
-                    frequency = 49.099998474121094;
-                    gain = -0.800000011920929;
+                    frequency = 192.1;
+                    gain = -4.2;
                     mode = "BWC (BT)";
-                    q = 1.6100000143051147;
+                    q = 0.83;
                     type = "Bell";
                   };
                   band2 = {
-                    frequency = 175.1999969482422;
-                    gain = -3.9000000953674316;
+                    frequency = 1217.4;
+                    gain = 1.5;
                     mode = "BWC (BT)";
-                    q = 0.46000000834465027;
+                    q = 1.58;
                     type = "Bell";
                   };
                   band3 = {
-                    frequency = 693.4000244140625;
-                    gain = 2.0999999046325684;
+                    frequency = 2334.6;
+                    gain = 2.2;
                     mode = "BWC (BT)";
-                    q = 1.0399999618530273;
+                    q = 0.62;
                     type = "Bell";
                   };
                   band4 = {
-                    frequency = 2450.10009765625;
-                    gain = 2.200000047683716;
+                    frequency = 3457.5;
+                    gain = -2.2;
                     mode = "BWC (BT)";
-                    q = 0.6600000262260437;
+                    q = 2.22;
                     type = "Bell";
                   };
                   band5 = {
-                    frequency = 3181.10009765625;
-                    gain = -1.0;
+                    frequency = 3818.6;
+                    gain = 5.3;
                     mode = "BWC (BT)";
-                    q = 1.7999999523162842;
+                    q = 1.24;
                     type = "Bell";
                   };
                   band6 = {
-                    frequency = 4273.89990234375;
-                    gain = 4.599999904632568;
+                    frequency = 4587.1;
+                    gain = 1.5;
                     mode = "BWC (BT)";
-                    q = 2.319999933242798;
+                    q = 4.21;
                     type = "Bell";
                   };
                   band7 = {
-                    frequency = 5124.0;
-                    gain = -3.4000000953674316;
+                    frequency = 5126.7;
+                    gain = -5.6;
                     mode = "BWC (BT)";
-                    q = 3.799999952316284;
+                    q = 4.17;
                     type = "Bell";
                   };
                   band8 = {
-                    frequency = 10000.0;
-                    gain = -0.6000000238418579;
+                    frequency = 8507.9;
+                    gain = -3.6;
                     mode = "BWC (BT)";
-                    q = 4.389999866485596;
+                    q = 3.26;
                     type = "Bell";
                   };
                   band9 = {
                     frequency = 10000.0;
-                    gain = -5.900000095367432;
+                    gain = -6.6;
                     mode = "BWC (BT)";
-                    q = 0.6666666865348816;
-                    type = "Lo-shelf";
+                    q = 0.70;
+                    type = "Hi-shelf";
                   };
                 };
                 right = {
                   band0 = {
                     frequency = 105.0;
-                    gain = 4.5;
+                    gain = 2.5;
                     mode = "BWC (BT)";
-                    q = 0.6666666865348816;
-                    type = "Hi-shelf";
+                    q = 0.70;
+                    type = "Lo-shelf";
                   };
                   band1 = {
-                    frequency = 49.099998474121094;
-                    gain = -0.800000011920929;
+                    frequency = 192.1;
+                    gain = -4.2;
                     mode = "BWC (BT)";
-                    q = 1.6100000143051147;
+                    q = 0.83;
                     type = "Bell";
                   };
                   band2 = {
-                    frequency = 175.1999969482422;
-                    gain = -3.9000000953674316;
+                    frequency = 1217.4;
+                    gain = 1.5;
                     mode = "BWC (BT)";
-                    q = 0.46000000834465027;
+                    q = 1.58;
                     type = "Bell";
                   };
                   band3 = {
-                    frequency = 693.4000244140625;
-                    gain = 2.0999999046325684;
+                    frequency = 2334.6;
+                    gain = 2.2;
                     mode = "BWC (BT)";
-                    q = 1.0399999618530273;
+                    q = 0.62;
                     type = "Bell";
                   };
                   band4 = {
-                    frequency = 2450.10009765625;
-                    gain = 2.200000047683716;
+                    frequency = 3457.5;
+                    gain = -2.2;
                     mode = "BWC (BT)";
-                    q = 0.6600000262260437;
+                    q = 2.22;
                     type = "Bell";
                   };
                   band5 = {
-                    frequency = 3181.10009765625;
-                    gain = -1.0;
+                    frequency = 3818.6;
+                    gain = 5.3;
                     mode = "BWC (BT)";
-                    q = 1.7999999523162842;
+                    q = 1.24;
                     type = "Bell";
                   };
                   band6 = {
-                    frequency = 4273.89990234375;
-                    gain = 4.599999904632568;
+                    frequency = 4587.1;
+                    gain = 1.5;
                     mode = "BWC (BT)";
-                    q = 2.319999933242798;
+                    q = 4.21;
                     type = "Bell";
                   };
                   band7 = {
-                    frequency = 5124.0;
-                    gain = -3.4000000953674316;
+                    frequency = 5126.7;
+                    gain = -5.6;
                     mode = "BWC (BT)";
-                    q = 3.799999952316284;
+                    q = 4.17;
                     type = "Bell";
                   };
                   band8 = {
-                    frequency = 10000.0;
-                    gain = -0.6000000238418579;
+                    frequency = 8507.9;
+                    gain = -3.6;
                     mode = "BWC (BT)";
-                    q = 4.389999866485596;
+                    q = 3.26;
                     type = "Bell";
                   };
                   band9 = {
                     frequency = 10000.0;
-                    gain = -5.900000095367432;
+                    gain = -6.6;
                     mode = "BWC (BT)";
-                    q = 0.6666666865348816;
-                    type = "Lo-shelf";
+                    q = 0.70;
+                    type = "Hi-shelf";
                   };
                 };
               };
               plugins_order = [ "equalizer#0" ];
             };
           };
-        };
-      };
-
-      # Ensure tray appears by waiting for noctalia-shell to be fully ready
-      systemd.user.services.easyeffects = lib.mkIf config.programs.noctalia-shell.enable {
-        Unit = {
-          After = [
-            "noctalia-shell.service"
-            "pipewire.service"
-          ];
-          Wants = [ "noctalia-shell.service" ];
-        };
-        Service = {
-          ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
         };
       };
     };
