@@ -73,8 +73,8 @@
             density = "comfortable";
             exclusive = true;
             floating = true;
-            marginHorizontal = 0.3;
-            marginVertical = 0.3;
+            marginHorizontal = 0.4;
+            marginVertical = 0.7;
             monitors = [
               "eDP-1"
               "DP-2"
@@ -306,7 +306,7 @@
                 id = "media-sysmon-card";
               }
               {
-                enabled = false;
+                enabled = true;
                 id = "weather-card";
               }
             ];
