@@ -74,7 +74,6 @@
         self.modules.homeManager.thunar
         self.modules.homeManager.tv
         self.modules.homeManager.vesktop
-        self.modules.homeManager.wowup-cf
         self.modules.homeManager.yazi
         self.modules.homeManager.zoxide
         self.modules.homeManager.zsh
