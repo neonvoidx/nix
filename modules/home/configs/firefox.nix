@@ -98,6 +98,21 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = [ "@n" ];
               };
+              "nixpr" = {
+                urls = [
+                  {
+                    template = "https://nixpkgs-tracker.ocfox.me/";
+                    params = [
+                      {
+                        name = "pr";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = [ "@npr" ];
+              };
               "Home Manager options" = {
                 urls = [
                   {
