@@ -115,6 +115,7 @@
           htop = lib.mkIf (pkgs ? btop) "btop";
           top = lib.mkIf (pkgs ? btop) "btop";
           ns = "tv nix-search-tv";
+          j = "just -g";
         };
 
         setOptions = [
