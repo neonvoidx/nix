@@ -33,6 +33,7 @@
         lsd
         lsof
         mediainfo
+        nix-converter
         pciutils
         playerctl
         pcscliteWithPolkit
