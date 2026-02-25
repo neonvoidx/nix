@@ -33,6 +33,7 @@
         lsd
         lsof
         mediainfo
+        mtr
         nix-converter
         pciutils
         playerctl
