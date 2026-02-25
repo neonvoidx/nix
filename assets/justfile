@@ -62,12 +62,16 @@ repl:
     nix repl -f flake:nixpkgs
 
 # Run a package with arguments via nix-shell
-run pkg +args:
+run pkg *args:
     nix-shell -p {{pkg}}.out --run '{{pkg}} {{args}}'
 
 # Search nixpkgs for a package
 search pkg:
     nh search {{pkg}}
+
+# Search nixpkgs PRs for title's containing string
+search-prs string:
+  gh search prs -R nixos/nixpkgs --match title deadlock-mod-manager
 
 # Enter an ad-hoc shell with the given package(s)
 shell +pkgs:
