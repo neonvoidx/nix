@@ -58,26 +58,6 @@ sudo nixos-rebuild switch --flake .#void
 sudo nixos-rebuild switch --flake .#voidframe
 ```
 
-### Update
-
-```bash
-nix flake update
-```
-
-### Utility Commands
-
-```bash
-just # short for just rebuild, rebuilds system
-just update   # Update flake inputs
-just clean    # Clean old generations
-just search # search for nixpkgs
-just run args... # runs a package with the args
-just shell pkg # drops you into a shell with that pkg available
-just history
-just check
-just boot # rebuilds with reboot
-```
-
 ## Dendritic Pattern
 
 Each feature is defined as an **aspect** in its own file:
@@ -117,6 +97,7 @@ Secrets are encrypted with age keys derived from SSH keys and decrypted to `/run
 ### System Module
 
 1. Create `modules/category/my-feature.nix`:
+
 ```nix
 { ... }:
 {
@@ -127,7 +108,8 @@ Secrets are encrypted with age keys derived from SSH keys and decrypted to `/run
 }
 ```
 
-2. Add to host in `modules/hosts/yourhost/default.nix`:
+1. Add to host in `modules/hosts/yourhost/default.nix`:
+
 ```nix
 imports = [
   m.my-feature  # Just add the module name
@@ -137,6 +119,7 @@ imports = [
 ### Home-Manager Module
 
 1. Create `modules/home/configs/my-program.nix`:
+
 ```nix
 { ... }:
 {
@@ -149,7 +132,8 @@ imports = [
 }
 ```
 
-2. Add to user in `modules/users/username/default.nix`:
+1. Add to user in `modules/users/username/default.nix`:
+
 ```nix
 flake.modules.homeManager.username = {
   imports = [
