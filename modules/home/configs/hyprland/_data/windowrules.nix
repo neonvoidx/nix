@@ -29,6 +29,12 @@ in
       workspace = "11";
     }
     {
+      name = "noctalia_settings";
+      "match:class" = "org.quickshell";
+      float = "on";
+      center = "on";
+    }
+    {
       name = "gnomekeyringprompt";
       "match:title" = "Unlock Login Keying";
       float = "on";
