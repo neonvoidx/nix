@@ -73,8 +73,8 @@
             density = "comfortable";
             exclusive = true;
             floating = true;
-            marginHorizontal = 0.4;
-            marginVertical = 0.7;
+            marginHorizontal = 4;
+            marginVertical = 6;
             monitors = [
               "eDP-1"
               "DP-2"
@@ -523,7 +523,7 @@
             fontFixedScale = 1.03;
             panelBackgroundOpacity = 1;
             panelsAttachedToBar = true;
-            settingsPanelMode = "attached";
+            settingsPanelMode = "window";
             tooltipsEnabled = true;
           };
           wallpaper = {

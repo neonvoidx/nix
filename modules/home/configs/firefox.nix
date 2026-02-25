@@ -98,7 +98,7 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = [ "@n" ];
               };
-              "nixpr" = {
+              "Nixpkg PR Tracker" = {
                 urls = [
                   {
                     template = "https://nixpkgs-tracker.ocfox.me/";
