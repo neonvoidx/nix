@@ -45,6 +45,10 @@ get-path pkg_name:
 history:
     nix profile history --profile /nix/var/nix/profiles/system
 
+# Check hydra builds for package
+hydra pkg:
+  hydra-check {{pkg}}
+
 # Nix OS system metadata information
 metadata:
   nix-info -m
