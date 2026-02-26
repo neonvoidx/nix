@@ -93,7 +93,7 @@
             Experiments.enabled = false;
             ExpressionCloner.enabled = true;
             F8Break.enabled = false;
-            FakeNitro.enabled = true;
+            FakeNitro.enabled = false;
             FakeProfileThemes.enabled = false;
             FavoriteEmojiFirst.enabled = true;
             FavoriteGifSearch.enabled = false;
