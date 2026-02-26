@@ -23,6 +23,7 @@
         git
         gnupg
         gzip
+        hydra-check
         hypridle
         hyprpolkitagent
         inputs.nix-search-tv.packages.x86_64-linux.default
@@ -35,6 +36,7 @@
         mediainfo
         mtr
         nix-converter
+        nurl
         pciutils
         playerctl
         pcscliteWithPolkit
