@@ -1,9 +1,5 @@
 { ... }:
 {
-  # Individual users are defined in modules/users/
-  flake.modules.nixos.user-accounts =
-    { ... }:
-    {
-      # Global user defaults can go here if needed
-    };
+  # User accounts are defined per-user in modules/users/<name>/default.nix
+  # and imported directly in the host's aspect module.
 }

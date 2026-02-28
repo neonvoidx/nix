@@ -1,8 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.stylix =
-    { pkgs, lib, ... }:
+    { inputs, pkgs, lib, ... }:
     {
+      imports = [ inputs.stylix.nixosModules.stylix ];
+
       stylix = {
         enable = true;
         polarity = "dark";

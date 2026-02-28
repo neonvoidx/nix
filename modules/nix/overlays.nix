@@ -1,15 +1,11 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.overlays =
     { inputs, ... }:
     {
       nixpkgs.overlays = [
-        (final: prev: {
-          nur = import inputs.nur {
-            nurpkgs = prev;
-            pkgs = prev;
-          };
-        })
+        inputs.nur.overlays.default
+        inputs.nix-cachyos-kernel.overlays.pinned
         # TODO: remove once https://github.com/nixos/nixpkgs/pull/493376 lands in nixos-unstable
         (final: prev: {
           pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [

@@ -18,7 +18,6 @@
         # Core system features
         m.boot
         m.nix-settings
-        m.user-accounts
         m.locale
         m.print
         m.networking
@@ -52,6 +51,7 @@
         m.noctalia
 
         # System configuration
+        m.home-manager
         m.sops
         m.stylix
 

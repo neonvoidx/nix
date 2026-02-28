@@ -45,5 +45,7 @@
           download-attempts = 5;
         };
       };
+
+      nixpkgs.config.allowUnfree = true;
     };
 }
