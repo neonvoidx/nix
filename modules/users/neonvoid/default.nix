@@ -19,7 +19,6 @@
         ];
         shell = pkgs.zsh;
       };
-      programs.zsh.enable = true;
     };
 
   # Home-Manager configuration (collector for all HM aspects)

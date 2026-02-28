@@ -43,6 +43,11 @@
         m.xdg
         m.desktop-programs
 
+        # Aspects (co-located NixOS + HM concerns)
+        m.zsh
+        m.hyprland
+        m.thunar
+
         # Programs
         m.system-packages
         m.noctalia

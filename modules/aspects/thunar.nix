@@ -1,5 +1,21 @@
 { ... }:
 {
+  # NixOS: enable thunar file manager and tumbler thumbnail service
+  flake.modules.nixos.thunar =
+    { pkgs, ... }:
+    {
+      programs.thunar = {
+        enable = true;
+        plugins = with pkgs; [
+          thunar-archive-plugin
+          thunar-dropbox-plugin
+          thunar-media-tags-plugin
+          thunar-volman
+        ];
+      };
+      services.tumbler.enable = true;
+    };
+
   flake.modules.homeManager.thunar =
     { pkgs, ... }:
     {

@@ -1,5 +1,11 @@
 { ... }:
 {
+  # NixOS: enable zsh system-wide so it's available as a login shell
+  flake.modules.nixos.zsh = {
+    programs.zsh.enable = true;
+    environment.pathsToLink = [ "/share/zsh" ];
+  };
+
   flake.modules.homeManager.zsh =
     {
       config,

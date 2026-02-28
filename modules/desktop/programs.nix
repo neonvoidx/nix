@@ -3,9 +3,6 @@
   flake.modules.nixos.desktop-programs =
     { pkgs, ... }:
     {
-      programs.zsh.enable = true;
-      environment.pathsToLink = [ "/share/zsh" ];
-
       programs.steam = {
         enable = true;
         protontricks.enable = true;
@@ -18,19 +15,6 @@
       };
 
       programs.streamcontroller.enable = true;
-      programs.hyprland.enable = true;
       programs.dconf.enable = true;
-
-      programs.thunar = {
-        enable = true;
-        plugins = with pkgs; [
-          thunar-archive-plugin
-          thunar-dropbox-plugin
-          thunar-media-tags-plugin
-          thunar-volman
-        ];
-      };
-
-      services.tumbler.enable = true;
     };
 }

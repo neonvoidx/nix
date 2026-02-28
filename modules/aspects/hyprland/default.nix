@@ -1,5 +1,10 @@
 { ... }:
 {
+  # NixOS: enable hyprland compositor system-wide
+  flake.modules.nixos.hyprland = {
+    programs.hyprland.enable = true;
+  };
+
   flake.modules.homeManager.hyprland =
     {
       inputs,
