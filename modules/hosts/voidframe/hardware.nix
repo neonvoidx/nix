@@ -1,8 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.voidframe =
     { pkgs, lib, ... }:
     {
+      imports = [ (inputs.self + "/hosts/voidframe/hardware-configuration.nix") ];
+
       boot = {
         loader.limine.style.interface.resolution = lib.mkDefault "2880x1920";
         initrd.luks.devices."luks-7970f8ae-ec08-42a6-a7f9-f8bbb448589f" = {

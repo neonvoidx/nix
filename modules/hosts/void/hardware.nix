@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.void =
     {
@@ -8,6 +8,8 @@
       ...
     }:
     {
+      imports = [ (inputs.self + "/hosts/void/hardware-configuration.nix") ];
+
       boot = {
         loader.limine = {
           enable = true;

@@ -1,60 +1,12 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.void =
-    { ... }:
-    let
-      m = inputs.self.modules.nixos;
-    in
-    {
-      imports = [
-        # User
-        m.neonvoid
+  flake.modules.nixos.void = {
+    imports = with inputs.self.modules.nixos; [
+      desktop-base
+      neonvoid
+      network-drives
+    ];
 
-        # Core system
-        m.boot
-        m.nix-settings
-        m.user-accounts
-        m.locale
-        m.networking
-        m.systemd
-        m.overlays
-
-        # Hardware
-        m.hardware-common
-
-        # Security
-        m.sops
-        m.pcscd
-        m.gnome-keyring
-
-        # Services
-        m.print
-        m.desktop-services
-        m.xserver
-        m.udev
-        m.greetd
-        m.network-drives
-
-        # Audio
-        m.pipewire
-
-        # Desktop
-        m.fonts
-        m.desktop-environment
-        m.xdg
-        m.desktop-programs
-        m.stylix
-        m.noctalia
-        m.flatpak
-        m.zsh
-
-        # System packages
-        m.system-packages
-
-        # Hardware configuration
-        (inputs.self + "/hosts/void/hardware-configuration.nix")
-      ];
-
-      system.stateVersion = "25.11";
-    };
+    system.stateVersion = "25.11";
+  };
 }
