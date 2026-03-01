@@ -21,16 +21,7 @@
       homeManager.neonvoid =
         { ... }:
         {
-          # Imports ALL home manager modules except itself
           imports = builtins.attrValues (builtins.removeAttrs self.modules.homeManager [ "neonvoid" ]);
-          # Or you can import module by module like so
-          #         imports = [
-          # self.modules.homeManager.common
-          # self.modules.homeManager.packages
-          # self.modules.homeManager.files
-          # ....
-          # ];
-
         };
     }
   ];
