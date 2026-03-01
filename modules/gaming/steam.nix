@@ -11,6 +11,7 @@
       home.packages =
         with pkgs;
         [
+          inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
           inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
           steam
           gamescope
@@ -21,7 +22,6 @@
         ]
         ++ pkgs.lib.optionals (hostname == "void") [
           deadlock-mod-manager
-          inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
     };
 }
