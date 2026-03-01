@@ -10,7 +10,7 @@
             pkgs = prev;
           };
         })
-        # TODO: remove once https://github.com/nixos/nixpkgs/pull/493376 lands in nixos-unstable
+        # WAITING: https://nixpkgs-tracker.ocfox.me/?pr=493376
         (final: prev: {
           pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
             (_: pyPrev: {
@@ -25,7 +25,7 @@
             })
           ];
         })
-        # TODO: remove once https://github.com/NixOS/nixpkgs/pull/493565 lands in nixos-unstable
+        # WAITING: remove once https://github.com/NixOS/nixpkgs/pull/493565 lands in nixos-unstable
         (final: prev: {
           deadlock-mod-manager = prev.deadlock-mod-manager.overrideAttrs (old: rec {
             version = "0.15.0";
