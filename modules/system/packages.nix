@@ -3,6 +3,7 @@
   flake.modules.nixos.system-packages =
     { pkgs, inputs, ... }:
     {
+      # System wide packages
       environment.systemPackages = with pkgs; [
         ananicy-cpp
         ananicy-rules-cachyos
