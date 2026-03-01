@@ -1,11 +1,15 @@
-{ lib, ... }:
+{ inputs, lib, ... }:
 {
-  # Define flake.modules option to support dendritic pattern
-  options.flake.modules = lib.mkOption {
-    type = lib.types.submodule {
-      freeformType = lib.types.lazyAttrsOf (lib.types.lazyAttrsOf lib.types.raw);
-    };
+  # Import flake-parts' built-in modules extra, which defines flake.modules
+  # with `deferredModule` type — enabling multi-file merging of the same aspect.
+  imports = [ inputs.flake-parts.flakeModules.modules ];
+
+  # Which systems to generate per-system outputs for
+  config.systems = [ "x86_64-linux" ];
+
+  options.flake.factory = lib.mkOption {
+    type = lib.types.attrsOf lib.types.unspecified;
     default = { };
-    description = "Dendritic aspect modules organized by class (nixos, darwin, homeManager)";
+    description = "Factory functions for creating reusable aspects";
   };
 }

@@ -6,13 +6,11 @@
       environment.systemPackages = with pkgs; [
         ananicy-cpp
         ananicy-rules-cachyos
-        bat
         bc
         bind
         bluetui
         bluez
         brightnessctl
-        btop
         choose
         cron
         dig
@@ -20,18 +18,13 @@
         fbset
         fd
         file
-        git
         gnupg
         gzip
         hydra-check
-        hypridle
-        hyprpolkitagent
         inputs.nix-search-tv.packages.x86_64-linux.default
-        just
         killall
         libnotify
         libappindicator-gtk3
-        lsd
         lsof
         mediainfo
         mtr
@@ -39,7 +32,6 @@
         nurl
         pciutils
         playerctl
-        pcscliteWithPolkit
         ripgrep
         rtkit
         sd
@@ -53,11 +45,9 @@
         wget
         whois
         xwayland
-        yazi
         yubico-pam
         yubioath-flutter
         zip
-        zsh
       ];
     };
 }

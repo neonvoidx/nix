@@ -1,5 +1,14 @@
 { ... }:
 {
+  flake.modules.nixos.noctalia =
+    { pkgs, inputs, ... }:
+    {
+      environment.systemPackages = [
+        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
+      environment.variables.QS_ICON_THEME = "Dracula";
+    };
+
   flake.modules.homeManager.noctalia =
     {
       osConfig ? null,
@@ -9,7 +18,6 @@
       hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
       isVoidframe = hostname == "voidframe";
 
-      # Helper function to generate plugin states
       noctaliaPluginsUrl = "https://github.com/noctalia-dev/noctalia-plugins";
       mkPluginState = name: {
         name = name;
@@ -20,8 +28,6 @@
       };
     in
     {
-      # External noctalia module imported via sharedModules in lib.nix
-
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = true;

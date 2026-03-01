@@ -10,13 +10,10 @@
           enable = true;
           support32Bit = true;
         };
-        wireplumber = {
-          enable = true;
-        };
+        wireplumber.enable = true;
         pulse.enable = true;
         jack.enable = true;
 
-        # Host-specific configuration for void
         extraConfig.pipewire = lib.mkIf (config.networking.hostName == "void") {
           "10-low-latency.conf" = {
             "context.properties" = {
