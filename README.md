@@ -1,145 +1,188 @@
 # NixOS Configuration
 
-My NixOS configuration using the [dendritic pattern](https://github.com/mightyiam/dendritic) with [flake-parts](https://flake.parts/).
+My NixOS configuration using the [dendritic pattern](https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki) with [flake-parts](https://flake.parts/) and [import-tree](https://github.com/vic/import-tree).
 
 ## Structure
 
 ```
-├── flake.nix              # Flake entry point
+├── flake.nix              # Single-line entry point — import-tree discovers everything
+├── hosts/                 # Hardware-generated configs (nixos-generate-config)
+│   ├── void/hardware-configuration.nix
+│   └── voidframe/hardware-configuration.nix
 ├── modules/
-│   ├── lib.nix            # Helper functions (mkNixos)
-│   ├── system/            # System aspects (boot, networking, locale, etc.)
-│   ├── services/          # Service aspects (pipewire, greetd, etc.)
-│   ├── desktop/           # Desktop aspects (fonts, xdg, programs)
-│   ├── hardware/          # Hardware configuration aspects
-│   ├── programs/          # Program aspects (system packages)
-│   ├── nix/               # Nix settings and overlays
-│   ├── home/              # Home-Manager aspects
-│   │   ├── common.nix     # Base HM config
-│   │   ├── packages.nix   # User packages
-│   │   ├── git.nix        # Git config
-│   │   ├── files.nix      # Dotfiles and secrets
-│   │   └── configs/       # Program configs (45 files)
-│   ├── hosts/             # Host collector aspects
-│   │   ├── void/          # Desktop configuration
-│   │   └── voidframe/     # Laptop configuration
-│   └── users/             # User aspects
-│       └── neonvoid/      # User definition (system + HM)
-└── secrets/               # SOPS encrypted secrets
+│   ├── common/            # Shared profiles (base — aggregates all leaf aspects)
+│   ├── factory/           # Factory functions (user account creation)
+│   ├── system/            # OS-level aspects (boot, locale, networking, systemd)
+│   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, greetd)
+│   ├── audio/             # Audio aspects (pipewire)
+│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, …)
+│   ├── shell/             # Shell aspects (zsh, bat, git, kitty, yazi, …)
+│   ├── gaming/            # Gaming aspects (steam, mangohud, curseforge)
+│   ├── media/             # Media aspects (mpv, obs, spicetify, ananicy, …)
+│   ├── communication/     # Communication aspects (vesktop, email)
+│   ├── ide/               # Editor aspects (nixcats)
+│   ├── nix/               # Nix daemon settings and overlays
+│   ├── home/              # Home-Manager base (common, packages, files)
+│   ├── hosts/             # Host definitions (multi-file per host)
+│   │   ├── void/          # configuration.nix, hardware.nix, network.nix, flake-parts.nix
+│   │   └── voidframe/     # same pattern
+│   └── users/
+│       └── neonvoid/      # User definition (factory + all HM imports)
+└── secrets/               # SOPS age-encrypted secrets
 ```
 
 ## Hosts
 
-- **void** - Main desktop (AMD Ryzen 9 9950X, RX 9070 XT)
-- **voidframe** - Framework laptop (AMD Ryzen 7 7840U)
+| Host | Hardware | Role |
+|------|----------|------|
+| **void** | AMD Ryzen 9 9950X, RX 9070 XT, 3440×1440 | Desktop |
+| **voidframe** | AMD Ryzen 7 7840U, Framework 16 | Laptop |
 
 ## Key Features
 
-- **Dendritic Pattern** - Modular aspect-based configuration
-- **Home-Manager** - Full user environment management
-- **Hyprland** - Wayland compositor with custom configuration
-- **Stylix** - System-wide theming
-- **SOPS** - Encrypted secrets management
-- **Noctalia Shell** - Quickshell bar, launcher, lock screen
+- **Dendritic Pattern** — every feature is a self-contained aspect file; no manual import wiring
+- **import-tree** — all `.nix` files under `modules/` are auto-discovered
+- **Factory Pattern** — user accounts created with a single function call
+- **Merged Aspects** — NixOS + Home-Manager config for the same program live in one file
+- **Multi-file Hosts** — host config split across `configuration.nix`, `hardware.nix`, `network.nix`
+- **Hyprland** — Wayland compositor, fully configured in a single `desktop/hypr/hyprland.nix`
+- **Stylix** — System-wide theming (NixOS + HM merged in one aspect)
+- **SOPS** — Encrypted secrets, decrypted to `/run/secrets/` at boot
+- **Noctalia Shell** — Quickshell bar, launcher, lock screen
 
 ## Usage
 
-### Build
-
 ```bash
-nix build .#nixosConfigurations.void.config.system.build.toplevel
-nix build .#nixosConfigurations.voidframe.config.system.build.toplevel
-```
+# Build (dry run)
+nixos-rebuild dry-build --flake .#void
 
-### Deploy
-
-```bash
+# Deploy
 sudo nixos-rebuild switch --flake .#void
 sudo nixos-rebuild switch --flake .#voidframe
 ```
 
 ## Dendritic Pattern
 
-Each feature is defined as an **aspect** in its own file:
+Each feature is a self-contained **aspect** file. NixOS and Home-Manager config for the same program live together:
 
 ```nix
+# modules/audio/pipewire.nix
 { ... }:
 {
-  flake.modules.nixos.feature-name = { pkgs, ... }: {
-    # NixOS configuration
+  flake.modules.nixos.pipewire = { pkgs, ... }: {
+    services.pipewire.enable = true;
+    # ...
+  };
+
+  flake.modules.homeManager.pipewire = { ... }: {
+    # user-level config if needed
   };
 }
 ```
 
-**Host collectors** import aspects they need:
+The `common/base.nix` profile aggregates all shared leaf aspects so host files stay short:
 
 ```nix
-imports = with inputs.self.modules.nixos; [
-  boot networking pipewire fonts # etc
-];
+# modules/hosts/void/configuration.nix
+{ inputs, ... }:
+{
+  flake.modules.nixos.void = {
+    imports = with inputs.self.modules.nixos; [
+      base          # all shared aspects in one import
+      neonvoid      # user account + home-manager wiring
+      network-drives # void-specific extras
+    ];
+    system.stateVersion = "25.11";
+  };
+}
 ```
 
-**Benefits:**
+## Adding a New Module
 
-- Modular and reusable
-- No relative path imports
-- Clear dependency structure
-- Easy to enable/disable features
-
-## SOPS Secrets
-
-See [secrets/README.md](./secrets/README.md) for setup instructions.
-
-Secrets are encrypted with age keys derived from SSH keys and decrypted to `/run/secrets/` at boot.
-
-## Adding New Modules
-
-### System Module
-
-1. Create `modules/category/my-feature.nix`:
+1. Create `modules/<category>/my-feature.nix`:
 
 ```nix
 { ... }:
 {
   flake.modules.nixos.my-feature = { pkgs, ... }: {
     services.myservice.enable = true;
-    environment.systemPackages = [ pkgs.mypackage ];
+  };
+
+  # optional — HM config lives alongside NixOS config
+  flake.modules.homeManager.my-feature = { pkgs, ... }: {
+    programs.myservice.enable = true;
   };
 }
 ```
 
-1. Add to host in `modules/hosts/yourhost/default.nix`:
+2. Add to `modules/common/base.nix` (shared across all hosts) or directly to a specific host's `configuration.nix`. That's it — import-tree discovers the file automatically.
 
-```nix
-imports = [
-  m.my-feature  # Just add the module name
-];
+## Adding a New Host
+
+1. Create `modules/hosts/<hostname>/`:
+
+```
+configuration.nix   # imports base + user + host-specific extras
+hardware.nix        # GPU, kernel, boot params; imports hardware-configuration.nix
+network.nix         # static IP / wifi / hostname
+flake-parts.nix     # registers the nixosConfiguration output
 ```
 
-### Home-Manager Module
-
-1. Create `modules/home/configs/my-program.nix`:
-
 ```nix
-{ ... }:
+# configuration.nix
+{ inputs, ... }:
 {
-  flake.modules.homeManager.my-program = { pkgs, ... }: {
-    programs.myprogram = {
-      enable = true;
-      # configuration here
-    };
+  flake.modules.nixos.<hostname> = {
+    imports = with inputs.self.modules.nixos; [ base neonvoid ];
+    system.stateVersion = "25.11";
   };
 }
 ```
 
-1. Add to user in `modules/users/username/default.nix`:
-
 ```nix
-flake.modules.homeManager.username = {
-  imports = [
-    self.modules.homeManager.my-program
-  ];
-};
+# flake-parts.nix
+{ inputs, ... }:
+{
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "<hostname>";
+}
 ```
 
-The dendritic pattern auto-discovers modules via `import-tree`.
+2. Add `hosts/<hostname>/hardware-configuration.nix` (from `nixos-generate-config`).
+
+Done — import-tree picks up all files automatically.
+
+## Adding a New User
+
+The factory pattern handles system account creation and Home-Manager wiring in one call.
+
+1. Create `modules/users/<username>/<username>.nix`:
+
+```nix
+{ self, lib, ... }:
+{
+  flake.modules = lib.mkMerge [
+    (self.factory.user "<username>" true)  # true = wheel/admin
+    {
+      nixos.<username> = { ... }: {
+        users.users.<username> = {
+          description = "Display Name";
+          extraGroups = [ "networkmanager" "audio" "video" ];
+        };
+      };
+
+      homeManager.<username> = { ... }: {
+        # auto-import all HM aspects, or list them selectively:
+        imports = builtins.attrValues (builtins.removeAttrs self.modules.homeManager [ "<username>" ]);
+      };
+    }
+  ];
+}
+```
+
+2. Add `m.<username>` to the host's `configuration.nix` imports. The factory automatically wires `home-manager.users.<username>` — nothing else needed.
+
+## SOPS Secrets
+
+See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted and decrypted to `/run/secrets/` at boot.
+
