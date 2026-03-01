@@ -48,16 +48,16 @@
       };
 
       hardware = {
-        graphics = {
-          enable = lib.mkDefault true;
-          enable32Bit = lib.mkDefault true;
-        };
         amdgpu = {
           initrd.enable = lib.mkDefault true;
           opencl.enable = true;
         };
-        steam-hardware.enable = true;
         firmware = [ pkgs.linux-firmware ];
+        graphics = {
+          enable = lib.mkDefault true;
+          enable32Bit = lib.mkDefault true;
+        };
+        steam-hardware.enable = true;
       };
 
       powerManagement.cpuFreqGovernor = "performance";
