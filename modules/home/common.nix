@@ -9,8 +9,6 @@
       ...
     }:
     {
-      # External modules are now imported via sharedModules in lib.nix
-
       home = {
         inherit username;
         homeDirectory = "/home/${username}";

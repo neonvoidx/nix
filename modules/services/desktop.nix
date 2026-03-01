@@ -5,9 +5,7 @@
     {
       services = {
         udisks2.enable = true;
-        flatpak.enable = true;
         hypridle.enable = true;
-        gnome.gnome-keyring.enable = true;
         ananicy = {
           enable = true;
           package = pkgs.ananicy-cpp;

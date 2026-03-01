@@ -7,7 +7,7 @@
 {
   # Define helper function for creating nixosConfigurations
   options.flake.lib = lib.mkOption {
-    type = lib.types.lazyAttrsOf lib.types.raw;
+    type = lib.types.attrsOf lib.types.unspecified;
     default = { };
   };
 

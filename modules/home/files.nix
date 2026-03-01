@@ -3,8 +3,6 @@
   flake.modules.homeManager.files =
     { config, ... }:
     {
-      # SSH keys from Synology
-      # Get from synology mount if available and they dont already exist
       home.activation.setupSynologyKeys = config.lib.dag.entryAfter [ "writeBoundary" ] ''
         if [ ! -e ~/.ssh/id_ed25519 ] && [ -e /synology/Secure/id_ed25519 ]; then
           $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519 ~/.ssh/id_ed25519
@@ -18,7 +16,6 @@
         fi
       '';
 
-      # Dotfiles not managed via home manager yet
       home.file.".face".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/.face";
       home.file."scripts".source =
@@ -28,7 +25,6 @@
       home.file.".config/startupscripts".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/startupscripts";
 
-      # electron flags
       home.file.".config/electron-flags.conf".text = ''
         --enable-features=UseOzonePlatform
         --ozone-platform=wayland
