@@ -1,7 +1,5 @@
 { self, ... }:
 {
-  # User aspects define BOTH system AND homeManager modules
-
   # System-level user account configuration
   flake.modules.nixos.neonvoid =
     { pkgs, ... }:
@@ -21,7 +19,7 @@
       };
     };
 
-  # Home-Manager configuration (collector for all HM aspects)
+  # Home-Manager configuration (collector for all HM modules)
   flake.modules.homeManager.neonvoid =
     { ... }:
     {
