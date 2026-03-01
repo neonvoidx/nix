@@ -14,7 +14,9 @@
       overlays
 
       # Hardware
-      hardware-common
+      firmware
+      bluetooth
+      kernel
 
       # Security
       sops
