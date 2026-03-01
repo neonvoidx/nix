@@ -35,6 +35,9 @@
         m.udev
         m.greetd
         m.network-drives
+        m.hypridle
+        m.gnome-keyring
+        m.flatpak
 
         # Desktop
         m.fonts

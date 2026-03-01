@@ -4,9 +4,12 @@
     {
       lib,
       pkgs,
-      hostname ? "",
+      osConfig ? null,
       ...
     }:
+    let
+      hostname = if osConfig != null then osConfig.networking.hostName else "";
+    in
     {
       # Force Home Manager to overwrite existing GTK files
       xdg.configFile."gtk-3.0/settings.ini".force = true;

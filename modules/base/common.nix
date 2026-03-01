@@ -2,12 +2,14 @@
 {
   flake.modules.homeManager.common =
     {
-      username,
       config,
       pkgs,
       lib,
       ...
     }:
+    let
+      username = "neonvoid";
+    in
     {
       # External modules are now imported via sharedModules in lib.nix
 

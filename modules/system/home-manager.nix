@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.home-manager =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
@@ -18,17 +18,6 @@
         useUserPackages = true;
 
         sharedModules = [
-          {
-            _module.args = {
-              inherit inputs;
-              username = "neonvoid";
-              hostname = config.networking.hostName;
-              inherit (inputs) nix-index-database nix-versions;
-              nixvimOptions =
-                inputs.nixvim.packages.${pkgs.stdenv.hostPlatform.system}.options-json
-                + /share/doc/nixos/options.json;
-            };
-          }
           inputs.spicetify-nix.homeManagerModules.default
           inputs.nix-index-database.homeModules.default
           inputs.noctalia.homeModules.default

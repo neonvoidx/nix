@@ -1,7 +1,13 @@
 { ... }:
 {
+  flake.modules.nixos.gnome-keyring =
+    { ... }:
+    {
+      services.gnome.gnome-keyring.enable = true;
+    };
+
   flake.modules.homeManager.gnome-keyring =
-    { pkgs, lib, ... }:
+    { ... }:
     {
       services.gnome-keyring = {
         enable = true;

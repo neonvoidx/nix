@@ -1,7 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.nix-settings =
-    { lib, username, ... }:
+    { lib, ... }:
+    let
+      username = "neonvoid";
+    in
     {
       nix = {
         gc = {

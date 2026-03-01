@@ -1,12 +1,14 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.packages =
     {
       pkgs,
-      hostname,
-      inputs,
+      osConfig ? null,
       ...
     }:
+    let
+      hostname = if osConfig != null then osConfig.networking.hostName else "";
+    in
     {
       home.packages =
         with pkgs;

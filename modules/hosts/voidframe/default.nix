@@ -34,6 +34,9 @@
         m.xserver
         m.udev
         m.greetd
+        m.hypridle
+        m.gnome-keyring
+        m.flatpak
 
         # Desktop
         m.fonts

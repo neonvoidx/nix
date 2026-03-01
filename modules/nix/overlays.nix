@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.overlays =
-    { inputs, ... }:
+    { ... }:
     {
       nixpkgs.overlays = [
         inputs.nur.overlays.default

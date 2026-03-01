@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.system-packages =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
         ananicy-cpp

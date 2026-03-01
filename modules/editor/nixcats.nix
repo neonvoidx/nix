@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.nixcats =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     let
       nixCatsConfig = import inputs.nvim-config { inherit pkgs inputs; };
       inherit (inputs.nixCats) utils;

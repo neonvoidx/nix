@@ -1,7 +1,11 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.tv =
-    { ... }@args:
+    { pkgs, ... }:
+    let
+      nixvimOptions =
+        "${inputs.nixvim.packages.${pkgs.stdenv.hostPlatform.system}.options-json}/share/doc/nixos/options.json";
+    in
     {
       programs = {
         television = {
@@ -726,7 +730,7 @@
                 nvf = "https://notashelf.github.io/nvf/options.html";
               };
               options_file = {
-                nixvim = "${args.nixvimOptions or ""}";
+                nixvim = nixvimOptions;
               };
             };
           };
