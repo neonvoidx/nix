@@ -2,7 +2,7 @@
 {
   flake.modules.nixos.void = {
     imports = with inputs.self.modules.nixos; [
-      desktop-base
+      base
       neonvoid
       network-drives
     ];

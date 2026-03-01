@@ -1,11 +1,9 @@
 { ... }:
 {
-  flake.modules.nixos.desktop-services =
+  flake.modules.nixos.ananicy =
     { pkgs, ... }:
     {
       services = {
-        udisks2.enable = true;
-        hypridle.enable = true;
         ananicy = {
           enable = true;
           package = pkgs.ananicy-cpp;

@@ -2,7 +2,7 @@
 {
   flake.modules.nixos.voidframe = {
     imports = with inputs.self.modules.nixos; [
-      desktop-base
+      base
       neonvoid
     ];
 

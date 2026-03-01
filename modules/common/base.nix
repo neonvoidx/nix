@@ -2,7 +2,7 @@
 {
   # Shared base profile for all desktop NixOS hosts.
   # Aggregates leaf aspects so host configuration.nix stays short.
-  flake.modules.nixos.desktop-base = {
+  flake.modules.nixos.base = {
     imports = with inputs.self.modules.nixos; [
       # Core system
       boot
@@ -25,7 +25,8 @@
 
       # Services
       print
-      desktop-services
+      ananicy
+      removable-media
       xserver
       udev
       greetd
