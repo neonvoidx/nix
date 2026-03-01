@@ -12,6 +12,7 @@ My NixOS configuration using the [dendritic pattern](https://github.com/Doc-Stev
 ├── modules/
 │   ├── common/            # Shared profiles (base — aggregates all leaf aspects)
 │   ├── factory/           # Factory functions (user account creation)
+│   ├── flakeutil/         # Flake utility helpers for dendritic flake parts 
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd)
 │   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, greetd)
@@ -116,7 +117,7 @@ The `common/base.nix` profile aggregates all shared leaf aspects so host files s
 }
 ```
 
-2. Add to `modules/common/base.nix` (shared across all hosts) or directly to a specific host's `configuration.nix`. That's it — import-tree discovers the file automatically.
+1. Add to `modules/common/base.nix` (shared across all hosts) or directly to a specific host's `configuration.nix`. That's it — import-tree discovers the file automatically.
 
 ## Adding a New Host
 
@@ -148,7 +149,7 @@ flake-parts.nix     # registers the nixosConfiguration output
 }
 ```
 
-2. Add `hosts/<hostname>/hardware-configuration.nix` (from `nixos-generate-config`).
+1. Add `hosts/<hostname>/hardware-configuration.nix` (from `nixos-generate-config`).
 
 Done — import-tree picks up all files automatically.
 
@@ -180,9 +181,8 @@ The factory pattern handles system account creation and Home-Manager wiring in o
 }
 ```
 
-2. Add `m.<username>` to the host's `configuration.nix` imports. The factory automatically wires `home-manager.users.<username>` — nothing else needed.
+1. Add `m.<username>` to the host's `configuration.nix` imports. The factory automatically wires `home-manager.users.<username>` — nothing else needed.
 
 ## SOPS Secrets
 
 See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted and decrypted to `/run/secrets/` at boot.
-
