@@ -65,6 +65,8 @@
               workspace =
                 lib.optionals isVoid [
                   "3,monitor:HDMI-A-1,default:true,layoutopt:orientation:top"
+                  # waiting on dwindle pr https://github.com/hyprwm/Hyprland/pull/11629 for below rule
+                  # "3,monitor:HDMI-A-1,default:true,layout:dwindle"
                   "1,monitor:DP-2,default:true"
                   "5,monitor:DP-2,default:true"
                   "10,monitor:DP-2,default:true"
@@ -498,6 +500,7 @@
                 sync_gsettings_theme = true;
                 no_break_fs_vrr = 1;
                 enable_hyprcursor = true;
+                # TODO https://github.com/hyprwm/Hyprland/discussions/13414 currently rotated monitors have black box for cursor
               }
               // lib.optionalAttrs isVoid { default_monitor = "DP-2"; };
             }
