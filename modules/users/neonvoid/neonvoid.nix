@@ -72,15 +72,20 @@
       den.aspects.nixcats
     ];
 
-    nixos.users.users.neonvoid = {
-      description = "NeonVoid";
-      extraGroups = [
-        "networkmanager"
-        "audio"
-        "video"
-        "input"
-        "libvirtd"
-      ];
-    };
+    nixos =
+      { pkgs, ... }:
+      {
+        users.users.neonvoid = {
+          description = "NeonVoid";
+          shell = pkgs.zsh;
+          extraGroups = [
+            "networkmanager"
+            "audio"
+            "video"
+            "input"
+            "libvirtd"
+          ];
+        };
+      };
   };
 }
