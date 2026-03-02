@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.clipboard =
+  den.aspects.clipboard.homeManager =
     { ... }:
     {
       services.cliphist = {

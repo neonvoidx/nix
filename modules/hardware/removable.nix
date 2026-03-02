@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.removable-media =
+  den.aspects.removable-media.nixos =
     { pkgs, ... }:
     {
       services = {

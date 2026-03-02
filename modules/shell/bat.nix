@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.bat =
+  den.aspects.bat.homeManager =
     { ... }:
     {
       programs.bat = {

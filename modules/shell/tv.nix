@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.tv =
+  den.aspects.tv.homeManager =
     { ... }@args:
     {
       programs = {
@@ -721,14 +721,7 @@
               "nixos"
             ];
 
-            experimental = {
-              render_docs_indexes = {
-                nvf = "https://notashelf.github.io/nvf/options.html";
-              };
-              options_file = {
-                nixvim = "${args.nixvimOptions or ""}";
-              };
-            };
+            experimental.render_docs_indexes.nvf = "https://notashelf.github.io/nvf/options.html";
           };
         };
       };

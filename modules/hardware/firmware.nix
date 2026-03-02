@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.firmware =
+  den.aspects.firmware.nixos =
     { lib, config, ... }:
     {
       hardware = {

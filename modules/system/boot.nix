@@ -1,10 +1,8 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.boot = {
+  den.aspects.boot.nixos = {
     boot = {
-      plymouth = {
-        enable = true;
-      };
+      plymouth.enable = true;
       loader = {
         efi = {
           canTouchEfiVariables = true;

@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.kernel = {
+  den.aspects.kernel.nixos = {
     # Suppress kernel messages on console/TTY
     boot.kernelParams = [
       "quiet"

@@ -1,12 +1,16 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.flatpak = { ... }: {
-    services.flatpak.enable = true;
-  };
+  den.aspects.flatpak = {
+    nixos =
+      { ... }:
+      {
+        services.flatpak.enable = true;
+      };
 
-  flake.modules.homeManager.flatpak =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.flatpak ];
-    };
+    homeManager =
+      { pkgs, ... }:
+      {
+        home.packages = [ pkgs.flatpak ];
+      };
+  };
 }

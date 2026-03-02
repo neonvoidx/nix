@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.hyprpolkitagent =
+  den.aspects.hyprpolkitagent.homeManager =
     { ... }:
     {
       services.hyprpolkitagent = {

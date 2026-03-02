@@ -1,0 +1,1 @@
+- Make hyprland config dynamic with freeform attributes from den?
