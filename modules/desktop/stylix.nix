@@ -77,7 +77,8 @@
         stylix.targets = {
           cava.rainbow.enable = true;
           firefox.enable = false;
-          hyprland.enable = false;
+          hyprland.enable = true;
+          hyprland.colors.enable = false;
           kitty.enable = false;
           neovim.enable = false;
           noctalia-shell.enable = false;
