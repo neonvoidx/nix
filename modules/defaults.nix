@@ -4,14 +4,9 @@
   den.default.nixos.system.stateVersion = "25.11";
   den.default.homeManager.home.stateVersion = "25.11";
 
-  # Global includes: define user accounts and set zsh as default shell
-  den.default.includes = [
-    den._.define-user
-    den._.primary-user
-    (den._.user-shell "zsh")
-
-    # Set nix trusted/allowed-users per user from context
-    (den.lib.take.atLeast ({ user, ... }: {
+  # Set nix trusted/allowed-users per user from context
+  den.ctx.user.includes = [
+    (den.lib.take.atLeast ({ host, user, ... }: {
       nixos.nix.settings.trusted-users = [ "root" user.userName "@wheel" ];
       nixos.nix.settings.allowed-users = [ "root" user.userName "@wheel" ];
     }))
@@ -30,7 +25,10 @@
     };
   };
 
-  # Set hostname as HM extraSpecialArg per-host (for modules still using hostname arg)
+  # Set hostname as HM extraSpecialArg per-host.
+  # NOTE: Some HM modules still use `osConfig.networking.hostName` which is preferred.
+  # This extraSpecialArg provides the hostname for any module that still uses `hostname` as
+  # a function argument (check modules before removing this if migrating further).
   den.ctx.hm-host.includes = [
     (den.lib.take.exactly ({ host }: {
       nixos.home-manager.extraSpecialArgs.hostname = host.name;

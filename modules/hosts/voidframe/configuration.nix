@@ -45,5 +45,6 @@
       # System packages
       den.aspects.system-packages
     ];
+    # Note: system.stateVersion is set globally in modules/defaults.nix
   };
 }

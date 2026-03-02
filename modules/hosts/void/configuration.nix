@@ -48,5 +48,6 @@
       # void-only: network drives
       den.aspects.network-drives
     ];
+    # Note: system.stateVersion is set globally in modules/defaults.nix
   };
 }
