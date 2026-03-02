@@ -6,6 +6,7 @@
       nixpkgs = {
         config.allowUnfree = true;
         overlays = [
+          inputs.nix-cachyos-kernel.overlays.pinned
           (final: prev: {
             nur = import inputs.nur {
               nurpkgs = prev;
@@ -38,23 +39,6 @@
               };
             });
           })
-          # WAITING: remove once hyprland > 0.54.0 lands in nixos-unstable
-          # https://github.com/hyprwm/Hyprland/commit/6b2c08d3e89b1cb6f9e609664915236bbe5115da
-          (final: prev: {
-            hyprland = prev.hyprland.overrideAttrs (old: {
-              patches = (old.patches or [ ]) ++ [
-                (prev.fetchpatch {
-                  url = "https://github.com/hyprwm/Hyprland/commit/6b2c08d3e89b1cb6f9e609664915236bbe5115da.patch";
-                  hash = "sha256-xGLJvE5dL0+qd/f3BPHacGiN1W4Tea+AlH/xZdsSALA=";
-                })
-                (prev.fetchpatch {
-                  url = "https://github.com/hyprwm/Hyprland/commit/82729db330d11d8b39625f04b88bea093f99b33e.patch";
-                  hash = "sha256-wwS/tp/2GaLQWTEWM+uRg5FCaCFTSvfyKAiPWsiRcAc=";
-                })
-              ];
-            });
-          })
-          inputs.nix-cachyos-kernel.overlays.pinned
         ];
       };
     };
