@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.udev =
+  den.aspects.udev.nixos =
     { pkgs, ... }:
     {
       services = {

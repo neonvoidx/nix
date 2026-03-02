@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.desktop-programs =
+  den.aspects.desktop-programs.nixos =
     { pkgs, ... }:
     {
       programs.zsh.enable = true;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.print =
+  den.aspects.print.nixos =
     { pkgs, ... }:
     {
       hardware.printers = {

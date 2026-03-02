@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.nh =
+  den.aspects.nh.homeManager =
     { ... }:
     {
       programs.nh = {

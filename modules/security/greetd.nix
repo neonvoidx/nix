@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.greetd =
+  den.aspects.greetd.nixos =
     {
       pkgs,
       lib,

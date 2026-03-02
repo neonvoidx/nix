@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.lsd =
+  den.aspects.lsd.homeManager =
     { config, ... }:
     let
       c = config.lib.stylix.colors;

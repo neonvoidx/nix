@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.gtk =
+  den.aspects.gtk.homeManager =
     {
       lib,
       pkgs,

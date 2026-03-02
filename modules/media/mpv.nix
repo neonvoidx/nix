@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.mpv =
+  den.aspects.mpv.homeManager =
     { ... }:
     {
       programs.mpv = {

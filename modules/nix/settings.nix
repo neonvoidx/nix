@@ -1,7 +1,7 @@
 { ... }:
 {
-  flake.modules.nixos.nix-settings =
-    { lib, username, ... }:
+  den.aspects.nix-settings.nixos =
+    { lib, ... }:
     {
       nix = {
         gc = {
@@ -22,16 +22,7 @@
             "https://cache.garnix.io"
             "https://attic.xuyh0120.win/lantian"
           ];
-          trusted-users = [
-            "root"
-            username
-            "@wheel"
-          ];
-          allowed-users = [
-            "root"
-            username
-            "@wheel"
-          ];
+          # trusted/allowed-users set dynamically per-user via den.default.includes
           trusted-public-keys = [
             "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
             "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
@@ -39,7 +30,6 @@
             "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
           ];
 
-          # From old flake.nix
           connect-timeout = 10;
           stalled-download-timeout = 100;
           download-attempts = 5;

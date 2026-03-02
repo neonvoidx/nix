@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.pics =
+  den.aspects.pics.homeManager =
     {
       config,
       pkgs,

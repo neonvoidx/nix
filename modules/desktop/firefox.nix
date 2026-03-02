@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.firefox =
+  den.aspects.firefox.homeManager =
     {
       config,
       pkgs,

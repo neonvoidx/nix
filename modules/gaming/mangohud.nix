@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.mangohud =
+  den.aspects.mangohud.homeManager =
     { lib, ... }:
     {
       programs.mangohud = {

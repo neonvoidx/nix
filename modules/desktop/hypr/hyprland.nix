@@ -1,15 +1,16 @@
 { ... }:
 {
-  flake.modules.homeManager.hyprland =
+  den.aspects.hyprland.homeManager =
     {
       inputs,
       pkgs,
       lib,
       config,
-      hostname,
+      osConfig ? null,
       ...
     }:
     let
+      hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
       isVoid = hostname == "void";
       isVoidFrame = hostname == "voidframe";
     in

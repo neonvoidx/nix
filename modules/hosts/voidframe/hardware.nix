@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.voidframe =
+  den.aspects.voidframe.nixos =
     { pkgs, lib, ... }:
     {
       imports = [ (inputs.self + "/hosts/voidframe/hardware-configuration.nix") ];

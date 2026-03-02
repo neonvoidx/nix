@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.btop =
+  den.aspects.btop.homeManager =
     { config, ... }:
     {
       programs.btop = {

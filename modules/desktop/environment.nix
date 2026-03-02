@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.desktop-environment = {
+  den.aspects.desktop-environment.nixos = {
     environment.sessionVariables = {
       QT_QPA_PLATFORM = "wayland";
       NIXOS_OZONE_WL = "1";

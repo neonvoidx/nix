@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.network-drives =
+  den.aspects.network-drives.nixos =
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.thunar =
+  den.aspects.thunar.homeManager =
     { pkgs, ... }:
     {
       xdg.mimeApps = {

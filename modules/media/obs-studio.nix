@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.obs-studio =
+  den.aspects.obs-studio.homeManager =
     { pkgs, ... }:
     {
       programs.obs-studio = {

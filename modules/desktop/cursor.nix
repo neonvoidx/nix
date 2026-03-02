@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.cursor =
+  den.aspects.cursor.homeManager =
     { pkgs, ... }:
     {
       home.pointerCursor = {

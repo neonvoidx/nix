@@ -1,8 +1,7 @@
 { ... }:
 {
-  flake.modules.homeManager.common =
+  den.aspects.common.homeManager =
     {
-      username,
       config,
       pkgs,
       lib,
@@ -10,9 +9,6 @@
     }:
     {
       home = {
-        inherit username;
-        homeDirectory = "/home/${username}";
-        stateVersion = "25.11";
         sessionVariables = {
           EDITOR = "nvim";
           VISUAL = "nvim";

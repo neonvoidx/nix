@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  flake.modules.nixos.pipewire =
+  den.aspects.pipewire.nixos =
     { config, ... }:
     {
       services.pipewire = {

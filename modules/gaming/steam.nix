@@ -1,12 +1,15 @@
 { ... }:
 {
-  flake.modules.homeManager.steam =
+  den.aspects.steam.homeManager =
     {
       pkgs,
       inputs,
-      hostname,
+      osConfig ? null,
       ...
     }:
+    let
+      hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
+    in
     {
       home.packages =
         with pkgs;

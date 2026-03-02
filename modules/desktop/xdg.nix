@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.xdg =
+  den.aspects.xdg.nixos =
     { pkgs, ... }:
     {
       xdg = {

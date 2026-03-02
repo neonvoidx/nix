@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.networking = {
+  den.aspects.networking.nixos = {
     networking = {
       enableIPv6 = false;
       firewall.enable = false;

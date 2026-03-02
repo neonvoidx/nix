@@ -1,12 +1,15 @@
 { ... }:
 {
-  flake.modules.homeManager.noisetorch =
+  den.aspects.noisetorch.homeManager =
     {
       pkgs,
-      hostname,
+      osConfig ? null,
       lib,
       ...
     }:
+    let
+      hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
+    in
     {
       systemd.user.services.noisetorch = lib.mkIf (hostname == "void") {
         Unit = {

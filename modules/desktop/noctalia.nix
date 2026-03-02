@@ -1,6 +1,7 @@
 { ... }:
 {
-  flake.modules.nixos.noctalia =
+  den.aspects.noctalia = {
+    nixos =
     { pkgs, inputs, ... }:
     {
       environment.systemPackages = [
@@ -9,7 +10,7 @@
       environment.variables.QS_ICON_THEME = "Dracula";
     };
 
-  flake.modules.homeManager.noctalia =
+    homeManager =
     {
       osConfig ? null,
       ...
@@ -573,4 +574,5 @@
         };
       };
     };
+  };
 }

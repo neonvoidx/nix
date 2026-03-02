@@ -1,10 +1,10 @@
 { ... }:
 {
-  flake.modules.nixos.zsh = { ... }: {
+  den.aspects.zsh.nixos = { ... }: {
     programs.zsh.enable = true;
   };
 
-  flake.modules.homeManager.zsh =
+  den.aspects.zsh.homeManager =
     {
       config,
       pkgs,

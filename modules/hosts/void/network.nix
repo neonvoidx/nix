@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.void = { ... }: {
+  den.aspects.void.nixos = { ... }: {
     networking = {
       hostName = "void";
       nameservers = [

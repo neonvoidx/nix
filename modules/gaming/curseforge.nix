@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.curseforge =
+  den.aspects.curseforge.homeManager =
     { pkgs, ... }:
     # not using atm
     let

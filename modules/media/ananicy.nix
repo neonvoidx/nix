@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.ananicy =
+  den.aspects.ananicy.nixos =
     { pkgs, ... }:
     {
       services = {

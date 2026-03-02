@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.overlays =
+  den.aspects.overlays.nixos =
     { inputs, ... }:
     {
       nixpkgs.overlays = [

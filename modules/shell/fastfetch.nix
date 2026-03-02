@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.fastfetch =
+  den.aspects.fastfetch.homeManager =
     { pkgs, config, ... }:
     let
       c = config.lib.stylix.colors;

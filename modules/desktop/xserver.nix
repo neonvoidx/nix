@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.xserver = {
+  den.aspects.xserver.nixos = {
     services = {
       xserver = {
         enable = true;

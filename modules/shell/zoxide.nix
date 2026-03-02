@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.zoxide =
+  den.aspects.zoxide.homeManager =
     { ... }:
     {
       programs.zoxide = {

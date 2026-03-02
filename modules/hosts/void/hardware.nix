@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.void =
+  den.aspects.void.nixos =
     {
       lib,
       pkgs,

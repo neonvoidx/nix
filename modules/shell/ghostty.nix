@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.ghostty =
+  den.aspects.ghostty.homeManager =
     { config, ... }:
     {
       programs.ghostty = {

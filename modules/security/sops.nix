@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.sops = {
+  den.aspects.sops.nixos = {
     sops = {
       defaultSopsFile = ../../../secrets/secrets.yaml;
       age.sshKeyPaths = [ "/home/neonvoid/.ssh/id_ed25519" ];

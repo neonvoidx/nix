@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.pcscd =
+  den.aspects.pcscd.nixos =
     { pkgs, ... }:
     {
       services.pcscd.enable = true;

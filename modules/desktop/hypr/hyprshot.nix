@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.hyprshot =
+  den.aspects.hyprshot.homeManager =
     { ... }:
     {
       programs.hyprshot = {

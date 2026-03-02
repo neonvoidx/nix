@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.tv =
+  den.aspects.tv.homeManager =
     { ... }@args:
     {
       programs = {

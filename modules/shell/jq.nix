@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.jq =
+  den.aspects.jq.homeManager =
     { ... }:
     {
       programs.jq = {

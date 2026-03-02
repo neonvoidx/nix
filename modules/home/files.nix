@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.files =
+  den.aspects.files.homeManager =
     { config, ... }:
     {
       home.activation.setupSynologyKeys = config.lib.dag.entryAfter [ "writeBoundary" ] ''

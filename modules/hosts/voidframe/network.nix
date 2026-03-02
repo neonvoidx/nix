@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.voidframe = { ... }: {
+  den.aspects.voidframe.nixos = { ... }: {
     networking = {
       hostName = "voidframe";
       firewall.enable = false;
