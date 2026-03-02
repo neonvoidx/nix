@@ -73,11 +73,10 @@
     ];
 
     nixos =
-      { pkgs, ... }:
+      { ... }:
       {
         users.users.neonvoid = {
           description = "NeonVoid";
-          shell = pkgs.zsh;
           extraGroups = [
             "networkmanager"
             "audio"
