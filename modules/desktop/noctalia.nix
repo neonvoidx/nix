@@ -1,7 +1,7 @@
 { den, inputs, ... }:
 {
   den.aspects.noctalia =
-    { host, ... }:
+    { host, user, ... }:
     {
       nixos =
         { pkgs, ... }:
@@ -13,7 +13,7 @@
         };
 
       homeManager =
-        { ... }:
+        { pkgs, ... }:
         let
           noctaliaPluginsUrl = "https://github.com/noctalia-dev/noctalia-plugins";
           mkPluginState = name: {
@@ -346,7 +346,7 @@
                 allowPanelsOnScreenWithoutBar = true;
                 animationDisabled = false;
                 animationSpeed = 1;
-                avatarImage = "/home/neonvoid/.face";
+                avatarImage = "/home/${user.userName}/.face";
                 boxRadiusRatio = 1;
                 compactLockScreen = false;
                 dimmerOpacity = 0.3;
@@ -428,7 +428,7 @@
                 audioCodec = "opus";
                 audioSource = "both";
                 colorRange = "limited";
-                directory = "/home/neonvoid/Videos";
+                directory = "/home/${user.userName}/Videos";
                 frameRate = 144;
                 quality = "very_high";
                 showCursor = true;
@@ -445,36 +445,49 @@
                     command = "";
                     countdownEnabled = false;
                     enabled = true;
+                    keybind = "Shift+L";
                   }
                   {
                     action = "logout";
-                    command = "hyprshutdown";
+                    command = "${pkgs.hyprshutdown}/bin/hyprshutdown";
                     countdownEnabled = false;
                     enabled = true;
+                    keybind = "L";
                   }
                   {
                     action = "reboot";
                     command = "";
                     countdownEnabled = true;
                     enabled = true;
+                    keybind = "R";
                   }
                   {
                     action = "shutdown";
                     command = "";
                     countdownEnabled = true;
                     enabled = true;
+                    keybind = "S";
                   }
                   {
                     action = "suspend";
                     command = "";
                     countdownEnabled = true;
                     enabled = true;
+                    keybind = "Shift+S";
                   }
                   {
                     action = "hibernate";
                     command = "";
                     countdownEnabled = true;
                     enabled = false;
+                    keybind = "3";
+                  }
+                  {
+                    action = "rebootToUefi";
+                    command = "";
+                    countdownEnabled = true;
+                    enabled = true;
+                    keybind = "";
                   }
                 ];
                 showHeader = true;
@@ -531,7 +544,7 @@
                 tooltipsEnabled = true;
               };
               wallpaper = {
-                directory = "/home/neonvoid/pics/ultrawide";
+                directory = "/home/${user.userName}/pics/ultrawide";
                 enableMultiMonitorDirectories = true;
                 enabled = true;
                 fillColor = "#212337";
@@ -539,12 +552,12 @@
                 hideWallpaperFilenames = true;
                 monitorDirectories = [
                   {
-                    directory = "/home/neonvoid/pics/ultrawide";
+                    directory = "/home/${user.userName}/pics/ultrawide";
                     name = "DP-3";
                     wallpaper = "";
                   }
                   {
-                    directory = "/home/neonvoid/pics/vertical";
+                    directory = "/home/${user.userName}/pics/vertical";
                     name = "HDMI-A-1";
                     wallpaper = "";
                   }

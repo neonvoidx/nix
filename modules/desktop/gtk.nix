@@ -1,7 +1,7 @@
 { den, ... }:
 {
   den.aspects.gtk =
-    { host, ... }:
+    { host, user, ... }:
     {
       homeManager =
         { pkgs, ... }:
@@ -19,14 +19,12 @@
               };
               bookmarks = [
                 "file:///synology"
-                "file:///home/neonvoid/.config"
-                "file:///home/neonvoid/Downloads"
-                "file:///home/neonvoid/Videos"
-                "file:///home/neonvoid/dev"
-                "file:///home/neonvoid/homepage"
-                "file:///home/neonvoid/nix"
-                "file:///home/neonvoid/pics"
-                "file:///home/neonvoid/vault"
+                "file:///home/${user.userName}/.config"
+                "file:///home/${user.userName}/Downloads"
+                "file:///home/${user.userName}/Videos"
+                "file:///home/${user.userName}/dev"
+                "file:///home/${user.userName}/nix"
+                "file:///home/${user.userName}/pics"
               ]
               ++ pkgs.lib.optionals (host.isGaming or false) [
                 "file:///games"

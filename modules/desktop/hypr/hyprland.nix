@@ -4,9 +4,15 @@
     { host, ... }:
     {
       nixos =
-        { ... }:
+        { pkgs, ... }:
         {
-          programs.hyprland.enable = true;
+          programs.hyprland = {
+            enable = true;
+            # NOTE: package and portalPackage null if not using flake
+            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            portalPackage =
+              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          };
         };
 
       homeManager =
@@ -23,8 +29,12 @@
         {
           wayland.windowManager.hyprland = {
             enable = true;
-            package = null;
-            portalPackage = null;
+            # NOTE: package and portalPackage null if not using flake
+            # package = null;
+            # portalPackage = null;
+            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            portalPackage =
+              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
             settings = lib.mkMerge [
               # environment.nix
@@ -50,18 +60,17 @@
               }
               # monitors.nix
               {
-                monitor =
-                  [
-                    ",preferred,auto,1"
-                  ]
-                  ++ lib.optionals isMultiMonitor [
-                    "DP-2,3440x1440@143.92,4880x1440,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
-                    "DP-3,3440x1440@143.92,4880x0,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
-                    "HDMI-A-1,2560x1440@59.95,3440x727,1.0,transform,1"
-                  ]
-                  ++ lib.optionals (!isMultiMonitor) [
-                    "eDP-1,2880x1920@120,0x0,1.33333"
-                  ];
+                monitor = [
+                  ",preferred,auto,1"
+                ]
+                ++ lib.optionals isMultiMonitor [
+                  "DP-2,3440x1440@143.92,4880x1440,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
+                  "DP-3,3440x1440@143.92,4880x0,1.0,bitdepth,10,cm,hdredid,sdrbrightness,1.3,sdrsaturation,0.93,vrr,1"
+                  "HDMI-A-1,2560x1440@59.95,3440x727,1.0,transform,1"
+                ]
+                ++ lib.optionals (!isMultiMonitor) [
+                  "eDP-1,2880x1920@120,0x0,1.33333"
+                ];
 
                 workspace = lib.optionals isMultiMonitor [
                   "3,monitor:HDMI-A-1,default:true,layoutopt:orientation:top"
@@ -192,200 +201,199 @@
               }
               # windowrules.nix
               {
-                windowrule =
-                  [
-                    {
-                      name = "godot";
-                      "match:title" = ".*(DEBUG).*";
-                      "match:initial_class" = "Godot";
-                      fullscreen = "off";
-                      maximize = "on";
-                      workspace = "11";
-                      float = "off";
-                    }
-                    {
-                      name = "godot_game";
-                      "match:title" = ".*(DEBUG).*";
-                      "match:initial_title" = "Godot";
-                      fullscreen = "off";
-                      maximize = "off";
-                      center = "on";
-                      float = "on";
-                      workspace = "11";
-                    }
-                    {
-                      name = "noctalia_settings";
-                      "match:class" = "org.quickshell";
-                      float = "on";
-                      center = "on";
-                    }
-                    {
-                      name = "gnomekeyringprompt";
-                      "match:title" = "Unlock Login Keying";
-                      float = "on";
-                      pin = "on";
-                    }
-                    {
-                      name = "vesktop";
-                      "match:class" = "vesktop";
-                      workspace = "3 silent";
-                    }
-                    {
-                      name = "steampopup";
-                      "match:title" = "Steamwebhelper";
-                      workspace = "10 silent";
-                      suppress_event = "activatefocus";
-                    }
-                    {
-                      name = "steamsignin";
-                      "match:initial_title" = "Sign in to Steam";
-                      "match:initial_class" = "steam";
-                      center = true;
-                      float = "on";
-                      suppress_event = "activatefocus";
-                      workspace = "10 silent";
-                    }
-                    {
-                      name = "steam";
-                      "match:class" = "steam|Steam";
-                      workspace = "10 silent";
-                      suppress_event = "activatefocus";
-                    }
-                    {
-                      name = "steamgames";
-                      "match:class" = "^steam_app_.*$";
-                      fullscreen = "on";
-                      workspace = "11";
-                    }
-                    {
-                      name = "lostarksplash";
-                      "match:class" = "^steam_app_.*$";
-                      "match:initial_title" = "SplashScreen";
-                      fullscreen = "off";
-                      float = "on";
-                      center = "on";
-                      workspace = "11";
-                    }
-                    {
-                      name = "ffxiv";
-                      "match:title" = "FINAL FANTASY XIV";
-                      float = "off";
-                      fullscreen = "on";
-                      workspace = "11";
-                    }
-                    {
-                      name = "bnet";
-                      "match:title" = "Battle.net.*";
-                      float = "off";
-                      fullscreen = "off";
-                      workspace = "10";
-                    }
-                    {
-                      name = "bnetlogin";
-                      "match:title" = "Battle.net Login";
-                      float = "off";
-                      fullscreen = "off";
-                      workspace = "10";
-                    }
-                    {
-                      name = "bnetsettings";
-                      "match:title" = "Battle.net Settings";
-                      float = "on";
-                      fullscreen = "off";
-                      workspace = "10";
-                    }
-                    {
-                      name = "hytale";
-                      "match:title" = "Hytale";
-                      "match:class" = "HytaleClient";
-                      fullscreen = "on";
-                      workspace = "11";
-                    }
-                    {
-                      name = "wow";
-                      "match:title" = "World of Warcraft";
-                      fullscreen = "on";
-                      float = "off";
-                      workspace = "11";
-                    }
-                    {
-                      name = "thunderbirdreminder";
-                      "match:class" = "org.mozilla.Thunderbird";
-                      "match:title" = "^.*Reminder.*$";
-                      suppress_event = "activatefocus";
-                      float = "on";
-                      pin = "on";
-                      size = "(monitor_w*0.2) (monitor_h*0.3)";
-                      move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
-                    }
-                    {
-                      name = "kittydropdown";
-                      "match:class" = "kittyquick";
-                      float = "on";
-                      pin = "on";
-                    }
-                    {
-                      name = "pip";
-                      "match:class" = "firefox";
-                      "match:title" = "Picture-in-Picture";
-                      suppress_event = "activatefocus";
-                      no_initial_focus = "on";
-                      float = "on";
-                      pin = "on";
-                      size = "(monitor_w*0.2) (monitor_h*0.3)";
-                      move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
-                    }
-                    {
-                      name = "sgdbooppopup";
-                      "match:class" = "SGDBoop";
-                      float = true;
-                    }
-                    {
-                      name = "hyprpopup";
-                      "match:class" = "hyprland-dialog";
-                      pin = true;
-                    }
-                    {
-                      name = "gamescopegames";
-                      "match:class" = "gamescope";
-                      workspace = "11";
-                    }
-                    {
-                      name = "xwaylandhelper";
-                      "match:xwayland" = "true";
-                      "match:title" = "^$";
-                      "match:class" = "^$";
-                      "match:initial_class" = "^$";
-                      "match:initial_title" = "^$";
-                      opacity = "0.0";
-                      float = "true";
-                      no_blur = "on";
-                    }
-                  ]
-                  ++ lib.optionals isMultiMonitor [
-                    {
-                      name = "spotify";
-                      "match:class" = "spotify";
-                      workspace = "3 silent";
-                    }
-                    {
-                      name = "thunderbird";
-                      "match:class" = "org.mozilla.Thunderbird";
-                      workspace = "4 silent";
-                    }
-                    {
-                      name = "fractal";
-                      "match:class" = "org.gnome.Fractal";
-                      workspace = "4 silent";
-                    }
-                  ]
-                  ++ lib.optionals (!isMultiMonitor) [
-                    {
-                      name = "spotifyframe";
-                      "match:class" = "spotify";
-                      workspace = "4 silent";
-                    }
-                  ];
+                windowrule = [
+                  {
+                    name = "godot";
+                    "match:title" = ".*(DEBUG).*";
+                    "match:initial_class" = "Godot";
+                    fullscreen = "off";
+                    maximize = "on";
+                    workspace = "11";
+                    float = "off";
+                  }
+                  {
+                    name = "godot_game";
+                    "match:title" = ".*(DEBUG).*";
+                    "match:initial_title" = "Godot";
+                    fullscreen = "off";
+                    maximize = "off";
+                    center = "on";
+                    float = "on";
+                    workspace = "11";
+                  }
+                  {
+                    name = "noctalia_settings";
+                    "match:class" = "org.quickshell";
+                    float = "on";
+                    center = "on";
+                  }
+                  {
+                    name = "gnomekeyringprompt";
+                    "match:title" = "Unlock Login Keying";
+                    float = "on";
+                    pin = "on";
+                  }
+                  {
+                    name = "vesktop";
+                    "match:class" = "vesktop";
+                    workspace = "3 silent";
+                  }
+                  {
+                    name = "steampopup";
+                    "match:title" = "Steamwebhelper";
+                    workspace = "10 silent";
+                    suppress_event = "activatefocus";
+                  }
+                  {
+                    name = "steamsignin";
+                    "match:initial_title" = "Sign in to Steam";
+                    "match:initial_class" = "steam";
+                    center = true;
+                    float = "on";
+                    suppress_event = "activatefocus";
+                    workspace = "10 silent";
+                  }
+                  {
+                    name = "steam";
+                    "match:class" = "steam|Steam";
+                    workspace = "10 silent";
+                    suppress_event = "activatefocus";
+                  }
+                  {
+                    name = "steamgames";
+                    "match:class" = "^steam_app_.*$";
+                    fullscreen = "on";
+                    workspace = "11";
+                  }
+                  {
+                    name = "lostarksplash";
+                    "match:class" = "^steam_app_.*$";
+                    "match:initial_title" = "SplashScreen";
+                    fullscreen = "off";
+                    float = "on";
+                    center = "on";
+                    workspace = "11";
+                  }
+                  {
+                    name = "ffxiv";
+                    "match:title" = "FINAL FANTASY XIV";
+                    float = "off";
+                    fullscreen = "on";
+                    workspace = "11";
+                  }
+                  {
+                    name = "bnet";
+                    "match:title" = "Battle.net.*";
+                    float = "off";
+                    fullscreen = "off";
+                    workspace = "10";
+                  }
+                  {
+                    name = "bnetlogin";
+                    "match:title" = "Battle.net Login";
+                    float = "off";
+                    fullscreen = "off";
+                    workspace = "10";
+                  }
+                  {
+                    name = "bnetsettings";
+                    "match:title" = "Battle.net Settings";
+                    float = "on";
+                    fullscreen = "off";
+                    workspace = "10";
+                  }
+                  {
+                    name = "hytale";
+                    "match:title" = "Hytale";
+                    "match:class" = "HytaleClient";
+                    fullscreen = "on";
+                    workspace = "11";
+                  }
+                  {
+                    name = "wow";
+                    "match:title" = "World of Warcraft";
+                    fullscreen = "on";
+                    float = "off";
+                    workspace = "11";
+                  }
+                  {
+                    name = "thunderbirdreminder";
+                    "match:class" = "org.mozilla.Thunderbird";
+                    "match:title" = "^.*Reminder.*$";
+                    suppress_event = "activatefocus";
+                    float = "on";
+                    pin = "on";
+                    size = "(monitor_w*0.2) (monitor_h*0.3)";
+                    move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
+                  }
+                  {
+                    name = "kittydropdown";
+                    "match:class" = "kittyquick";
+                    float = "on";
+                    pin = "on";
+                  }
+                  {
+                    name = "pip";
+                    "match:class" = "firefox";
+                    "match:title" = "Picture-in-Picture";
+                    suppress_event = "activatefocus";
+                    no_initial_focus = "on";
+                    float = "on";
+                    pin = "on";
+                    size = "(monitor_w*0.2) (monitor_h*0.3)";
+                    move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
+                  }
+                  {
+                    name = "sgdbooppopup";
+                    "match:class" = "SGDBoop";
+                    float = true;
+                  }
+                  {
+                    name = "hyprpopup";
+                    "match:class" = "hyprland-dialog";
+                    pin = true;
+                  }
+                  {
+                    name = "gamescopegames";
+                    "match:class" = "gamescope";
+                    workspace = "11";
+                  }
+                  {
+                    name = "xwaylandhelper";
+                    "match:xwayland" = "true";
+                    "match:title" = "^$";
+                    "match:class" = "^$";
+                    "match:initial_class" = "^$";
+                    "match:initial_title" = "^$";
+                    opacity = "0.0";
+                    float = "true";
+                    no_blur = "on";
+                  }
+                ]
+                ++ lib.optionals isMultiMonitor [
+                  {
+                    name = "spotify";
+                    "match:class" = "spotify";
+                    workspace = "3 silent";
+                  }
+                  {
+                    name = "thunderbird";
+                    "match:class" = "org.mozilla.Thunderbird";
+                    workspace = "4 silent";
+                  }
+                  {
+                    name = "fractal";
+                    "match:class" = "org.gnome.Fractal";
+                    workspace = "4 silent";
+                  }
+                ]
+                ++ lib.optionals (!isMultiMonitor) [
+                  {
+                    name = "spotifyframe";
+                    "match:class" = "spotify";
+                    workspace = "4 silent";
+                  }
+                ];
               }
               # settings.nix
               {
@@ -501,25 +509,24 @@
               }
               # startup.nix
               {
-                exec-once =
-                  [
-                    "dbus-update-activation-environment --systemd --all"
-                    "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
-                    "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
-                    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-                    "xrandr --output DP-2 --primary"
-                    "xembedsniproxy"
-                    "[workspace 2 silent] firefox"
-                    "[workspace 4 silent] sleep 8 && thunderbird"
-                  ]
-                  ++ lib.optionals isVoid [
-                    "sleep 3 && streamcontroller -b"
-                    "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
-                    "[workspace 10 silent] steam"
-                  ]
-                  ++ lib.optionals (!isMultiMonitor) [
-                    "[workspace 4 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
-                  ];
+                exec-once = [
+                  "dbus-update-activation-environment --systemd --all"
+                  "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
+                  "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
+                  "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+                  "xrandr --output DP-2 --primary"
+                  "xembedsniproxy"
+                  "[workspace 2 silent] firefox"
+                  "[workspace 4 silent] sleep 8 && thunderbird"
+                ]
+                ++ lib.optionals isVoid [
+                  "sleep 3 && streamcontroller -b"
+                  "[workspace 3 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                  "[workspace 10 silent] steam"
+                ]
+                ++ lib.optionals (!isMultiMonitor) [
+                  "[workspace 4 silent] spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                ];
 
                 submap = [ "resize" ];
               }

@@ -1,4 +1,10 @@
 { den, ... }:
+let
+  neonvoid = {
+    gitName = "neonvoidx";
+    gitEmail = "me@neonvoid.dev";
+  };
+in
 {
   # example of freeform attributes w/ den:
   # isDesktop = true;
@@ -10,15 +16,13 @@
       yRes = "1440";
       isGaming = true;
       isMultiMonitor = true;
-      users.neonvoid = {
-      };
+      users.neonvoid = neonvoid;
     };
     voidframe = {
       xRes = "2880";
       yRes = "1920";
       isLaptop = true;
-      users.neonvoid = {
-      };
+      users.neonvoid = neonvoid;
     };
   };
 }
