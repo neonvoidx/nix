@@ -151,7 +151,7 @@
             };
           };
 
-          home.file.".mozilla/firefox/${config.home.username}/chrome/simpleMenuWizard" = {
+          home.file.".mozilla/firefox/${user.userName}/chrome/simpleMenuWizard" = {
             recursive = true;
             source = "${inputs.self}/assets/.mozilla/chrome/simpleMenuWizard";
           };
