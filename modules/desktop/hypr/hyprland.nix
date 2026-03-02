@@ -172,7 +172,6 @@
                 # Master layout
                 "$mod, m, layoutmsg, swapwithmaster"
                 "$mod, i, layoutmsg, addmaster"
-                "$mod, d, layoutmsg, removemaster"
 
                 # Resize submap
                 "$mod, r, submap, resize"
