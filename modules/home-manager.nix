@@ -12,6 +12,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
+    backupCommand = "bash -c 'rm -f \"$1.backup\" && mv \"$1\" \"$1.backup\"' --";
     sharedModules = [
       inputs.spicetify-nix.homeManagerModules.default
       inputs.nix-index-database.homeModules.default
