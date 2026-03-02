@@ -505,7 +505,7 @@
             {
               exec-once = [
                 "dbus-update-activation-environment --systemd --all"
-                "hyprctl setcursor catppuccin-mocha-sapphire-cursors 24"
+                "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
                 "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                 "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
                 "xrandr --output DP-2 --primary"
