@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.git =
+  den.aspects.git.homeManager =
     { config, ... }:
     let
       c = config.lib.stylix.colors;

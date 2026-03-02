@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.just =
+  den.aspects.just.homeManager =
     { pkgs, config, ... }:
     {
       home.packages = [ pkgs.just ];

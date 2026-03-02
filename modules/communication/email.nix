@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.email =
+  den.aspects.email.homeManager =
     { pkgs, ... }:
     {
       services.protonmail-bridge = {

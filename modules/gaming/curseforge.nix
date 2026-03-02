@@ -1,8 +1,7 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.curseforge =
+  den.aspects.curseforge.homeManager =
     { pkgs, ... }:
-    # not using atm
     let
       curseforge = pkgs.fetchurl {
         url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";

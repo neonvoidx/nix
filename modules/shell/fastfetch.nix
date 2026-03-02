@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.fastfetch =
+  den.aspects.fastfetch.homeManager =
     { pkgs, config, ... }:
     let
       c = config.lib.stylix.colors;
@@ -12,6 +12,7 @@
           "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
           logo = {
             type = "kitty-direct";
+            # TODO dynamic
             source = "~/nix/assets/neonvoid.png";
             width = 25;
             padding = {

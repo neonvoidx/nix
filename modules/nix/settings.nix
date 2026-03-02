@@ -1,7 +1,7 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.nix-settings =
-    { lib, username, ... }:
+  den.aspects.nix-settings.nixos =
+    { lib, ... }:
     {
       nix = {
         gc = {
@@ -24,12 +24,12 @@
           ];
           trusted-users = [
             "root"
-            username
+            "neonvoid"
             "@wheel"
           ];
           allowed-users = [
             "root"
-            username
+            "neonvoid"
             "@wheel"
           ];
           trusted-public-keys = [
@@ -39,7 +39,6 @@
             "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
           ];
 
-          # From old flake.nix
           connect-timeout = 10;
           stalled-download-timeout = 100;
           download-attempts = 5;

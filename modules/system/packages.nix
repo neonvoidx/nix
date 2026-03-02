@@ -1,7 +1,7 @@
-{ ... }:
+{ den, inputs, ... }:
 {
-  flake.modules.nixos.system-packages =
-    { pkgs, inputs, ... }:
+  den.aspects.system-packages.nixos =
+    { pkgs, ... }:
     {
       # System wide packages
       environment.systemPackages = with pkgs; [

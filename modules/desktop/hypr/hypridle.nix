@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.hypridle =
+  den.aspects.hypridle.homeManager =
     { ... }:
     {
       services.hypridle = {

@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.lazygit =
+  den.aspects.lazygit.homeManager =
     { ... }:
     {
       programs.lazygit = {

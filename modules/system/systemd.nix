@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.systemd = {
+  den.aspects.systemd.nixos = {
     systemd = {
       network.enable = true;
       sleep.extraConfig = ''

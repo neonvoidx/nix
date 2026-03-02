@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.tealdeer =
+  den.aspects.tealdeer.homeManager =
     { ... }:
     {
       programs.tealdeer = {

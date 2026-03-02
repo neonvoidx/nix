@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.fonts =
+  den.aspects.fonts.nixos =
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [

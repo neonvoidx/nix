@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.easyeffects =
+  den.aspects.easyeffects.homeManager =
     {
       pkgs,
       config,

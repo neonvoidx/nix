@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.fzf =
+  den.aspects.fzf.homeManager =
     { ... }:
     {
       programs.fzf = {

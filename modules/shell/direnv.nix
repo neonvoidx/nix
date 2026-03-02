@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.direnv =
+  den.aspects.direnv.homeManager =
     { ... }:
     {
       programs = {

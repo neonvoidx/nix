@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.payrespects =
+  den.aspects.payrespects.homeManager =
     { ... }:
     {
       programs.pay-respects = {

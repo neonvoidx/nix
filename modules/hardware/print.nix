@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.print =
+  den.aspects.print.nixos =
     { pkgs, ... }:
     {
       hardware.printers = {
@@ -18,7 +18,10 @@
 
       services.printing = {
         enable = true;
-        drivers = with pkgs; [ hplipWithPlugin cups-filters ];
+        drivers = with pkgs; [
+          hplipWithPlugin
+          cups-filters
+        ];
         browsing = true;
         logLevel = "warn";
       };

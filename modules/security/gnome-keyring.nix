@@ -1,10 +1,12 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.nixos.gnome-keyring = { ... }: {
-    services.gnome.gnome-keyring.enable = true;
-  };
+  den.aspects.gnome-keyring.nixos =
+    { ... }:
+    {
+      services.gnome.gnome-keyring.enable = true;
+    };
 
-  flake.modules.homeManager.gnome-keyring =
+  den.aspects.gnome-keyring.homeManager =
     { ... }:
     {
       services.gnome-keyring = {

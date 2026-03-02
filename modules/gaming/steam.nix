@@ -1,27 +1,55 @@
-{ ... }:
+{ den, inputs, ... }:
 {
-  flake.modules.homeManager.steam =
-    {
-      pkgs,
-      inputs,
-      hostname,
-      ...
-    }:
-    {
-      home.packages =
-        with pkgs;
-        [
-          inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
-          inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
-          steam
-          gamescope
-          protontricks
-          protonup-rs
-          vulkan-tools
-          sgdboop
-        ]
-        ++ pkgs.lib.optionals (hostname == "void") [
-          deadlock-mod-manager
-        ];
-    };
+  den.aspects.steam = {
+    nixos =
+      { pkgs, ... }:
+      {
+        programs.steam = {
+          enable = true;
+          protontricks.enable = true;
+          remotePlay.openFirewall = true;
+          dedicatedServer.openFirewall = true;
+          localNetworkGameTransfers.openFirewall = true;
+          extraCompatPackages = with pkgs; [
+            proton-ge-bin
+          ];
+        };
+        environment.sessionVariables = {
+          # Proton settings
+          PROTON_ENABLE_WAYLAND = "1";
+          PROTON_ENABLE_HDR = "1";
+          PROTON_USE_NTSYNC = "1";
+          PROTON_FSR4_UPGRADE = "1";
+          PROTON_FSR4_RDNA3_UPGRADE = "1";
+          PROTON_XESS_UPGRADE = "1";
+        };
+      };
+
+    homeManager =
+      {
+        pkgs,
+        osConfig ? null,
+        ...
+      }:
+      let
+        hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
+      in
+      {
+        home.packages =
+          with pkgs;
+          [
+            inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
+            inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
+            steam
+            gamescope
+            protontricks
+            protonup-rs
+            vulkan-tools
+            sgdboop
+          ]
+          ++ pkgs.lib.optionals (hostname == "void") [
+            deadlock-mod-manager
+          ];
+      };
+  };
 }

@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.vesktop =
+  den.aspects.vesktop.homeManager =
     {
       pkgs,
       lib,

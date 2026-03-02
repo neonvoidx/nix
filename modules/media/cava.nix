@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.cava =
+  den.aspects.cava.homeManager =
     { config, ... }:
     {
       programs.cava = {

@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.yazi =
+  den.aspects.yazi.homeManager =
     { pkgs, ... }:
     {
       programs.yazi = {

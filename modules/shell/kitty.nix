@@ -1,6 +1,6 @@
-{ ... }:
+{ den, ... }:
 {
-  flake.modules.homeManager.kitty =
+  den.aspects.kitty.homeManager =
     {
       config,
       pkgs,
