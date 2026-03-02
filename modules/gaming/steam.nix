@@ -1,9 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.steam.homeManager =
     {
       pkgs,
-      inputs,
       osConfig ? null,
       ...
     }:

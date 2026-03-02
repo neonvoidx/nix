@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.nixcats.homeManager =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     let
       nixCatsConfig = import inputs.nvim-config { inherit pkgs inputs; };
       inherit (inputs.nixCats) utils;

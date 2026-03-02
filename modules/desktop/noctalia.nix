@@ -1,8 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.noctalia = {
     nixos =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     {
       environment.systemPackages = [
         inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default

@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.overlays.nixos =
-    { inputs, ... }:
+    { ... }:
     {
       nixpkgs.overlays = [
         (final: prev: {

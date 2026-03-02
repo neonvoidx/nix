@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.system-packages.nixos =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     {
       # System wide packages
       environment.systemPackages = with pkgs; [

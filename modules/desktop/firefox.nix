@@ -1,10 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.firefox.homeManager =
     {
       config,
       pkgs,
-      inputs,
       ...
     }:
     {

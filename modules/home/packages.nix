@@ -1,9 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.packages.homeManager =
     {
       pkgs,
-      inputs,
       ...
     }:
     {

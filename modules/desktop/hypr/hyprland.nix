@@ -1,8 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   den.aspects.hyprland.homeManager =
     {
-      inputs,
       pkgs,
       lib,
       config,
