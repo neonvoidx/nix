@@ -543,7 +543,7 @@
                   "[workspace 4 silent] sleep 8 && thunderbird"
                 ]
                 ++ lib.optionals isVoid [
-                  "kill $(pgrep -f 'streamcontroller') 2>/dev/null; sleep 1 && streamcontroller -b"
+                  "sleep 3 && streamcontroller --close-running 2>/dev/null; sleep 2 && streamcontroller -b"
                   "[workspace 3 silent] sleep 5 && spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
                   "[workspace 10 silent] sleep 5 && steam"
                 ]
