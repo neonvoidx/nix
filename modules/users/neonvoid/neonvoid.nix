@@ -68,8 +68,6 @@
       den.aspects.mangohud
       # WoW Addon manager
       den.aspects.curseforge
-      # Limo mod manager
-      den.aspects.limo
 
       # Communication
       # Setups thunderbird and protonmailbridge, unique to my user, edit email.nix to setup your accounts
