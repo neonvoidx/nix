@@ -7,17 +7,18 @@
       den.aspects.locale
       den.aspects.networking
       den.aspects.systemd
-      den.aspects."user-accounts"
+      den.aspects.users
       den.aspects.overlays
-      den.aspects."nix-settings"
+      den.aspects.nixsettings
 
       # Hardware
-      den.aspects.firmware
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.streamcontroller
+      # Network printer stuff, specific to my network
+      # If you want to setup network printer be sure to edit print.nix
       den.aspects.print
-      den.aspects."removable-media"
+      den.aspects.usb
       den.aspects.udev
 
       # Security
@@ -27,10 +28,12 @@
 
       # Services
       den.aspects.ananicy
-      den.aspects."network-drives"
+      # WARNING: Specific to my network drives, don't use this unless you want to change network-drives.nix
+      # for your own network mount drives
+      den.aspects.networkdrives
 
       # System packages
-      den.aspects."system-packages"
+      den.aspects.systempackages
     ];
 
     nixos =

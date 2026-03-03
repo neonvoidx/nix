@@ -12,6 +12,7 @@
     (inputs.flake-file.flakeModules.dendritic or { })
     (inputs.den.flakeModules.dendritic or { })
   ];
+
   # den specific setup
   den = {
     ctx.hm-host.nixos.home-manager = {

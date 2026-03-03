@@ -4,7 +4,9 @@
     { ... }:
     {
       nixpkgs = {
-        config.allowUnfree = true;
+        #NOTE: These are overlays, i.e patches etc to overwrite pkgs
+        # these are usually just holdovers until PRs get merged and built
+        # into nixos-unstable branch
         overlays = [
           inputs.nix-cachyos-kernel.overlays.pinned
           (final: prev: {
@@ -13,6 +15,7 @@
               pkgs = prev;
             };
           })
+          # Adds newest deadlock-mod-manager
           # WAITING: remove once https://github.com/NixOS/nixpkgs/pull/493565 lands in nixos-unstable
           (final: prev: {
             deadlock-mod-manager = prev.deadlock-mod-manager.overrideAttrs (old: rec {

@@ -208,6 +208,12 @@
             "ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output";
         };
       };
+      programs.zsh.shellAliases = {
+        s = "kitten ssh";
+        icat = "kitten icat";
+        ssh = "kitten ssh";
+        d = "kitten diff";
+      };
 
       home.file.".config/kitty/pass_keys.py".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/pass_keys.py";

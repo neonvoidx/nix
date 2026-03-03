@@ -41,7 +41,7 @@
       den.aspects.thunar
 
       # Services (user-level)
-      den.aspects."gnome-keyring"
+      den.aspects.gnomekeyring
       den.aspects.pipewire
       den.aspects.streamcontroller
 
@@ -54,21 +54,30 @@
       den.aspects.cava
       den.aspects.easyeffects
       den.aspects.mpv
-      den.aspects."obs-studio"
+      den.aspects.obsstudio
+      # My personal wallpapers
+      # pulls from my repo, if you want to pull your own
+      # wallpaper pics repo, change pics.nix url
       den.aspects.pics
       den.aspects.spicetify
+      # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
       den.aspects.noisetorch
 
       # Gaming
       den.aspects.steam
       den.aspects.mangohud
+      # WoW Addon manager
       den.aspects.curseforge
 
       # Communication
+      # Setups thunderbird and protonmailbridge, unique to my user, edit email.nix to setup your accounts
       den.aspects.email
       den.aspects.vesktop
 
       # IDE
+      # NixCats with my neovim config
+      # NOTE: Replace nvim-config input in flake.nix with your nvim config
+      # however your nvim config would need to implement nixcats
       den.aspects.nixcats
     ];
 

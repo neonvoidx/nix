@@ -7,6 +7,6 @@
         enable = true;
       };
 
-      programs.zsh.shellAliases.bat = "bat";
+      programs.zsh.shellAliases.cat = "bat";
     };
 }

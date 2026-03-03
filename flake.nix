@@ -33,6 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-config = {
+      # NOTE: replace with your nvim github repo
       url = "github:neonvoidx/nvim";
       flake = false;
     };

@@ -21,6 +21,8 @@
             };
           };
 
+          # If multimonitor we add a pre exec to run fbset with our primary display resolution
+          # this is so the main monitor TTY greetd for tuigreet isn't cropped
           systemd.services.greetd = lib.mkIf (host.isMultiMonitor or false) {
             preStart = ''
               ${pkgs.fbset}/bin/fbset -xres ${host.xRes} -yres ${host.yRes}

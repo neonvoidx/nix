@@ -4,12 +4,12 @@
     { host, user, ... }:
     {
       nixos =
-        { pkgs, ... }:
+        { pkgs, config, ... }:
         {
           environment.systemPackages = [
             inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];
-          environment.variables.QS_ICON_THEME = "Dracula";
+          environment.variables.QS_ICON_THEME = config.stylix.icons.${config.stylix.polarity};
         };
 
       homeManager =
