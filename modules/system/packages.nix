@@ -45,6 +45,7 @@
         usbutils
         wget
         whois
+        xrandr
         xwayland
         yubico-pam
         yubioath-flutter
