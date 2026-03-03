@@ -386,6 +386,11 @@
                     "match:class" = "org.gnome.Fractal";
                     workspace = "4 silent";
                   }
+                  {
+                    name = "streamcontroller";
+                    "match:class" = "com.core447.StreamController";
+                    minimize = "on";
+                  }
                 ]
                 ++ lib.optionals (!isMultiMonitor) [
                   {
