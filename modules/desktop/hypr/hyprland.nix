@@ -113,6 +113,7 @@
                   "$mod, f, fullscreen, 1"
                   "$mod SHIFT, f, fullscreen, 0"
                   "$mod, c, centerwindow"
+                  "ALT, TAB, focuscurrentorlast"
 
                   # Screenshot
                   ",Print, exec, hyprshot -z -m region --clipboard-only"
