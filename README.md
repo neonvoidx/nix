@@ -10,18 +10,18 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── void/hardware-configuration.nix
 │   └── voidframe/hardware-configuration.nix
 ├── modules/
-│   ├── dendritic.nix      # Bootstraps den into flake-parts
+│   ├── den.nix            # Bootstraps den into flake-parts, den defaults: stateVersion, HM config, sharedModules, user shell
 │   ├── hosts.nix          # Declares hosts and their attributes
-│   ├── home-manager.nix   # HM integration (sharedModules, useGlobalPkgs)
-│   ├── state-versions.nix # NixOS + HM stateVersion
-│   ├── system/            # OS-level aspects (boot, locale, networking, systemd)
-│   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev, streamcontroller)
+│   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
+│   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, greetd)
-│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, …)
-│   ├── shell/             # Shell aspects (zsh, bat, git, kitty, yazi, …)
+│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
+│   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, curseforge)
-│   ├── media/             # Media aspects (mpv, obs, spicetify, ananicy, …)
+│   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
+│   ├── home/              # Home-manager aspects (common, files, packages)
 │   ├── ide/               # Editor aspects (nixcats)
 │   ├── nix/               # Nix daemon settings and overlays
 │   ├── hosts/             # Host aspect definitions (one file per host)
@@ -36,7 +36,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 
 | Host | Hardware | Role | Attributes |
 |------|----------|------|------------|
-| **void** | AMD Ryzen 9 9950X, RX 9070 XT | Desktop | `isGaming=true`, `isMultiMonitor=true` |
+| **void** | AMD Ryzen 9 9950X, RX 9070 XT | Desktop | `isMultiMonitor=true` |
 | **voidframe** | AMD Ryzen 7 7840U, Framework 16 | Laptop | `isLaptop=true` |
 
 ## Key Features
@@ -91,12 +91,13 @@ To access **host or user context**, use the outer aspect lambda:
     { host, user, ... }:
     {
       nixos = { pkgs, ... }: {
-        # host.xRes, host.isGaming, host.isLaptop or false, etc.
+        # host.xRes, host.isMultiMonitor or false, host.isLaptop or false, etc.
         networking.hostName = host.hostName;
       };
 
-      homeManager = { ... }: {
-        # user.userName, user.homeDirectory, etc.
+      homeManager = { osConfig, ... }: {
+        # user.userName, user.homeDirectory, user.gitName, user.gitEmail, etc.
+        # osConfig accesses the NixOS config (e.g. osConfig.fileSystems ? "/games")
         home.file."example".text = "hello ${user.userName}";
       };
     };

@@ -4,7 +4,7 @@
     { host, user, ... }:
     {
       homeManager =
-        { pkgs, ... }:
+        { pkgs, osConfig, ... }:
         {
           # Force Home Manager to overwrite existing GTK files
           xdg.configFile."gtk-3.0/settings.ini".force = true;
@@ -26,7 +26,7 @@
                 "file:///home/${user.userName}/nix"
                 "file:///home/${user.userName}/pics"
               ]
-              ++ pkgs.lib.optionals (host.isGaming or false) [
+              ++ pkgs.lib.optionals (osConfig.fileSystems ? "/games") [
                 "file:///games"
                 "file:///games/wow"
               ];

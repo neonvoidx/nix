@@ -24,7 +24,10 @@
       # Settings are managed via ~/.config/easyeffects/autoload/easyeffectsrc and db/easyeffectsrc
       services.easyeffects = {
         enable = true;
+        # TODO doesn't seem to autoload
+        # preset = "headphones";
         extraPresets = {
+          # Mic preset, commented out for now, i've had better luck with RNNoise
           # microphone = {
           #   input = {
           #     blocklist = [ ];

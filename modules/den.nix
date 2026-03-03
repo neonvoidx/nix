@@ -1,5 +1,18 @@
-{ den, inputs, ... }:
 {
+  den,
+  inputs,
+  lib,
+  ...
+}:
+{
+  # Setup for den
+  flake-file.inputs.flake-file.url = lib.mkDefault "github:vic/flake-file";
+  flake-file.inputs.den.url = lib.mkDefault "github:vic/den";
+  imports = [
+    (inputs.flake-file.flakeModules.dendritic or { })
+    (inputs.den.flakeModules.dendritic or { })
+  ];
+  # den specific setup
   den = {
     ctx.hm-host.nixos.home-manager = {
       # For hosts with home manager users, automatically make home manager use host's nixpkgs
@@ -20,8 +33,7 @@
       nixos.system.stateVersion = "25.11";
       homeManager.home.stateVersion = "25.11";
       includes = [
-        den._.home-manager
-        # Automatically sets home.username, home.homDirectory, users.users.<name>
+        # Automatically sets home.username, home.homeDirectory, users.users.<name>
         den._.define-user
         # Makes user admin (wheel and networkmanager)
         den._.primary-user

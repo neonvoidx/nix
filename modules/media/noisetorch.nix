@@ -1,17 +1,12 @@
 { den, ... }:
 {
-  den.aspects.noisetorch.homeManager =
+  den.aspects.noisetorch =
+    { host, ... }:
     {
-      pkgs,
-      lib,
-      osConfig ? null,
-      ...
-    }:
-    let
-      hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
-    in
-    {
-      systemd.user.services.noisetorch = lib.mkIf (hostname == "void") {
+      homeManager =
+        { pkgs, lib, ... }:
+        {
+          systemd.user.services.noisetorch = lib.mkIf (host.hostName == "void") {
         Unit = {
           Description = "NoiseTorch Noise Cancelling";
           Requires = "sys-devices-pci0000:00-0000:00:02.1-0000:05:00.0-0000:06:0c.0-0000:0f:00.0-usb3-3\\x2d8-3\\x2d8:1.0-sound-card2-controlC2.device";
@@ -30,6 +25,7 @@
         };
         Install = {
           WantedBy = [ "default.target" ];
+        };
         };
       };
     };
