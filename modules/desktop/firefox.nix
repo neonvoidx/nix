@@ -22,12 +22,13 @@
             policies = {
               ExtensionSettings = {
                 # TODO add each extension here
-                "uBlock0@raymondhill.net" = {
-                  default_area = "menupanel";
-                  install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-                  installation_mode = "force_installed";
-                  private_browsing = true;
-                };
+                # for now I'm just using firefox profile sync
+                # "uBlock0@raymondhill.net" = {
+                #   default_area = "menupanel";
+                #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+                #   installation_mode = "force_installed";
+                #   private_browsing = true;
+                # };
               };
               DisableTelemetry = true;
               DisplayBookmarksToolbar = "always";
@@ -132,7 +133,7 @@
                       }
                     ];
                     icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                    definedAliases = [ "@h" ];
+                    definedAliases = [ "@hm" ];
                   };
                   "NixOS Wiki" = {
                     urls = [
@@ -144,6 +145,16 @@
                     updateInterval = 24 * 60 * 60 * 1000; # every day
                     definedAliases = [ "@nw" ];
                   };
+                  "noogle.dev" = {
+                    urls = [
+                      {
+                        template = "https://noogle.dev/q?term={searchTerms}";
+                      }
+                    ];
+                    icon = "https://nixos.wiki/favicon.png";
+                    updateInterval = 24 * 60 * 60 * 1000; # every day
+                    definedAliases = [ "@no" ];
+                  };
                   bing.metaData.hidden = true;
                   google.metaData.hidden = true;
                 };
@@ -151,6 +162,7 @@
             };
           };
 
+          # Context menu tweaks
           home.file.".mozilla/firefox/${user.userName}/chrome/simpleMenuWizard" = {
             recursive = true;
             source = "${inputs.self}/assets/.mozilla/chrome/simpleMenuWizard";

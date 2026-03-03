@@ -4,6 +4,7 @@
     { config, ... }:
     {
       programs.ghostty = {
+        # NOTE: disabled, ghostty doesnt actually offer enough stuff to switch from kitty
         enable = false;
         settings = {
           theme = "eldritch";

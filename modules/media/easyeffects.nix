@@ -27,7 +27,7 @@
         # TODO doesn't seem to autoload
         # preset = "headphones";
         extraPresets = {
-          # Mic preset, commented out for now, i've had better luck with RNNoise
+          # NOTE: Mic preset, commented out for now, i've had better luck with RNNoise
           # microphone = {
           #   input = {
           #     blocklist = [ ];
@@ -305,6 +305,9 @@
           # };
           # };
           # };
+          # NOTE: Specific EQ for DT1990PRO
+          # comment out if you aren't using these or add your own
+          # https://autoeq.app/ -> select headphones
           headphones = {
             output = {
               blocklist = [ ];

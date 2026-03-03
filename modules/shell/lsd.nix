@@ -17,6 +17,12 @@
         };
       };
 
+      programs.zsh.shellAliases = {
+        ls = "lsd";
+        l = "ls -Al";
+        lt = "ls --tree --ignore-glob=node_modules";
+      };
+
       xdg.configFile."lsd/themes/custom.yaml".text = ''
         user: "#${c.base0C}"
         group: "#${c.base0E}"

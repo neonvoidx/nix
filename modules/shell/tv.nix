@@ -724,6 +724,10 @@
             experimental.render_docs_indexes.nvf = "https://notashelf.github.io/nvf/options.html";
           };
         };
+
+        zsh.shellAliases = {
+          ns = "tv nix-search-tv";
+        };
       };
     };
 }

@@ -19,6 +19,7 @@
             pulse.enable = true;
             jack.enable = true;
 
+            # Good sane defaults for gaming and audio
             extraConfig.pipewire = {
               "10-low-latency.conf" = {
                 "context.properties" = {
@@ -53,6 +54,7 @@
 
             wireplumber.extraConfig = lib.mkMerge [
               {
+                # Low latency for gaming
                 "53-gaming-low-latency" = {
                   "monitor.alsa.rules" = [
                     {
@@ -93,6 +95,7 @@
                     }
                   ];
                 };
+                # Optimizes VOIP applications
                 "54-voip-optimize" = {
                   "monitor.alsa.rules" = [
                     {
@@ -119,6 +122,9 @@
                 };
               }
               # Device disabling
+              # NOTE: Host specific
+              # disables all random devices we don't use
+              # like motherboard IO audio devices
               (lib.mkIf (host.hostName == "void") {
                 "51-disable-devices" = {
                   "monitor.alsa.rules" = [
@@ -137,6 +143,7 @@
                   ];
                 };
                 # Default devices
+                # NOTE: Sets default system devices i.e mic and speaker/headphones
                 "52-default-devices" = {
                   "monitor.alsa.rules" = [
                     {

@@ -131,5 +131,9 @@
           ];
         };
       };
+      programs.zsh.shellAliases = {
+        lg = "lazygit";
+        ly = "lazygit --work-tree ~/nix --git-dir ~/nix/.git";
+      };
     };
 }

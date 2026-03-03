@@ -14,7 +14,7 @@
           VISUAL = "nvim";
           BROWSER = "firefox";
           TERMINAL = "kitty";
-          SSH_ASKPASS_REQUIRE = "prefer";
+          SSH_ASKPASS_REQUIRE = "never";
         };
       };
 
@@ -26,11 +26,12 @@
 
       services = {
         ssh-agent.enable = true;
-        udiskie.enable = true;
         playerctld.enable = true;
+        # For tray icons that don't behave properly, like bnet with xwayland/proton
         xembed-sni-proxy.enable = true;
       };
 
+      # Enable bash just for shell scripts and stuff, even though we use ZSH
       programs.bash.enable = true;
       programs.home-manager.enable = true;
     };

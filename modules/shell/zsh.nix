@@ -101,20 +101,6 @@
             dev = "cd ~/dev";
             findhere = "find . -name";
             e = "nvim";
-            lg = lib.mkIf (pkgs ? lazygit) "lazygit";
-            ly = lib.mkIf (pkgs ? lazygit) "lazygit --work-tree ~/dotfiles --git-dir ~/dotfiles/.git";
-            s = lib.mkIf config.programs.kitty.enable "kitten ssh";
-            icat = lib.mkIf config.programs.kitty.enable "kitten icat";
-            ssh = lib.mkIf config.programs.kitty.enable "kitten ssh";
-            d = lib.mkIf config.programs.kitty.enable "kitten diff";
-            ls = lib.mkIf (pkgs ? lsd) "lsd";
-            l = lib.mkIf (pkgs ? lsd) "ls -Al";
-            lt = lib.mkIf (pkgs ? lsd) "ls --tree --ignore-glob=node_modules";
-            cat = lib.mkIf config.programs.bat.enable "bat";
-            htop = lib.mkIf (pkgs ? btop) "btop";
-            top = lib.mkIf (pkgs ? btop) "btop";
-            ns = "tv nix-search-tv";
-            j = "just -g";
           };
 
           setOptions = [
@@ -267,15 +253,6 @@
 
               '';
         };
-
-        home.sessionPath = [
-          "$HOME/.yarn/bin"
-          "$HOME/.cargo/bin"
-          "$HOME/.rd/bin"
-          "$HOME/dev/bin"
-          "$HOME/.local/bin"
-          "$HOME/go/bin"
-        ];
       };
   };
 }

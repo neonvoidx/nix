@@ -12,6 +12,7 @@
           "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
           logo = {
             type = "kitty-direct";
+            # NOTE: Change this if you want a different fastfetch image
             source = "~/nix/assets/neonvoid.png";
             width = 25;
             padding = {

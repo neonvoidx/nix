@@ -5,6 +5,22 @@
     {
       homeManager =
         { pkgs, osConfig, ... }:
+        let
+          systemMounts = [
+            "/"
+            "/boot"
+            "/nix"
+            "/proc"
+            "/sys"
+            "/dev"
+            "/run"
+            "/tmp"
+          ];
+          # Dynamically add bookmarks for Thunar for non system mounts
+          extraFsBookmarks = map (mp: "file://${mp}") (
+            builtins.filter (mp: !builtins.elem mp systemMounts) (builtins.attrNames osConfig.fileSystems)
+          );
+        in
         {
           # Force Home Manager to overwrite existing GTK files
           xdg.configFile."gtk-3.0/settings.ini".force = true;
@@ -26,10 +42,7 @@
                 "file:///home/${user.userName}/nix"
                 "file:///home/${user.userName}/pics"
               ]
-              ++ pkgs.lib.optionals (osConfig.fileSystems ? "/games") [
-                "file:///games"
-                "file:///games/wow"
-              ];
+              ++ extraFsBookmarks;
             };
             gtk4 = {
               extraConfig = {
