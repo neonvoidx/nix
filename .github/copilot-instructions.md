@@ -70,18 +70,18 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
 ```
 modules/
 ├── dendritic.nix          # Bootstraps den into flake-parts
+├── den.nix                # den defaults: stateVersion, HM config, sharedModules, user shell
 ├── hosts.nix              # Declares den.hosts with host attributes and users
-├── home-manager.nix       # HM integration (useGlobalPkgs, sharedModules)
-├── state-versions.nix     # NixOS + HM stateVersion = "25.11"
-├── system/                # OS-level aspects (boot, locale, networking, systemd)
-├── hardware/              # Hardware aspects (firmware, bluetooth, kernel, udev, streamcontroller)
+├── system/                # OS-level aspects (boot, locale, networking, systemd, packages, users)
+├── hardware/              # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
 ├── security/              # Security aspects (sops, pcscd, gnome-keyring, greetd)
-├── desktop/               # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, …)
-│   └── hypr/_data/        # Hyprland sub-configs (excluded from import-tree via _prefix)
-├── shell/                 # Shell aspects (zsh, bat, git, kitty, yazi, …)
+├── desktop/               # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
+│   └── hypr/              # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
+├── shell/                 # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
 ├── gaming/                # Gaming aspects (steam, mangohud, curseforge)
-├── media/                 # Media aspects (mpv, obs, spicetify, ananicy, …)
+├── media/                 # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, network-drives)
 ├── communication/         # Communication aspects (vesktop, email)
+├── home/                  # Home-manager aspects (common, files, packages)
 ├── ide/                   # Editor aspects (nixcats)
 ├── nix/                   # Nix daemon settings and overlays
 ├── hosts/
@@ -104,20 +104,25 @@ secrets/                       # SOPS-encrypted secrets
 **`modules/hosts.nix`** — declares all hosts with freeform attributes:
 ```nix
 { den, ... }:
+let
+  neonvoid = {
+    gitName = "neonvoidx";
+    gitEmail = "me@neonvoid.dev";
+  };
+in
 {
   den.hosts.x86_64-linux = {
     void = {
+      users.neonvoid = neonvoid;
       xRes = "3440";
       yRes = "1440";
-      isGaming = true;
       isMultiMonitor = true;
-      users.neonvoid = {};
     };
     voidframe = {
+      users.neonvoid = neonvoid;
       xRes = "2880";
       yRes = "1920";
       isLaptop = true;
-      users.neonvoid = {};
     };
   };
 }
@@ -129,6 +134,7 @@ secrets/                       # SOPS-encrypted secrets
 {
   den.aspects.void = {
     includes = [
+      # Core system
       den.aspects.boot
       den.aspects.locale
       den.aspects.networking
@@ -136,11 +142,26 @@ secrets/                       # SOPS-encrypted secrets
       den.aspects."user-accounts"
       den.aspects.overlays
       den.aspects."nix-settings"
+
+      # Hardware
       den.aspects.firmware
       den.aspects.bluetooth
       den.aspects.kernel
+      den.aspects.streamcontroller
+      den.aspects.print
+      den.aspects."removable-media"
+      den.aspects.udev
+
+      # Security
       den.aspects.sops
+      den.aspects.pcscd
       den.aspects.greetd
+
+      # Services
+      den.aspects.ananicy
+      den.aspects."network-drives"
+
+      # System packages
       den.aspects."system-packages"
     ];
 
@@ -169,22 +190,81 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 {
   den.aspects.neonvoid = {
     includes = [
+      # Shell tools
       den.aspects.zsh
+      den.aspects.bat
+      den.aspects.btop
+      den.aspects.direnv
+      den.aspects.fastfetch
+      den.aspects.fzf
+      den.aspects.ghostty
+      den.aspects.git
+      den.aspects.jq
+      den.aspects.just
+      den.aspects.kitty
+      den.aspects.lazygit
+      den.aspects.lsd
+      den.aspects.nh
+      den.aspects.payrespects
+      den.aspects.tealdeer
+      den.aspects.tv
+      den.aspects.yazi
+      den.aspects.zoxide
+
+      # Desktop
+      den.aspects."desktop-environment"
+      den.aspects.fonts
+      den.aspects.xdg
       den.aspects.stylix
+      den.aspects.noctalia
+      den.aspects.flatpak
+      den.aspects.clipboard
+      den.aspects.cursor
+      den.aspects.firefox
+      den.aspects.gtk
       den.aspects.hyprland
-      # ... all user-facing aspects
+      den.aspects.hypridle
+      den.aspects.hyprpolkitagent
+      den.aspects.hyprshot
+      den.aspects.thunar
+
+      # Services (user-level)
+      den.aspects."gnome-keyring"
+      den.aspects.pipewire
+      den.aspects.streamcontroller
+
+      # Home
+      den.aspects.common
+      den.aspects.files
+      den.aspects.packages
+
+      # Media
+      den.aspects.cava
+      den.aspects.easyeffects
+      den.aspects.mpv
+      den.aspects."obs-studio"
+      den.aspects.pics
+      den.aspects.spicetify
+      den.aspects.noisetorch
+
+      # Gaming
+      den.aspects.steam
+      den.aspects.mangohud
+      den.aspects.curseforge
+
+      # Communication
+      den.aspects.email
+      den.aspects.vesktop
+
+      # IDE
+      den.aspects.nixcats
     ];
 
-    nixos = { pkgs, ... }: {
+    nixos = { ... }: {
       users.users.neonvoid = {
-        isNormalUser = true;
-        shell = pkgs.zsh;
-        extraGroups = [ "wheel" "audio" "video" ];
+        description = "NeonVoid";
+        extraGroups = [ "networkmanager" "audio" "video" "input" "libvirtd" ];
       };
-    };
-
-    homeManager = { ... }: {
-      home.stateVersion = "25.11";
     };
   };
 }
@@ -194,13 +274,16 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 > **Rule:** Host includes = system-only aspects. User includes = all user-facing/desktop aspects. The `nixos` sections of user-included aspects still apply to the system.
 
+> **Note:** `isNormalUser`, shell, and wheel group are handled automatically by `den._.define-user`, `den._.user-shell`, and `den._.primary-user` in `modules/den.nix`. The user `nixos` section only needs extra groups or overrides.
+
 ---
 
-## Home-Manager Integration
+## den.nix — Defaults & HM Integration
 
-Configured in `modules/home-manager.nix` via `den.ctx.hm-host.nixos.home-manager`:
-- `useGlobalPkgs = true`
-- `sharedModules` — external HM modules (spicetify, nix-index-database, noctalia)
+`modules/den.nix` centralises shared configuration applied to every host:
+- `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"25.11"`
+- `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, and `sharedModules` (spicetify, nix-index-database, noctalia)
+- `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`
 
 ---
 
@@ -232,7 +315,7 @@ Configured in `modules/home-manager.nix` via `den.ctx.hm-host.nixos.home-manager
 - **Host names**: lowercase (`void`, `voidframe`)
 - **User**: `neonvoid`
 - **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `hyprland/_data/keybindings.nix`)
-- **Host-specific conditionals**: use `host.attr or false` in the outer lambda, or `config.networking.hostName == "void"` inside nixos modules
+- **Host-specific conditionals**: use `host.attr or false` in the outer lambda, `osConfig.fileSystems ? "/games"` for filesystem checks in HM modules, or `config.networking.hostName == "void"` inside nixos modules
 - **Styling/colors**: base16 palette via stylix
 - **Secrets**: SOPS age-encrypted in `secrets/`, decrypted to `/run/secrets/` at boot
 - **Git tracking**: new files must be `git add`-ed before rebuilding (Nix only evaluates git-tracked files)

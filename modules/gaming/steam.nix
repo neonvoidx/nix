@@ -1,9 +1,11 @@
 { den, inputs, ... }:
 {
-  den.aspects.steam = {
-    nixos =
-      { pkgs, ... }:
-      {
+  den.aspects.steam =
+    { host, ... }:
+    {
+      nixos =
+        { pkgs, ... }:
+        {
         programs.steam = {
           enable = true;
           protontricks.enable = true;
@@ -23,33 +25,26 @@
           PROTON_FSR4_RDNA3_UPGRADE = "1";
           PROTON_XESS_UPGRADE = "1";
         };
-      };
+        };
 
-    homeManager =
-      {
-        pkgs,
-        osConfig ? null,
-        ...
-      }:
-      let
-        hostname = if osConfig != null then osConfig.networking.hostName or "" else "";
-      in
-      {
-        home.packages =
-          with pkgs;
-          [
-            inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
-            inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
-            steam
-            gamescope
-            protontricks
-            protonup-rs
-            vulkan-tools
-            sgdboop
-          ]
-          ++ pkgs.lib.optionals (hostname == "void") [
-            deadlock-mod-manager
-          ];
-      };
-  };
+      homeManager =
+        { pkgs, ... }:
+        {
+          home.packages =
+            with pkgs;
+            [
+              inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
+              inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
+              steam
+              gamescope
+              protontricks
+              protonup-rs
+              vulkan-tools
+              sgdboop
+            ]
+            ++ pkgs.lib.optionals (host.hostName == "void") [
+              deadlock-mod-manager
+            ];
+        };
+    };
 }
