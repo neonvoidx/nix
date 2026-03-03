@@ -439,6 +439,12 @@
                   default_split_ratio = 1;
                 };
 
+                scrolling = {
+                  fullscreen_on_one_column = true;
+                  column_width = 0.6;
+                  direction = "right";
+                };
+
                 master = {
                   new_status = "slave";
                   new_on_top = false;
@@ -470,11 +476,26 @@
                 };
 
                 render = {
-                  direct_scanout = 2;
+                  #Enables direct scanout. Direct scanout attempts to reduce lag when there is only
+                  #one fullscreen application on a screen (e.g. game).
+                  #It is also recommended to set this to false if the fullscreen application shows graphical glitches.
+                  #0 - off, 1 - on, 2 - auto (on with content type ‘game’)
+                  direct_scanout = 0;
+                  # Whether the color management pipeline should be enabled or not
+                  # (requires a restart of Hyprland to fully take effect)
                   cm_enabled = true;
+                  #Passthrough color settings for fullscreen apps when possible.
+                  #0 - off, 1 - always, 2 - hdr only
                   cm_fs_passthrough = 2;
+                  # Auto-switch to HDR in fullscreen when needed.
+                  # 0 - off, 1 - switch to cm, hdr, 2 - switch to cm, hdredid
                   cm_auto_hdr = 0;
-                  cm_sdr_eotf = 0;
+                  # Default transfer function for displaying SDR apps.
+                  # default - Use default value (Gamma 2.2),
+                  # gamma22 - Treat unspecified as Gamma 2.2,
+                  # gamma22force - Treat unspecified and sRGB as Gamma 2.2,
+                  # srgb - Treat unspecified as sRGB
+                  cm_sdr_eotf = "default";
                 };
 
                 misc = {
@@ -503,17 +524,19 @@
                   sync_gsettings_theme = true;
                   no_break_fs_vrr = 1;
                   enable_hyprcursor = true;
-                  # TODO https://github.com/hyprwm/Hyprland/discussions/13414 currently rotated monitors have black box for cursor
                 }
                 // lib.optionalAttrs isMultiMonitor { default_monitor = "DP-2"; };
+
+                quirks = {
+                  prefer_hdr = 1;
+                };
               }
               # startup.nix
               {
                 exec-once = [
-                  "dbus-update-activation-environment --systemd --all"
+                  "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
                   "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
-                  "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
                   "xrandr --output DP-2 --primary"
                   "xembedsniproxy"
                   "[workspace 2 silent] firefox"
