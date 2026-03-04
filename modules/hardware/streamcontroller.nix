@@ -1,6 +1,26 @@
 { den, ... }:
 {
   den.aspects.streamcontroller = {
+    homeManager =
+      { pkgs, ... }:
+      {
+        systemd.user.services.streamcontroller = {
+          Unit = {
+            Description = "StreamController";
+            After = [ "graphical-session.target" ];
+            PartOf = [ "graphical-session.target" ];
+          };
+          Service = {
+            ExecStart = "${pkgs.streamcontroller}/bin/streamcontroller -b";
+            Restart = "on-failure";
+            RestartSec = 5;
+          };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
+        };
+      };
+
     nixos =
       { ... }:
       {

@@ -387,11 +387,6 @@
                     "match:class" = "org.gnome.Fractal";
                     workspace = "4 silent";
                   }
-                  {
-                    name = "streamcontroller";
-                    "match:class" = "com.core447.StreamController";
-                    minimize = "on";
-                  }
                 ]
                 ++ lib.optionals (!isMultiMonitor) [
                   {
@@ -549,7 +544,7 @@
                   "[workspace 4 silent] sleep 8 && thunderbird"
                 ]
                 ++ lib.optionals isVoid [
-                  "sleep 3 && streamcontroller --close-running 2>/dev/null; sleep 2 && streamcontroller -b"
+                  # "sleep 3 && streamcontroller -b --close-running"
                   "[workspace 3 silent] sleep 5 && spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
                   "[workspace 10 silent] sleep 5 && steam"
                 ]
