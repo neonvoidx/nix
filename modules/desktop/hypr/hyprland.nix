@@ -240,6 +240,11 @@
                     workspace = "3 silent";
                   }
                   {
+                    name = "streamcontroller";
+                    "match:class" = "com.core447.StreamController";
+                    workspace = "special:streamcontroller silent";
+                  }
+                  {
                     name = "steampopup";
                     "match:title" = "Steamwebhelper";
                     workspace = "10 silent";
