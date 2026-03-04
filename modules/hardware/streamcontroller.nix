@@ -7,8 +7,8 @@
         systemd.user.services.streamcontroller = {
           Unit = {
             Description = "StreamController";
-            After = [ "graphical-session.target" ];
-            PartOf = [ "graphical-session.target" ];
+            After = [ "hyprland-session.target" ];
+            PartOf = [ "hyprland-session.target" ];
           };
           Service = {
             ExecStart = "${pkgs.streamcontroller}/bin/streamcontroller -b";
@@ -16,7 +16,7 @@
             RestartSec = 5;
           };
           Install = {
-            WantedBy = [ "graphical-session.target" ];
+            WantedBy = [ "hyprland-session.target" ];
           };
         };
       };
