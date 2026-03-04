@@ -449,7 +449,7 @@
                   }
                   {
                     action = "logout";
-                    command = "${pkgs.hyprshutdown}/bin/hyprshutdown";
+                    command = "hyprshutdown";
                     countdownEnabled = false;
                     enabled = true;
                     keybind = "L";
