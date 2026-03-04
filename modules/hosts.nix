@@ -14,7 +14,6 @@ in
   den.hosts.x86_64-linux = {
     void = {
       users.neonvoid = neonvoid;
-      home-manager.enable = true;
       ## Freeform attributes
       # main display resolution
       xRes = "3440";
@@ -31,7 +30,6 @@ in
     };
     voidframe = {
       users.neonvoid = neonvoid;
-      home-manager.enable = true;
       ## Freeform attributes
       # main display resolution
       xRes = "2880";
