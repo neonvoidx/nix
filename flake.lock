@@ -1081,7 +1081,9 @@
       }
     },
     "nvim-config": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
       "locked": {
         "lastModified": 1771877146,
         "narHash": "sha256-GDiDtaO41GI1A+NZA5/YWoXyFMGsTG6dAnEdtJy9D40=",
