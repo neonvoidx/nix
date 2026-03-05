@@ -60,14 +60,10 @@
       # wallpaper pics repo, change pics.nix url
       den.aspects.pics
       den.aspects.spicetify
-      # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
-      den.aspects.noisetorch
 
       # Gaming
       den.aspects.steam
       den.aspects.mangohud
-      # WoW Addon manager
-      den.aspects.curseforge
 
       # Communication
       # Setups thunderbird and protonmailbridge, unique to my user, edit email.nix to setup your accounts

@@ -3,12 +3,12 @@
   den.aspects.systemd.nixos = {
     systemd = {
       network.enable = true;
-      sleep.extraConfig = ''
-        AllowSuspend=yes
-        AllowHibernation=yes
-        SuspendState=mem
-        SuspendMode=deep
-      '';
+      sleep.settings.Sleep = {
+        AllowSuspend = "yes";
+        AllowHibernation = "yes";
+        SuspendState = "mem";
+        SuspendMode = "deep";
+      };
       settings = {
         Manager = {
           DefaultTimeoutStopSec = "10s";

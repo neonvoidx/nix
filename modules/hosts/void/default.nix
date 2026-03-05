@@ -15,6 +15,7 @@
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.streamcontroller
+
       # Network printer stuff, specific to my network
       # If you want to setup network printer be sure to edit print.nix
       den.aspects.print
@@ -25,6 +26,17 @@
       den.aspects.sops
       den.aspects.pcscd
       den.aspects.greetd
+
+      # Gaming
+      ## WoW Addon manager
+      den.aspects.curseforge
+      ## Hytale
+      den.aspects.hytale
+      ## Deadlock mod manager
+      den.aspects.deadlock
+
+      # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
+      den.aspects.noisetorch
 
       # Services
       den.aspects.ananicy
@@ -75,6 +87,7 @@
             "amdgpu.mes_log_enable=1"
             "amdgpu.ppfeaturemask=0xffffffff"
             "amdgpu.dcdebugmask=0x10"
+            # Specifically for high parallel workloads, fixes Hytale
             "amdgpu.cwsr_enable=0"
           ];
           blacklistedKernelModules = [

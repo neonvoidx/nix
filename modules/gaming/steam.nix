@@ -31,7 +31,6 @@
         { pkgs, ... }:
         {
           home.packages = with pkgs; [
-            inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
             inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
             steam
             gamescope
@@ -39,7 +38,6 @@
             protonup-rs
             vulkan-tools
             sgdboop
-            deadlock-mod-manager
           ];
         };
     };
