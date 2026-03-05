@@ -899,21 +899,6 @@
         "type": "github"
       }
     },
-    "nixCats": {
-      "locked": {
-        "lastModified": 1770584904,
-        "narHash": "sha256-9Zaz8lbKF2W9pwXZEnbiGsicHdBoU+dHt3Wv3mCJoZ8=",
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "rev": "538fdde784d2909700d97a8ef307783b33a86fb1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1772198003,
@@ -1107,6 +1092,7 @@
       },
       "original": {
         "owner": "neonvoidx",
+        "ref": "master-back-before-nixcats",
         "repo": "nvim",
         "type": "github"
       }
@@ -1148,7 +1134,6 @@
         "nix-index-database": "nix-index-database",
         "nix-search-tv": "nix-search-tv",
         "nix-versions": "nix-versions",
-        "nixCats": "nixCats",
         "nixpkgs": "nixpkgs_3",
         "noctalia": "noctalia",
         "nur": "nur",
