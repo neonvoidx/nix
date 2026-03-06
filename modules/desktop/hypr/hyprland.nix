@@ -486,7 +486,7 @@
                   #one fullscreen application on a screen (e.g. game).
                   #It is also recommended to set this to false if the fullscreen application shows graphical glitches.
                   #0 - off, 1 - on, 2 - auto (on with content type ‘game’)
-                  direct_scanout = 0;
+                  direct_scanout = 1;
                   # Whether the color management pipeline should be enabled or not
                   # (requires a restart of Hyprland to fully take effect)
                   cm_enabled = true;
