@@ -16,9 +16,6 @@
       url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixCats = {
-      url = "github:BirdeeHub/nixCats-nvim";
-    };
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nix-search-tv = {
       url = "github:3timeslazy/nix-search-tv";
@@ -33,9 +30,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-config = {
-      # NOTE: replace with your nvim github repo
       url = "github:neonvoidx/nvim";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     noctalia = {

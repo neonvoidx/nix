@@ -71,10 +71,7 @@
       den.aspects.vesktop
 
       # IDE
-      # NixCats with my neovim config
-      # NOTE: Replace nvim-config input in flake.nix with your nvim config
-      # however your nvim config would need to implement nixcats
-      den.aspects.nixcats
+      den.aspects.nvim
     ];
 
     nixos =
