@@ -992,22 +992,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
-      "locked": {
-        "lastModified": 1772674223,
-        "narHash": "sha256-/suKbHSaSmuC9UY7G0VRQ3aO+QKqxAQPQ19wG7QNkF8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "66d9241e3dc2296726dc522e62dbfe89c7b449f3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "noctalia": {
       "inputs": {
         "nixpkgs": [
@@ -1058,11 +1042,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772745558,
-        "narHash": "sha256-pVmX5Z0PLUZIL7TFcfYyWNqEKDVf72bAz0PORyNQHSQ=",
+        "lastModified": 1772770794,
+        "narHash": "sha256-MeV5If4Mf29nt+tBo0z+RYiWMePewzZFlUN8BYyFvD8=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "361709a61eebc0b1783dd478677b7ac4e1efa0a2",
+        "rev": "27ad45c0db10d1582ee2f1695aa45a59b2cea183",
         "type": "github"
       },
       "original": {
@@ -1098,7 +1082,9 @@
     },
     "nvim-config": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "plugins-eldritch-nvim": "plugins-eldritch-nvim",
         "plugins-git-scripts-nvim": "plugins-git-scripts-nvim",
         "plugins-lze": "plugins-lze",
@@ -1110,11 +1096,11 @@
         "wrappers": "wrappers"
       },
       "locked": {
-        "lastModified": 1772760859,
-        "narHash": "sha256-r26se8+rHAPACNuYfBZbZBez3TR1VkDVWUQ5U4pBAsU=",
+        "lastModified": 1772763987,
+        "narHash": "sha256-zHTkACmvPawUVEmY8vzyYDzmTQyWEiWXxC6B3+TyB/U=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "2cf8c9d9de13a1e7e23c6044cc45880fd9b40e91",
+        "rev": "2671b65e2378f9b794f67378eb93cd7217dac774",
         "type": "github"
       },
       "original": {
