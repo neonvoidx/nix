@@ -30,7 +30,7 @@
         inputs.noctalia.homeModules.default
       ];
     };
-    base.user.classes = [ "homeManager" ];
+    schema.user.classes = [ "homeManager" ];
     default = {
       nixos.system.stateVersion = "25.11";
       homeManager.home.stateVersion = "25.11";
