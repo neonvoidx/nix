@@ -11,7 +11,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    # if you want to have master branch hyprland
+    # hyprland.url = "github:hyprwm/Hyprland";
     hytale-launcher = {
       url = "github:TNAZEP/HytaleLauncherFlake";
       inputs.nixpkgs.follows = "nixpkgs";

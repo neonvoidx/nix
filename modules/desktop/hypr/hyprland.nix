@@ -8,10 +8,10 @@
         {
           programs.hyprland = {
             enable = true;
-            # NOTE: package and portalPackage null if not using flake
-            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-            portalPackage =
-              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+            # NOTE: uncomment below if using flake
+            # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            # portalPackage =
+            #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
           };
         };
 
@@ -30,11 +30,11 @@
           wayland.windowManager.hyprland = {
             enable = true;
             # NOTE: package and portalPackage null if not using flake
-            # package = null;
-            # portalPackage = null;
-            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-            portalPackage =
-              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+            package = null;
+            portalPackage = null;
+            # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            # portalPackage =
+            #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
             settings = lib.mkMerge [
               # environment.nix
@@ -486,7 +486,7 @@
                   #one fullscreen application on a screen (e.g. game).
                   #It is also recommended to set this to false if the fullscreen application shows graphical glitches.
                   #0 - off, 1 - on, 2 - auto (on with content type ‘game’)
-                  direct_scanout = 1;
+                  direct_scanout = 0; # XWayland fullscreen (e.g. WoW) causes HDR re-negotiation flash with direct scanout
                   # Whether the color management pipeline should be enabled or not
                   # (requires a restart of Hyprland to fully take effect)
                   cm_enabled = true;
