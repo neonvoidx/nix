@@ -8,7 +8,7 @@
         {
           programs.hyprland = {
             enable = true;
-            # NOTE: uncomment below if using flake
+            # NOTE: uncomment below if using flake (master branch)
             # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
             # portalPackage =
             #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
@@ -32,6 +32,7 @@
             # NOTE: package and portalPackage null if not using flake
             package = null;
             portalPackage = null;
+            # NOTE: uncomment below for flake (master branch)
             # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
             # portalPackage =
             #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
