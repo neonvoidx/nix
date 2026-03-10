@@ -201,7 +201,7 @@
                   ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
                 ];
               }
-              # windowrules.nix
+              # Window Rules
               {
                 windowrule = [
                   {
@@ -294,6 +294,7 @@
                     float = "off";
                     fullscreen = "off";
                     workspace = "10";
+                    suppress_event = "activatefocus";
                   }
                   {
                     name = "bnetlogin";
@@ -301,6 +302,7 @@
                     float = "off";
                     fullscreen = "off";
                     workspace = "10";
+                    suppress_event = "activatefocus";
                   }
                   {
                     name = "bnetsettings";
@@ -402,7 +404,7 @@
                   }
                 ];
               }
-              # settings.nix
+              # Settings
               {
                 input = {
                   follow_mouse = 1;
@@ -538,7 +540,7 @@
                   prefer_hdr = 1;
                 };
               }
-              # startup.nix
+              # Startup
               {
                 exec-once = [
                   "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
@@ -560,7 +562,7 @@
 
                 submap = [ "resize" ];
               }
-              # layerrule.nix
+              # Layer Rules
               {
                 layerrule = [
                   {

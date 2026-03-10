@@ -22,6 +22,7 @@
       den.aspects.tv
       den.aspects.yazi
       den.aspects.zoxide
+      den.aspects.cline
 
       # Desktop
       den.aspects."desktop-environment"
