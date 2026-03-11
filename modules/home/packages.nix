@@ -14,6 +14,7 @@
         cmatrix
         ffmpeg
         file-roller
+        gh-dash
         gimp
         github-copilot-cli
         godot
