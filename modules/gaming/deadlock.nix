@@ -6,31 +6,47 @@
       nixos = {
         nixpkgs = {
           overlays = [
-            # Adds newest deadlock-mod-manager
-            # WAITING: remove once https://github.com/NixOS/nixpkgs/pull/493565 lands in nixos-unstable
-            (final: prev: {
-              deadlock-mod-manager = prev.deadlock-mod-manager.overrideAttrs (old: rec {
-                version = "0.15.0";
-                src = prev.fetchFromGitHub {
-                  owner = "deadlock-mod-manager";
-                  repo = "deadlock-mod-manager";
-                  tag = "v${version}";
-                  hash = "sha256-LHLDSB51f/Z8wt3chzR1fAZbZLVKlf2UvydbqlhI74Y=";
-                };
-                cargoDeps = prev.rustPlatform.fetchCargoVendor {
-                  inherit src;
-                  sourceRoot = "${src.name}/apps/desktop";
-                  hash = "sha256-YNPduSJT30Hu75vY9OubAeVsW5cV4PptD/RPNH5SCaY=";
-                };
-                pnpmDeps = prev.fetchPnpmDeps {
-                  inherit src;
-                  pname = "deadlock-mod-manager";
-                  inherit version;
-                  pnpm = final.pnpm_9;
-                  fetcherVersion = 2;
-                  sourceRoot = "source";
-                  hash = "sha256-SR5zeAWj280QtQKDgvIBE4Y1A14HJkvwDnatuJsDBGw=";
-                };
+            # Use deadlock-mod-manager from Mistyttm's nixpkgs branch (update-dmmm)
+            # without switching the whole system nixpkgs.
+            (final: prev: let
+              mistySrc = prev.fetchFromGitHub {
+                owner = "Mistyttm";
+                repo = "nixpkgs";
+                rev = "214f28103d81257dccb7fc14f59c6e0fb96c9ce8";
+                hash = "sha256-s4Sg7uCh7trGCafKI45fIWsFvKjIyQBJ79BvYe3Qen8=";
+              };
+              mistyPkgs = import mistySrc {
+                system = final.system;
+                config = prev.config;
+                overlays = [ ];
+              };
+            in {
+              deadlock-mod-manager = mistyPkgs.deadlock-mod-manager.overrideAttrs (_: {
+                patches = [ ];
+                # Avoid tauri signing errors during bundling.
+                env.TAURI_SIGNING_PRIVATE_KEY = "";
+                env.TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "";
+                env.TAURI_UPDATER_PRIVATE_KEY = "";
+                env.TAURI_UPDATER_PRIVATE_KEY_PASSWORD = "";
+
+                # Ensure nix builds don't try to sign updater artifacts.
+                # (Upstream may have updater enabled and a key present in-tree.)
+                preBuild = ''
+                  export TAURI_SIGNING_PRIVATE_KEY=""
+                  export TAURI_SIGNING_PRIVATE_KEY_PASSWORD=""
+                  export TAURI_UPDATER_PRIVATE_KEY=""
+                  export TAURI_UPDATER_PRIVATE_KEY_PASSWORD=""
+
+                  # Hard-disable updater during bundling: upstream `tauri.conf.json`
+                  # includes updater + ota-updater pubkeys and tauri will attempt
+                  # to sign artifacts if updater is enabled.
+                  if [ -f apps/desktop/src-tauri/tauri.conf.json ]; then
+                    ${prev.jq}/bin/jq '
+                      .bundle.createUpdaterArtifacts = false
+                    ' apps/desktop/src-tauri/tauri.conf.json > apps/desktop/src-tauri/tauri.conf.json.tmp
+                    mv apps/desktop/src-tauri/tauri.conf.json.tmp apps/desktop/src-tauri/tauri.conf.json
+                  fi
+                '';
               });
             })
           ];

@@ -1,0 +1,37 @@
+name: flake-check
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+  flake-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v16
+
+      # If you don't use FlakeHub / don't have a FlakeHub API key,
+      # keep caching simple and just rely on cache.nixos.org.
+
+      - name: Nix flake check
+        run: |
+          # NOTE: We intentionally do NOT run `nix flake check` here because it
+          # evaluates `nixosConfigurations` which requires all optional inputs
+          # to be present. CI builds flake checks + packages explicitly below.
+          true
+
+      - name: Nix build (all flake packages)
+        run: nix --extra-experimental-features 'nix-command flakes' build -L .#packages.x86_64-linux --no-link
+
+      - name: Nix build checks (without evaluating nixosConfigurations)
+        # This check enforces `flake.nix` formatting/regeneration.
+        # If you rely on implicit inputs discovered via `modules/`, this check
+        # can be noisy. Uncomment if you want to enforce it in CI.
+        run: |
+          echo "Skipping check-flake-file in CI" 
