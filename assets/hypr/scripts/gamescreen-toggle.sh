@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Toggle monitors not touching for gaming
 
-STATE_FILE="/tmp/hypr-gamescreen-state"
-SCREEN_STATE_FILE="/tmp/hypr-screen-state"
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/gamescreen"
+SCREEN_STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/screen"
+LAYOUT_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/monitor-layout"
 MONITORS_DEFAULT="$HOME/.config/hypr/hyprland/monitors/monitors.conf"
 MONITORS_NOTOUCH="$HOME/.config/hypr/hyprland/monitors/monitors-notouch.conf"
 MONITORS_WORK="$HOME/.config/hypr/hyprland/monitors/monitors-work.conf"
@@ -18,6 +19,8 @@ if [ -f "$SCREEN_STATE_FILE" ]; then
     SCREEN_STATE=$(cat "$SCREEN_STATE_FILE")
 fi
 
+mkdir -p "$(dirname "$STATE_FILE")"
+
 # Check current state (default is OFF = using monitors.conf)
 if [ -f "$STATE_FILE" ]; then
     # Currently in gaming mode, switch back to default
@@ -26,7 +29,8 @@ if [ -f "$STATE_FILE" ]; then
     else
         hyprctl keyword source "$MONITORS_WORK"
     fi
-    rm "$STATE_FILE"
+    rm -f "$STATE_FILE"
+    echo "default" > "$LAYOUT_FILE"
     notify-send "Monitor Layout" "Switched to default (touching)" -t 2000
 else
     # Currently in default mode, switch to gaming
@@ -35,6 +39,7 @@ else
     else
         hyprctl keyword source "$MONITORS_WORK_NOTOUCH"
     fi
-    touch "$STATE_FILE"
+    : > "$STATE_FILE"
+    echo "notouch" > "$LAYOUT_FILE"
     notify-send "Monitor Layout" "Switched to gaming (not touching)" -t 2000
 fi

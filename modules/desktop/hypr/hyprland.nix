@@ -27,6 +27,24 @@
           isVoid = host.hostName == "void";
         in
         {
+          systemd.user.services.hypr-restore-monitor-layout = {
+            Unit = {
+              Description = "Restore Hyprland monitor layout from persisted state";
+              # hyprland-session.target exists in typical HM Hyprland setups
+              After = [ "graphical-session.target" "hyprland-session.target" ];
+              PartOf = [ "graphical-session.target" ];
+            };
+
+            Service = {
+              Type = "oneshot";
+              ExecStart = "%h/.config/hypr/scripts/restore-monitor-layout.sh";
+            };
+
+            Install = {
+              WantedBy = [ "hyprland-session.target" "graphical-session.target" ];
+            };
+          };
+
           wayland.windowManager.hyprland = {
             enable = true;
             # NOTE: package and portalPackage null if not using flake
@@ -545,6 +563,7 @@
                 exec-once = [
                   "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
                   "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
+                  "~/.config/hypr/scripts/restore-monitor-layout.sh"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                   "xrandr --output DP-2 --primary"
                   "xembedsniproxy"

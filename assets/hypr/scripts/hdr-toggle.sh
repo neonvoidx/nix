@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # Toggle HDR on/off
 
-HDR_STATE_FILE="/tmp/hypr-hdr-state"
-GAMESCREEN_STATE_FILE="/tmp/hypr-gamescreen-state"
-SCREEN_STATE_FILE="/tmp/hypr-screen-state"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/hypr"
+HDR_STATE_FILE="$STATE_DIR/hdr"
+GAMESCREEN_STATE_FILE="$STATE_DIR/gamescreen"
+SCREEN_STATE_FILE="$STATE_DIR/screen"
+LAYOUT_FILE="$STATE_DIR/monitor-layout"
+
+mkdir -p "$STATE_DIR"
 
 # Determine current screen state
 SCREEN_STATE="both"
@@ -34,7 +38,21 @@ if [ -f "$HDR_STATE_FILE" ]; then
             hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work.conf"
         fi
     fi
-    rm "$HDR_STATE_FILE"
+    rm -f "$HDR_STATE_FILE"
+    # keep overall layout selection in sync (best-effort)
+    if [ "$SCREEN_STATE" = "both" ]; then
+      if [ "$GAMING_MODE" = true ]; then
+        echo "notouch" > "$LAYOUT_FILE"
+      else
+        echo "default" > "$LAYOUT_FILE"
+      fi
+    else
+      if [ "$GAMING_MODE" = true ]; then
+        echo "work-notouch" > "$LAYOUT_FILE"
+      else
+        echo "work" > "$LAYOUT_FILE"
+      fi
+    fi
     notify-send "HDR" "Enabled" -t 2000
 else
     # Currently HDR is ON, switch to HDR disabled
@@ -52,6 +70,19 @@ else
             hyprctl keyword source "$HOME/.config/hypr/hyprland/monitors/monitors-work-nohdr.conf"
         fi
     fi
-    touch "$HDR_STATE_FILE"
+    : > "$HDR_STATE_FILE"
+    if [ "$SCREEN_STATE" = "both" ]; then
+      if [ "$GAMING_MODE" = true ]; then
+        echo "notouch-nohdr" > "$LAYOUT_FILE"
+      else
+        echo "default-nohdr" > "$LAYOUT_FILE"
+      fi
+    else
+      if [ "$GAMING_MODE" = true ]; then
+        echo "work-notouch-nohdr" > "$LAYOUT_FILE"
+      else
+        echo "work-nohdr" > "$LAYOUT_FILE"
+      fi
+    fi
     notify-send "HDR" "Disabled" -t 2000
 fi
