@@ -1,6 +1,8 @@
 { den, ... }:
 {
   den.aspects.kernel.nixos = {
+    boot.blacklistedKernelModules = [ "hid_logitech_hidpp" ];
+
     # Suppress kernel messages on console/TTY
     boot.kernelParams = [
       "quiet"
