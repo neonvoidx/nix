@@ -23,7 +23,7 @@
       # Security
       den.aspects.sops
       den.aspects.pcscd
-      den.aspects.greetd
+      den.aspects.ly
 
       # Services
       den.aspects.ananicy

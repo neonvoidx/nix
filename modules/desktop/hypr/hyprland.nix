@@ -31,7 +31,10 @@
             Unit = {
               Description = "Restore Hyprland monitor layout from persisted state";
               # hyprland-session.target exists in typical HM Hyprland setups
-              After = [ "graphical-session.target" "hyprland-session.target" ];
+              After = [
+                "graphical-session.target"
+                "hyprland-session.target"
+              ];
               PartOf = [ "graphical-session.target" ];
             };
 
@@ -41,7 +44,10 @@
             };
 
             Install = {
-              WantedBy = [ "hyprland-session.target" "graphical-session.target" ];
+              WantedBy = [
+                "hyprland-session.target"
+                "graphical-session.target"
+              ];
             };
           };
 
@@ -202,6 +208,7 @@
                   ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
                   ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
                   ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+                  "CTRL,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
                   ",XF86AudioPlay, exec, playerctl play-pause"
                   ",XF86AudioPrev, exec, playerctl previous"
                   ",XF86AudioNext, exec, playerctl next"

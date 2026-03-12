@@ -16,7 +16,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
-│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, greetd)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
@@ -166,7 +166,7 @@ den.hosts.x86_64-linux = {
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.sops
-      den.aspects.greetd
+      den.aspects.ly
       den.aspects."system-packages"
     ];
 

@@ -18,7 +18,7 @@ in
       # main display resolution
       xRes = "3440";
       yRes = "1440";
-      # sets main resolution for greetd if multi monitor among other options
+      # sets main resolution for ly if multi monitor among other options
       isMultiMonitor = true;
       # Dedicated GPU Device id
       # lspci | grep -i 'vga\|3d\|display'

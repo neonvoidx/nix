@@ -25,7 +25,7 @@
       # Security
       den.aspects.sops
       den.aspects.pcscd
-      den.aspects.greetd
+      den.aspects.ly
 
       # Gaming
       ## WoW Addon manager
