@@ -22,7 +22,6 @@
         gnupg
         gzip
         hydra-check
-        inputs.nix-search-tv.packages.x86_64-linux.default
         killall
         libnotify
         libappindicator-gtk3
