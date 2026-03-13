@@ -13,10 +13,6 @@
     };
     # if you want to have master branch hyprland
     # hyprland.url = "github:hyprwm/Hyprland";
-    hytale-launcher = {
-      url = "github:TNAZEP/HytaleLauncherFlake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

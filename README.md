@@ -20,7 +20,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
-│   ├── gaming/            # Gaming aspects (steam, mangohud, curseforge)
+│   ├── gaming/            # Gaming aspects (steam, mangohud)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
 │   ├── home/              # Home-manager aspects (common, files, packages)

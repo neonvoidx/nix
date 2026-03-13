@@ -1,13 +1,13 @@
 { den, inputs, ... }:
 {
-  den.aspects.hytale =
+  den.aspects.wowup =
     { host, ... }:
     {
       homeManager =
         { pkgs, ... }:
         {
           home.packages = with pkgs; [
-            inputs.hytale-launcher.packages.${pkgs.stdenv.hostPlatform.system}.default
+            wowup-cf
           ];
         };
     };

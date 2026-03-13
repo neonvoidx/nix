@@ -28,12 +28,10 @@
       den.aspects.ly
 
       # Gaming
-      ## WoW Addon manager
-      den.aspects.curseforge
-      ## Hytale
-      den.aspects.hytale
       ## Deadlock mod manager
       den.aspects.deadlock
+      # WoW Addons
+      den.aspects.wowup
 
       # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
       den.aspects.noisetorch
@@ -87,8 +85,6 @@
             "amdgpu.mes_log_enable=1"
             "amdgpu.ppfeaturemask=0xffffffff"
             "amdgpu.dcdebugmask=0x10"
-            # Specifically for high parallel workloads, fixes Hytale
-            "amdgpu.cwsr_enable=0"
           ];
           blacklistedKernelModules = [
             "mt7925e"
