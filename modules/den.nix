@@ -46,6 +46,8 @@
         den._.inputs'
         # Provides per system self'
         den._.self'
+        # Automatically sets networking.hostName from host name
+        den._.hostname
       ];
     };
   };

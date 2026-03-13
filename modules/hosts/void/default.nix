@@ -119,7 +119,6 @@
         ];
 
         networking = {
-          hostName = "void";
           nameservers = [
             "192.168.86.7"
             "192.168.86.8"

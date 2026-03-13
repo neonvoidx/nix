@@ -60,7 +60,6 @@
         };
 
         networking = {
-          hostName = "voidframe";
           firewall.enable = false;
           useDHCP = true;
           wireless = {

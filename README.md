@@ -12,7 +12,8 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── void/hardware-configuration.nix
 │   └── voidframe/hardware-configuration.nix
 ├── modules/
-│   ├── den.nix            # Bootstraps den into flake-parts, den defaults: stateVersion, HM config, sharedModules, user shell
+│   ├── den.nix            # Bootstraps den, den defaults: stateVersion, HM config, sharedModules, user shell, hostname battery
+│   ├── nh.nix             # Exposes nix run .#<host> flake apps (builds with nh)
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
@@ -52,6 +53,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 - **Stylix** — System-wide theming (NixOS + HM in one aspect file)
 - **SOPS** — Encrypted secrets, decrypted to `/run/secrets/` at boot
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
+- **nh flake apps** — `nix run .#void` / `nix run .#voidframe` for building with nh
 
 ## Usage
 
@@ -62,6 +64,10 @@ nixos-rebuild dry-build --flake .#void
 # Deploy
 sudo nixos-rebuild switch --flake .#void
 sudo nixos-rebuild switch --flake .#voidframe
+
+# Or use the flake apps (builds with nh)
+nix run .#void
+nix run .#voidframe
 ```
 
 ## Den Framework Pattern
@@ -94,7 +100,7 @@ To access **host or user context**, use the outer aspect lambda:
     {
       nixos = { pkgs, ... }: {
         # host.xRes, host.isMultiMonitor or false, host.isLaptop or false, etc.
-        networking.hostName = host.hostName;
+        # Note: networking.hostName is set automatically by den._.hostname
       };
 
       homeManager = { osConfig, ... }: {
@@ -172,7 +178,7 @@ den.hosts.x86_64-linux = {
 
     nixos = { lib, ... }: {
       imports = [ (inputs.self + "/hosts/mynewhost/hardware-configuration.nix") ];
-      networking.hostName = "mynewhost";
+      # hostname is set automatically from den._.hostname (host name = "mynewhost")
       # boot, hardware, networking specifics...
     };
   };
@@ -197,16 +203,12 @@ That's it — den auto-generates the `nixosConfiguration` output from `hosts.nix
       # ... all aspects this user should have, look at neonvoid for full list
     ];
 
-    nixos = { pkgs, ... }: {
+    nixos = { ... }: {
+      # den._.define-user, den._.primary-user, and den._.user-shell handle
+      # isNormalUser, shell, and wheel automatically — only add extras here
       users.users.<username> = {
-        isNormalUser = true;
-        shell = pkgs.zsh;
-        extraGroups = [ "wheel" "audio" "video" "networkmanager" ];
+        extraGroups = [ "audio" "video" "networkmanager" ];
       };
-    };
-
-    homeManager = { ... }: {
-      home.stateVersion = "25.11";
     };
   };
 }
