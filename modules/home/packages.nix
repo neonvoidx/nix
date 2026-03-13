@@ -31,6 +31,7 @@
         kitty-themes
         libsecret
         inputs.nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
+        obsidian
         oculante
         pinta
         proton-pass
