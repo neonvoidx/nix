@@ -5,14 +5,15 @@
     {
       fonts.packages = with pkgs; [
         fira-sans
-        roboto
+        jetbrains-mono
+        material-icons
+        material-symbols
         nerd-fonts.jetbrains-mono
         nerd-fonts.symbols-only
-        jetbrains-mono
         noto-fonts
         noto-fonts-color-emoji
-        material-symbols
-        material-icons
+        roboto
+        sn-pro
       ];
     };
 }
