@@ -574,6 +574,7 @@
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                   "xrandr --output DP-2 --primary"
                   "xembedsniproxy"
+                  "wowup-cf"
                   "[workspace 2 silent] firefox"
                   "[workspace 4 silent] sleep 8 && thunderbird"
                 ]
