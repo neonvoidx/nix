@@ -36,6 +36,7 @@
         pinta
         proton-pass
         prusa-slicer
+        redact
         seahorse
         slurp
         streamcontroller
