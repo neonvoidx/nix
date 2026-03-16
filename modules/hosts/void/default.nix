@@ -30,8 +30,8 @@
       # Gaming
       ## Deadlock mod manager
       den.aspects.deadlock
-      # WoW Addons
-      den.aspects.wowup
+      # WoW Addons and logs
+      den.aspects.wow
 
       # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
       den.aspects.noisetorch

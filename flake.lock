@@ -202,11 +202,11 @@
     },
     "flake-file": {
       "locked": {
-        "lastModified": 1773554778,
-        "narHash": "sha256-keH0VNsci9e0Uwt3Msp/N+pltaP8Lb6lt09Q3WvDPw4=",
+        "lastModified": 1773637821,
+        "narHash": "sha256-Cp1x/5/97iNjXOI5hLCA51BwR6hc1dWJiZp4VPogkTw=",
         "owner": "vic",
         "repo": "flake-file",
-        "rev": "f4780a86bd4c756475d839b286f8a40aabdbc802",
+        "rev": "bb9fbe00ba6a1945fbdd6973c2585ab770f404b0",
         "type": "github"
       },
       "original": {
@@ -393,11 +393,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773608492,
-        "narHash": "sha256-QZteyExJYSQzgxqdsesDPbQgjctGG7iKV/6ooyQPITk=",
+        "lastModified": 1773666768,
+        "narHash": "sha256-7XvLaFMQOsfWrK+msO0Oqe5CeNYsAlSGjrl5y14gA6w=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "9a40ec3b78fc688d0908485887d355caa5666d18",
+        "rev": "ca53f083dbd4c83dd5dca8a3099374708e155c32",
         "type": "github"
       },
       "original": {
@@ -566,11 +566,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1773520392,
-        "narHash": "sha256-Ra3l8zI7AYwaCxXcU4An8jAC1hhz/TEleXboJhWaBwY=",
+        "lastModified": 1773646010,
+        "narHash": "sha256-iYrs97hS7p5u4lQzuNWzuALGIOdkPXvjz7bviiBjUu8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f59e980846fe86cd831899cd032fdbd1d6054086",
+        "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
         "type": "github"
       },
       "original": {
@@ -640,11 +640,11 @@
         "noctalia-qs": "noctalia-qs"
       },
       "locked": {
-        "lastModified": 1773628930,
-        "narHash": "sha256-30B1aEHVLdrsiGZOj8X2riKhb7i6p92+DTTNNdWMJsg=",
+        "lastModified": 1773670009,
+        "narHash": "sha256-LEiA7ntxR6Biep4fgD2Jh9bB1g2olRNAToFUS51szDs=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "1b2ec2e4a289bf71dc48b95d3c2ba04a8b50a717",
+        "rev": "9511f1fce45ffe763d7954f3207e3dfd644c97f2",
         "type": "github"
       },
       "original": {
@@ -684,11 +684,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773635252,
-        "narHash": "sha256-TRxG9HrO6IcXGGwVEU13q0DZYPiroTVeM/osYxPa1+8=",
+        "lastModified": 1773676431,
+        "narHash": "sha256-fUChpg5VUsSrlDCNo9j4NOZ61M94b36xg4f0ZuKse+8=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "51716adcd2d304c244b6d533ea2245660a9c3870",
+        "rev": "50bac3f52fc22621b0d48cd2fd2544466d00fa00",
         "type": "github"
       },
       "original": {
@@ -780,7 +780,8 @@
         "scopebuddy": "scopebuddy",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "warcraftlogs": "warcraftlogs"
       }
     },
     "scopebuddy": {
@@ -1070,6 +1071,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "warcraftlogs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773188725,
+        "narHash": "sha256-V1eoExsQt0amf/S3zpwLots4MxN9/XQvHYxz7Xm5n+I=",
+        "owner": "tomsch",
+        "repo": "warcraftlogs-nix",
+        "rev": "dc1d648ad939abf0f5cd99a59e4edf5174c4ade2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tomsch",
+        "repo": "warcraftlogs-nix",
         "type": "github"
       }
     }

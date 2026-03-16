@@ -1,6 +1,6 @@
 { den, inputs, ... }:
 {
-  den.aspects.wowup =
+  den.aspects.wow =
     { host, ... }:
     {
       homeManager =
@@ -8,6 +8,7 @@
         {
           home.packages = with pkgs; [
             wowup-cf
+            inputs.warcraftlogs.packages.x86_64-linux.default
           ];
 
           xdg.mimeApps.defaultApplications = {
