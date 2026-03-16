@@ -230,6 +230,12 @@
               {
                 windowrule = [
                   {
+                    name = "xdg-screenshare-picker";
+                    "match:initial_title" = "Select what to share";
+                    center = "on";
+                    float = "on";
+                  }
+                  {
                     name = "godot";
                     "match:title" = ".*(DEBUG).*";
                     "match:initial_class" = "Godot";

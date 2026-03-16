@@ -12,6 +12,7 @@
         asciinema
         blueman
         cmatrix
+        evtest
         ffmpeg
         file-roller
         gh-dash

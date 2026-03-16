@@ -43,6 +43,8 @@
                   "screen-recorder"
                   "pomodoro"
                   "timer"
+                  "polkit-agent"
+                  "show-keys"
                 ]
               );
               version = 1;
