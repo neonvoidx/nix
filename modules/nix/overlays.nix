@@ -14,6 +14,9 @@
               nurpkgs = prev;
               pkgs = prev;
             };
+            github-copilot-cli = prev.github-copilot-cli.overrideAttrs (oldAttrs: {
+              postInstall = "";
+            });
           })
         ];
       };

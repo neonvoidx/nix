@@ -1,1 +1,4 @@
-- Make hyprland config dynamic with freeform attributes from den?
+- Vivaldi
+- copilot fix, pin to older, its broke
+- Make assets change based on username, i.e scopebuddy configs?
+- noctalia crashing when system is suspended, could just be quickshell

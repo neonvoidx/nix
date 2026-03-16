@@ -13,7 +13,7 @@
     };
     # if you want to have master branch hyprland
     # hyprland.url = "github:hyprwm/Hyprland";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
