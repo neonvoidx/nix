@@ -14,6 +14,7 @@
               nurpkgs = prev;
               pkgs = prev;
             };
+            # Temp fix for https://github.com/NixOS/nixpkgs/issues/500198
             github-copilot-cli = prev.github-copilot-cli.overrideAttrs (oldAttrs: {
               postInstall = "";
             });
