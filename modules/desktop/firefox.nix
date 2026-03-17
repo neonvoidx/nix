@@ -50,6 +50,9 @@
               ];
               settings = {
                 "extensions.autoDisableScopes" = 0;
+                "print.print_in_color" = true;
+                "print.default-print-settings.printBGColors" = true;
+                "print.default-print-settings.printBGImages" = true;
               };
               extraConfig = builtins.readFile "${inputs.self}/assets/.mozilla/user.js";
               userChrome = builtins.readFile "${inputs.self}/assets/.mozilla/chrome/userChrome.css";

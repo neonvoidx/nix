@@ -19,13 +19,24 @@
         ensureDefaultPrinter = "HP_Color_LaserJet_MFP_M182nw";
       };
 
+      systemd.services.cups-color-default = {
+        description = "Force color printing default for HP printer";
+        after = [ "cups.service" "cups-ensure-printers.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "${pkgs.cups}/bin/lpadmin -p HP_Color_LaserJet_MFP_M182nw -o ColorModel=RGB";
+        };
+      };
+
       services.printing = {
         enable = true;
         drivers = with pkgs; [
           hplipWithPlugin
           cups-filters
         ];
-        browsing = true;
+
         logLevel = "warn";
       };
 
