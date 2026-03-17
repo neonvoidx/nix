@@ -10,7 +10,10 @@
             location = "Home";
             deviceUri = "ipps://192.168.86.186/ipp/print";
             model = "everywhere";
-            ppdOptions.PageSize = "Letter";
+            ppdOptions = {
+              PageSize = "Letter";
+              ColorModel = "RGB";
+            };
           }
         ];
         ensureDefaultPrinter = "HP_Color_LaserJet_MFP_M182nw";
