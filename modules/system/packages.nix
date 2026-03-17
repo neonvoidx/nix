@@ -30,6 +30,7 @@
         mtr
         nix-converter
         nurl
+        nvd
         pciutils
         playerctl
         procps
