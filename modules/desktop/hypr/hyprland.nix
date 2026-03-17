@@ -141,9 +141,9 @@
                   "ALT, TAB, focuscurrentorlast"
 
                   # Screenshot
-                  ",Print, exec, hyprshot -z -m region --clipboard-only"
-                  "SHIFT, Print, exec, hyprshot -z --clipboard-only --mode region; sleep 0.5s && wl-paste | swappy -f -"
-                  "CTRL, Print, exec, hyprshot -z --mode region"
+                  ",Print, exec, pgrep -x hyprshot || hyprshot -z -m region --clipboard-only"
+                  "SHIFT, Print, exec, pgrep -x hyprshot || (hyprshot -z --clipboard-only --mode region; sleep 0.5s && wl-paste | swappy -f -)"
+                  "CTRL, Print, exec, pgrep -x hyprshot || hyprshot -z --mode region"
 
                   # Focus movement
                   "$mod, h, movefocus, l"
