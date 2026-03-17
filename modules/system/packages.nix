@@ -32,6 +32,7 @@
         nurl
         pciutils
         playerctl
+        procps
         ripgrep
         rtkit
         sd
