@@ -320,28 +320,46 @@
                     workspace = "11";
                   }
                   {
-                    name = "bnet";
+                    name = "battle.net";
                     "match:title" = "Battle.net.*";
-                    float = "off";
+                    float = "on";
+                    center = "on";
                     fullscreen = "off";
                     workspace = "10";
-                    suppress_event = "activatefocus";
                   }
                   {
-                    name = "bnetlogin";
-                    "match:title" = "Battle.net Login";
-                    float = "off";
-                    fullscreen = "off";
+                    # Match steam_app_0 class with empty title
+                    # this "hopefully" is only the weird bnet tray icon that opens in it's own window
+                    name = "bnettray";
+                    "match:class" = "steam_app_0";
+                    "match:title" = "^$";
                     workspace = "10";
-                    suppress_event = "activatefocus";
-                  }
-                  {
-                    name = "bnetsettings";
-                    "match:title" = "Battle.net Settings";
                     float = "on";
                     fullscreen = "off";
-                    workspace = "10";
                   }
+                  # {
+                  #   name = "bnet";
+                  #   "match:title" = "Battle.net.*";
+                  #   float = "off";
+                  #   fullscreen = "off";
+                  #   workspace = "10";
+                  #   suppress_event = "activatefocus";
+                  # }
+                  # {
+                  #   name = "bnetlogin";
+                  #   "match:title" = "Battle.net Login";
+                  #   float = "off";
+                  #   fullscreen = "off";
+                  #   workspace = "10";
+                  #   suppress_event = "activatefocus";
+                  # }
+                  # {
+                  #   name = "bnetsettings";
+                  #   "match:title" = "Battle.net Settings";
+                  #   float = "on";
+                  #   fullscreen = "off";
+                  #   workspace = "10";
+                  # }
                   {
                     name = "hytale";
                     "match:title" = "Hytale";
@@ -408,6 +426,7 @@
                     opacity = "0.0";
                     float = "true";
                     no_blur = "on";
+                    suppress_event = "activatefocus";
                   }
                 ]
                 ++ lib.optionals isMultiMonitor [
@@ -579,7 +598,7 @@
                   "~/.config/hypr/scripts/restore-monitor-layout.sh"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                   "xrandr --output DP-2 --primary"
-                  "xembedsniproxy"
+                  # "xembedsniproxy"
                   "[workspace 2 silent] firefox"
                   "[workspace 4 silent] sleep 8 && thunderbird"
                 ]
