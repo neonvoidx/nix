@@ -48,6 +48,8 @@
         den._.self'
         # Automatically sets networking.hostName from host name
         den._.hostname
+        # Bidirectional, user and host can contribute to each other
+        den._.bidirectional
       ];
     };
   };

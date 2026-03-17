@@ -19,7 +19,6 @@
       # Network printer stuff, specific to my network
       # If you want to setup network printer be sure to edit print.nix
       den.aspects.print
-      den.aspects.usb
       den.aspects.udev
 
       # Security

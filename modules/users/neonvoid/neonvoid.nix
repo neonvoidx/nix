@@ -44,6 +44,7 @@
       den.aspects.gnomekeyring
       den.aspects.pipewire
       den.aspects.streamcontroller
+      den.aspects.usb
 
       # Home
       den.aspects.common
