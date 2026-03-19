@@ -1,7 +1,7 @@
 { den, inputs, ... }:
 {
   den.aspects.deadlock =
-    { host, ... }:
+    { ... }:
     {
       homeManager =
         { pkgs, ... }:

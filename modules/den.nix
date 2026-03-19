@@ -15,6 +15,7 @@
 
   # den specific setup
   den = {
+    ctx.user.includes = [ den._.mutual-provider ];
     ctx.hm-host.nixos.home-manager = {
       # For hosts with home manager users, automatically make home manager use host's nixpkgs
       useGlobalPkgs = true;
@@ -48,8 +49,6 @@
         den._.self'
         # Automatically sets networking.hostName from host name
         den._.hostname
-        # Bidirectional, user and host can contribute to each other
-        den._.bidirectional
       ];
     };
   };

@@ -1,7 +1,7 @@
 { den, inputs, ... }:
 {
   den.aspects.wow =
-    { host, ... }:
+    { ... }:
     {
       homeManager =
         { pkgs, ... }:

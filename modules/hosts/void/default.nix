@@ -14,7 +14,6 @@
       # Hardware
       den.aspects.bluetooth
       den.aspects.kernel
-      den.aspects.streamcontroller
 
       # Network printer stuff, specific to my network
       # If you want to setup network printer be sure to edit print.nix
@@ -26,15 +25,6 @@
       den.aspects.pcscd
       den.aspects.ly
 
-      # Gaming
-      ## Deadlock mod manager
-      den.aspects.deadlock
-      # WoW Addons and logs
-      den.aspects.wow
-
-      # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
-      den.aspects.noisetorch
-
       # Services
       den.aspects.ananicy
       # WARNING: Specific to my network drives, don't use this unless you want to change network-drives.nix
@@ -44,6 +34,37 @@
       # System packages
       den.aspects.systempackages
     ];
+
+    # Push void-specific HM configs to users via mutual-provider
+    provides.to-users =
+      { ... }:
+      {
+        includes = [
+          # Gaming - void desktop only
+          den.aspects.deadlock
+          den.aspects.wow
+          # NOTE: If you want microphone noise suppression, will need to edit noisetorch.nix to update device ids and hostname
+          den.aspects.noisetorch
+        ];
+
+        homeManager =
+          { config, ... }:
+          {
+            # Pulls ssh key from synology network mount
+            home.activation.setupSynologyKeys = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+              if [ ! -e ~/.ssh/id_ed25519 ] && [ -e /synology/Secure/id_ed25519 ]; then
+                $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519 ~/.ssh/id_ed25519
+                $DRY_RUN_CMD chmod 600 ~/.ssh/id_ed25519
+                echo "Linked SSH private key from Synology"
+              fi
+
+              if [ ! -e ~/.ssh/id_ed25519.pub ] && [ -e /synology/Secure/id_ed25519.pub ]; then
+                $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519.pub ~/.ssh/id_ed25519.pub
+                echo "Linked SSH public key from Synology"
+              fi
+            '';
+          };
+      };
 
     nixos =
       {

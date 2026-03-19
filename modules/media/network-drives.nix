@@ -1,23 +1,6 @@
 { den, ... }:
 {
   den.aspects.networkdrives = {
-    homeManager =
-      { config, ... }:
-      {
-        # Pulls ssh key from synology network mount
-        home.activation.setupSynologyKeys = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-          if [ ! -e ~/.ssh/id_ed25519 ] && [ -e /synology/Secure/id_ed25519 ]; then
-            $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519 ~/.ssh/id_ed25519
-            $DRY_RUN_CMD chmod 600 ~/.ssh/id_ed25519
-            echo "Linked SSH private key from Synology"
-          fi
-
-          if [ ! -e ~/.ssh/id_ed25519.pub ] && [ -e /synology/Secure/id_ed25519.pub ]; then
-            $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519.pub ~/.ssh/id_ed25519.pub
-            echo "Linked SSH public key from Synology"
-          fi
-        '';
-      };
     nixos =
       {
         config,
