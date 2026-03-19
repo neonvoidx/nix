@@ -322,8 +322,7 @@
                   {
                     name = "battle.net";
                     "match:title" = "Battle.net.*";
-                    float = "on";
-                    center = "on";
+                    float = "off";
                     fullscreen = "off";
                     workspace = "10";
                   }
