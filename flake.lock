@@ -102,11 +102,11 @@
     },
     "den": {
       "locked": {
-        "lastModified": 1773947566,
-        "narHash": "sha256-MJW+Tq26kfS+zHyAynfdPrKM4js9tyYTLxH6jlLg2Wo=",
+        "lastModified": 1774116359,
+        "narHash": "sha256-dQB43UiWTHuM6MaXgYoyP1SyudP/oGUfSHu0ogsFKdM=",
         "owner": "vic",
         "repo": "den",
-        "rev": "5c1a1a4c475b38a1dd53fc271a2b79f8f316b6e8",
+        "rev": "21fdcf85aac72ff70f7ef9295801577a6eedc43c",
         "type": "github"
       },
       "original": {
@@ -408,11 +408,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773935367,
-        "narHash": "sha256-+RjULqqbCYmOJG+99pNqEGRJV7bX8DYPbxKUhKWFKsI=",
+        "lastModified": 1774007980,
+        "narHash": "sha256-FOnZjElEI8pqqCvB6K/1JRHTE8o4rer8driivTpq2uo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a7ec5440474cdcc9939cc67c320f01aea0a2f195",
+        "rev": "9670de2921812bc4e0452f6e3efd8c859696c183",
         "type": "github"
       },
       "original": {
@@ -689,11 +689,11 @@
         "noctalia-qs": "noctalia-qs"
       },
       "locked": {
-        "lastModified": 1773935604,
-        "narHash": "sha256-l9L0sqJt8BTBHmnihwLXcLHcTukO3b12nhGYQKB9kO8=",
+        "lastModified": 1774107311,
+        "narHash": "sha256-xs6y9oZjT94WtiML53ARszFIOPJHqbHkBKonXH4TNjg=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "21c191d6752d8d5e49ac72bf194eb6da139562b9",
+        "rev": "bef335ab3a32862d4b24ec79d79eabb82ab5d15d",
         "type": "github"
       },
       "original": {
@@ -733,11 +733,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773950320,
-        "narHash": "sha256-w5t5tVXhUtSJSghQwraO+2OqrJYq8W7McLEmEtpA45o=",
+        "lastModified": 1774116717,
+        "narHash": "sha256-tPAutkCn0/avh9sWdzie2///GdllRVkPBTzPvTGxse4=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b658ad7d82994654be05782887bb1fb6e78d657e",
+        "rev": "2f5839de48ff8ba8acebaabb72ad0d2b1b4a73ce",
         "type": "github"
       },
       "original": {
@@ -807,11 +807,11 @@
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1773950235,
-        "narHash": "sha256-YknEzo/Vlg3rSVzK53QJMyxpOSmS0wV8g86ns6rU87U=",
+        "lastModified": 1774019194,
+        "narHash": "sha256-FelpElAIo+EZf7gxiF9eUd9f5iWjwwo+2PHHKMYO7AE=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "dbae5fa6f2dd3f81e98cc05278ed0e1c19b9cab2",
+        "rev": "b03114549520217451a1348c56a2c4b62b5e4862",
         "type": "github"
       },
       "original": {

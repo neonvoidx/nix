@@ -369,7 +369,18 @@
                   {
                     name = "wow";
                     "match:title" = "World of Warcraft";
+                    "match:class" = "steam_app_0";
                     fullscreen = "on";
+                    content = "game";
+                    no_max_size = "on";
+                    no_anim = "on";
+                    no_shadow = "on";
+                    no_dim = "on";
+                    border_size = "0";
+                    no_blur = "on";
+                    decorate = "off";
+                    immediate = "on";
+                    # stay_focused = "on";
                     float = "off";
                     workspace = "11";
                   }
