@@ -320,55 +320,16 @@
                     workspace = "11";
                   }
                   {
-                    name = "battle.net";
-                    "match:title" = "Battle.net.*";
+                    name = "battlenet";
+                    "match:initial_class" = "battle.net.exe";
                     float = "off";
                     fullscreen = "off";
-                    workspace = "10";
-                  }
-                  {
-                    # Match steam_app_0 class with empty title
-                    # this "hopefully" is only the weird bnet tray icon that opens in it's own window
-                    name = "bnettray";
-                    "match:class" = "steam_app_0";
-                    "match:title" = "^$";
-                    workspace = "10";
-                    float = "on";
-                    fullscreen = "off";
-                  }
-                  # {
-                  #   name = "bnet";
-                  #   "match:title" = "Battle.net.*";
-                  #   float = "off";
-                  #   fullscreen = "off";
-                  #   workspace = "10";
-                  #   suppress_event = "activatefocus";
-                  # }
-                  # {
-                  #   name = "bnetlogin";
-                  #   "match:title" = "Battle.net Login";
-                  #   float = "off";
-                  #   fullscreen = "off";
-                  #   workspace = "10";
-                  #   suppress_event = "activatefocus";
-                  # }
-                  # {
-                  #   name = "bnetsettings";
-                  #   "match:title" = "Battle.net Settings";
-                  #   float = "on";
-                  #   fullscreen = "off";
-                  #   workspace = "10";
-                  # }
-                  {
-                    name = "hytale";
-                    "match:title" = "Hytale";
-                    "match:class" = "HytaleClient";
-                    fullscreen = "on";
-                    workspace = "11";
+                    workspace = "10 silent";
+                    suppress_event = "activatefocus";
                   }
                   {
                     name = "wow";
-                    "match:title" = "World of Warcraft";
+                    "match:initial_class" = "wow.exe";
                     fullscreen = "on";
                     content = "game";
                     no_max_size = "on";
@@ -380,6 +341,23 @@
                     decorate = "off";
                     immediate = "on";
                     float = "off";
+                    workspace = "11";
+                  }
+                  {
+                    # Match steam_app_0 class with empty title
+                    # this "hopefully" is only the weird bnet tray icon that opens in it's own window
+                    name = "bnettray";
+                    "match:class" = "steam_app_0";
+                    "match:title" = "^$";
+                    workspace = "10";
+                    float = "on";
+                    fullscreen = "off";
+                  }
+                  {
+                    name = "hytale";
+                    "match:title" = "Hytale";
+                    "match:class" = "HytaleClient";
+                    fullscreen = "on";
                     workspace = "11";
                   }
                   {
