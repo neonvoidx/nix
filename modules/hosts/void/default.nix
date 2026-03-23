@@ -103,6 +103,11 @@
             "amdgpu.noretry=0"
             "amdgpu.lockup_timeout=10000"
             "amdgpu.mes_log_enable=1"
+            # Workaround for RX 9070 XT (RDNA4) SMU firmware version mismatch (driver 0x2e vs fw 0x33)
+            # Disables dynamic power management to prevent SMU hang-on-transition until kernel catches up.
+            # Remove when: journalctl -b -k | grep "SMU driver if version" shows driver and fw versions match (both 0x33).
+            # That will happen when nixpkgs flake gets kernel 6.20+.
+            "amdgpu.dpm=0"
           ];
           blacklistedKernelModules = [
             "mt7925e"
