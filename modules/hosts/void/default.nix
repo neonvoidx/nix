@@ -103,8 +103,6 @@
             "amdgpu.noretry=0"
             "amdgpu.lockup_timeout=10000"
             "amdgpu.mes_log_enable=1"
-            "amdgpu.ppfeaturemask=0xffffffff"
-            "amdgpu.dcdebugmask=0x10"
           ];
           blacklistedKernelModules = [
             "mt7925e"
