@@ -324,13 +324,17 @@
                     "match:initial_class" = "battle.net.exe";
                     float = "off";
                     fullscreen = "off";
+                    fullscreen_state = "0 0";
                     workspace = "10 silent";
-                    suppress_event = "activatefocus";
+                    suppress_event = "fullscreen activatefocus";
                   }
                   {
                     name = "wow";
                     "match:initial_class" = "wow.exe";
+                    monitor = "DP-2";
+                    workspace = "11";
                     fullscreen = "on";
+                    suppress_event = "fullscreen";
                     content = "game";
                     no_max_size = "on";
                     no_anim = "on";
@@ -341,7 +345,6 @@
                     decorate = "off";
                     immediate = "on";
                     float = "off";
-                    workspace = "11";
                   }
                   {
                     # Match steam_app_0 class with empty title
