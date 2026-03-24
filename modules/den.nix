@@ -33,8 +33,8 @@
     };
     schema.user.classes = [ "homeManager" ];
     default = {
-      nixos.system.stateVersion = "25.11";
-      homeManager.home.stateVersion = "25.11";
+      nixos.system.stateVersion = "26.05";
+      homeManager.home.stateVersion = "26.05";
       includes = [
         # Automatically sets home.username, home.homeDirectory, users.users.<name>
         den._.define-user

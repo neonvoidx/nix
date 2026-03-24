@@ -733,11 +733,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774353858,
-        "narHash": "sha256-rJBYZuhKv3V9SrvC0QHnHwbvnASInYTzT/J7tK2YkWs=",
+        "lastModified": 1774360175,
+        "narHash": "sha256-nUIXPgQPIvVp2qAOC0dRzh0VNDXFXHPgScnIhI/AHRk=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "a1a004866659e5a2ee7509efbb4c98690368c59f",
+        "rev": "d07c94d93034800d497e8e3ce150ce5c4aa5f8d8",
         "type": "github"
       },
       "original": {
@@ -781,11 +781,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1773927734,
-        "narHash": "sha256-hjf4JtCVGXO3/1SznMKKC+qFsIxQcVhZvPpoNuBYdFY=",
+        "lastModified": 1774351089,
+        "narHash": "sha256-4zn+GKchKGc/wbPqny3L/zFSwaoMZZgNtg7ak5GIDCE=",
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "618cbe6aac5e72f1f9dc0d0dde145ee2d452df71",
+        "rev": "1d3730f4cf4100bf06cdc89ac02060b67caee4d0",
         "type": "github"
       },
       "original": {
@@ -807,11 +807,11 @@
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1774360077,
-        "narHash": "sha256-TioQZX4n8NI3lsefT1a8lbGfWNQMA1i8wZhkdZd0ZA0=",
+        "lastModified": 1774360918,
+        "narHash": "sha256-fYx3g3Mnd6LHXzIRqJSpe+pZW+tJlLwoFFc7+IGjkSc=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "2862a425360289167df55960322013f981e3977f",
+        "rev": "3fd61bbae3d8b2acd1272595962407cf81bbcda8",
         "type": "github"
       },
       "original": {
@@ -823,11 +823,11 @@
     "resolved-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1765918012,
-        "narHash": "sha256-9wBsqHvZZMsWGiM90R9WoZ0WF4pBdC1w3FIr++zdd2A=",
+        "lastModified": 1774209514,
+        "narHash": "sha256-ZwERVahrkkgRmDflJT6yf19ezv+YuTzY9/rTDpHst8Y=",
         "owner": "noamsto",
         "repo": "resolved.nvim",
-        "rev": "15fd72dc643b60b01c8763e56edc316ff3d5e26e",
+        "rev": "156bec20c460d28cc4b78bf6a265ea45447d413f",
         "type": "github"
       },
       "original": {
@@ -1151,11 +1151,11 @@
     "vim-kitty-navigator": {
       "flake": false,
       "locked": {
-        "lastModified": 1733493973,
-        "narHash": "sha256-8CwXh54zgus2VkfYvPHzqu8cIF2sKOLwVHEtyHCQB44=",
+        "lastModified": 1774260711,
+        "narHash": "sha256-8CJKFGrxLvlThbwIFTew7bN8Ocoxcsjr3iFOD7ga/kM=",
         "owner": "knubie",
         "repo": "vim-kitty-navigator",
-        "rev": "081c6f8f9eb17cddb4ff4cd1ad44db48aa76fe03",
+        "rev": "e17e63582341c3ae6bf3dcec0eab274da88353ee",
         "type": "github"
       },
       "original": {
