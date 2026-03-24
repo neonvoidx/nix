@@ -320,6 +320,16 @@
                     workspace = "11";
                   }
                   {
+                    name = "battlenetxwayland";
+                    "match:class" = "steam_app_0";
+                    "match:title" = "Battle.net";
+                    float = "off";
+                    fullscreen = "off";
+                    fullscreen_state = "0 0";
+                    workspace = "10 silent";
+                    suppress_event = "fullscreen activatefocus";
+                  }
+                  {
                     name = "battlenet";
                     "match:initial_class" = "battle.net.exe";
                     float = "off";
@@ -331,6 +341,25 @@
                   {
                     name = "wow";
                     "match:initial_class" = "wow.exe";
+                    monitor = "DP-2";
+                    workspace = "11";
+                    fullscreen = "on";
+                    suppress_event = "fullscreen";
+                    content = "game";
+                    no_max_size = "on";
+                    no_anim = "on";
+                    no_shadow = "on";
+                    no_dim = "on";
+                    border_size = "0";
+                    no_blur = "on";
+                    decorate = "off";
+                    immediate = "on";
+                    float = "off";
+                  }
+                  {
+                    name = "wowxwayland";
+                    "match:initial_class" = "steam_app_0";
+                    "match:title" = "World of Warcraft";
                     monitor = "DP-2";
                     workspace = "11";
                     fullscreen = "on";

@@ -807,11 +807,11 @@
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1774019194,
-        "narHash": "sha256-FelpElAIo+EZf7gxiF9eUd9f5iWjwwo+2PHHKMYO7AE=",
+        "lastModified": 1774360077,
+        "narHash": "sha256-TioQZX4n8NI3lsefT1a8lbGfWNQMA1i8wZhkdZd0ZA0=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "b03114549520217451a1348c56a2c4b62b5e4862",
+        "rev": "2862a425360289167df55960322013f981e3977f",
         "type": "github"
       },
       "original": {
