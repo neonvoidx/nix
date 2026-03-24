@@ -502,7 +502,7 @@
                   {
                     # G502 wireless — tame the high scroll speed
                     name = "logitech-wireless-mouse-pid:4099-mouse";
-                    scroll_factor = 0.3;
+                    scroll_factor = 0.6;
                   }
                 ];
 
