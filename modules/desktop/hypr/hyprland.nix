@@ -330,6 +330,24 @@
                     suppress_event = "fullscreen activatefocus";
                   }
                   {
+                    name = "bnetwhispers";
+                    "match:title" = "Battle.net - Chats and Groups";
+                    float = "on";
+                    fullscreen = "off";
+                    fullscreen_state = "0 0";
+                    suppress_event = "fullscreen";
+                  }
+                  {
+                    name = "bnettrayiconwindow";
+                    "match:initial_class" = "explorer.exe";
+                    float = "on";
+                    size = "25 25";
+                    move = "(monitor_w-(monitor_w*0.2)-10) (monitor_h-(monitor_h*0.3)-10)";
+                    fullscreen = "off";
+                    workspace = "10 silent";
+                    suppress_event = "fullscreen activatefocus";
+                  }
+                  {
                     name = "battlenet";
                     "match:initial_class" = "battle.net.exe";
                     float = "off";
