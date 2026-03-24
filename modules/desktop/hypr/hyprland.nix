@@ -480,6 +480,14 @@
                   scroll_factor = 1.0;
                 };
 
+                device = [
+                  {
+                    # G502 wireless — tame the high scroll speed
+                    name = "logitech-wireless-mouse-pid:4099-mouse";
+                    scroll_factor = 0.3;
+                  }
+                ];
+
                 general = {
                   gaps_in = 5;
                   gaps_out = 8;
@@ -610,10 +618,14 @@
               }
               # Startup
               {
+                # Runs on every config reload (i.e. after nixos-rebuild) to re-apply saved monitor layout
+                exec = [
+                  "~/.config/hypr/scripts/restore-monitor-layout.sh"
+                ];
+
                 exec-once = [
                   "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
                   "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
-                  "~/.config/hypr/scripts/restore-monitor-layout.sh"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                   "xrandr --output DP-2 --primary"
                   # "xembedsniproxy"
