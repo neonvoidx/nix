@@ -40,6 +40,7 @@
         redact
         seahorse
         slurp
+        socat
         streamcontroller
         tenacity
         thunar

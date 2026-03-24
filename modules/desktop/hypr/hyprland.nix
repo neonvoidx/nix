@@ -626,6 +626,7 @@
                 exec-once = [
                   "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
                   "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
+                  "~/.config/hypr/scripts/save-workspace.sh"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
                   "xrandr --output DP-2 --primary"
                   # "xembedsniproxy"

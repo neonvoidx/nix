@@ -34,3 +34,12 @@ esac
 if [ -f "$file" ]; then
   hyprctl keyword source "$file" >/dev/null
 fi
+
+# Restore focused workspace
+WORKSPACE_FILE="$STATE_DIR/active-workspace"
+if [ -f "$WORKSPACE_FILE" ]; then
+  workspace=$(tr -d '\n' < "$WORKSPACE_FILE")
+  if [ -n "$workspace" ]; then
+    hyprctl dispatch workspace "$workspace" >/dev/null
+  fi
+fi
