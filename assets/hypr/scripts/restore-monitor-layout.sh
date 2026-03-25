@@ -32,7 +32,10 @@ case "$layout" in
 esac
 
 if [ -f "$file" ]; then
-  hyprctl keyword source "$file" >/dev/null
+  # Use || true so set -e doesn't abort if hyprctl exits non-zero
+  hyprctl keyword source "$file" >/dev/null || true
+  # Let monitors settle before dispatching workspace
+  sleep 0.5
 fi
 
 # Restore focused workspace
