@@ -331,10 +331,11 @@
                   }
                   {
                     name = "bnetwhispers";
-                    "match:title" = "Battle.net - Chats and Groups";
+                    "match:title" = "Battle.net.*Chats and Groups";
                     float = "on";
                     fullscreen = "off";
                     fullscreen_state = "0 0";
+                    workspace = "10";
                     suppress_event = "fullscreen";
                   }
                   {
@@ -502,7 +503,7 @@
                   {
                     # G502 wireless — tame the high scroll speed
                     name = "logitech-wireless-mouse-pid:4099-mouse";
-                    scroll_factor = 0.6;
+                    scroll_factor = 0.8;
                   }
                 ];
 
