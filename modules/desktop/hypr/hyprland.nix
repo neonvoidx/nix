@@ -135,8 +135,8 @@
                   # Window management
                   "$mod SHIFT, Space, togglefloating"
                   "$mod SHIFT, Space, centerwindow"
-                  "$mod, f, fullscreen, 1"
-                  "$mod SHIFT, f, fullscreen, 0"
+                  "$mod SHIFT, f, fullscreen, 1"
+                  "$mod SHIFT CTRL, f, fullscreen, 0"
                   "$mod, c, centerwindow"
                   "ALT, TAB, focuscurrentorlast"
 
