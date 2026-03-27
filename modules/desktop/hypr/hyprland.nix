@@ -321,8 +321,7 @@
                   }
                   {
                     name = "battlenetxwayland";
-                    "match:class" = "steam_app_0";
-                    "match:title" = "Battle.net";
+                    "match:title" = "^Battle.net.*";
                     float = "off";
                     fullscreen = "off";
                     fullscreen_state = "0 0";
