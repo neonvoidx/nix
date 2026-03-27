@@ -11,7 +11,7 @@
 
           targets.qt = {
             enable = true;
-            platform = lib.mkForce "gnome";
+            platform = lib.mkForce "qtct";
           };
           targets.gtk.enable = true;
 
@@ -68,7 +68,7 @@
           yazi.enable = false;
           spicetify.enable = false;
           qt = {
-            platform = lib.mkForce "gnome";
+            platform = lib.mkForce "qtct";
             standardDialogs = "xdgdesktopportal";
           };
         };
