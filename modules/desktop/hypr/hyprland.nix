@@ -68,7 +68,7 @@
                   "ENABLE_HDR_WSI,1"
                   "DXVK_HDR,1"
                   "ELECTRON_OZONE_PLATFORM_HINT,auto"
-                  "AMD_VULKAND_ICD,RADV"
+                  "AMD_VULKAN_ICD,RADV"
                   "GDK_SCALE,1"
                   "QT_SCALE_FACTOR,1"
                   "GDK_BACKEND,wayland,x11,*"
