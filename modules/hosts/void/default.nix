@@ -79,13 +79,13 @@
         boot = {
           loader.limine = {
             enable = true;
-            # secureBoot.enable = true;
+            secureBoot.enable = true;
             style.interface.resolution = lib.mkDefault "3440x1440";
-            # extraEntries = ''
-            #   /Windows
-            #       protocol: efi
-            #       path: boot():/efi/Microsoft/Boot/bootmgfw.efi
-            # '';
+            extraEntries = ''
+              /Windows
+                  protocol: efi
+                  path: boot():/efi/Microsoft/Boot/bootmgfw.efi
+            '';
           };
           initrd = {
             enable = true;

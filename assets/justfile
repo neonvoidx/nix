@@ -95,3 +95,6 @@ update-input +inputs:
 # Nix version
 version:
   nixos-version
+
+why pkg:
+  nix why-depends /run/current-system nixpkgs#{{pkg}}
