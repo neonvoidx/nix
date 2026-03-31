@@ -120,7 +120,7 @@
                   # App binds
                   "$mod SHIFT, q, exec, hyprshutdown"
                   "$mod, Return, exec, kitty"
-                  "$mod, code:49, exec, kitten quick-access-terminal"
+                  # "$mod, code:49, exec, kitten quick-access-terminal"
                   "$mod, delete, exec, noctalia-shell ipc call sessionMenu toggle"
                   "$mod SHIFT, delete, exec, noctalia-shell ipc call lockScreen lock"
                   "$mod, slash, exec, noctalia-shell ipc call keybind-cheatsheet toggle"
