@@ -27,6 +27,7 @@
             "https://cache.garnix.io"
             "https://attic.xuyh0120.win/lantian"
             "https://hyprland.cachix.org"
+            "https://neonvoidx.cachix.org"
           ];
           trusted-substituters = [
             # Official nix cache
@@ -39,10 +40,14 @@
             "https://attic.xuyh0120.win/lantian"
             # hyprland cache
             "https://hyprland.cachix.org"
+            # Personal Cachix cache
+            "https://neonvoidx.cachix.org"
           ];
           trusted-public-keys = [
             # Official nix cache
             "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            # Personal Cachix cache
+            "neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y="
             # Garnix
             "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
             # Nix community cache

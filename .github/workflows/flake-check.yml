@@ -1,4 +1,4 @@
-name: flake-check
+name: build
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  flake-check:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,23 +15,26 @@ jobs:
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          extra-conf: |
+            substituters = https://cache.nixos.org https://neonvoidx.cachix.org https://nix-community.cachix.org https://cache.garnix.io https://attic.xuyh0120.win/lantian https://hyprland.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=
 
-      # If you don't use FlakeHub / don't have a FlakeHub API key,
-      # keep caching simple and just rely on cache.nixos.org.
+      - name: Set up Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: neonvoidx
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Nix flake check
-        run: |
-          # NOTE: We intentionally do NOT run `nix flake check` here because it
-          # evaluates `nixosConfigurations` which requires all optional inputs
-          # to be present. CI builds flake checks + packages explicitly below.
-          true
-      - name: Nix flake check
-        run: |
-          nix --extra-experimental-features 'nix-command flakes' flake check -L
+        run: nix flake check -L
 
-      - name: Nix build checks (without evaluating nixosConfigurations)
-        # This check enforces `flake.nix` formatting/regeneration.
-        # If you rely on implicit inputs discovered via `modules/`, this check
-        # can be noisy. Uncomment if you want to enforce it in CI.
+      - name: Build void
         run: |
-          echo "Skipping check-flake-file in CI" 
+          nix build .#nixosConfigurations.void.config.system.build.toplevel \
+            --no-link -L
+
+      - name: Build voidframe
+        run: |
+          nix build .#nixosConfigurations.voidframe.config.system.build.toplevel \
+            --no-link -L
