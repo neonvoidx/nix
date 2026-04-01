@@ -9,6 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash -euo pipefail {0}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,6 +44,13 @@ jobs:
           extra-conf: |
             substituters = ${{ steps.cache-config.outputs.substituters }}
             trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
+
+      - name: Cache Nix store
+        uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.lock') }}
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+          gc-max-store-size-linux: 8G
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v15
