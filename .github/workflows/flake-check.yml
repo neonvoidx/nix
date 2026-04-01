@@ -25,14 +25,9 @@ jobs:
           # evaluates `nixosConfigurations` which requires all optional inputs
           # to be present. CI builds flake checks + packages explicitly below.
           true
-
-      - name: Nix build (all flake packages)
+      - name: Nix flake check
         run: |
-          # `packages.x86_64-linux` is an attrset; build the individual packages.
-          nix --extra-experimental-features 'nix-command flakes' build -L --no-link \
-            .#write-flake \
-            .#write-inputs \
-            .#write-lock
+          nix --extra-experimental-features 'nix-command flakes' flake check -L
 
       - name: Nix build checks (without evaluating nixosConfigurations)
         # This check enforces `flake.nix` formatting/regeneration.
