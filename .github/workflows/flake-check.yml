@@ -13,12 +13,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Extract Nix cache config
+        id: cache-config
+        run: |
+          python3 - <<'EOF'
+          import re, os
+
+          with open('modules/nix/settings.nix') as f:
+              content = f.read()
+
+          def extract_list(name):
+              m = re.search(rf'{name}\s*=\s*\[(.*?)\];', content, re.DOTALL)
+              if not m: return ''
+              return ' '.join(re.findall(r'"([^"]+)"', m.group(1)))
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f"substituters={extract_list('substituters')}\n")
+              out.write(f"trusted-public-keys={extract_list('trusted-public-keys')}\n")
+          EOF
+
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v16
         with:
           extra-conf: |
-            substituters = https://cache.nixos.org https://neonvoidx.cachix.org https://nix-community.cachix.org https://cache.garnix.io https://attic.xuyh0120.win/lantian https://hyprland.cachix.org
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=
+            substituters = ${{ steps.cache-config.outputs.substituters }}
+            trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v15
