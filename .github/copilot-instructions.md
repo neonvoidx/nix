@@ -1,5 +1,14 @@
 # NixOS Flake – Copilot Instructions
 
+## Den Framework Reference
+
+For anything related to the den framework, **always consult**:
+
+- **<https://github.com/vic/den/blob/main/AGENTS_EXAMPLE.md>** — comprehensive AI agent guide covering aspects, context pipeline, batteries, parametric dispatch, schema, and all den APIs. Read this before generating any den configuration.
+- **<https://github.com/vic/den>** — source repository for looking up option definitions, battery implementations, CI test examples (`tree/main/templates/ci/modules/features/`), and documentation (`tree/main/docs/src/content/docs/`).
+
+---
+
 This is a NixOS flake configuration for two hosts (`void`, `voidframe`) using the **den** framework with `flake-parts` and `import-tree`.
 
 ---
@@ -7,6 +16,7 @@ This is a NixOS flake configuration for two hosts (`void`, `voidframe`) using th
 ## Core Architecture
 
 ### Auto-Discovery via `import-tree`
+
 All `.nix` files under `modules/` are automatically imported — **no manual import wiring is needed**. Adding a new file to any subdirectory of `modules/` makes it available immediately after rebuild.
 
 ```nix
@@ -15,6 +25,7 @@ inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules
 ```
 
 ### Den Framework
+
 Configuration is split into independent **aspect modules** using the `den` framework. Each module defines `den.aspects.<name>` with optional `nixos` and `homeManager` sections:
 
 ```nix
@@ -37,6 +48,7 @@ The outer `{ den, inputs, ... }:` lambda is a **flake-parts module**.
 The `nixos`/`homeManager` values are standard **NixOS/HM modules**.
 
 ### Host & User Context
+
 Aspects can receive `host` and `user` context via the outer aspect lambda:
 
 ```nix
@@ -69,8 +81,8 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
 
 ```
 modules/
-├── dendritic.nix          # Bootstraps den into flake-parts
-├── den.nix                # den defaults: stateVersion, HM config, sharedModules, user shell
+├── flake-inputs.nix       # Flake input declarations — edit here, then run `nix run .#write-flake`
+├── den.nix                # Bootstraps den + flake-file, den defaults: stateVersion, HM config, sharedModules, user shell
 ├── hosts.nix              # Declares den.hosts with host attributes and users
 ├── system/                # OS-level aspects (boot, locale, networking, systemd, packages, users)
 ├── hardware/              # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
@@ -102,6 +114,7 @@ secrets/                       # SOPS-encrypted secrets
 ## Host Definitions
 
 **`modules/hosts.nix`** — declares all hosts with freeform attributes:
+
 ```nix
 { den, ... }:
 let
@@ -129,6 +142,7 @@ in
 ```
 
 **`modules/hosts/<name>/default.nix`** — host aspect with system-only includes and hardware config:
+
 ```nix
 { den, inputs, ... }:
 {
@@ -177,6 +191,7 @@ in
 Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-parts.nix` needed.
 
 **Hosts:**
+
 - **`void`** — Desktop (AMD Ryzen 9 9950X, RX 9070 XT, 3440×1440 ultrawide)
 - **`voidframe`** — Framework laptop (AMD Ryzen 7 7840U)
 
@@ -185,6 +200,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 ## User Definitions
 
 **`modules/users/neonvoid/neonvoid.nix`** — user aspect with all desktop/app includes:
+
 ```nix
 { den, ... }:
 {
@@ -281,6 +297,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 ## den.nix — Defaults & HM Integration
 
 `modules/den.nix` centralises shared configuration applied to every host:
+
 - `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"25.11"`
 - `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, and `sharedModules` (spicetify, nix-index-database, noctalia)
 - `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`
@@ -289,12 +306,13 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 ## Key Inputs
 
+> **flake.nix is auto-generated** by `flake-file`. Never edit it directly. To add or change an input, edit `modules/flake-inputs.nix` then run `nix run .#write-flake`. To update locked versions, run `nix flake update` as normal.
+
 | Input | Purpose |
 |-------|---------|
 | `den` | Den framework — auto-generates nixosConfigurations, wires HM, provides context |
 | `flake-parts` | Modular flake framework |
-| `flake-file` | Required by den's dendritic module |
-| `flake-aspects` | Required by den's dendritic module |
+| `flake-file` | Required by den's dendritic module; generates `flake.nix` from `flake-file.inputs` declarations in `modules/flake-inputs.nix` |
 | `import-tree` | Auto-discovers all `.nix` files in `modules/` |
 | `home-manager` | User environment management |
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |

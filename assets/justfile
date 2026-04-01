@@ -98,3 +98,6 @@ version:
 
 why pkg:
   nix why-depends /run/current-system nixpkgs#{{pkg}}
+
+write-flake:
+    nix run .#write-flake
