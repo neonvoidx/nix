@@ -12,6 +12,7 @@
         asciinema
         blueman
         cmatrix
+        comma
         evtest
         ffmpeg
         file-roller
