@@ -93,7 +93,10 @@
           };
           kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
           extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
-          kernelModules = [ "amdgpu" ];
+          kernelModules = [
+            "amdgpu"
+            "ntsync"
+          ];
           kernelParams = [
             "splash"
             "video=DP-1:3440x1440@144"
