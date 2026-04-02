@@ -329,6 +329,16 @@
                     suppress_event = "fullscreen activatefocus";
                   }
                   {
+                    name = "bnetgifts";
+                    float = "on";
+                    "match:class" = "steam_app_0";
+                    "match:title" = "Gifts";
+                    fullscreen = "off";
+                    fullscreen_state = "0 0";
+                    workspace = "10";
+                    suppress_event = "fullscreen";
+                  }
+                  {
                     name = "bnetwhispers";
                     "match:title" = "Battle.net.*Chats and Groups";
                     float = "on";
@@ -608,6 +618,7 @@
                   mouse_move_enables_dpms = true;
                   key_press_enables_dpms = true;
                   session_lock_xray = true;
+                  allow_session_lock_restore = true;
                 };
 
                 xwayland = {
