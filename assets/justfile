@@ -96,8 +96,10 @@ update-input +inputs:
 version:
   nixos-version
 
+# Why a package is dependency
 why pkg:
   nix why-depends /run/current-system nixpkgs#{{pkg}}
 
+# Updates flake.nix with flake from modules/flake-inputs.nix
 write-flake:
     nix run .#write-flake
