@@ -1,6 +1,6 @@
 # NixOS Configuration
 
-[![flake-check](https://github.com/neonvoidx/nix/actions/workflows/flake-check.yml/badge.svg?branch=master)](https://github.com/neonvoidx/nix/actions/workflows/flake-check.yml)
+[![Build and Cache](https://github.com/neonvoidx/nix/actions/workflows/build-and-cache.yml/badge.svg?branch=master)](https://github.com/neonvoidx/nix/actions/workflows/build-and-cache.yml)
 
 My NixOS configuration using the [den](https://github.com/vic/den) framework with [flake-parts](https://flake.parts/) and [import-tree](https://github.com/vic/import-tree).
 
