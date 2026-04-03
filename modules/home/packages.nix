@@ -32,6 +32,7 @@
         kdePackages.okular
         kitty-themes
         libsecret
+        inputs.nvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default
         inputs.nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
         obsidian
         oculante

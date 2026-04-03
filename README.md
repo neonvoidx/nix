@@ -18,16 +18,16 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── nh.nix             # Exposes nix run .#<host> flake apps (builds with nh)
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
-│   ├── hardware/          # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
+│   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly)
+
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
-│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
-│   ├── gaming/            # Gaming aspects (steam, mangohud)
-│   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, network-drives)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, yazi, zoxide)
+│   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
+│   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
 │   ├── home/              # Home-manager aspects (common, files, packages)
-│   ├── ide/               # Editor aspects (nixcats)
 │   ├── nix/               # Nix daemon settings and overlays
 │   ├── hosts/             # Host aspect definitions (one file per host)
 │   │   ├── void/default.nix       # void host aspect + system-only includes
@@ -173,15 +173,14 @@ den.hosts.x86_64-linux = {
       den.aspects.locale
       den.aspects.networking
       den.aspects.systemd
-      den.aspects."user-accounts"
+      den.aspects.users
       den.aspects.overlays
-      den.aspects."nix-settings"
-      den.aspects.firmware
+      den.aspects.nixsettings
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.sops
       den.aspects.ly
-      den.aspects."system-packages"
+      den.aspects.systempackages
     ];
 
     nixos = { lib, ... }: {

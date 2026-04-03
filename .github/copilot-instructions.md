@@ -85,13 +85,13 @@ modules/
 ├── den.nix                # Bootstraps den + flake-file, den defaults: stateVersion, HM config, sharedModules, user shell
 ├── hosts.nix              # Declares den.hosts with host attributes and users
 ├── system/                # OS-level aspects (boot, locale, networking, systemd, packages, users)
-├── hardware/              # Hardware aspects (firmware, bluetooth, kernel, udev, print, removable-media, streamcontroller)
-├── security/              # Security aspects (sops, pcscd, gnome-keyring, greetd)
+├── hardware/              # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
+├── security/              # Security aspects (sops, pcscd, gnome-keyring, ly)
 ├── desktop/               # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
 │   └── hypr/              # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
-├── shell/                 # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, tv, yazi, zoxide)
-├── gaming/                # Gaming aspects (steam, mangohud, curseforge)
-├── media/                 # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, network-drives)
+├── shell/                 # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, yazi, zoxide)
+├── gaming/                # Gaming aspects (steam, mangohud, deadlock, wow)
+├── media/                 # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, pipewire, network-drives)
 ├── communication/         # Communication aspects (vesktop, email)
 ├── home/                  # Home-manager aspects (common, files, packages)
 ├── ide/                   # Editor aspects (nixcats)
@@ -153,35 +153,41 @@ in
       den.aspects.locale
       den.aspects.networking
       den.aspects.systemd
-      den.aspects."user-accounts"
+      den.aspects.users
       den.aspects.overlays
-      den.aspects."nix-settings"
+      den.aspects.nixsettings
 
       # Hardware
-      den.aspects.firmware
       den.aspects.bluetooth
       den.aspects.kernel
-      den.aspects.streamcontroller
       den.aspects.print
-      den.aspects."removable-media"
       den.aspects.udev
 
       # Security
       den.aspects.sops
       den.aspects.pcscd
-      den.aspects.greetd
+      den.aspects.ly
 
       # Services
       den.aspects.ananicy
-      den.aspects."network-drives"
+      den.aspects.networkdrives
 
       # System packages
-      den.aspects."system-packages"
+      den.aspects.systempackages
     ];
+
+    # Push host-specific aspects to all users of this host via mutual-provider
+    provides.to-users = { ... }: {
+      includes = [
+        # Gaming — void desktop only
+        den.aspects.deadlock
+        den.aspects.wow
+        den.aspects.noisetorch
+      ];
+    };
 
     nixos = { lib, pkgs, ... }: {
       imports = [ (inputs.self + "/hosts/void/hardware-configuration.nix") ];
-      networking.hostName = "void";
       # boot, hardware, networking specifics...
     };
   };
@@ -189,6 +195,8 @@ in
 ```
 
 Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-parts.nix` needed.
+
+> **`provides.to-users`**: A host aspect can push additional includes or config to all of its users via `provides.to-users`. This is useful for host-specific features (e.g., gaming titles only relevant on the desktop) without polluting the shared user aspect. The inner value is a standard aspect lambda.
 
 **Hosts:**
 
@@ -223,7 +231,6 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.nh
       den.aspects.payrespects
       den.aspects.tealdeer
-      den.aspects.tv
       den.aspects.yazi
       den.aspects.zoxide
 
@@ -240,14 +247,15 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.gtk
       den.aspects.hyprland
       den.aspects.hypridle
-      den.aspects.hyprpolkitagent
+      # hyprpolkitagent disabled — noctalia now provides polkit
       den.aspects.hyprshot
       den.aspects.thunar
 
       # Services (user-level)
-      den.aspects."gnome-keyring"
+      den.aspects.gnomekeyring
       den.aspects.pipewire
       den.aspects.streamcontroller
+      den.aspects.usb
 
       # Home
       den.aspects.common
@@ -258,15 +266,14 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.cava
       den.aspects.easyeffects
       den.aspects.mpv
-      den.aspects."obs-studio"
+      den.aspects.obsstudio
       den.aspects.pics
       den.aspects.spicetify
-      den.aspects.noisetorch
+      # noisetorch pushed to void users via provides.to-users
 
-      # Gaming
+      # Gaming (host-specific games pushed via void's provides.to-users)
       den.aspects.steam
       den.aspects.mangohud
-      den.aspects.curseforge
 
       # Communication
       den.aspects.email
