@@ -9,7 +9,7 @@
           general = {
             lock_cmd = "noctalia-shell ipc call lockScreen lock";
             before_sleep_cmd = "noctalia-shell ipc call lockScreen lock"; # lock before suspend.
-            after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on && xrandr --output DP-2 --primary && systemctl --user restart xdg-desktop-portal-hyprland.service";
+            after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on && ~/.config/hypr/scripts/restore-monitor-layout.sh && systemctl --user restart xdg-desktop-portal-hyprland.service";
           };
           listener = [
             {
@@ -19,7 +19,7 @@
             {
               timeout = 900; # 15min
               on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
-              on-resume = "hyprctl dispatch dpms on && brightnessctl -r"; # screen on when activity is detected after timeout has fired.
+              on-resume = "hyprctl dispatch dpms on && brightnessctl -r && ~/.config/hypr/scripts/restore-xrandr-primary.sh"; # screen on when activity is detected after timeout has fired.
             }
             {
               timeout = 7200; # 1 hour

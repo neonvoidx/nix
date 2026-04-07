@@ -657,7 +657,7 @@
                   "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
                   "~/.config/hypr/scripts/save-workspace.sh"
                   "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh"
-                  "xrandr --output DP-2 --primary"
+                  "sleep 2 & xrandr --output DP-2 --primary"
                   # "xembedsniproxy"
                   "[workspace 2 silent] firefox"
                   "[workspace 4 silent] sleep 8 && thunderbird"

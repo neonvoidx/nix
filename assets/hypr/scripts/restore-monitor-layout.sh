@@ -38,6 +38,8 @@ if [ -f "$file" ]; then
   sleep 0.5
 fi
 
+"$HOME/.config/hypr/scripts/restore-xrandr-primary.sh"
+
 # Restore focused workspace
 WORKSPACE_FILE="$STATE_DIR/active-workspace"
 if [ -f "$WORKSPACE_FILE" ]; then
