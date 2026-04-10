@@ -1,0 +1,60 @@
+{
+  description = "A Nix-flake-based Arduino development environment";
+
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1"; # unstable Nixpkgs
+
+  outputs =
+    { self, ... }@inputs:
+
+    let
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forEachSupportedSystem =
+        f:
+        inputs.nixpkgs.lib.genAttrs supportedSystems (
+          system:
+          f {
+            pkgs = import inputs.nixpkgs { inherit system; };
+          }
+        );
+    in
+    {
+      devShells = forEachSupportedSystem (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              # Build and upload
+              arduino-cli
+              avrdude
+
+              # LSP for Neovim (arduino-language-server uses clangd as backend)
+              arduino-language-server
+              clang-tools
+
+              # Serial monitor
+              tio
+            ];
+
+            # Initialise arduino-cli config on first entry if missing
+            shellHook = ''
+              if [ ! -f "$HOME/.arduino15/arduino-cli.yaml" ]; then
+                echo "Initialising arduino-cli config..."
+                arduino-cli config init
+              fi
+              echo "Arduino dev shell ready."
+              echo "  arduino-cli core install arduino:avr   # install AVR board support"
+              echo "  arduino-cli board list                 # list connected boards"
+              echo "  arduino-cli compile --fqbn <fqbn> .   # compile sketch"
+              echo "  arduino-cli upload -p /dev/ttyACM0 --fqbn <fqbn> .  # upload"
+              echo "  tio /dev/ttyACM0                      # open serial monitor"
+              echo ""
+              echo "Note: serial port access requires being in the 'dialout' group."
+            '';
+          };
+        }
+      );
+    };
+}

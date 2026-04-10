@@ -83,6 +83,7 @@
             "video"
             "input"
             "libvirtd"
+            "dialout"
           ];
         };
       };
