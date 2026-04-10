@@ -11,6 +11,7 @@
               game-devices-udev-rules
               steam-devices-udev-rules
               yubikey-personalization
+              arduino # provides udev rules for Arduino boards (ttyUSB/ttyACM access)
             ];
             # Blacklist udev rule for void
             udev.extraRules = lib.mkIf (host.hostName == "void") ''
