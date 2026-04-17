@@ -12,7 +12,11 @@
               steam-devices-udev-rules
               yubikey-personalization
               arduino # provides udev rules for Arduino boards (ttyUSB/ttyACM access)
+              qmk
+              qmk-udev-rules
+              qmk_hid
               via
+              vial
             ];
             # Blacklist udev rule for void
             udev.extraRules = lib.mkIf (host.hostName == "void") ''
@@ -20,6 +24,8 @@
               SUBSYSTEM=="usb", ATTRS{idVendor}=="0e8d", ATTRS{idProduct}=="0717", ATTR{authorized}="0"
               # Via Keyboards
               KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+              # Sat75
+              KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", ATTRS{idVendor}=="ca04", ATTRS{idProduct}=="0011", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
             '';
           };
         };
