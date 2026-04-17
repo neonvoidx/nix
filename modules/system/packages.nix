@@ -44,6 +44,7 @@
         udiskie
         unzip
         usbutils
+        via
         wget
         whois
         xrandr
