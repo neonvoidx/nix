@@ -21,7 +21,7 @@
         font = {
           package = pkgs.iosevka-custom;
           name = "Iosevka Custom";
-          size = 16;
+          size = 17;
         };
 
         settings = {
