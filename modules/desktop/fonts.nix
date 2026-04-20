@@ -4,11 +4,10 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
+        iosevka-custom
         fira-sans
-        jetbrains-mono
         material-icons
         material-symbols
-        nerd-fonts.jetbrains-mono
         nerd-fonts.symbols-only
         noto-fonts
         noto-fonts-color-emoji
