@@ -4,8 +4,8 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
-        fira-sans
         iosevka-custom # Custom Iosevka font -> look in overlays.nix
+        fira-sans
         material-icons
         material-symbols
         nerd-fonts.symbols-only
