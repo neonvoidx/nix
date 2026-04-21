@@ -68,7 +68,7 @@ rebuild:
 repl:
     nix repl -f flake:nixpkgs
 
-# Run a package with arguments via nix-shell
+# Run a package with arguments via nix-shell (use , comma instead of this)
 run pkg *args:
     nix-shell -p {{pkg}}.out --run '{{pkg}} {{args}}'
 
