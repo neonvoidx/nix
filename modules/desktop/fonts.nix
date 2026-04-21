@@ -5,7 +5,7 @@
     {
       fonts.packages = with pkgs; [
         fira-sans
-        maple-mono.Normal-TTF
+        maple-mono.Normal-Variable
         material-icons
         material-symbols
         nerd-fonts.symbols-only
