@@ -12,7 +12,7 @@
           (final: prev: {
             iosevka-custom = prev.runCommand "iosevka-custom" { } ''
               mkdir -p $out/share/fonts/truetype
-              cp ${../../assets/fonts}/*.ttf $out/share/fonts/truetype/
+              cp ${../../assets/fonts}/IosevkaCustom/*.ttf $out/share/fonts/truetype/
             '';
           })
           (final: prev: {
