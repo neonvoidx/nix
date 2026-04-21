@@ -36,8 +36,8 @@
             };
 
             monospace = {
-              package = pkgs.iosevka-custom;
-              name = "Iosevka Custom";
+              package = pkgs.maple-mono.Normal-TTF;
+              name = "Maple Mono Normal";
             };
 
             emoji = {

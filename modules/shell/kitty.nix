@@ -19,9 +19,9 @@
         };
 
         font = {
-          package = pkgs.iosevka-custom;
-          name = "Iosevka Custom";
-          size = 17;
+          package = pkgs.maple-mono.Normal-TTF;
+          name = "Maple Mono Normal";
+          size = 16;
         };
 
         settings = {

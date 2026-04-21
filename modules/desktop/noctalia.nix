@@ -538,7 +538,7 @@
               ui = {
                 fontDefault = "Roboto";
                 fontDefaultScale = 0.95;
-                fontFixed = "Iosevka Custom";
+                fontFixed = "Maple Mono Normal";
                 fontFixedScale = 1.03;
                 panelBackgroundOpacity = 1;
                 panelsAttachedToBar = true;

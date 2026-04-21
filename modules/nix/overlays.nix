@@ -10,12 +10,6 @@
         overlays = [
           inputs.nix-cachyos-kernel.overlays.pinned
           (final: prev: {
-            iosevka-custom = prev.runCommand "iosevka-custom" { } ''
-              mkdir -p $out/share/fonts/truetype
-              cp ${../../assets/fonts}/IosevkaCustom/*.ttf $out/share/fonts/truetype/
-            '';
-          })
-          (final: prev: {
             nur = import inputs.nur {
               nurpkgs = prev;
               pkgs = prev;
