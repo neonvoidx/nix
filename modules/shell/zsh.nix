@@ -243,10 +243,15 @@
 
         programs.starship = {
           enable = true;
+          enableZshIntegration = true;
           settings = {
+            format = "$username$hostname$directory$vcsh$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$hg_state$line_break$character\n";
+            right_format = "$all";
+
             character = {
-              success_symbol = "[\\$](bold green)";
-              error_symbol = "[\\$](bold red)";
+              success_symbol = "[❯](green)";
+              error_symbol = "[✖](red)";
+              vimcmd_symbol = "[❮](green)";
             };
           };
         };

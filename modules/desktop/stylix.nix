@@ -65,6 +65,7 @@
           neovim.enable = false;
           noctalia-shell.enable = false;
           obsidian.enable = false;
+          starship.enable = true;
           yazi.enable = false;
           spicetify.enable = false;
           qt = {
