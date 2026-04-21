@@ -54,6 +54,9 @@
             };
           };
 
+          # Unlock gnome-keyring via ly's PAM session
+          security.pam.services.ly.enableGnomeKeyring = true;
+
           # If multimonitor we add a pre exec to run fbset with our primary display resolution
           # this is so the main monitor TTY ly isn't cropped
           systemd.services.display-manager = lib.mkIf (host.isMultiMonitor or false) {

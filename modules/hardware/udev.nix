@@ -21,7 +21,8 @@
             # Blacklist udev rule for void
             udev.extraRules = lib.mkIf (host.hostName == "void") ''
               # Block MediaTek Wireless_Device (0e8d:0717) from binding - causes firmware timeout errors
-              SUBSYSTEM=="usb", ATTRS{idVendor}=="0e8d", ATTRS{idProduct}=="0717", ATTR{authorized}="0"
+              # DEVTYPE=="usb_device" prevents matching on interfaces which lack the authorized attr
+              SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0e8d", ATTRS{idProduct}=="0717", ATTR{authorized}="0"
               # Via Keyboards
               KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
               # Sat75

@@ -38,6 +38,19 @@
         ];
 
         logLevel = "warn";
+        # IPv6 is disabled system-wide; restrict CUPS to IPv4 only
+        listenAddresses = [ "127.0.0.1:631" ];
+      };
+
+      # Wait for network before trying to register the printer, restart if the
+      # printer is temporarily unreachable (e.g. powered off at boot)
+      systemd.services."cups-ensure-printers" = {
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "30s";
+        };
       };
 
       services.avahi = {
