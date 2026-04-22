@@ -4,8 +4,8 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
+        jetbrains-mono
         fira-sans
-        maple-mono.Normal-Variable
         material-icons
         material-symbols
         nerd-fonts.symbols-only

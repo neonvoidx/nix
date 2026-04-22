@@ -19,8 +19,8 @@
         };
 
         font = {
-          package = pkgs.maple-mono.Normal-TTF;
-          name = "Maple Mono Normal";
+          package = pkgs.jetbrains-mono;
+          name = "JetBrains Mono";
           size = 16;
         };
 
