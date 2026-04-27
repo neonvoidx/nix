@@ -16,6 +16,7 @@
           };
           programs.firefox = {
             enable = true;
+            configPath = "${config.xdg.configHome}/mozilla/firefox";
             package = pkgs.firefox.override {
               nativeMessagingHosts = [ pkgs.tridactyl-native ];
             };
@@ -166,7 +167,7 @@
           };
 
           # Context menu tweaks
-          home.file.".mozilla/firefox/${user.userName}/chrome/simpleMenuWizard" = {
+          home.file.".config/mozilla/firefox/${user.userName}/chrome/simpleMenuWizard" = {
             recursive = true;
             source = "${inputs.self}/assets/.mozilla/chrome/simpleMenuWizard";
           };
