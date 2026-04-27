@@ -283,6 +283,20 @@
         };
       };
 
+      # Replace HM-managed read-only symlinks with writable copies so vesktop can write settings at runtime
+      home.activation.vesktopSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        for f in \
+          "$HOME/.config/vesktop/settings.json" \
+          "$HOME/.config/vesktop/settings/settings.json"; do
+          if [ -L "$f" ]; then
+            target=$(readlink "$f")
+            rm "$f"
+            cp "$target" "$f"
+            chmod 644 "$f"
+          fi
+        done
+      '';
+
       # Create systemd service for vesktop with proper ordering
       systemd.user.services.vesktop = {
         Unit = {
@@ -296,7 +310,7 @@
         };
         Service = {
           ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
-          ExecStart = "${pkgs.vesktop}/bin/vesktop";
+          ExecStart = "${config.programs.vesktop.package}/bin/vesktop";
           Restart = "on-failure";
           RestartSec = 3;
         };

@@ -50,6 +50,8 @@
         thunar-media-tags-plugin
         thunar-volman
         wl-clipboard
+        vivaldi
+        vivaldi-ffmpeg-codecs
       ];
     };
 }
