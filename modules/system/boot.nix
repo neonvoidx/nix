@@ -11,7 +11,6 @@
         timeout = 3;
         limine = {
           enable = true;
-          enableEditor = true;
           maxGenerations = 10;
         };
       };
