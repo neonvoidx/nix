@@ -13,7 +13,7 @@
           services.displayManager.ly = {
             enable = true;
             settings = {
-              animation = "matrix";
+              animation = "gameoflife";
               asterisk = "0x2022";
               bigclock = "en";
               bigclock_seconds = true;
@@ -47,6 +47,7 @@
               fg = "0x0039ddfd";
               # CMatrix animation foreground color id (eldritch green)
               cmatrix_fg = "0x0037f499";
+              gameoflife_fg = "0x0037f499";
               # CMatrix animation character string head color id (bright white, bold)
               cmatrix_head_col = "0x01ffffff";
               default_input = "password";
