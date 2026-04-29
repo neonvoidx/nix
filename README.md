@@ -179,7 +179,7 @@ den.hosts.x86_64-linux = {
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.sops
-      den.aspects.ly
+      den.aspects.regreet # or den.aspects.ly
       den.aspects.systempackages
     ];
 

@@ -22,9 +22,9 @@
         gnupg
         gzip
         hydra-check
+        iperf3
         killall
         libnotify
-        libappindicator-gtk3
         lsof
         mediainfo
         mtr

@@ -76,7 +76,7 @@
       { ... }:
       {
         users.users.neonvoid = {
-          description = "NeonVoid";
+          description = "neonvoid";
           extraGroups = [
             "networkmanager"
             "audio"
