@@ -17,6 +17,7 @@
       den.aspects.lazygit
       den.aspects.lsd
       den.aspects.nh
+      den.aspects.opencode
       den.aspects.payrespects
       den.aspects.tealdeer
       den.aspects.yazi
