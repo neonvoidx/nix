@@ -25,7 +25,6 @@
             "https://cache.nixos.org"
             "https://nix-community.cachix.org"
             "https://cache.garnix.io"
-            "https://attic.xuyh0120.win/lantian"
             "https://hyprland.cachix.org"
             "https://neonvoidx.cachix.org"
           ];
@@ -36,8 +35,6 @@
             "https://cache.garnix.io"
             # Nix Community Cache
             "https://nix-community.cachix.org"
-            # nur
-            "https://attic.xuyh0120.win/lantian"
             # hyprland cache
             "https://hyprland.cachix.org"
             # Personal Cachix cache
@@ -52,8 +49,6 @@
             "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
             # Nix community cache
             "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-            # nur
-            "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
             # hyprland cache
             "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
           ];
