@@ -10,37 +10,6 @@
           pkgs,
           ...
         }:
-        let
-          buildXpi = pkgs.nur.repos.rycee.lib.mozilla.mkBuildMozillaXpiAddon {
-            inherit (pkgs) stdenv fetchurl;
-          };
-          customAddons = [
-            (buildXpi {
-              pname = "alternate-player-twitch";
-              version = "5.1.1";
-              addonId = "twitch5@coolcmd";
-              url = "https://addons.mozilla.org/firefox/downloads/file/4455891/alternate_player_for_twitchtv-5.1.1.xpi";
-              sha256 = "4a15770726ed283e4fdcdbede7054338d9ced46a3a631048e3c54ee32c3e210c";
-              meta = { };
-            })
-            (buildXpi {
-              pname = "discord-quest-hunter";
-              version = "1.1.8";
-              addonId = "{ccaf3dc1-9dab-4296-bb1f-0015fb853920}";
-              url = "https://addons.mozilla.org/firefox/downloads/file/4454085/discord_quest_hunter-1.1.8.xpi";
-              sha256 = "d3f339c87d3319dcef7a755f6ab31df31bd5c2a86909b17a30e7bd02139badc9";
-              meta = { };
-            })
-            (buildXpi {
-              pname = "lumo-proton-sidebar";
-              version = "1.0.12";
-              addonId = "{f36bdac8-e4a5-45f5-bcf0-33127a2b36ba}";
-              url = "https://addons.mozilla.org/firefox/downloads/file/4478800/lumo_by_proton_sidebar-1.0.12.xpi";
-              sha256 = "b3104bd0783f2065a8ba8f3a29517f14711ea9d48b8e752de1be8c766f6db4e1";
-              meta = { };
-            })
-          ];
-        in
         {
           home.sessionVariables = {
             MOZ_ENABLE_WAYLAND = 1;
@@ -65,22 +34,6 @@
             };
             profiles.${user.userName} = {
               isDefault = true;
-              extensions.packages =
-                (with pkgs.nur.repos.rycee.firefox-addons; [
-                  darkreader
-                  ublock-origin
-                  violentmonkey
-                  stylus
-                  proton-pass
-                  tab-reloader
-                  proton-vpn
-                  gesturefy
-                  tridactyl
-                  awesome-rss
-                  kagi-search
-                  user-agent-string-switcher
-                ])
-                ++ customAddons;
               settings = {
                 "extensions.autoDisableScopes" = 0;
               };
@@ -123,7 +76,7 @@
                   user_pref("media.wmf.zero-copy-nv12-textures-force-enabled", true);
                   user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
                   user_pref("ui.context_menus.after_mouseup", true);
-                  user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
+                  user_pref("privacy.resistFingerprinting.block_mozAddonManager", false);
                   user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled", true);
                   user_pref("media.videocontrols.picture-in-picture.enabled", true);
                   user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true);
