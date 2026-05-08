@@ -22,11 +22,6 @@
               nativeMessagingHosts = [ pkgs.tridactyl-native ];
             };
             policies = {
-              ExtensionSettings = {
-                "*" = {
-                  private_browsing = true;
-                };
-              };
               DisableTelemetry = true;
               DisplayBookmarksToolbar = "always";
               NoDefaultBookmarks = true;

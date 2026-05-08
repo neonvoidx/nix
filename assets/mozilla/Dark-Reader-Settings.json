@@ -139,13 +139,16 @@
             "builtIn": true
         }
     ],
-    "enabledByDefault": true,
+    "enabledByDefault": false,
     "enabledFor": [],
     "disabledFor": [
         "kagi.com",
         "accounts.firefox.com",
         "github.com",
-        "autoeq.app"
+        "autoeq.app",
+        "www.qwertykeys.com",
+        "www.pckeyboard.com",
+        "keeb-finder.com"
     ],
     "changeBrowserTheme": false,
     "syncSettings": true,
