@@ -23,8 +23,8 @@ dev template:
 
 # Copy dev flake from ~/nix/dev/{template}.flake.dev to current directory as flake.nix and copy direnv .envrc to use flake automatically
 copy-dev template:
-  cp ~/nix/dev/{{template}}.flake.dev ./flake.nix
-  cp ~/nix/dev/.envrc .
+  cp ~/nix/devflakes/{{template}}.flake.dev ./flake.nix
+  cp ~/nix/devflakes/.envrc .
 
 # Get the sha256 hash of a URL in both hex and nix formats
 fetch-hash url:
