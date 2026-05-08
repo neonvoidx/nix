@@ -92,7 +92,7 @@
             enable = true;
             kernelModules = [ "amdgpu" ];
           };
-          kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
+          kernelPackages = pkgs.linuxPackages_zen;
           extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
           kernelModules = [
             "amdgpu"

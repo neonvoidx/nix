@@ -42,7 +42,7 @@
           initrd.luks.devices."luks-7970f8ae-ec08-42a6-a7f9-f8bbb448589f" = {
             device = "/dev/disk/by-uuid/7970f8ae-ec08-42a6-a7f9-f8bbb448589f";
           };
-          kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+          kernelPackages = pkgs.linuxPackages_zen;
         };
 
         hardware.graphics = {
