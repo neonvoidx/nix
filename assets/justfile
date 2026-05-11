@@ -6,9 +6,6 @@ default:
 build:
     nh os build
 
-# Update and build
-reup: update build
-
 # Check the flake for errors
 check flake_path="~/nix":
     nix flake check {{flake_path}}
@@ -63,6 +60,9 @@ optimize-store:
 # Build the system and switch to it
 rebuild:
     nh os switch
+
+bootbuild:
+    nh os boot
 
 # Enter nixpkgs repl
 repl:
