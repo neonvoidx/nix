@@ -7,6 +7,16 @@ For anything related to the den framework, **always consult**:
 - **<https://github.com/vic/den/blob/main/AGENTS_EXAMPLE.md>** — comprehensive AI agent guide covering aspects, context pipeline, batteries, parametric dispatch, schema, and all den APIs. Read this before generating any den configuration.
 - **<https://github.com/vic/den>** — source repository for looking up option definitions, battery implementations, CI test examples (`tree/main/templates/ci/modules/features/`), and documentation (`tree/main/docs/src/content/docs/`).
 
+### Diagnosing Den Issues After a Flake Update
+
+When a `nix flake update` causes unexpected package removals, evaluation errors, or broken behaviour related to Den:
+
+1. **Check release notes first** — fetch `https://github.com/denful/den/releases` to find breaking changes between the old and new version. Den uses semantic versioning; minor bumps can include breaking API changes.
+2. **Read the docs** — fetch `https://github.com/denful/den/tree/main/docs/src/content/docs/` to understand the current API before touching any aspect definitions. Do not assume the API is the same as in your training data.
+3. **Cross-reference CI tests** — the canonical source of truth for working patterns is `https://github.com/denful/den/tree/main/templates/ci/modules/features/`. If a pattern isn't reflected in a passing CI test, treat it as unreliable.
+4. **Prefer CI test patterns over templates or docs examples** — templates (e.g. `igloo.nix`) may be illustrative rather than exhaustively tested. A pattern that appears in a `denTest` block and is in the CI test suite is guaranteed to work for that version.
+5. **Do not deep-dive internal Nix source files until the docs and CI tests are exhausted** — start with documentation and tests; resort to reading `nix/lib/` source only if those don't resolve the issue.
+
 ---
 
 This is a NixOS flake configuration for two hosts (`void`, `voidframe`) using the **den** framework with `flake-parts` and `import-tree`.

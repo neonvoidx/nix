@@ -199,7 +199,7 @@
           # Marks
           "f1" = "toggle_marker text 1 TEST";
           "f2" = "toggle_marker text 2 ERROR";
-          "ctrl+shift+t" = "set_tab_title";
+          "ctrl+shift+t" = "set_tab_title \" \"";
         };
 
         mouseBindings = {

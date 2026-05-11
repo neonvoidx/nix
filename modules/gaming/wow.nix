@@ -8,7 +8,6 @@
         {
           home.packages = with pkgs; [
             wowup-cf
-            inputs.warcraftlogs.packages.x86_64-linux.default
           ];
 
           xdg.mimeApps.defaultApplications = {

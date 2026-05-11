@@ -3,6 +3,7 @@
 { lib, ... }:
 {
   flake-file.inputs = {
+    den.url = "github:denful/den/refs/tags/v0.16.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -38,10 +39,6 @@
     };
     stylix = {
       url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    warcraftlogs = {
-      url = "github:tomsch/warcraftlogs-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
