@@ -85,12 +85,9 @@
           # Tab bar
           tab_bar_margin_width = 9;
           tab_bar_margin_height = "5 5";
-          tab_bar_style = "fade";
+          tab_bar_style = "separator";
           tab_fade = "0";
           tab_bar_min_tabs = 1;
-          tab_separator = ""; # using blank glyph
-          tab_title_template = "{fmt.fg.red}{fmt.bg.default}{bell_symbol} {activity_symbol}{fmt.fg._323449}{fmt.bg.default}{fmt.fg._04d1f9}{fmt.bg.default}{index}{fmt.fg._04d1f9}{fmt.bg._323449} {title} {fmt.fg._323449}{fmt.bg.default} ";
-          active_tab_title_template = "{fmt.fg.red}{fmt.bg.default}{bell_symbol} {activity_symbol}{fmt.fg._37f499}{fmt.bg.default}{fmt.fg._212337}{fmt.bg._37f499}{fmt.fg._212337}{fmt.bg._37f499} {title} {fmt.fg._37f499}{fmt.bg.default} ";
 
           # Advanced
           editor = ".";
@@ -110,6 +107,14 @@
           show_hyperlink_targets = true;
           window_resize_step_lines = 5;
         };
+
+        # tab separator being empty string in nix, causes HM to evaluate and use default kitty instead
+        extraConfig = ''
+          # tab_separator set via extraConfig to ensure kitty receives `tab_separator ""`
+          tab_separator ""
+          tab_title_template "{fmt.fg._323449}{fmt.bg.default}{fmt.fg._04d1f9}{fmt.bg.default}{index}{fmt.fg._04d1f9}{fmt.bg._323449} {title} {fmt.fg._323449}{fmt.bg.default} "
+          active_tab_title_template "{fmt.fg._37f499}{fmt.bg.default}{fmt.fg._212337}{fmt.bg._37f499}{fmt.fg._212337}{fmt.bg._37f499} {title} {fmt.fg._37f499}{fmt.bg.default} "
+        '';
 
         keybindings = {
           # Disable some defaults
