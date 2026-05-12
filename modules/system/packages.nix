@@ -12,6 +12,7 @@
         bluetui
         bluez
         brightnessctl
+        cachix
         choose
         cron
         dig

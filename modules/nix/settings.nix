@@ -1,7 +1,7 @@
 { den, ... }:
 {
   den.aspects.nixsettings.nixos =
-    { lib, ... }:
+    { lib, pkgs, ... }:
     {
       nixpkgs = {
         config = {
@@ -15,6 +15,22 @@
           options = lib.mkDefault "--delete-older-than 5d";
         };
         settings = {
+          # Push realised local builds into the personal Cachix cache.
+          post-build-hook = pkgs.writeShellScript "push-to-neonvoidx-cachix" ''
+            set -eu
+
+            if ! command -v cachix >/dev/null 2>&1; then
+              exit 0
+            fi
+
+            if [ -z "$OUT_PATHS" ]; then
+              exit 0
+            fi
+
+            for path in $OUT_PATHS; do
+              cachix push neonvoidx "$path"
+            done
+          '';
           # enable flakes
           experimental-features = [
             "nix-command"
