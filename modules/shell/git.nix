@@ -3,6 +3,12 @@
   den.aspects.git =
     { user, ... }:
     {
+      nixos = {
+        environment.sessionVariables = {
+          GIT_EDITOR = "nvim";
+        };
+      };
+
       homeManager =
         { config, ... }:
         let

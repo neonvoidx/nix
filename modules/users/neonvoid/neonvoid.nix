@@ -36,8 +36,6 @@
       den.aspects.gtk
       den.aspects.hyprland
       den.aspects.hypridle
-      # Disabled, noctalia now provides polkit
-      #den.aspects.hyprpolkitagent
       den.aspects.hyprshot
       den.aspects.thunar
 
