@@ -1,6 +1,6 @@
 { den, ... }:
 {
-  den.aspects.desktop-environment.nixos = {
+  den.aspects.de.nixos = {
     programs.dconf.enable = true;
     environment.sessionVariables = {
       QT_QPA_PLATFORM = "wayland";

@@ -24,7 +24,7 @@
       den.aspects.zoxide
 
       # Desktop
-      den.aspects."desktop-environment"
+      den.aspects.de
       den.aspects.fonts
       den.aspects.xdg
       den.aspects.stylix
