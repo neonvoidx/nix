@@ -600,11 +600,11 @@
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1778628951,
-        "narHash": "sha256-PRibIgmgGgjt4yB2dUcqSCBF2MTmyyBXDxie9E4Oznk=",
+        "lastModified": 1778680452,
+        "narHash": "sha256-mU18TgNZ0W8cQ8WqYJ8chzqHrc5IQwesKYM+EWKSKkk=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "71f5f4669fd93b8cf66be4d0fd10c1dc63a6a1bf",
+        "rev": "8caf242dca7cf25754d10d11e63b436cf83516a7",
         "type": "github"
       },
       "original": {
@@ -728,11 +728,11 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1778631739,
-        "narHash": "sha256-p8Ukp87idiyfgYo7NcoPqXA1A3+zkCjmoUsSh39daj0=",
+        "lastModified": 1778680030,
+        "narHash": "sha256-1TY2s0CWtT0gl7bQmZUPEA6pmRBPCfPj7DNzHIXydG0=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "91b0fe011eaf08344ab5b3de593a761b8308e342",
+        "rev": "3401cf7a7d2ce7a3e3180ed4e7225056e7a05c7d",
         "type": "github"
       },
       "original": {
