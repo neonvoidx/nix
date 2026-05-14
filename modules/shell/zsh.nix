@@ -194,6 +194,17 @@
                 fi
                 rm -f -- "$tmp"
               '';
+
+            skill = # bash
+              ''
+                local selected pid
+                selected=$(ps aux | awk 'NR>1 {printf "%-8s  %-s\n", $2, $11}' \
+                  | fzf --prompt="☠ Kill: " --header="PID       NAME")
+                [ -z "$selected" ] || {
+                  pid=$(echo "$selected" | awk '{print $1}')
+                  kill -9 "$pid" && echo "Killed PID $pid"
+                }
+              '';
           };
 
           initContent =
@@ -213,6 +224,13 @@
 
                 function zvm_after_lazy_keybindings_setup() {
                   bindkey '^I' fzf-tab-complete
+                }
+
+                # zsh-vi-mode resets bindings and options when it deferred-loads;
+                # restore fzf Ctrl+R and history persistence after it finishes.
+                function zvm_after_init() {
+                  bindkey '^R' fzf-history-widget
+                  setopt SHARE_HISTORY INC_APPEND_HISTORY HIST_REDUCE_BLANKS
                 }
 
                 if command -v cmake &> /dev/null && command -v ninja &> /dev/null; then
