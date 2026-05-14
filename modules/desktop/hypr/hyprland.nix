@@ -61,6 +61,8 @@
             # portalPackage =
             #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
+            # TODO - remove this after hyprland updates to 0.55 on unstable
+            configType = "hyprlang";
             settings = lib.mkMerge [
               # environment.nix
               {
