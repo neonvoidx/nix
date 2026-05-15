@@ -212,6 +212,16 @@
                     updateInterval = 24 * 60 * 60 * 1000; # every day
                     definedAliases = [ "@no" ];
                   };
+                  "YouTube" = {
+                    urls = [
+                      {
+                        template = "https://youtube.com/results?search_query={searchTerms}";
+                      }
+                    ];
+                    icon = "https://www.youtube.com/s/desktop/b232f2cf/img/favicon_144x144.png";
+                    updateInterval = 24 * 60 * 60 * 1000; # every day
+                    definedAliases = [ "@y" ];
+                  };
                   bing.metaData.hidden = true;
                   google.metaData.hidden = true;
                 };
