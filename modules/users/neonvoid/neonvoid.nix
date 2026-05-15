@@ -3,9 +3,9 @@
   den.aspects.neonvoid = {
     includes = [
       # Shell tools
-      den.aspects.zsh
       den.aspects.bat
       den.aspects.btop
+      den.aspects.copilot
       den.aspects.direnv
       den.aspects.fastfetch
       den.aspects.fzf
@@ -19,9 +19,11 @@
       den.aspects.nh
       den.aspects.opencode
       den.aspects.payrespects
+      den.aspects.starship
       den.aspects.tealdeer
       den.aspects.yazi
       den.aspects.zoxide
+      den.aspects.zsh
 
       # Desktop
       den.aspects.de

@@ -18,7 +18,6 @@
         file-roller
         gh-dash
         gimp
-        github-copilot-cli
         godot
         godotPackages.export-template
         gpu-screen-recorder
