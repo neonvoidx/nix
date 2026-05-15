@@ -37,7 +37,6 @@
             steam
             gamescope
             protontricks
-            protonup-rs
             vulkan-tools
             sgdboop
           ];
