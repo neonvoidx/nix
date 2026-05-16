@@ -212,7 +212,7 @@
                     updateInterval = 24 * 60 * 60 * 1000; # every day
                     definedAliases = [ "@no" ];
                   };
-                  "YouTube" = {
+                  "youtube" = {
                     urls = [
                       {
                         template = "https://youtube.com/results?search_query={searchTerms}";
