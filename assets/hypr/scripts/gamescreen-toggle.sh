@@ -1,45 +1,39 @@
 #!/usr/bin/env bash
 # Toggle monitors not touching for gaming
 
-STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/gamescreen"
-SCREEN_STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/screen"
-LAYOUT_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/hypr/monitor-layout"
-MONITORS_DEFAULT="$HOME/.config/hypr/hyprland/monitors/monitors.conf"
-MONITORS_NOTOUCH="$HOME/.config/hypr/hyprland/monitors/monitors-notouch.conf"
-MONITORS_WORK="$HOME/.config/hypr/hyprland/monitors/monitors-work.conf"
-MONITORS_WORK_NOTOUCH="$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch.conf"
-# MONITORS_DEFAULT="$HOME/.config/hypr/hyprland/monitors/monitors-nohdr.conf"
-# MONITORS_NOTOUCH="$HOME/.config/hypr/hyprland/monitors/monitors-notouch-nohdr.conf"
-# MONITORS_WORK="$HOME/.config/hypr/hyprland/monitors/monitors-work-nohdr.conf"
-# MONITORS_WORK_NOTOUCH="$HOME/.config/hypr/hyprland/monitors/monitors-work-notouch-nohdr.conf"
-
-# Check screen-toggle state to determine which monitors are active
-SCREEN_STATE="both"
-if [ -f "$SCREEN_STATE_FILE" ]; then
-    SCREEN_STATE=$(cat "$SCREEN_STATE_FILE")
-fi
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/hypr"
+STATE_FILE="$STATE_DIR/gamescreen"
+LAYOUT_FILE="$STATE_DIR/monitor-layout"
+APPLY_SCRIPT="$HOME/.config/hypr/scripts/apply-monitor-layout.sh"
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
-# Check current state (default is OFF = using monitors.conf)
+current_layout="default"
+if [ -f "$LAYOUT_FILE" ]; then
+    current_layout=$(tr -d '\n' < "$LAYOUT_FILE")
+fi
+
+apply_layout() {
+    local layout="$1"
+    echo "$layout" > "$LAYOUT_FILE"
+    "$APPLY_SCRIPT" "$layout"
+}
+
+# Check current state (default is OFF = using the default layout)
 if [ -f "$STATE_FILE" ]; then
-    # Currently in gaming mode, switch back to default
-    if [ "$SCREEN_STATE" = "both" ]; then
-        hyprctl keyword source "$MONITORS_DEFAULT"
-    else
-        hyprctl keyword source "$MONITORS_WORK"
-    fi
+    case "$current_layout" in
+        notouch) apply_layout default ;;
+        work-notouch) apply_layout work ;;
+        *) apply_layout "$current_layout" ;;
+    esac
     rm -f "$STATE_FILE"
-    echo "default" > "$LAYOUT_FILE"
     notify-send "Monitor Layout" "Switched to default (touching)" -t 2000
 else
-    # Currently in default mode, switch to gaming
-    if [ "$SCREEN_STATE" = "both" ]; then
-        hyprctl keyword source "$MONITORS_NOTOUCH"
-    else
-        hyprctl keyword source "$MONITORS_WORK_NOTOUCH"
-    fi
+    case "$current_layout" in
+        default) apply_layout notouch ;;
+        work) apply_layout work-notouch ;;
+        *) apply_layout "$current_layout" ;;
+    esac
     : > "$STATE_FILE"
-    echo "notouch" > "$LAYOUT_FILE"
     notify-send "Monitor Layout" "Switched to gaming (not touching)" -t 2000
 fi

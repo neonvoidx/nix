@@ -20,10 +20,10 @@ while true; do
 
   socat -u UNIX-CONNECT:"$SOCK" - 2>/dev/null | while IFS= read -r line; do
     case "$line" in
-      workspace>>*)
+      "workspace>>"*)
         printf '%s' "${line#workspace>>}" > "$WORKSPACE_FILE"
         ;;
-      configreloaded>>*)
+      "configreloaded>>"*)
         # Give Hyprland time to finish applying the new config before restoring state.
         sleep 0.5
         "$HOME/.config/hypr/scripts/restore-monitor-layout.sh" &
