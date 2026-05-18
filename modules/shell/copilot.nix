@@ -6,6 +6,28 @@
       programs.github-copilot-cli = {
         enable = true;
         enableMcpIntegration = true;
+        skills = ../../assets/ai/skills;
+        mcpServers = {
+          mcp-nixos = {
+            command = "nix";
+            args = [
+              "run"
+              "github:utensils/mcp-nixos"
+              "--"
+            ];
+          };
+          nix-agent = {
+            command = "nix";
+            args = [
+              "run"
+              "github:JEFF7712/nix-agent"
+            ];
+          };
+          godot = {
+            command = "npx";
+            args = [ "@coding-solo/godot-mcp" ];
+          };
+        };
         settings = {
           allowedUrls = [ "*.github.com" ];
           beep = false;

@@ -108,6 +108,7 @@
                   "4,monitor:DP-3,default:true"
                   "3,monitor:HDMI-A-1,default:true"
                   "5,monitor:DP-2,default:true"
+                  "6,monitor:DP-2, floating"
                   "10,monitor:DP-2,default:true"
                   "11,monitor:DP-2,default:true"
                   "10,monitor:DP-2,name:steam"
@@ -238,23 +239,24 @@
                     float = "on";
                   }
                   {
+                    name = "godot_all";
+                    "match:class" = "Godot";
+                    float = "on";
+                    workspace = "6";
+                  }
+                  {
                     name = "godot";
                     "match:title" = ".*(DEBUG).*";
                     "match:initial_class" = "Godot";
-                    fullscreen = "off";
-                    maximize = "on";
-                    workspace = "11";
-                    float = "off";
+                    workspace = "6";
+                    float = "on";
                   }
                   {
                     name = "godot_game";
                     "match:title" = ".*(DEBUG).*";
                     "match:initial_title" = "Godot";
-                    fullscreen = "off";
-                    maximize = "off";
-                    center = "on";
                     float = "on";
-                    workspace = "11";
+                    workspace = "6";
                   }
                   {
                     name = "noctalia_settings";

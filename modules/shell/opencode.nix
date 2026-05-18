@@ -8,8 +8,8 @@
           enable = true;
           enableMcpIntegration = true;
 
-          commands = ../../assets/opencode/commands;
-          skills = ../../assets/opencode/skills;
+          commands = ../../assets/ai/commands;
+          skills = ../../assets/ai/skills;
 
           settings = {
             default_agent = "build";
