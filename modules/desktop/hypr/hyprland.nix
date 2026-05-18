@@ -550,7 +550,6 @@
                 };
 
                 dwindle = {
-                  pseudotile = true;
                   preserve_split = true;
                   force_split = 2;
                   default_split_ratio = 1;
@@ -587,7 +586,6 @@
                     enabled = true;
                     range = 4;
                     render_power = 3;
-                    ignore_window = true;
                     color = "rgb(212337)";
                   };
                 };
@@ -601,9 +599,6 @@
                   # Whether the color management pipeline should be enabled or not
                   # (requires a restart of Hyprland to fully take effect)
                   cm_enabled = true;
-                  #Passthrough color settings for fullscreen apps when possible.
-                  #0 - off, 1 - always, 2 - hdr only
-                  cm_fs_passthrough = 2;
                   # Auto-switch to HDR in fullscreen when needed.
                   # 0 - off, 1 - switch to cm, hdr, 2 - switch to cm, hdredid
                   cm_auto_hdr = 0;
