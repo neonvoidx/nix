@@ -42,6 +42,11 @@
                 )
                 + /* javascript */ ''
                   // Personal overrides — applied after Betterfox to take precedence
+                  // TODO https://bugzilla.mozilla.org/show_bug.cgi?id=1642854 once this is merged
+                  // user_pref("gfx.wayland.hdr", true);
+                  // user_pref("gfx.wayland.hdr.force-enabled", true);
+                  // user_pref("gfx.webrender.compositor", true);
+                  // user_pref("gfx.webrender.compositor.force-enabled", true);
                   user_pref("browser.bookmarks.addedImportButton", false);
                   user_pref("network.dnsCacheEntries", 0);
                   user_pref("network.dnsCacheExpiration", 0);
