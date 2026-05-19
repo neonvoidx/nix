@@ -5,7 +5,6 @@
       # Shell tools
       den.aspects.bat
       den.aspects.btop
-      den.aspects.copilot
       den.aspects.direnv
       den.aspects.fastfetch
       den.aspects.fzf
