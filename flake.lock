@@ -378,11 +378,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779143091,
-        "narHash": "sha256-qxiUVquHM09KOV1aD4We9q0ooPWO4qOc0v9J9NDWSAo=",
+        "lastModified": 1779213149,
+        "narHash": "sha256-Cf+p/T4Z3n9Sw0TiR3kQaIwQI+/hfvLJcoTzeq6yS3E=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "736c2084ea750a049ecdbdd7ff5817d2eeeef444",
+        "rev": "bd868f769a69d3b6091a1da68a75cb83a181033c",
         "type": "github"
       },
       "original": {
@@ -466,11 +466,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1779115357,
-        "narHash": "sha256-FOg5J51dsqKeXC0d2o7x3eMdLDVwRnyMqd1/kupVfwI=",
+        "lastModified": 1779190425,
+        "narHash": "sha256-C0hPhLeo3ztBXYSnpYarYjw6HDvlgZRnNyFfG5PoaVI=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "01ab0474b4ae92db9c25dc0eef6515b99544698f",
+        "rev": "203a121537d0868bd4d8258b58861ca970483157",
         "type": "github"
       },
       "original": {
@@ -1002,21 +1002,38 @@
           "nixpkgs"
         ],
         "nvf": "nvf",
+        "opencode-nvim": "opencode-nvim",
         "presenting-nvim": "presenting-nvim",
         "resolved-nvim": "resolved-nvim",
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1779151374,
-        "narHash": "sha256-WOlCB1we8YrfUAOLn4eSkFRnQR4JDrdVnIE7ViJYGkU=",
+        "lastModified": 1779198497,
+        "narHash": "sha256-7sNHUu7p9kHI99c9cJy3jY+xrE8Dh2Er/iOlsZ9Q7EI=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "93a1534af0f52b44c1feef8b3cbe9e4f0a1f1306",
+        "rev": "8b0edd1cfb5bebba47f168c78645630a5db9079c",
         "type": "github"
       },
       "original": {
         "owner": "neonvoidx",
         "repo": "nvim",
+        "type": "github"
+      }
+    },
+    "opencode-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779191747,
+        "narHash": "sha256-+NQYqJuMwnEJeTjrwzq5h1mDmsmoWvWWg9KTO/+uXyY=",
+        "owner": "sudo-tee",
+        "repo": "opencode.nvim",
+        "rev": "1a400673610e969ebbb7298705ef242c5348d5e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sudo-tee",
+        "repo": "opencode.nvim",
         "type": "github"
       }
     },
