@@ -4,6 +4,8 @@
     { ... }:
     {
       programs = {
+        # NOTE: Input/Output token costs
+        # https://opencode.ai/docs/zen#pricing
         opencode = {
           enable = true;
           enableMcpIntegration = true;
@@ -13,9 +15,6 @@
 
           settings = {
             default_agent = "build";
-            model = "oca/oca/gpt-5.4";
-            small_model = "oca/oca/gpt-5.4-nano";
-            enabled_providers = [ "oca" ];
 
             permission = {
               external_directory = "ask";

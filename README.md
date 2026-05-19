@@ -14,13 +14,12 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   └── voidframe/hardware-configuration.nix
 ├── modules/
 │   ├── flake-inputs.nix   # Flake input declarations — edit here, then run `nix run .#write-flake`
-│   ├── den.nix            # Bootstraps den, den defaults: stateVersion, HM config, sharedModules, user shell, hostname battery
+│   ├── den.nix            # Bootstraps den, den defaults: stateVersion, HM config, sharedModules, user shell, hostname
 │   ├── nh.nix             # Exposes nix run .#<host> flake apps (builds with nh)
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly)
-
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, yazi, zoxide)
@@ -28,12 +27,14 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
 │   ├── home/              # Home-manager aspects (common, files, packages)
+│   ├── ide/               # Editor aspects (nixcats)
 │   ├── nix/               # Nix daemon settings and overlays
 │   ├── hosts/             # Host aspect definitions (one file per host)
 │   │   ├── void/default.nix       # void host aspect + system-only includes
 │   │   └── voidframe/default.nix  # voidframe host aspect + system-only includes
 │   └── users/
 │       └── neonvoid/neonvoid.nix  # User aspect — all desktop/shell/app includes
+├── assets/                # Static dotfiles, scripts, theme assets
 └── secrets/               # SOPS age-encrypted secrets
 ```
 
@@ -41,21 +42,24 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 
 | Host | Hardware | Role | Attributes |
 |------|----------|------|------------|
-| **void** | AMD Ryzen 9 9950X, RX 9070 XT | Desktop | `isMultiMonitor=true` |
-| **voidframe** | AMD Ryzen 7 7840U, Framework 16 | Laptop | `isLaptop=true` |
+| **void** | AMD Ryzen 9 9950X, AMD RX 9070 XT, 3440×1440 | Desktop | `isMultiMonitor=true`, `gpuPciDev=0000:03:00.0` |
+| **voidframe** | AMD Ryzen 7 7840U, Framework 16, 2880×1920 | Laptop | `isLaptop=true` |
 
 ## Key Features
 
 - **den Framework** — auto-generates `nixosConfigurations`, wires Home-Manager, provides `host`/`user` context
 - **import-tree** — all `.nix` files under `modules/` are auto-discovered; no manual wiring needed
 - **Aspect Pattern** — every feature is a self-contained file with optional `nixos` and `homeManager` sections
-- **Host Context** — freeform attributes on hosts (`isGaming`, `isLaptop`, `xRes`, etc.) accessible in any aspect
-- **User Context** — user attributes (`userName`, `homeDirectory`) accessible in any aspect
+- **Host Context** — freeform attributes on hosts (`isGaming`, `isLaptop`, `xRes`, `gpuPciDev`, etc.) accessible in any aspect
+- **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`) accessible in any aspect
 - **Hyprland** — Wayland compositor, fully configured in `desktop/hypr/hyprland.nix`
 - **Stylix** — System-wide theming (NixOS + HM in one aspect file)
 - **SOPS** — Encrypted secrets, decrypted to `/run/secrets/` at boot
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
+- **nixCats** — Neovim configuration with language server support
 - **nh flake apps** — `nix run .#void` / `nix run .#voidframe` for building with nh
+
+> **AI Agents:** See [`AGENTS.md`](./AGENTS.md) for detailed context when working with this flake.
 
 ## Usage
 
@@ -179,7 +183,7 @@ den.hosts.x86_64-linux = {
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.sops
-      den.aspects.regreet # or den.aspects.ly
+      den.aspects.ly
       den.aspects.systempackages
     ];
 

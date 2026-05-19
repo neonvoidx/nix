@@ -1,11 +1,15 @@
-# NixOS Flake – Copilot Instructions
+# NixOS Flake — Agent Instructions
+
+This file provides context for any AI agent working with this NixOS flake configuration.
+
+---
 
 ## Den Framework Reference
 
 For anything related to the den framework, **always consult**:
 
 - **<https://github.com/vic/den/blob/main/AGENTS_EXAMPLE.md>** — comprehensive AI agent guide covering aspects, context pipeline, batteries, parametric dispatch, schema, and all den APIs. Read this before generating any den configuration.
-- **<https://github.com/vic/den>** — source repository for looking up option definitions, battery implementations, CI test examples (`tree/main/templates/ci/modules/features/`), and documentation (`tree/main/docs/src/content/docs/`).
+- **<https://github.com/denful/den>** — source repository for looking up option definitions, battery implementations, CI test examples (`tree/main/templates/ci/modules/features/`), and documentation (`tree/main/docs/src/content/docs/`).
 
 ### Diagnosing Den Issues After a Flake Update
 
@@ -94,6 +98,7 @@ modules/
 ├── flake-inputs.nix       # Flake input declarations — edit here, then run `nix run .#write-flake`
 ├── den.nix                # Bootstraps den + flake-file, den defaults: stateVersion, HM config, sharedModules, user shell
 ├── hosts.nix              # Declares den.hosts with host attributes and users
+├── nh.nix                 # Nix home manager tool
 ├── system/                # OS-level aspects (boot, locale, networking, systemd, packages, users)
 ├── hardware/              # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 ├── security/              # Security aspects (sops, pcscd, gnome-keyring, ly)
@@ -132,6 +137,7 @@ let
     gitName = "neonvoidx";
     gitEmail = "me@neonvoid.dev";
   };
+  timezone = "America/New_York";
 in
 {
   den.hosts.x86_64-linux = {
@@ -140,12 +146,17 @@ in
       xRes = "3440";
       yRes = "1440";
       isMultiMonitor = true;
+      gpuPciDev = "0000:03:00.0"; # AMD RX 9070 XT
+      greeting = "The Void";
+      timezone = timezone;
     };
     voidframe = {
       users.neonvoid = neonvoid;
       xRes = "2880";
       yRes = "1920";
       isLaptop = true;
+      greeting = "Void Frame";
+      timezone = timezone;
     };
   };
 }
@@ -315,9 +326,9 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 `modules/den.nix` centralises shared configuration applied to every host:
 
-- `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"25.11"`
-- `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, and `sharedModules` (spicetify, nix-index-database, noctalia)
-- `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`
+- `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"26.05"`
+- `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, `backupCommand`, and `sharedModules` (spicetify-nix, nix-index-database, noctalia)
+- `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`, `den._.hostname`
 
 ---
 
@@ -327,19 +338,18 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 | Input | Purpose |
 |-------|---------|
-| `den` | Den framework — auto-generates nixosConfigurations, wires HM, provides context |
-| `flake-parts` | Modular flake framework |
-| `flake-file` | Required by den's dendritic module; generates `flake.nix` from `flake-file.inputs` declarations in `modules/flake-inputs.nix` |
-| `import-tree` | Auto-discovers all `.nix` files in `modules/` |
+| `den` | Den framework (v0.16.0) — auto-generates nixosConfigurations, wires HM, provides context |
+| `nixpkgs` | NixOS unstable |
 | `home-manager` | User environment management |
+| `hyprland` | Wayland compositor |
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
 | `noctalia` | Quickshell bar/launcher/lockscreen |
 | `spicetify-nix` | Spotify theming |
-| `nixCats` | Neovim configuration |
-| `nix-cachyos-kernel` | CachyOS optimized kernels |
 | `nix-index-database` | Fast `nix-locate` lookups |
-| `NUR` | Nix User Repository (overlays) |
+| `nix-versions` | Version tracking for nix commands |
+| `nvim-config` | Neovim config (neonvoidx/nvim) |
+| `scopebuddy` | ScopeBuddy driver |
 
 ---
 
@@ -373,3 +383,24 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 1. Create `modules/users/<username>/<username>.nix` with `den.aspects.<username>`
 2. Add `users.<username> = {}` to the relevant host entry in `modules/hosts.nix`
+
+---
+
+## Useful Commands
+
+```bash
+# Rebuild a host
+sudo nixos-rebuild switch --flake .#void
+
+# Update flake inputs
+nix flake update
+
+# Regenerate flake.nix after changing flake-inputs.nix
+nix run .#write-flake
+
+# Check which packages are available
+nix search nixpkgs <package>
+
+# Enter a dev shell with all inputs
+nix develop
+```
