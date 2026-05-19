@@ -1007,11 +1007,11 @@
         "vim-kitty-navigator": "vim-kitty-navigator"
       },
       "locked": {
-        "lastModified": 1779149551,
-        "narHash": "sha256-xiGi7LjrpA/GDNl7LqerjeBPRcjvMUB/NDqhtaWYMXc=",
+        "lastModified": 1779151374,
+        "narHash": "sha256-WOlCB1we8YrfUAOLn4eSkFRnQR4JDrdVnIE7ViJYGkU=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "6f79273dc5bb3fbc2b10882280f79314642e67b3",
+        "rev": "93a1534af0f52b44c1feef8b3cbe9e4f0a1f1306",
         "type": "github"
       },
       "original": {
