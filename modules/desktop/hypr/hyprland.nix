@@ -562,16 +562,15 @@
           hyprWindowRuleSettings = {
              window_rule = [
                (mkCenteredFloatingRule "xdg-screenshare-picker" { initial_title = "Select what to share"; } { })
-(mkCenteredFloatingRule "xdg-desktop-portal-gtk" { class = "xdg-desktop-portal-gtk"; } {
-                  size = [
-                    "60%"
-                    "80%"
-                  ];
-                  max_size = [
-                    "1200"
-                    "900"
-                  ];
-                })
+(mkWindowRule {
+                name = "float";
+                float = true;
+                center = true;
+                max_size = [
+                  "(monitor_w*0.9)"
+                  "(monitor_h*0.9)"
+                ];
+              })
                (mkClassWorkspaceRule "godot_all" "Godot" "6" // { float = true; })
                (mkFloatingRule "godot" {
                  title = ".*(DEBUG).*";
