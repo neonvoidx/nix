@@ -15,6 +15,7 @@
       den.aspects.kitty
       den.aspects.lazygit
       den.aspects.lsd
+      den.aspects.mcp
       den.aspects.nh
       den.aspects.opencode
       den.aspects.payrespects
