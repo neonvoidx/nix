@@ -74,7 +74,7 @@
               "Secure"
             ];
 
-        systemd.tmpfiles.rules = map (share: "d '/synology/${share}' 0755 root root") [
+        systemd.tmpfiles.rules = map (share: "d '/synology/${share}' 0777 root root") [
           "Books"
           "Photos"
           "3D"

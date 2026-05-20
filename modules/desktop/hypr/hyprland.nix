@@ -510,7 +510,7 @@
               # Window management
               (mkLuaBind "mod .. \" + SHIFT + Space\"" ''hl.dsp.window.float({ action = "toggle" })'')
               (mkLuaBind "mod .. \" + SHIFT + Space\"" "hl.dsp.window.center()")
-              (mkLuaBind "mod .. \" + SHIFT + f\"" "hl.dsp.window.fullscreen(1)")
+              (mkLuaBind "mod .. \" + SHIFT + f\"" "hl.dsp.window.fullscreen({action=\"toggle\",mode=\"maximized\"})")
               (mkLuaBind "mod .. \" + SHIFT + CTRL + f\"" "hl.dsp.window.fullscreen(0)")
               (mkLuaBind "mod .. \" + c\"" "hl.dsp.window.center()")
               (mkBind [
@@ -560,9 +560,9 @@
             binde = [ ];
           };
           hyprWindowRuleSettings = {
-             window_rule = [
-               (mkCenteredFloatingRule "xdg-screenshare-picker" { initial_title = "Select what to share"; } { })
-(mkWindowRule {
+            window_rule = [
+              (mkCenteredFloatingRule "xdg-screenshare-picker" { initial_title = "Select what to share"; } { })
+              (mkWindowRule {
                 name = "float";
                 float = true;
                 center = true;
@@ -571,10 +571,10 @@
                   "(monitor_h*0.9)"
                 ];
               })
-               (mkClassWorkspaceRule "godot_all" "Godot" "6" // { float = true; })
-               (mkFloatingRule "godot" {
-                 title = ".*(DEBUG).*";
-                 initial_class = "Godot";
+              (mkClassWorkspaceRule "godot_all" "Godot" "6" // { float = true; })
+              (mkFloatingRule "godot" {
+                title = ".*(DEBUG).*";
+                initial_class = "Godot";
               } { workspace = "6"; })
               (mkFloatingRule "godot_game" {
                 title = ".*(DEBUG).*";
