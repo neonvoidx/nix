@@ -563,12 +563,15 @@
             window_rule = [
               (mkCenteredFloatingRule "xdg-screenshare-picker" { initial_title = "Select what to share"; } { })
               (mkWindowRule {
-                name = "float";
-                float = true;
-                center = true;
+                name = "floatingdefaults";
+                match.float = true;
+                size = [
+                  "(monitor_w*0.85)"
+                  "(monitor_h*0.80)"
+                ];
                 max_size = [
                   "(monitor_w*0.9)"
-                  "(monitor_h*0.9)"
+                  "(monitor_h*0.85)"
                 ];
               })
               (mkClassWorkspaceRule "godot_all" "Godot" "6" // { float = true; })
