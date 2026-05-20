@@ -23,7 +23,9 @@
       backupFileExtension = "bak";
       # Removes current backup file before backing up
       # to avoid home manager switch errors
-      backupCommand = "bash -c 'rm -f \"$1.bak\" && mv \"$1\" \"$1.bak\"' --";
+      backupCommand = ''
+        bash -c 'rm -f "$0.bak" && mv "$0" "$0.bak"'
+      '';
       # Home manager modules
       sharedModules = [
         inputs.spicetify-nix.homeManagerModules.default

@@ -8,6 +8,13 @@
       ...
     }:
     {
+      home.activation.cleanupLegacyKvantumBase16 = lib.hm.dag.entryBefore [ "linkGeneration" ] ''
+        target="$HOME/.config/Kvantum/Base16Kvantum"
+        if [ -L "$target" ] && [ ! -d "$target" ]; then
+          rm -f "$target"
+        fi
+      '';
+
       home = {
         sessionVariables = {
           EDITOR = "nvim";

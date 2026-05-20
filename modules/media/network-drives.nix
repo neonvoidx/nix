@@ -15,12 +15,9 @@
           map
             (share: {
               type = "nfs";
-              mountConfig = {
-                Options = "rw,noatime,vers=4,soft,timeo=30";
-              };
               what = "192.168.86.6:/volume1/${share}";
               where = "/synology/${share}";
-              wantedBy = lib.mkForce [ ];
+              mountConfig.Options = "rw,noatime,vers=4,soft,timeo=30";
             })
             [
               "Books"
@@ -46,13 +43,8 @@
           map
             (share: {
               wantedBy = [ "multi-user.target" ];
-              automountConfig = {
-                TimeoutIdleSec = "600";
-              };
+              automountConfig.TimeoutIdleSec = "600";
               where = "/synology/${share}";
-              unitConfig = {
-                DefaultDependencies = "no";
-              };
             })
             [
               "Books"
