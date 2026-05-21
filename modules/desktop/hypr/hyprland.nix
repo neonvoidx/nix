@@ -48,12 +48,14 @@
             mode = "preferred";
             position = "auto";
             scale = 1;
+            sdr_eotf = "gamma22";
           };
           laptopMonitorRule = mkMonitor {
             output = "eDP-1";
             mode = "2880x1920@120";
             position = "0x0";
             scale = 1.33333;
+            sdr_eotf = "gamma22";
           };
           disabledMonitorRule = output: {
             inherit output;
@@ -77,6 +79,7 @@
             disabled = false;
             mode = "2560x1440@59.95";
             cm = "srgb";
+            sdr_eotf = "gamma22";
             inherit position;
             scale = 1.0;
             transform = 1;
@@ -510,11 +513,7 @@
               (mkLuaBind "mod .. \" + c\"" "hl.dsp.window.center()")
               (mkBind [
                 "ALT + TAB"
-                (lua "hl.dsp.window.cycle_next()")
-              ])
-              (mkBind [
-                "ALT + TAB"
-                (lua "hl.dsp.window.bring_to_top()")
+                (lua "hl.dsp.focus({ last = true })")
               ])
 
               # Workspace switching
