@@ -76,6 +76,7 @@
             output = portraitMonitorOutput;
             disabled = false;
             mode = "2560x1440@59.95";
+            cm = "srgb";
             inherit position;
             scale = 1.0;
             transform = 1;
@@ -477,13 +478,7 @@
           hyprMonitorSettings = {
             monitor = defaultMonitorLayout;
 
-            workspace_rule = lib.optionals isMultiMonitor (
-              [
-                # waiting on dwindle pr https://github.com/hyprwm/Hyprland/pull/11629 for below rule
-                # "3,monitor:HDMI-A-1,default:true,layout:dwindle"
-              ]
-              ++ multiMonitorWorkspaceMonitorRules
-            );
+            workspace_rule = lib.optionals isMultiMonitor multiMonitorWorkspaceMonitorRules;
           };
           hyprBindSettings = {
             mod = {
