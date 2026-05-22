@@ -887,6 +887,7 @@
                 cm_enabled = true;
                 cm_auto_hdr = 0;
                 non_shader_cm = 2;
+                keep_unmodified_copy = 1;
               };
 
               misc = {

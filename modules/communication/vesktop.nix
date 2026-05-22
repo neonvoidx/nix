@@ -140,7 +140,7 @@
               ignoreGuilds = "";
               logEdits = true;
               logDeletes = true;
-              inlineEdits = true;
+              inlineEdits = false;
             };
             MessageTags.enabled = false;
             MoreQuickReactions.enabled = false;
