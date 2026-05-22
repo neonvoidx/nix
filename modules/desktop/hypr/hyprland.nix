@@ -131,26 +131,46 @@
               pin = true;
             };
           mkFloatingRule =
-            name: match: extra:
+            {
+              name,
+              match,
+              extra ? { },
+            }:
             mkWindowRule (
               {
                 inherit name match;
                 float = true;
+                max_size = [
+                  "(monitor_w*0.9)"
+                  "(monitor_h*0.9)"
+                ];
               }
               // extra
             );
           mkCenteredFloatingRule =
-            name: match: extra:
+            {
+              name,
+              match,
+              extra ? { },
+            }:
             mkWindowRule (
               {
                 inherit name match;
                 float = true;
                 center = true;
+                max_size = [
+                  "(monitor_w*0.9)"
+                  "(monitor_h*0.9)"
+                ];
               }
               // extra
             );
           mkReminderLikeRule =
-            name: match: extra:
+            {
+              name,
+              match,
+              extra ? { },
+            }:
             mkWindowRule (
               {
                 inherit name match;
@@ -159,6 +179,10 @@
                 pin = true;
                 size = reminderPopupSize;
                 move = reminderPopupMove;
+                max_size = [
+                  "(monitor_w*0.9)"
+                  "(monitor_h*0.9)"
+                ];
               }
               // extra
             );
@@ -456,12 +480,25 @@
                   end
                 end
 
-                top:place(ctx:split(ctx.area, "top", 0.7))
-                bottom:place(ctx:split(ctx.area, "bottom", 0.3))
+                local top_area = {
+                  x = ctx.area.x,
+                  y = ctx.area.y,
+                  w = ctx.area.w,
+                  h = ctx.area.h * 0.7,
+                }
+                local bottom_area = {
+                  x = ctx.area.x,
+                  y = ctx.area.y + top_area.h,
+                  w = ctx.area.w,
+                  h = ctx.area.h - top_area.h,
+                }
+                top:place(top_area)
+                bottom:place(bottom_area)
               end,
             })
           '';
-          defaultMonitorLayout = [ autoMonitorRule ] ++ map mkMonitor defaultMonitorLayoutRules;
+          defaultMonitorLayout =
+            (map mkMonitor defaultMonitorLayoutRules) ++ lib.optionals (!isMultiMonitor) [ autoMonitorRule ];
 
           # Hyprland settings fragments
           hyprEnvironmentSettings = {
@@ -561,29 +598,45 @@
           };
           hyprWindowRuleSettings = {
             window_rule = [
-              (mkCenteredFloatingRule "xdg-screenshare-picker" { initial_title = "Select what to share"; } { })
-              (mkWindowRule {
-                name = "floatingdefaults";
-                match.float = true;
-                size = [
-                  "(monitor_w*0.85)"
-                  "(monitor_h*0.80)"
-                ];
-                max_size = [
-                  "(monitor_w*0.9)"
-                  "(monitor_h*0.85)"
-                ];
+              (mkCenteredFloatingRule {
+                name = "xdg-screenshare-picker";
+                match = {
+                  initial_title = "Select what to share";
+                };
               })
               (mkClassWorkspaceRule "godot_all" "Godot" "6" // { float = true; })
-              (mkFloatingRule "godot" {
-                title = ".*(DEBUG).*";
-                initial_class = "Godot";
-              } { workspace = "6"; })
-              (mkFloatingRule "godot_game" {
-                title = ".*(DEBUG).*";
-                initial_title = "Godot";
-              } { workspace = "6"; })
-              (mkCenteredFloatingRule "noctalia_settings" { class = "org.quickshell"; } { })
+              (mkFloatingRule {
+                name = "satty";
+                match = {
+                  class = "com.gabm.satty";
+                };
+              })
+              (mkFloatingRule {
+                name = "godot";
+                match = {
+                  title = ".*(DEBUG).*";
+                  initial_class = "Godot";
+                };
+                extra = {
+                  workspace = "6";
+                };
+              })
+              (mkFloatingRule {
+                name = "godot_game";
+                match = {
+                  title = ".*(DEBUG).*";
+                  initial_title = "Godot";
+                };
+                extra = {
+                  workspace = "6";
+                };
+              })
+              (mkCenteredFloatingRule {
+                name = "noctalia_settings";
+                match = {
+                  class = "org.quickshell";
+                };
+              })
               (mkPinnedPopupRule "gnomekeyringprompt" { title = "Unlock Login Keying"; })
               (mkClassWorkspaceRule "vesktop" "vesktop" "3 silent")
               (mkClassWorkspaceRule "streamcontroller" "com.core447.StreamController"
@@ -595,28 +648,30 @@
                   suppress_event = "activatefocus";
                 }
               )
-              (mkCenteredFloatingRule "steamsignin"
-                {
+              (mkCenteredFloatingRule {
+                name = "steamsignin";
+                match = {
                   initial_title = "Sign in to Steam";
                   initial_class = "steam";
-                }
-                {
+                };
+                extra = {
                   suppress_event = "activatefocus";
                   workspace = "10 silent";
-                }
-              )
+                };
+              })
               (mkClassWorkspaceRule "steam" "steam|Steam" "10 silent" // { suppress_event = "activatefocus"; })
               (mkClassWorkspaceRule "steamgames" "^steam_app_.*$" "11" // { fullscreen = true; })
-              (mkCenteredFloatingRule "lostarksplash"
-                {
+              (mkCenteredFloatingRule {
+                name = "lostarksplash";
+                match = {
                   class = "^steam_app_.*$";
                   initial_title = "SplashScreen";
-                }
-                {
+                };
+                extra = {
                   fullscreen = false;
                   workspace = "11";
-                }
-              )
+                };
+              })
               (
                 mkTitleWorkspaceRule "ffxiv" "FINAL FANTASY XIV" "11"
                 // {
@@ -697,16 +752,30 @@
                 fullscreen = true;
                 workspace = "11";
               })
-              (mkReminderLikeRule "thunderbirdreminder" {
-                class = "org.mozilla.Thunderbird";
-                title = "^.*Reminder.*$";
-              } { })
+              (mkReminderLikeRule {
+                name = "thunderbirdreminder";
+                match = {
+                  class = "org.mozilla.Thunderbird";
+                  title = "^.*Reminder.*$";
+                };
+              })
               (mkPinnedPopupRule "kittydropdown" { class = "kittyquick"; })
-              (mkReminderLikeRule "pip" {
-                class = "firefox";
-                title = "Picture-in-Picture";
-              } { no_initial_focus = true; })
-              (mkFloatingRule "sgdbooppopup" { class = "SGDBoop"; } { })
+              (mkReminderLikeRule {
+                name = "pip";
+                match = {
+                  class = "firefox";
+                  title = "Picture-in-Picture";
+                };
+                extra = {
+                  no_initial_focus = true;
+                };
+              })
+              (mkFloatingRule {
+                name = "sgdbooppopup";
+                match = {
+                  class = "SGDBoop";
+                };
+              })
               (mkWindowRule {
                 name = "hyprpopup";
                 match.class = "hyprland-dialog";
@@ -814,9 +883,10 @@
               };
 
               render = {
-                direct_scanout = 0;
+                direct_scanout = 1;
                 cm_enabled = true;
                 cm_auto_hdr = 0;
+                non_shader_cm = 2;
               };
 
               misc = {
