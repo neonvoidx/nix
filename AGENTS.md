@@ -103,7 +103,7 @@ modules/
 ├── hardware/              # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 ├── security/              # Security aspects (sops, pcscd, gnome-keyring, ly)
 ├── desktop/               # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
-│   └── hypr/              # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
+│   └── hypr/              # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, satty)
 ├── shell/                 # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, yazi, zoxide)
 ├── gaming/                # Gaming aspects (steam, mangohud, deadlock, wow)
 ├── media/                 # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, pipewire, network-drives)
@@ -269,7 +269,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.hyprland
       den.aspects.hypridle
       # hyprpolkitagent disabled — noctalia now provides polkit
-      den.aspects.hyprshot
+      den.aspects.satty
       den.aspects.thunar
 
       # Services (user-level)
@@ -404,3 +404,4 @@ nix search nixpkgs <package>
 # Enter a dev shell with all inputs
 nix develop
 ```
+

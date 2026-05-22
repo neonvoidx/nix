@@ -38,7 +38,7 @@
       den.aspects.gtk
       den.aspects.hyprland
       den.aspects.hypridle
-      den.aspects.hyprshot
+      den.aspects.satty
       den.aspects.thunar
 
       # Services (user-level)

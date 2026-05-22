@@ -332,9 +332,12 @@
 
           # Bind groups
           screenshotBinds = [
-            (mkExecCommandBind "Print" "pgrep -x hyprshot || hyprshot -z -m region --clipboard-only")
-            (mkExecCommandBind "SHIFT + Print" "pgrep -x hyprshot || (hyprshot -z --clipboard-only --mode region; sleep 0.5s && wl-paste | swappy -f -)")
-            (mkExecCommandBind "CTRL + Print" "pgrep -x hyprshot || hyprshot -z --mode region")
+            # Directly screen region to clip
+            (mkExecCommandBind "Print" "grim -g \\\"$(slurp -d)\\\" - | wl-copy")
+            # Directly screen region to satty for annotation
+            (mkExecCommandBind "SHIFT + Print" "grim -g \\\"$(slurp)\\\" - | satty -f - --copy-command wl-copy -o '~/Screenshots/%Y%m%d_%H%M%S.png'")
+            # get entire screen to satty
+            (mkExecCommandBind "CTRL + Print" "grim - | satty -f - --copy-command wl-copy -o '~/Screenshots/%Y%m%d_%H%M%S.png'")
           ];
           focusDirectionBindings = [
             (mkFocusBind "mod .. \" + h\"" "left")

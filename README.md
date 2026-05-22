@@ -21,7 +21,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar, …)
-│   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, hyprshot)
+│   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle, hyprpolkitagent, satty)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, nh, payrespects, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, noisetorch, pics, pipewire, network-drives)
@@ -236,3 +236,4 @@ mynewhost = {
 ## SOPS Secrets
 
 See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted and decrypted to `/run/secrets/` at boot.
+
