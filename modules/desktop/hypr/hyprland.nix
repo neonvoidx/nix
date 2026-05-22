@@ -55,7 +55,6 @@
             mode = "2880x1920@120";
             position = "0x0";
             scale = 1.33333;
-            sdr_eotf = "gamma22";
           };
           disabledMonitorRule = output: {
             inherit output;
@@ -68,18 +67,22 @@
             scale = 1.0;
             bitdepth = 10;
             cm = "hdredid";
+            supports_hdr = 1;
+            supports_wide_color = 1;
             sdrbrightness = 0.5;
             sdrsaturation = 1.0;
+            # This is monitors true HDR range
             sdr_max_luminance = 408;
             sdr_min_luminance = 0.2339;
+            # Below are standard HDR
+            # sdr_max_luminance = 280;
+            # sdr_min_luminance = 0.005;
             vrr = 1;
           };
-          mkTouchMonitor = position: {
+          mkPortraitMonitor = position: {
             output = portraitMonitorOutput;
             disabled = false;
             mode = "2560x1440@59.95";
-            cm = "srgb";
-            sdr_eotf = "gamma22";
             inherit position;
             scale = 1.0;
             transform = 1;
@@ -175,25 +178,25 @@
             default = [
               (mkHdrMonitor defaultMonitorOutput "4880x1440")
               (mkHdrMonitor secondaryMonitorOutput "4880x0")
-              (mkTouchMonitor "3440x727")
+              (mkPortraitMonitor "3440x727")
               autoMonitorRule
             ];
             notouch = [
               (mkHdrMonitor defaultMonitorOutput "4880x1582")
               (mkHdrMonitor secondaryMonitorOutput "4880x0")
-              (mkTouchMonitor "3332x712")
+              (mkPortraitMonitor "3332x712")
               autoMonitorRule
             ];
             work = [
               (disabledMonitorRule defaultMonitorOutput)
               (mkHdrMonitor secondaryMonitorOutput "4880x0")
-              (mkTouchMonitor "3440x727")
+              (mkPortraitMonitor "3440x727")
               autoMonitorRule
             ];
             work_notouch = [
               (disabledMonitorRule defaultMonitorOutput)
               (mkHdrMonitor secondaryMonitorOutput "4880x0")
-              (mkTouchMonitor "2212x712")
+              (mkPortraitMonitor "2212x712")
               autoMonitorRule
             ];
           };
