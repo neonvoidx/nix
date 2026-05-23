@@ -9,9 +9,9 @@
           programs.hyprland = {
             enable = true;
             # NOTE: uncomment below if using flake (master branch)
-            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-            portalPackage =
-              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+            # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            # portalPackage =
+            #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
           };
         };
 
@@ -348,7 +348,7 @@
             sharedStartupCommands
             ++ lib.optionals isVoid [
               "[workspace 3 silent] ${spotifyStartupCommand}"
-              "[workspace 10 silent] steam"
+              "steam"
             ]
             ++ lib.optionals (!isMultiMonitor) [
               "[workspace 4 silent] ${spotifyStartupCommand}"
@@ -886,7 +886,7 @@
                 direct_scanout = 1;
                 cm_enabled = true;
                 cm_auto_hdr = 0;
-                non_shader_cm = 2;
+                non_shader_cm = 0;
                 keep_unmodified_copy = 1;
               };
 
@@ -1069,12 +1069,12 @@
           wayland.windowManager.hyprland = {
             enable = true;
             # NOTE: package and portalPackage null if not using flake
-            # package = null;
-            # portalPackage = null;
+            package = null;
+            portalPackage = null;
             # NOTE: uncomment below for flake (master branch)
-            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-            portalPackage =
-              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+            # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+            # portalPackage =
+            #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
             configType = "lua";
             settings = lib.mkMerge [
