@@ -23,9 +23,12 @@
           ...
         }:
         let
-          # Core helpers
+          # ---------------------------------------------------------------------------
+          # Host context and Lua constructors
+          # ---------------------------------------------------------------------------
           isMultiMonitor = host.isMultiMonitor or false;
           isVoid = host.hostName == "void";
+          luaValue = lib.generators.toLua { };
           mkMonitor = attrs: attrs;
           lua = lib.generators.mkLuaInline;
           mkBind = args: { _args = args; };
@@ -39,7 +42,9 @@
           mkLayerRule = attrs: attrs;
           mkWorkspaceRule = attrs: attrs;
 
-          # Monitor outputs and monitor helpers
+          # ---------------------------------------------------------------------------
+          # Monitors and layout presets
+          # ---------------------------------------------------------------------------
           defaultMonitorOutput = "DP-2";
           portraitMonitorOutput = "HDMI-A-1";
           secondaryMonitorOutput = "DP-3";
@@ -88,7 +93,9 @@
             transform = 1;
           };
 
-          # Shared geometry and window-rule helpers
+          # ---------------------------------------------------------------------------
+          # Window-rule helpers
+          # ---------------------------------------------------------------------------
           reminderPopupSize = [
             "(monitor_w*0.2)"
             "(monitor_h*0.3)"
@@ -197,7 +204,6 @@
               }
             );
 
-          # Monitor layouts
           monitorLayoutPresets = {
             default = [
               (mkHdrMonitor defaultMonitorOutput "4880x1440")
@@ -227,7 +233,9 @@
           defaultMonitorLayoutRules =
             if isMultiMonitor then monitorLayoutPresets.default else [ laptopMonitorRule ];
 
+          # ---------------------------------------------------------------------------
           # Workspace placement
+          # ---------------------------------------------------------------------------
           multiMonitorWorkspaceBaseRules = [
             {
               workspace = 3;
@@ -285,7 +293,9 @@
           ) multiMonitorWorkspaceBaseRules;
           multiMonitorWorkspaceMonitorRules = map mkWorkspaceRule multiMonitorWorkspaceRules;
 
-          # Bind helpers
+          # ---------------------------------------------------------------------------
+          # Keybind helpers
+          # ---------------------------------------------------------------------------
           mkLuaBind =
             key: action:
             mkBind [
@@ -299,7 +309,7 @@
               (lua action)
               extra
             ];
-          mkExecBind = key: command: mkLuaBind key ''hl.dsp.exec_cmd("${command}")'';
+          mkExecBind = key: command: mkLuaBind key "hl.dsp.exec_cmd(${luaValue command})";
           mkFocusBind = key: direction: mkLuaBind key ''hl.dsp.focus({ direction = "${direction}" })'';
           mkMoveBind = key: direction: mkLuaBind key ''hl.dsp.window.move({ direction = "${direction}" })'';
           mkWorkspaceFocusBind =
@@ -312,7 +322,7 @@
               key
               (lua command)
             ];
-          mkExecCommandBind = key: command: mkLuaCommandBind key ''hl.dsp.exec_cmd("${command}")'';
+          mkExecCommandBind = key: command: mkLuaCommandBind key "hl.dsp.exec_cmd(${luaValue command})";
           mkResizeBind =
             key: x: y:
             mkBind [
@@ -321,7 +331,6 @@
               { repeating = true; }
             ];
 
-          # Workspace key map
           mkWorkspaceKeyBinding = key: workspace: { inherit key workspace; };
           numericWorkspaceBindings = map (
             workspace: mkWorkspaceKeyBinding (if workspace == 10 then "0" else toString workspace) workspace
@@ -332,34 +341,76 @@
             (mkWorkspaceKeyBinding "g" 11)
           ];
 
-          # Startup commands
-          sharedStartupCommands = [
-            "~/.config/hypr/scripts/restore-monitor-layout.sh"
-            "noctalia-shell"
-            "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service"
-            "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32"
-            "~/.config/hypr/scripts/save-workspace.sh"
-            "xrandr --output DP-2 --primary"
-            "[workspace 2 silent] firefox"
-            "[workspace 4 silent] sleep 5 && thunderbird" # Gives time for protonmail bridge to startup
+          # ---------------------------------------------------------------------------
+          # Autostart
+          # ---------------------------------------------------------------------------
+          mkStartupCommand = command: {
+            inherit command;
+            rules = null;
+          };
+          mkStartupOnWorkspace = workspace: command: {
+            inherit command;
+            rules.workspace = workspace;
+          };
+          sessionStartupCommands = [
+            (mkStartupCommand "~/.config/hypr/scripts/restore-monitor-layout.sh")
+            (mkStartupCommand "noctalia-shell")
+            (mkStartupCommand "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
+            (mkStartupCommand "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32")
+            (mkStartupCommand "~/.config/hypr/scripts/save-workspace.sh")
+            (mkStartupCommand "xrandr --output DP-2 --primary")
+          ];
+          sharedStartupApplications = [
+            (mkStartupOnWorkspace "2 silent" "firefox")
+            # Give Proton Mail Bridge time to start before Thunderbird opens.
+            (mkStartupOnWorkspace "4 silent" "sleep 5 && thunderbird")
           ];
           spotifyStartupCommand = "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland";
-          startupCommands =
-            sharedStartupCommands
+          startupEntries =
+            sessionStartupCommands
+            ++ sharedStartupApplications
             ++ lib.optionals isVoid [
-              "[workspace 3 silent] ${spotifyStartupCommand}"
-              "steam"
+              (mkStartupOnWorkspace "3 silent" spotifyStartupCommand)
+              (mkStartupOnWorkspace "10 silent" "steam")
             ]
             ++ lib.optionals (!isMultiMonitor) [
-              "[workspace 4 silent] ${spotifyStartupCommand}"
+              (mkStartupOnWorkspace "4 silent" spotifyStartupCommand)
             ];
 
-          # Bind groups
+          # ---------------------------------------------------------------------------
+          # Keybind groups
+          # ---------------------------------------------------------------------------
+          applicationBinds = [
+            (mkExecBind "mod .. \" + SHIFT + q\"" "hyprshutdown")
+            (mkExecBind "mod .. \" + Return\"" "kitty")
+            # "$mod, code:49, exec, kitten quick-access-terminal"
+            (mkExecBind "mod .. \" + delete\"" "noctalia-shell ipc call sessionMenu toggle")
+            (mkExecBind "mod .. \" + SHIFT + delete\"" "noctalia-shell ipc call lockScreen lock")
+            (mkExecBind "mod .. \" + slash\"" "noctalia-shell ipc call keybind-cheatsheet toggle")
+            (mkExecBind "mod .. \" + b\"" "firefox")
+            (mkExecBind "mod .. \" + SHIFT + b\"" "firefox --private-window")
+            (mkExecBind "mod .. \" + Space\"" "noctalia-shell ipc call launcher toggle")
+            (mkExecBind "mod .. \" + v\"" "noctalia-shell ipc call launcher clipboard")
+            (mkExecBind "mod .. \" + SHIFT + c\"" "pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r")
+            (mkExecBind "mod .. \" + e\"" "thunar")
+          ];
+          windowManagementBinds = [
+            (mkLuaBind "mod .. \" + q\"" "hl.dsp.window.close()")
+            (mkLuaBind "mod .. \" + SHIFT + Space\"" ''hl.dsp.window.float({ action = "toggle" })'')
+            (mkLuaBind "mod .. \" + SHIFT + Space\"" "hl.dsp.window.center()")
+            (mkLuaBind "mod .. \" + SHIFT + f\"" "hl.dsp.window.fullscreen({action=\"toggle\",mode=\"maximized\"})")
+            (mkLuaBind "mod .. \" + SHIFT + CTRL + f\"" "hl.dsp.window.fullscreen(0)")
+            (mkLuaBind "mod .. \" + c\"" "hl.dsp.window.center()")
+            (mkBind [
+              "ALT + TAB"
+              (lua "hl.dsp.focus({ last = true })")
+            ])
+          ];
           screenshotBinds = [
             # Directly screen region to clip
-            (mkExecCommandBind "Print" "grim -g \\\"$(slurp -d)\\\" - | wl-copy")
+            (mkExecCommandBind "Print" "grim -g \"$(slurp -d)\" - | wl-copy")
             # Directly screen region to satty for annotation
-            (mkExecCommandBind "SHIFT + Print" "grim -g \\\"$(slurp)\\\" - | satty -f - --copy-command wl-copy -o '~/Screenshots/%Y%m%d_%H%M%S.png'")
+            (mkExecCommandBind "SHIFT + Print" "grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy -o '~/Screenshots/%Y%m%d_%H%M%S.png'")
             # get entire screen to satty
             (mkExecCommandBind "CTRL + Print" "grim - | satty -f - --copy-command wl-copy -o '~/Screenshots/%Y%m%d_%H%M%S.png'")
           ];
@@ -392,20 +443,46 @@
             (mkExecCommandBind "XF86MonBrightnessUp" "brightnessctl set +5%")
             (mkExecCommandBind "XF86MonBrightnessDown" "brightnessctl set 5%-")
           ];
+          workspaceFocusBinds = map (
+            binding: mkWorkspaceFocusBind "mod .. \" + ${binding.key}\"" binding.workspace
+          ) workspaceBindings;
+          workspaceMoveBinds = map (
+            binding: mkWorkspaceMoveBind "mod .. \" + SHIFT + ${binding.key}\"" binding.workspace
+          ) workspaceBindings;
+          workspaceScrollBinds = [
+            (mkLuaBind "mod .. \" + mouse_down\"" ''hl.dsp.focus({ workspace = "e+1" })'')
+            (mkLuaBind "mod .. \" + mouse_up\"" ''hl.dsp.focus({ workspace = "e-1" })'')
+          ];
+          layoutBinds = [
+            (mkLuaBind "mod .. \" + m\"" ''hl.dsp.layout("swapwithmaster")'')
+            (mkLuaBind "mod .. \" + i\"" ''hl.dsp.layout("addmaster")'')
+            (mkLuaBind "mod .. \" + r\"" ''hl.dsp.submap("resize")'')
+          ];
+          mouseBinds = [
+            (mkLuaBindWith "mod .. \" + mouse:272\"" "hl.dsp.window.drag()" { mouse = true; })
+            (mkLuaBindWith "mod .. \" + mouse:273\"" "hl.dsp.window.resize()" { mouse = true; })
+          ];
 
+          # ---------------------------------------------------------------------------
           # Generated Lua config
+          # ---------------------------------------------------------------------------
           startupLua = lib.concatStrings (
-            map (command: ''
-              hl.exec_cmd("${command}")
-            '') startupCommands
+            map (
+              entry:
+              let
+                ruleArg = lib.optionalString (entry.rules != null) ", ${luaValue entry.rules}";
+              in
+              ''
+                hl.exec_cmd(${luaValue entry.command}${ruleArg})
+              ''
+            ) startupEntries
           );
           monitorLayoutsLua =
             let
               monitorRules = lib.mapAttrs (_: rules: map mkMonitor rules) monitorLayoutPresets;
-              luaFormat = lib.generators.toLua { };
             in
             /* lua */ ''
-              local monitor_layouts = ${luaFormat monitorRules}
+              local monitor_layouts = ${luaValue monitorRules}
 
               function apply_monitor_layout(name)
                 local layout = monitor_layouts[name]
@@ -423,6 +500,11 @@
               end
             '';
           customLayoutsLua = /* lua */ ''
+            local function target_id(target)
+              local window = target.window
+              return window and tostring(window.stable_id) or tostring(target.index)
+            end
+
             local function target_class(target)
               local window = target.window
               if not window then
@@ -442,65 +524,99 @@
               return class == "spotify" or class == "spicetify"
             end
 
+            local function sort_portrait_targets(targets)
+              local ordered = {}
+              local seen = {}
+
+              local function push(target)
+                if not target then
+                  return
+                end
+
+                local id = target_id(target)
+                if seen[id] then
+                  return
+                end
+
+                seen[id] = true
+                table.insert(ordered, target)
+              end
+
+              for _, target in ipairs(targets) do
+                if is_top_window(target) then
+                  push(target)
+                  break
+                end
+              end
+
+              for _, target in ipairs(targets) do
+                if is_bottom_window(target) then
+                  push(target)
+                  break
+                end
+              end
+
+              for _, target in ipairs(targets) do
+                push(target)
+              end
+
+              return ordered
+            end
+
+            local function place_columns(ctx, targets, area, start_index)
+              local first = start_index or 1
+              local n = #targets
+              local count = n - first + 1
+
+              if count <= 0 then
+                return
+              end
+
+              if count == 1 then
+                targets[first]:place(area)
+                return
+              end
+
+              local remaining = area
+
+              for i = first, n do
+                local target = targets[i]
+                if i == n then
+                  target:place(remaining)
+                else
+                  local ratio = 1.0 / (n - i + 1)
+                  target:place(ctx:split("left", remaining, ratio))
+                  remaining = ctx:split("right", remaining, 1.0 - ratio)
+                end
+              end
+            end
+
             hl.layout.register("portrait", {
               recalculate = function(ctx)
-                local n = #ctx.targets
+                local targets = sort_portrait_targets(ctx.targets)
+                local n = #targets
                 if n == 0 then
                   return
                 end
 
                 if n == 1 then
-                  ctx.targets[1]:place(ctx.area)
+                  targets[1]:place(ctx.area)
                   return
                 end
 
-                local top = ctx.targets[1]
-                local bottom = nil
-
-                for _, target in ipairs(ctx.targets) do
-                  if is_top_window(target) then
-                    top = target
-                    break
-                  end
-                end
-
-                for _, target in ipairs(ctx.targets) do
-                  if target ~= top and is_bottom_window(target) then
-                    bottom = target
-                    break
-                  end
-                end
-
-                if not bottom then
-                  for _, target in ipairs(ctx.targets) do
-                    if target ~= top then
-                      bottom = target
-                      break
-                    end
-                  end
-                end
-
-                local top_area = {
-                  x = ctx.area.x,
-                  y = ctx.area.y,
-                  w = ctx.area.w,
-                  h = ctx.area.h * 0.7,
-                }
-                local bottom_area = {
-                  x = ctx.area.x,
-                  y = ctx.area.y + top_area.h,
-                  w = ctx.area.w,
-                  h = ctx.area.h - top_area.h,
-                }
-                top:place(top_area)
-                bottom:place(bottom_area)
+                local top_area = ctx:split("top", ctx.area, 0.7)
+                local bottom_area = ctx:split("bottom", ctx.area, 0.3)
+                targets[1]:place(top_area)
+                place_columns(ctx, targets, bottom_area, 2)
               end,
             })
           '';
           defaultMonitorLayout =
             (map mkMonitor defaultMonitorLayoutRules) ++ lib.optionals (!isMultiMonitor) [ autoMonitorRule ];
 
-          # Hyprland settings fragments
+          # ---------------------------------------------------------------------------
+          # Environment
+          # ---------------------------------------------------------------------------
           hyprEnvironmentSettings = {
             env = [
               (mkEnv "ENABLE_HDR_WSI" "1")
@@ -521,83 +637,48 @@
               (mkEnv "EGL_PLATFORM" "wayland")
             ];
           };
+
+          # ---------------------------------------------------------------------------
+          # Monitor and workspace rules
+          # ---------------------------------------------------------------------------
           hyprMonitorSettings = {
             monitor = defaultMonitorLayout;
 
             workspace_rule = lib.optionals isMultiMonitor multiMonitorWorkspaceMonitorRules;
           };
+
+          # ---------------------------------------------------------------------------
+          # Keybinds
+          # ---------------------------------------------------------------------------
           hyprBindSettings = {
             mod = {
               name = "mod";
               _var = "SUPER";
             };
 
-            bind = [
-              # App binds
-              (mkExecBind "mod .. \" + SHIFT + q\"" "hyprshutdown")
-              (mkExecBind "mod .. \" + Return\"" "kitty")
-              # "$mod, code:49, exec, kitten quick-access-terminal"
-              (mkExecBind "mod .. \" + delete\"" "noctalia-shell ipc call sessionMenu toggle")
-              (mkExecBind "mod .. \" + SHIFT + delete\"" "noctalia-shell ipc call lockScreen lock")
-              (mkExecBind "mod .. \" + slash\"" "noctalia-shell ipc call keybind-cheatsheet toggle")
-              (mkLuaBind "mod .. \" + q\"" "hl.dsp.window.close()")
-              (mkExecBind "mod .. \" + b\"" "firefox")
-              (mkExecBind "mod .. \" + SHIFT + b\"" "firefox --private-window")
-              (mkExecBind "mod .. \" + Space\"" "noctalia-shell ipc call launcher toggle")
-              (mkExecBind "mod .. \" + v\"" "noctalia-shell ipc call launcher clipboard")
-              (mkExecBind "mod .. \" + SHIFT + c\"" "pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r")
-              (mkExecBind "mod .. \" + e\"" "thunar")
-
-              # Window management
-              (mkLuaBind "mod .. \" + SHIFT + Space\"" ''hl.dsp.window.float({ action = "toggle" })'')
-              (mkLuaBind "mod .. \" + SHIFT + Space\"" "hl.dsp.window.center()")
-              (mkLuaBind "mod .. \" + SHIFT + f\"" "hl.dsp.window.fullscreen({action=\"toggle\",mode=\"maximized\"})")
-              (mkLuaBind "mod .. \" + SHIFT + CTRL + f\"" "hl.dsp.window.fullscreen(0)")
-              (mkLuaBind "mod .. \" + c\"" "hl.dsp.window.center()")
-              (mkBind [
-                "ALT + TAB"
-                (lua "hl.dsp.focus({ last = true })")
-              ])
-
-              # Workspace switching
-            ]
-            ++ screenshotBinds
-            ++ focusDirectionBindings
-            ++ moveDirectionBindings
-            ++ map (
-              binding: mkWorkspaceFocusBind "mod .. \" + ${binding.key}\"" binding.workspace
-            ) workspaceBindings
-            ++ [
-
-              # Move window to workspace
-            ]
-            ++ map (
-              binding: mkWorkspaceMoveBind "mod .. \" + SHIFT + ${binding.key}\"" binding.workspace
-            ) workspaceBindings
-            ++ [
-
-              # Mouse scroll workspace
-              (mkLuaBind "mod .. \" + mouse_down\"" ''hl.dsp.focus({ workspace = "e+1" })'')
-              (mkLuaBind "mod .. \" + mouse_up\"" ''hl.dsp.focus({ workspace = "e-1" })'')
-
-              # Master layout
-              (mkLuaBind "mod .. \" + m\"" ''hl.dsp.layout("swapwithmaster")'')
-              (mkLuaBind "mod .. \" + i\"" ''hl.dsp.layout("addmaster")'')
-
-              # Resize submap
-              (mkLuaBind "mod .. \" + r\"" ''hl.dsp.submap("resize")'')
-
-              # Mouse drag/resize
-              (mkLuaBindWith "mod .. \" + mouse:272\"" "hl.dsp.window.drag()" { mouse = true; })
-              (mkLuaBindWith "mod .. \" + mouse:273\"" "hl.dsp.window.resize()" { mouse = true; })
-            ]
-            ++ mediaKeyBindings;
+            bind =
+              applicationBinds
+              ++ windowManagementBinds
+              ++ screenshotBinds
+              ++ focusDirectionBindings
+              ++ moveDirectionBindings
+              ++ workspaceFocusBinds
+              ++ workspaceMoveBinds
+              ++ workspaceScrollBinds
+              ++ layoutBinds
+              ++ mouseBinds
+              ++ mediaKeyBindings;
 
             bindm = [ ];
             binde = [ ];
           };
+
+          # ---------------------------------------------------------------------------
+          # Window rules
+          # ---------------------------------------------------------------------------
           hyprWindowRuleSettings = {
             window_rule = [
+              # System dialogs and utility windows
               (mkCenteredFloatingRule {
                 name = "xdg-screenshare-picker";
                 match = {
@@ -638,10 +719,14 @@
                 };
               })
               (mkPinnedPopupRule "gnomekeyringprompt" { title = "Unlock Login Keying"; })
+
+              # Workspace placement
               (mkClassWorkspaceRule "vesktop" "vesktop" "3 silent")
               (mkClassWorkspaceRule "streamcontroller" "com.core447.StreamController"
                 "special:streamcontroller silent"
               )
+
+              # Steam and games
               (
                 mkTitleWorkspaceRule "steampopup" "Steamwebhelper" "10 silent"
                 // {
@@ -679,6 +764,8 @@
                   fullscreen = true;
                 }
               )
+
+              # Battle.net and Wine windows
               (mkWindowRule {
                 name = "battlenetxwayland";
                 match.title = "^Battle.net.*";
@@ -752,6 +839,8 @@
                 fullscreen = true;
                 workspace = "11";
               })
+
+              # Floating popups and overlays
               (mkReminderLikeRule {
                 name = "thunderbirdreminder";
                 match = {
@@ -782,6 +871,8 @@
                 pin = true;
               })
               (mkClassWorkspaceRule "gamescopegames" "gamescope" "11")
+
+              # Invisible XWayland helper windows can briefly steal focus.
               (mkWindowRule {
                 name = "xwaylandhelper";
                 match.xwayland = true;
@@ -805,7 +896,9 @@
             ];
           };
 
+          # ---------------------------------------------------------------------------
           # Core runtime settings
+          # ---------------------------------------------------------------------------
           hyprCoreSettings = {
             config = {
               input = {
@@ -1011,6 +1104,9 @@
             ];
           };
 
+          # ---------------------------------------------------------------------------
+          # Startup hooks
+          # ---------------------------------------------------------------------------
           hyprStartupSettings = {
             on = [
               {
@@ -1030,7 +1126,9 @@
             ];
           };
 
+          # ---------------------------------------------------------------------------
           # Layer rules
+          # ---------------------------------------------------------------------------
           hyprLayerRuleSettings = {
             layer_rule = [
               (mkLayerRule {
@@ -1042,6 +1140,9 @@
           };
         in
         {
+          # ---------------------------------------------------------------------------
+          # Session services
+          # ---------------------------------------------------------------------------
           systemd.user.services.hypr-restore-monitor-layout = {
             Unit = {
               Description = "Restore Hyprland monitor layout from persisted state";
@@ -1066,6 +1167,9 @@
             };
           };
 
+          # ---------------------------------------------------------------------------
+          # Hyprland config
+          # ---------------------------------------------------------------------------
           wayland.windowManager.hyprland = {
             enable = true;
             # NOTE: package and portalPackage null if not using flake
@@ -1116,6 +1220,9 @@
             };
           };
 
+          # ---------------------------------------------------------------------------
+          # XDG portals and linked Hypr assets
+          # ---------------------------------------------------------------------------
           xdg.portal = {
             extraPortals = [
               inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
