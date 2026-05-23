@@ -354,7 +354,6 @@
           };
           sessionStartupCommands = [
             (mkStartupCommand "~/.config/hypr/scripts/restore-monitor-layout.sh")
-            (mkStartupCommand "~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
             (mkStartupCommand "noctalia-shell")
             (mkStartupCommand "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
             (mkStartupCommand "hyprctl setcursor catppuccin-mocha-sapphire-cursors 32")
@@ -1010,6 +1009,22 @@
                       end
                     ''
                   ))
+                ];
+              }
+              {
+                _args = [
+                  "window.open"
+                  (lua ''
+                    function(w)
+                      if w.class == "vesktop" then
+                        hl.timer(function()
+                          hl.dsp.focus({ class = "vesktop" })
+                          hl.dsp.window.move({ direction = "up" })
+                          hl.dsp.window.resize({ x = "100%", y = "70%" })
+                        end, { timeout = 2000, type = "once" })
+                      end
+                    end
+                  '')
                 ];
               }
             ];
