@@ -500,114 +500,66 @@
               end
             '';
           customLayoutsLua = /* lua */ ''
-            local function target_id(target)
-              local window = target.window
-              return window and tostring(window.stable_id) or tostring(target.index)
-            end
-
             local function target_class(target)
-              local window = target.window
-              if not window then
-                return nil
-              end
-
-              return window.class or window.initial_class
+              local w = target.window
+              return w and (w.class or w.initial_class)
             end
 
-            local function is_top_window(target)
-              local class = target_class(target)
-              return class == "vesktop" or class == "discord"
-            end
-
-            local function is_bottom_window(target)
-              local class = target_class(target)
-              return class == "spotify" or class == "spicetify"
-            end
-
-            local function sort_portrait_targets(targets)
-              local ordered = {}
-              local seen = {}
-
-              local function push(target)
-                if not target then
-                  return
-                end
-
-                local id = target_id(target)
-                if seen[id] then
-                  return
-                end
-
-                seen[id] = true
-                table.insert(ordered, target)
-              end
-
-              for _, target in ipairs(targets) do
-                if is_top_window(target) then
-                  push(target)
-                  break
-                end
-              end
-
-              for _, target in ipairs(targets) do
-                if is_bottom_window(target) then
-                  push(target)
-                  break
-                end
-              end
-
-              for _, target in ipairs(targets) do
-                push(target)
-              end
-
-              return ordered
-            end
-
-            local function place_columns(ctx, targets, area, start_index)
-              local first = start_index or 1
-              local n = #targets
-              local count = n - first + 1
-
-              if count <= 0 then
-                return
-              end
-
-              if count == 1 then
-                targets[first]:place(area)
-                return
-              end
-
-              local remaining = area
-
-              for i = first, n do
-                local target = targets[i]
-                if i == n then
-                  target:place(remaining)
-                else
-                  local ratio = 1.0 / (n - i + 1)
-                  target:place(ctx:split("left", remaining, ratio))
-                  remaining = ctx:split("right", remaining, 1.0 - ratio)
-                end
-              end
+            local function push_unique(tbl, seen, target)
+              if not target then return end
+              local id = tostring(target.window and tostring(target.window.stable_id) or tostring(target.index))
+              if seen[id] then return end
+              seen[id] = true
+              table.insert(tbl, target)
             end
 
             hl.layout.register("portrait", {
               recalculate = function(ctx)
-                local targets = sort_portrait_targets(ctx.targets)
-                local n = #targets
-                if n == 0 then
-                  return
+                local n = #ctx.targets
+                if n == 0 then return end
+
+                -- Sort: vesktop/discord on top, spotify/spicetify on bottom, rest in between
+                local ordered = {}
+                local seen = {}
+
+                for _, t in ipairs(ctx.targets) do
+                  local cls = target_class(t)
+                  if cls == "vesktop" or cls == "discord" then
+                    push_unique(ordered, seen, t)
+                    break
+                  end
+                end
+
+                for _, t in ipairs(ctx.targets) do
+                  local cls = target_class(t)
+                  if cls == "spotify" or cls == "spicetify" then
+                    push_unique(ordered, seen, t)
+                    break
+                  end
+                end
+
+                for _, t in ipairs(ctx.targets) do
+                  push_unique(ordered, seen, t)
                 end
 
                 if n == 1 then
-                  targets[1]:place(ctx.area)
+                  ordered[1]:place(ctx.area)
                   return
                 end
 
-                local top_area = ctx:split("top", ctx.area, 0.7)
-                local bottom_area = ctx:split("bottom", ctx.area, 0.3)
-                targets[1]:place(top_area)
-                place_columns(ctx, targets, bottom_area, 2)
+                -- Top 70%, bottom 30% split into columns
+                ordered[1]:place(ctx:split(ctx.area, "top", 0.7))
+                local bottom = ctx:split(ctx.area, "bottom", 0.3)
+
+                for i = 2, n do
+                  if i == n then
+                    ordered[i]:place(bottom)
+                  else
+                    local ratio = 1.0 / (n - i + 1)
+                    ordered[i]:place(ctx:split(bottom, "left", ratio))
+                    bottom = ctx:split(bottom, "right", 1.0 - ratio)
+                  end
+                end
               end,
             })
           '';
