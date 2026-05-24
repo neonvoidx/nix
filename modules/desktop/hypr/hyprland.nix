@@ -1018,14 +1018,14 @@
                   "window.open"
                   (lua /* lua */ ''
                     function(w)
-                      if w.class == "vesktop" then
-                        hl.timer(function()
-                          hl.dsp.focus({ class = "vesktop" })
-                          hl.dsp.window.move({ direction = "up" })
-                          hl.dsp.window.resize({ x = "100%", y = "70%" })
-                        end, { timeout = 2000, type = "once" })
-                      end
-                    end
+                    	if w.class ~= "vesktop" then
+                    		return
+                    	end
+
+                    	hl.dispatch(hl.dsp.focus({ window = "class:vesktop" }))
+                    	hl.dispatch(hl.dsp.window.move({ direction = "u", window = "class:vesktop" }))
+                    	hl.dispatch(hl.dsp.window.resize({ x = 1440, y = 2560 * 0.7, window = "class:vesktop" }))
+                    end)
                   '')
                 ];
               }
