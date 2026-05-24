@@ -240,7 +240,9 @@
             {
               workspace = 3;
               monitor = portraitMonitorOutput;
-              layout_opts = { orientation = "top"; };
+              layout_opts = {
+                orientation = "top";
+              };
             }
             {
               workspace = 1;
@@ -1014,7 +1016,7 @@
               {
                 _args = [
                   "window.open"
-                  (lua ''
+                  (lua /* lua */ ''
                     function(w)
                       if w.class == "vesktop" then
                         hl.timer(function()
