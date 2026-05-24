@@ -371,8 +371,7 @@
 
               -- Development.
               hl.window_rule({ name = "godot_all", match = { class = "Godot" }, workspace = "6", float = true })
-              hl.window_rule({ name = "godot", match = { title = ".*(DEBUG).*", initial_class = "Godot" }, workspace = "6", float = true, max_size = floating_max_size })
-              hl.window_rule({ name = "godot_game", match = { title = ".*(DEBUG).*", initial_title = "Godot" }, workspace = "6", float = true, max_size = floating_max_size })
+              hl.window_rule({ name = "godot_game", match = { title = ".*(DEBUG).*", initial_title = "Godot" }, workspace = "11", float = true, max_size = floating_max_size })
               hl.window_rule({ name= "godot_float", match = {class="org.godotengine.Editor", float=true}, max_size = floating_max_size, center=true})
 
               -- Steam and games.
