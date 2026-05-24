@@ -48,9 +48,10 @@
                   // user_pref("gfx.webrender.compositor", true);
                   // user_pref("gfx.webrender.compositor.force-enabled", true);
                   user_pref("browser.bookmarks.addedImportButton", false);
-                  user_pref("network.dnsCacheEntries", 0);
-                  user_pref("network.dnsCacheExpiration", 0);
-                  user_pref("network.dnsCacheExpirationGracePeriod", 0);
+                  // NOTE: To disable dns cache
+                  // user_pref("network.dnsCacheEntries", 0);
+                  // user_pref("network.dnsCacheExpiration", 0);
+                  // user_pref("network.dnsCacheExpirationGracePeriod", 0);
                   user_pref("print.print_in_color", true);
                   user_pref("print.default-print-settings.printBGColors", true);
                   user_pref("print.default-print-settings.printBGImages", true);
