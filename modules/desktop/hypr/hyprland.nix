@@ -546,7 +546,7 @@
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 5 && thunderbird", { workspace = "4 silent" })
-                ${lib.optionalString (!isMultiMonitor) /* lua */ ''
+                ${lib.optionalString isMultiMonitor /* lua */ ''
                   hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", { workspace = "3 silent" })
                   hl.exec_cmd("steam", { workspace = "10 silent" })
                 ''}
