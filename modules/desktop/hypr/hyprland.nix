@@ -486,6 +486,8 @@
                   cm_auto_hdr = 0,
                   non_shader_cm = 0,
                   keep_unmodified_copy = 1,
+                  use_fp16=2,
+                  -- use_shader_blur_blend = true,
                 },
 
                 misc = {
