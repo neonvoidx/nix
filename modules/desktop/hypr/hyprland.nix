@@ -550,7 +550,7 @@
                 hl.exec_cmd("sleep 5 && thunderbird", { workspace = "4 silent" })
                 ${lib.optionalString isMultiMonitor /* lua */ ''
                   hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", { workspace = "3 silent" })
-                  hl.exec_cmd("steam", { workspace = "10 silent" })
+                  hl.exec_cmd("steam")
                 ''}
                 ${lib.optionalString (!isMultiMonitor) /* lua */ ''
                   hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", { workspace = "4 silent" })
