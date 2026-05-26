@@ -1,7 +1,12 @@
 { den, ... }:
 {
   den.aspects.nixsettings.nixos =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      inputs,
+      ...
+    }:
     {
       nixpkgs = {
         config = {
@@ -9,6 +14,7 @@
         };
       };
       nix = {
+        nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
         gc = {
           automatic = lib.mkDefault true;
           dates = lib.mkDefault "daily";
