@@ -203,7 +203,6 @@
                 hl.workspace_rule({ workspace = 6, monitor = default_monitor, default = true, layout = "floating" })
                 hl.workspace_rule({ workspace = 10, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 11, monitor = default_monitor, default = true })
-                hl.workspace_rule({ workspace = "name:steam", monitor = default_monitor, default = true })
                 hl.workspace_rule({
                   workspace = "name:gaming",
                   monitor = default_monitor,
@@ -549,10 +548,10 @@
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 5 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
-                hl.exec_cmd("steam", {workspace="10 silent"})
+                hl.exec_cmd("sleep 3 && steam", {workspace="10 silent"})
               end)
 
-                ${lib.optionalString (isMultiMonitor) /* lua */ ''
+                ${lib.optionalString isMultiMonitor /* lua */ ''
                   hl.on("window.open", function(w)
                     if w.class ~= "vesktop" then
                       return
