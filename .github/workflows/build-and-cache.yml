@@ -81,7 +81,7 @@ jobs:
         host: [void, voidframe]
     steps:
       - name: Free disk space
-        uses: jlumbroso/free-disk-space@v1.3.0
+        uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: false
           android: true
