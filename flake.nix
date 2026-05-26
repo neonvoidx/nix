@@ -29,10 +29,6 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nvim-config = {
-      url = "github:neonvoidx/nvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";
       inputs.nixpkgs.follows = "nixpkgs";
