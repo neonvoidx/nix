@@ -29,6 +29,7 @@
         mediainfo
         mtr
         nix-converter
+        ncdu
         nurl
         nvd
         pciutils
