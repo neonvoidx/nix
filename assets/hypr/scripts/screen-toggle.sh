@@ -36,10 +36,20 @@ if [ "$1" = "1" ]; then
     *) next_layout="$current_layout" ;;
   esac
   "$APPLY_SCRIPT" "$next_layout"
-  hyprctl eval "move_workspace_to_monitor(\"1\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))" >/dev/null 2>&1 || true
-  hyprctl eval "move_workspace_to_monitor(\"2\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))" >/dev/null 2>&1 || true
-  hyprctl eval "move_workspace_to_monitor(\"4\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))" >/dev/null 2>&1 || true
-  hyprctl eval "move_workspace_to_monitor(\"5\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))" >/dev/null 2>&1 || true
+
+  # Enforce workspace-to-monitor bindings after layout transition.
+  # The layout re-config may momentarily shuffle workspaces; explicitly
+  # place every workspace back on its designated monitor.
+  hyprctl eval "
+    move_workspace_to_monitor(\"1\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"2\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
+    move_workspace_to_monitor(\"4\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"5\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"6\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"10\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"11\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+  " >/dev/null 2>&1 || true
   # Persist chosen layout in a single file so it can be restored after nix rebuild.
   echo "$next_layout" > "$LAYOUT_FILE"
   exit
