@@ -194,7 +194,7 @@
               -- Workspace Rules
               -- -----------------------------------------------------------------------
 
-              ${lib.optionalString isMultiMonitor /* lua */ ''
+              ${lib.optionalString isMultiMonitor ''
                 hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout_opts = { orientation = "top" } })
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
@@ -220,13 +220,13 @@
 
               hl.bind(mod .. " + SHIFT + q", hl.dsp.exec_cmd("hyprshutdown"))
               hl.bind(mod .. " + Return", hl.dsp.exec_cmd("kitty"))
-              hl.bind(mod .. " + delete", hl.dsp.exec_cmd("noctalia-shell ipc call sessionMenu toggle"))
-              hl.bind(mod .. " + SHIFT + delete", hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock"))
-              hl.bind(mod .. " + slash", hl.dsp.exec_cmd("noctalia-shell ipc call keybind-cheatsheet toggle"))
+              hl.bind(mod .. " + delete", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
+              hl.bind(mod .. " + SHIFT + delete", hl.dsp.exec_cmd("noctalia msg screen-lock"))
+              hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
+              hl.bind(mod .. " + v", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
+              hl.bind(mod .. " + bracketright", hl.dsp.exec_cmd("noctalia msg wallpaper-random"))
               hl.bind(mod .. " + b", hl.dsp.exec_cmd("firefox"))
               hl.bind(mod .. " + SHIFT + b", hl.dsp.exec_cmd("firefox --private-window"))
-              hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia-shell ipc call launcher toggle"))
-              hl.bind(mod .. " + v", hl.dsp.exec_cmd("noctalia-shell ipc call launcher clipboard"))
               hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r"))
               hl.bind(mod .. " + e", hl.dsp.exec_cmd("thunar"))
 
@@ -342,7 +342,7 @@
 
               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "satty", match = { class = "com.gabm.satty" }, float = true, max_size = floating_max_size })
-              hl.window_rule({ name = "noctalia_settings", match = { class = "org.quickshell" }, float = true, center = true, max_size = floating_max_size })
+              hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
 
@@ -403,7 +403,7 @@
               -- Layer Rules
               -- -----------------------------------------------------------------------
 
-              hl.layer_rule({ name = "noctaliahide", match = { namespace = "^noctalia-notifications.*$" }, no_screen_share = true })
+              hl.layer_rule({ name = "noctaliahide", match = { namespace = "^noctalia-notification$" }, no_screen_share = true })
 
               -- -----------------------------------------------------------------------
               -- Core Hyprland Settings
@@ -540,13 +540,12 @@
 
               hl.on("hyprland.start", function()
                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
-                hl.exec_cmd("noctalia-shell")
                 hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 hl.exec_cmd("hyprctl setcursor catppuccin-mocha-sapphire-cursors 32")
                 hl.exec_cmd("~/.config/hypr/scripts/save-workspace.sh")
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
-                hl.exec_cmd("sleep 5 && thunderbird", { workspace = "4 silent" })
+                hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam -silent")
               end)

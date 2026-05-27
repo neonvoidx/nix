@@ -15,6 +15,7 @@
         choose
         cron
         dig
+        ddcutil
         dust
         fbset
         fd

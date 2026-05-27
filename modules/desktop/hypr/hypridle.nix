@@ -7,14 +7,14 @@
         enable = true;
         settings = {
           general = {
-            lock_cmd = "noctalia-shell ipc call lockScreen lock";
-            before_sleep_cmd = "noctalia-shell ipc call lockScreen lock"; # lock before suspend.
-            after_sleep_cmd = "hyprctl dispatch dpms on"; # && systemctl --user restart xdg-desktop-portal-hyprland.service
+            lock_cmd = "noctalia msg screen-lock";
+            before_sleep_cmd = "noctalia msg screen-lock"; # lock before suspend.
+            after_sleep_cmd = "hyprctl dispatch dpms on";
           };
           listener = [
             {
               timeout = 600; # 10min
-              on-timeout = "noctalia-shell ipc call lockScreen lock"; # lock screen when timeout has passed
+              on-timeout = "noctalia msg screen-lock"; # lock screen when timeout has passed
             }
             {
               timeout = 900; # 15min

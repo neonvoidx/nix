@@ -26,7 +26,7 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      url = "github:noctalia-dev/noctalia-shell/v5";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     scopebuddy = {

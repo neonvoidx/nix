@@ -1,0 +1,298 @@
+[audio]
+enable_overdrive = true
+enable_sounds = false
+
+[bar.main]
+capsule = true
+capsule_foreground = "tertiary"
+capsule_groups = [ "system", "audio", "settings", "datetime" ]
+center = [ "active_window" ]
+contact_shadow = true
+end = [
+    "bongocat",
+    "input_volume",
+    "output_volume",
+    "cpu",
+    "ram",
+    "temp",
+    "network_rx",
+    "network_tx",
+    "battery",
+    "caffeine",
+    "bluetooth",
+    "brightness",
+    "wallpaper",
+    "screen_recorder",
+    "control-center",
+    "notifications",
+    "clock",
+    "date",
+    "session"
+]
+font_weight = 600
+margin_edge = 5.0
+margin_ends = 8.0
+padding = 10
+radius = 8
+start = [ "launcher", "taskbar", "tray", "left-spacer", "media", "audio_visualizer" ]
+thickness = 38
+widget_spacing = 12
+
+    [bar.main.monitor.HDMI-A-1]
+    enabled = false
+    reserve_space = false
+
+[desktop_widgets]
+enabled = false
+
+[dock]
+active_monitor_only = true
+icon_size = 38
+launcher_icon = "bomb"
+launcher_position = "start"
+monitors = [ "DP-2", "DP-3" ]
+show_dots = true
+
+[idle]
+behavior_order = [ "lock", "screen-off", "suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 600
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 900
+
+    [idle.behavior.suspend]
+    action = "suspend"
+    enabled = true
+    lock_before_suspend = true
+    timeout = 7200
+
+[notification]
+monitors = [ "DP-2", "DP-3" ]
+
+[osd]
+position = "top_center"
+scale = 1.1000000089406967
+
+[shell]
+font_family = "Maple Mono"
+lang = "en"
+launch_apps_as_systemd_services = true
+polkit_agent = true
+settings_show_advanced = true
+ui_scale = 1.1000000089406967
+
+    [shell.panel]
+    borders = true
+    control_center_placement = "floating"
+    open_near_click_control_center = true
+    session_placement = "centered"
+    wallpaper_placement = "centered"
+
+    [[shell.session.actions]]
+    action = "lock"
+    enabled = false
+    shortcut = "1"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    enabled = true
+    shortcut = "l"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "suspend"
+    enabled = true
+    shortcut = "s"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    enabled = true
+    shortcut = "r"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    enabled = true
+    shortcut = "s"
+    variant = "destructive"
+
+[theme]
+builtin = "Eldritch"
+
+[wallpaper]
+directory = "/home/neonvoid/pics/ultrawide"
+per_monitor_directories = true
+transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
+
+    [wallpaper.default]
+    path = "/home/neonvoid/pics/ultrawide/hyprbeast.jpg"
+
+    [wallpaper.last]
+    path = "/home/neonvoid/pics/vertical/riding-home.png"
+
+    [wallpaper.monitor.DP-2]
+    directory = "/home/neonvoid/pics/ultrawide"
+    directory_dark = "/home/neonvoid/pics/ultrawide"
+    directory_light = "/home/neonvoid/pics/ultrawide"
+    path = "/home/neonvoid/pics/ultrawide/moonlanding.jpg"
+
+    [wallpaper.monitor.DP-3]
+    directory = "/home/neonvoid/pics/ultrawide"
+    directory_dark = "/home/neonvoid/pics/ultrawide"
+    directory_light = "/home/neonvoid/pics/ultrawide"
+    path = "/home/neonvoid/pics/ultrawide/racoon.png"
+
+    [wallpaper.monitor.HDMI-A-1]
+    directory = "/home/neonvoid/pics/vertical"
+    directory_dark = "/home/neonvoid/pics/vertical"
+    directory_light = "/home/neonvoid/pics/vertical"
+    path = "/home/neonvoid/pics/vertical/riding-home.png"
+
+    [wallpaper.monitors.DP-2]
+    path = "/home/neonvoid/pics/ultrawide/moonlanding.jpg"
+
+    [wallpaper.monitors.DP-3]
+    path = "/home/neonvoid/pics/ultrawide/racoon.png"
+
+    [wallpaper.monitors.HDMI-A-1]
+    path = "/home/neonvoid/pics/vertical/riding-home.png"
+
+[weather]
+auto_locate = true
+
+[widget.active_window]
+color = "primary"
+icon_size = 22.0
+max_length = 320.0
+title_scroll = "always"
+
+[widget.audio_visualizer]
+capsule = true
+capsule_group = "audio"
+high_color = "secondary"
+width = 112.0
+
+[widget.battery]
+capsule = true
+capsule_group = "system"
+
+[widget.bluetooth]
+capsule = true
+capsule_group = "settings"
+
+[widget.bongocat]
+audio_spectrum = true
+scope = "shared"
+script = "scripts/bongocat.lua"
+tappy_mode = true
+type = "scripted"
+
+[widget.brightness]
+capsule = true
+capsule_group = "settings"
+
+[widget.caffeine]
+capsule = true
+capsule_group = "settings"
+
+[widget.clock]
+capsule = true
+capsule_foreground = "primary"
+capsule_group = "datetime"
+
+[widget.control-center]
+capsule = true
+capsule_group = "settings"
+
+[widget.cpu]
+capsule = true
+capsule_group = "system"
+
+[widget.date]
+capsule = true
+capsule_foreground = "primary"
+capsule_group = "datetime"
+format = "{:%d %b %Y}"
+
+[widget.input_volume]
+capsule = true
+capsule_group = "audio"
+
+[widget.launcher]
+color = "primary"
+glyph = "bomb"
+
+[widget.left-spacer]
+length = 120.0
+type = "spacer"
+
+[widget.media]
+art_size = 56.0
+capsule = true
+capsule_foreground = "secondary"
+capsule_group = "audio"
+hide_when_no_media = true
+max_length = 350.0
+title_scroll = "always"
+
+[widget.network_rx]
+capsule = true
+capsule_group = "system"
+
+[widget.network_tx]
+capsule = true
+capsule_group = "system"
+
+[widget.notifications]
+capsule = true
+capsule_group = "settings"
+
+[widget.output_volume]
+capsule = true
+capsule_group = "audio"
+
+[widget.ram]
+capsule = true
+capsule_group = "system"
+
+[widget.screen_recorder]
+capsule = true
+capsule_group = "settings"
+script = "scripts/screen_recorder.lua"
+type = "scripted"
+
+[widget.session]
+color = "error"
+
+[widget.taskbar]
+font_weight = 700
+group_by_workspace = true
+group_single_icon_per_app = true
+inactive_opacity = 0.69999999999999996
+scale = 1.3
+workspace_label_placement = "inside"
+
+[widget.temp]
+capsule = true
+capsule_group = "system"
+
+[widget.tray]
+scale = 1.3
+
+[widget.wallpaper]
+capsule = true
+capsule_group = "settings"
+
+[widget.workspaces]
+empty_color = "shadow"
+font_weight = 700
+minimal = true
+scale = 1.1500000000000001

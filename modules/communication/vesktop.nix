@@ -301,11 +301,11 @@
       systemd.user.services.vesktop = {
         Unit = {
           Description = "Vesktop Discord Client";
-          After = lib.mkIf config.programs.noctalia-shell.enable [
+          After = lib.mkIf config.programs.noctalia.enable [
             "graphical-session.target"
-            "noctalia-shell.service"
+            "noctalia.service"
           ];
-          Wants = lib.mkIf config.programs.noctalia-shell.enable [ "noctalia-shell.service" ];
+          Wants = lib.mkIf config.programs.noctalia.enable [ "noctalia.service" ];
           PartOf = [ "graphical-session.target" ];
         };
         Service = {
