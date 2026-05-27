@@ -12,11 +12,11 @@ check flake_path="~/nix":
 
 # Garbage collect and clean up old Nix generations
 clean:
-    nh clean all -k 5
+    nh clean all -k 5 --no-direnv --optimise
 
 # Initialize a dev environment in the current directory from a FlakeHub template
 dev template:
-    nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#{{template}}"
+  nix flake init -t github:the-nix-way/dev-templates#{{template}}
 
 # Copy dev flake from ~/nix/dev/{template}.flake.dev to current directory as flake.nix and copy direnv .envrc to use flake automatically
 copy-dev template:
