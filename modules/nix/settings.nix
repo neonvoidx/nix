@@ -1,10 +1,9 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.nixsettings.nixos =
     {
       lib,
       pkgs,
-      inputs,
       ...
     }:
     {

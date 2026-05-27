@@ -12,6 +12,7 @@
               steam-devices-udev-rules
               yubikey-personalization
               arduino # provides udev rules for Arduino boards (ttyUSB/ttyACM access)
+              meletrix-udev-rules
               qmk
               qmk-udev-rules
               qmk_hid
