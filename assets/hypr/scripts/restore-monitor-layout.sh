@@ -30,6 +30,24 @@ if [ -x "$APPLY_SCRIPT" ]; then
   sleep 0.5
 fi
 
+# ── Enforce workspace-to-monitor bindings ──────────────────────────────────
+# After apply_monitor_layout() reconfigures monitors (and may disable DP-2
+# when restoring the "work"/"work-notouch" layout), workspaces can be
+# reassigned to wrong monitors (e.g. workspace 5 landing on HDMI-A-1).
+# Re-bind each workspace to its designated monitor so the portrait monitor
+# (HDMI-A-1) always gets workspace 3 and never 5.
+
+hyprctl eval "
+move_workspace_to_monitor(\"1\", \"DP-2\")
+move_workspace_to_monitor(\"2\", \"DP-3\")
+move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
+move_workspace_to_monitor(\"4\", \"DP-3\")
+move_workspace_to_monitor(\"5\", \"DP-2\")
+move_workspace_to_monitor(\"6\", \"DP-2\")
+move_workspace_to_monitor(\"10\", \"DP-2\")
+move_workspace_to_monitor(\"11\", \"DP-2\")
+" >/dev/null 2>&1 || true
+
 "$HOME/.config/hypr/scripts/restore-xrandr-primary.sh"
 
 # Restore focused workspace
