@@ -36,8 +36,7 @@
             };
 
             monospace = {
-              package = pkgs.jetbrains-mono;
-              name = "JetBrains Mono";
+              name = "MonoLisa";
             };
 
             emoji = {

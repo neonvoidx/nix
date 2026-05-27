@@ -19,8 +19,7 @@
         };
 
         font = {
-          package = pkgs.jetbrains-mono;
-          name = "JetBrains Mono";
+          name = "MonoLisa";
           size = 16;
         };
 

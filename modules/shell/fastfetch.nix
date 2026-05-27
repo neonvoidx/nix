@@ -71,7 +71,7 @@
             {
               type = "custom";
               key = " FONT";
-              format = "JetBrains Mono";
+              format = "MonoLisa";
             }
             {
               type = "uptime";

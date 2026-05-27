@@ -4,9 +4,8 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
-        jetbrains-mono
+        monolisa
         fira-sans
-        maple-mono.variable
         material-icons
         material-symbols
         nerd-fonts.symbols-only

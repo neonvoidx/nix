@@ -1,7 +1,7 @@
 # Build outputs
 result
 result-*
-
+.DS_Store
 # Secrets - commit the template, but prevent committing it after it's been edited with real secrets
 # After you add your real passwords, encrypt it with sops before committing
 
