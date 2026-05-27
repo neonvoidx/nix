@@ -1,6 +1,36 @@
-{ den, ... }:
+{ den, lib, ... }:
+let
+  inherit (den.lib.policy) include;
+in
 {
   den.aspects.networkdrives = {
+    includes = [
+      den.aspects.networkdrives.policies.to-users
+    ];
+
+    policies.to-users =
+      { host, user, ... }:
+      [
+        (include {
+          homeManager =
+            { config, ... }:
+            {
+              home.activation.setupSynologyKeys = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+                if [ ! -e ~/.ssh/id_ed25519 ] && [ -e /synology/Secure/id_ed25519 ]; then
+                  $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519 ~/.ssh/id_ed25519
+                  $DRY_RUN_CMD chmod 600 ~/.ssh/id_ed25519
+                  echo "Linked SSH private key from Synology"
+                fi
+
+                if [ ! -e ~/.ssh/id_ed25519.pub ] && [ -e /synology/Secure/id_ed25519.pub ]; then
+                  $DRY_RUN_CMD ln -sf /synology/Secure/id_ed25519.pub ~/.ssh/id_ed25519.pub
+                  echo "Linked SSH public key from Synology"
+                fi
+              '';
+            };
+        })
+      ];
+
     nixos =
       {
         config,
@@ -91,5 +121,6 @@
           cifs-utils
         ];
       };
+
   };
 }

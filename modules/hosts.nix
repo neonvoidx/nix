@@ -27,6 +27,8 @@ in
       gpuPciDev = "0000:03:00.0"; # AMD RX 9070 XT
       greeting = "The Void";
       timezone = timezone;
+      # Desktop with dedicated GPU — includes gaming aspects
+      isGaming = true;
     };
     voidframe = {
       users.neonvoid = neonvoid;
@@ -38,6 +40,7 @@ in
       isLaptop = true;
       greeting = "Void Frame";
       timezone = timezone;
+      isGaming = false;
     };
   };
 }

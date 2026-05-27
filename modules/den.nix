@@ -15,27 +15,28 @@
 
   # den specific setup
   den = {
-    ctx.user.includes = [ den._.mutual-provider ];
-    ctx.hm-host.nixos.home-manager = {
-      # For hosts with home manager users, automatically make home manager use host's nixpkgs
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      backupFileExtension = "bak";
-      # Removes current backup file before backing up
-      # to avoid home manager switch errors
-      backupCommand = ''
-        bash -c 'rm -f "$0.bak" && mv "$0" "$0.bak"'
-      '';
-      # Home manager modules
-      sharedModules = [
-        inputs.spicetify-nix.homeManagerModules.default
-        inputs.nix-index-database.homeModules.default
-        inputs.noctalia.homeModules.default
-      ];
-    };
     schema.user.classes = [ "homeManager" ];
     default = {
-      nixos.system.stateVersion = "26.05";
+      nixos = {
+        system.stateVersion = "26.05";
+        "home-manager" = {
+          # For hosts with home manager users, automatically make home manager use host's nixpkgs
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          backupFileExtension = "bak";
+          # Removes current backup file before backing up
+          # to avoid home manager switch errors
+          backupCommand = ''
+            bash -c 'rm -f "$0.bak" && mv "$0" "$0.bak"'
+          '';
+          # Home manager modules
+          sharedModules = [
+            inputs.spicetify-nix.homeManagerModules.default
+            inputs.nix-index-database.homeModules.default
+            inputs.noctalia.homeModules.default
+          ];
+        };
+      };
       homeManager.home.stateVersion = "26.05";
       includes = [
         # Automatically sets home.username, home.homeDirectory, users.users.<name>

@@ -4,7 +4,7 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    den.url = "github:denful/den/refs/tags/v0.16.0";
+    den.url = "github:denful/den/refs/tags/v0.17.0";
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

@@ -1,7 +1,9 @@
-{ den, ... }:
+{ den, lib, ... }:
 {
-  den.aspects.neonvoid = {
-    includes = [
+  den.aspects.neonvoid =
+    { host, ... }:
+    {
+      includes = [
       # Shell tools
       den.aspects.bat
       den.aspects.btop
@@ -72,6 +74,11 @@
       # Setups thunderbird and protonmailbridge, unique to my user, edit email.nix to setup your accounts
       den.aspects.email
       den.aspects.vesktop
+    ] ++ lib.optionals (host.isGaming or false) [
+      # Gaming — gated via host.isGaming
+      den.aspects.deadlock
+      den.aspects.wow
+      den.aspects.noisetorch
     ];
 
     nixos =

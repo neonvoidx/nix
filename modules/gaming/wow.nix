@@ -1,18 +1,14 @@
-{ den, inputs, ... }:
+{ den, ... }:
 {
-  den.aspects.wow =
-    { ... }:
+  den.aspects.wow.homeManager =
+    { pkgs, ... }:
     {
-      homeManager =
-        { pkgs, ... }:
-        {
-          home.packages = with pkgs; [
-            wowup-cf
-          ];
+      home.packages = with pkgs; [
+        wowup-cf
+      ];
 
-          xdg.mimeApps.defaultApplications = {
-            "x-scheme-handler/curseforge" = "wowup-cf.desktop";
-          };
-        };
+      xdg.mimeApps.defaultApplications = {
+        "x-scheme-handler/curseforge" = "wowup-cf.desktop";
+      };
     };
 }

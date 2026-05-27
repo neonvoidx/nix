@@ -1,14 +1,10 @@
-{ den, inputs, ... }:
+{ den, ... }:
 {
-  den.aspects.deadlock =
-    { ... }:
+  den.aspects.deadlock.homeManager =
+    { pkgs, ... }:
     {
-      homeManager =
-        { pkgs, ... }:
-        {
-          home.packages = with pkgs; [
-            deadlock-mod-manager
-          ];
-        };
+      home.packages = with pkgs; [
+        deadlock-mod-manager
+      ];
     };
 }
