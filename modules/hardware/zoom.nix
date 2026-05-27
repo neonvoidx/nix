@@ -10,6 +10,7 @@
           services.zoom-sync = {
             enable = true;
             user = builtins.head (builtins.attrNames host.users);
+            # TODO extraArgs?
           };
         };
     };

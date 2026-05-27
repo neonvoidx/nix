@@ -3,7 +3,7 @@
 { lib, ... }:
 {
   flake-file.inputs = {
-    den.url = "github:denful/den/refs/tags/v0.16.0";
+    den.url = "github:denful/den/refs/tags/v0.17.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -40,9 +40,10 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zoom-sync = {
-      url = "github:ozboar/zoom-sync";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # TODO after zoom usb works
+    # zoom-sync = {
+    #   url = "github:ozboar/zoom-sync";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 }

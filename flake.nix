@@ -45,9 +45,5 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zoom-sync = {
-      url = "github:ozboar/zoom-sync";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }
