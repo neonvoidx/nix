@@ -21,6 +21,12 @@
 
             extraLadspaPackages = [ pkgs.rnnoise-plugin.ladspa ];
 
+            extraConfig.pipewire-pulse."99-silence-warnings" = {
+              "context.properties" = {
+                "log.level" = 1;
+              };
+            };
+
             # Good sane defaults for gaming and audio
             extraConfig.pipewire = {
               "10-low-latency.conf" = {

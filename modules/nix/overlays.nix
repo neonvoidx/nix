@@ -15,6 +15,15 @@
                 cp -v NeonMono.ttc $out/share/fonts/truetype/
               '';
             };
+            monolisa = final.stdenv.mkDerivation {
+              pname = "monolisa";
+              version = "1.0.0";
+              src = inputs.self + "/assets/fonts/MonoLisa";
+              installPhase = ''
+                mkdir -p $out/share/fonts/truetype
+                cp -v MonoLisa.ttc $out/share/fonts/truetype/
+              '';
+            };
           })
         ];
       };

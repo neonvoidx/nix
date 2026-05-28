@@ -5,6 +5,7 @@
     {
       fonts.packages = with pkgs; [
         neonmono
+        monolisa
         fira-sans
         roboto
         material-icons

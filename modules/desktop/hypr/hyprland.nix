@@ -168,6 +168,8 @@
               hl.env("XDG_SESSION_DESKTOP", "Hyprland")
               hl.env("MOZ_ENABLE_WAYLAND", "1")
               hl.env("EGL_PLATFORM", "wayland")
+              hl.env("HYPRLAND_TRACE", "1")
+              hl.env("AQ_TRACE", "1")
 
               -- -----------------------------------------------------------------------
               -- Monitors
@@ -484,7 +486,7 @@
                   cm_enabled = true,
                   cm_auto_hdr = 0,
                   non_shader_cm = 0,
-                  keep_unmodified_copy = 1,
+                  keep_unmodified_copy = 0,
                   use_fp16=2,
                   -- use_shader_blur_blend = true,
                 },
