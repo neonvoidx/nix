@@ -4,7 +4,7 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
-        (inputs.neonmono.packages.${pkgs.system}.default)
+        (inputs.neonmono.packages.${pkgs.stdenv.hostPlatform.system}.default)
         fira-sans
         roboto
         material-icons
