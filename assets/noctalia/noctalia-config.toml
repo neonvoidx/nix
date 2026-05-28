@@ -29,7 +29,7 @@ end = [
     "date",
     "session"
 ]
-font_weight = 600
+font_weight = 700
 margin_edge = 5.0
 margin_ends = 8.0
 padding = 10
@@ -80,7 +80,7 @@ position = "top_center"
 scale = 1.1000000089406967
 
 [shell]
-font_family = "NeonMono Semibold"
+font_family = "NeonMono"
 lang = "en"
 launch_apps_as_systemd_services = true
 polkit_agent = true
