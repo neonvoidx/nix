@@ -71,7 +71,7 @@
             {
               type = "custom";
               key = " FONT";
-              format = "MonoLisa";
+              format = "NeonMono";
             }
             {
               type = "uptime";

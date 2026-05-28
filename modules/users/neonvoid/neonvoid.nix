@@ -78,7 +78,6 @@
         # Gaming — gated via host.isGaming
         den.aspects.deadlock
         den.aspects.wow
-        den.aspects.noisetorch
       ];
 
       nixos =

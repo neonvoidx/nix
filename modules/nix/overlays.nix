@@ -6,13 +6,13 @@
       nixpkgs = {
         overlays = [
           (final: _prev: {
-            monolisa = final.stdenv.mkDerivation {
-              pname = "monolisa";
+            neonmono = final.stdenv.mkDerivation {
+              pname = "neonmono";
               version = "1.0.0";
-              src = inputs.self + "/assets/fonts/MonoLisa";
+              src = inputs.self + "/assets/fonts/";
               installPhase = ''
                 mkdir -p $out/share/fonts/truetype
-                cp -v MonoLisa.ttc $out/share/fonts/truetype/
+                cp -v NeonMono.ttc $out/share/fonts/truetype/
               '';
             };
           })

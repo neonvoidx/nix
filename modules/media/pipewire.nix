@@ -4,7 +4,7 @@
     { host, ... }:
     {
       nixos =
-        { ... }:
+        { pkgs, ... }:
         {
           # Realtime priority
           security.rtkit.enable = true;
@@ -18,6 +18,8 @@
             wireplumber.enable = true;
             pulse.enable = true;
             jack.enable = true;
+
+            extraLadspaPackages = [ pkgs.rnnoise-plugin.ladspa ];
 
             # Good sane defaults for gaming and audio
             extraConfig.pipewire = {
@@ -49,6 +51,40 @@
                   "default.clock.min-quantum" = 256;
                   "default.clock.max-quantum" = 8192;
                 };
+              };
+              "10-rnnoise-source" = {
+                "context.modules" = [
+                  {
+                    name = "libpipewire-module-filter-chain";
+                    flags = [ "nofail" ];
+                    args = {
+                      "node.description" = "Noise Canceling source";
+                      "media.name" = "Noise Canceling source";
+                      "filter.graph" = {
+                        nodes = [
+                          {
+                            type = "ladspa";
+                            name = "rnnoise";
+                            plugin = "librnnoise_ladspa";
+                            label = "noise_suppressor_mono";
+                            control = {
+                              "VAD Threshold (%)" = 50.0;
+                            };
+                          }
+                        ];
+                      };
+                      "audio.position" = [ "FL" "FR" ];
+                      "capture.props" = {
+                        "node.name" = "effect_input.rnnoise";
+                        "node.passive" = true;
+                      };
+                      "playback.props" = {
+                        "node.name" = "effect_output.rnnoise";
+                        "media.class" = "Audio/Source";
+                      };
+                    };
+                  }
+                ];
               };
             };
 
@@ -185,7 +221,7 @@
               })
             ];
           };
-
         };
+
     };
 }

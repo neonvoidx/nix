@@ -80,7 +80,7 @@ position = "top_center"
 scale = 1.1000000089406967
 
 [shell]
-font_family = "MonoLisa"
+font_family = "NeonMono"
 lang = "en"
 launch_apps_as_systemd_services = true
 polkit_agent = true

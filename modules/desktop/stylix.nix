@@ -26,21 +26,18 @@
 
           fonts = {
             serif = {
-              package = pkgs.roboto;
-              name = "Roboto";
+              name = "NeonMono";
             };
 
             sansSerif = {
-              package = pkgs.roboto;
-              name = "Roboto";
+              name = "NeonMono";
             };
 
             monospace = {
-              name = "MonoLisa";
+              name = "NeonMono";
             };
 
             emoji = {
-              package = pkgs.noto-fonts-color-emoji;
               name = "Noto Color Emoji";
             };
 
