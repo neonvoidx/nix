@@ -4,8 +4,9 @@
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
-        fira-sans
         neonmono
+        fira-sans
+        roboto
         material-icons
         material-symbols
         nerd-fonts.symbols-only

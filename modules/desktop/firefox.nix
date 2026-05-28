@@ -52,6 +52,10 @@
                   // user_pref("network.dnsCacheEntries", 0);
                   // user_pref("network.dnsCacheExpiration", 0);
                   // user_pref("network.dnsCacheExpirationGracePeriod", 0);
+                  user_pref("browser.nova.enabled")
+                  user_pref("browser.newtabpage.activity-stream.nova.enabled")
+                  user_pref("browser.urlbar.nova.featureGate")
+                  user_pref("browser.urlbar.quicksuggest.ampTopPickUseNovaIconSize")
                   user_pref("print.print_in_color", true);
                   user_pref("print.default-print-settings.printBGColors", true);
                   user_pref("print.default-print-settings.printBGImages", true);

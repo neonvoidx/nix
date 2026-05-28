@@ -26,11 +26,11 @@
 
           fonts = {
             serif = {
-              name = "NeonMono";
+              name = "Roboto";
             };
 
             sansSerif = {
-              name = "NeonMono";
+              name = "Roboto";
             };
 
             monospace = {
