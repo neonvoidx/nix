@@ -54,16 +54,16 @@
       {
         stylix.targets = {
           cava.rainbow.enable = true;
-          firefox.enable = false;
           hyprland.enable = true;
+          starship.enable = true;
+          spicetify.enable = false;
           hyprland.colors.enable = false;
+          firefox.enable = false;
           kitty.enable = false;
           neovim.enable = false;
           noctalia-shell.enable = false;
           obsidian.enable = false;
-          starship.enable = true;
           yazi.enable = false;
-          spicetify.enable = false;
           qt = {
             platform = lib.mkForce "qtct";
             standardDialogs = "xdgdesktopportal";
