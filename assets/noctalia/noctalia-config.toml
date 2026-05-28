@@ -109,7 +109,7 @@ ui_scale = 1.1000000089406967
     [[shell.session.actions]]
     action = "suspend"
     enabled = true
-    shortcut = "s"
+    shortcut = "h"
     variant = "default"
 
     [[shell.session.actions]]
@@ -132,11 +132,6 @@ directory = "/home/neonvoid/pics/ultrawide"
 per_monitor_directories = true
 transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
 
-    [wallpaper.default]
-    path = "/home/neonvoid/pics/ultrawide/hyprbeast.jpg"
-
-    [wallpaper.last]
-    path = "/home/neonvoid/pics/vertical/riding-home.png"
 
     [wallpaper.monitor.DP-2]
     directory = "/home/neonvoid/pics/ultrawide"
@@ -152,15 +147,6 @@ transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
     directory = "/home/neonvoid/pics/vertical"
     directory_dark = "/home/neonvoid/pics/vertical"
     directory_light = "/home/neonvoid/pics/vertical"
-
-    [wallpaper.monitors.DP-2]
-    path = "/home/neonvoid/pics/ultrawide/moonlanding.jpg"
-
-    [wallpaper.monitors.DP-3]
-    path = "/home/neonvoid/pics/ultrawide/racoon.png"
-
-    [wallpaper.monitors.HDMI-A-1]
-    path = "/home/neonvoid/pics/vertical/riding-home.png"
 
 [weather]
 auto_locate = true
