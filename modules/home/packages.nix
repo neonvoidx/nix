@@ -11,7 +11,6 @@
         aseprite
         asciinema
         blueman
-        cachix
         cmatrix
         comma
         evtest
