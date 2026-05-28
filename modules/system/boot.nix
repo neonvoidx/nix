@@ -3,6 +3,9 @@
   den.aspects.boot.nixos = {
     boot = {
       plymouth.enable = true;
+      tmp = {
+        cleanOnBoot = true;
+      };
       loader = {
         efi = {
           canTouchEfiVariables = true;

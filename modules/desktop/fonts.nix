@@ -6,6 +6,7 @@
       fonts.packages = with pkgs; [
         monolisa
         fira-sans
+        ibm-plex
         material-icons
         material-symbols
         nerd-fonts.symbols-only
