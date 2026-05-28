@@ -19,8 +19,7 @@
         };
 
         font = {
-          name = "MonoLisa";
-          # name = "NeonMono";
+          name = "NeonMono";
           size = 16;
         };
 

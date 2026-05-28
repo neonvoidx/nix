@@ -20,6 +20,10 @@
       url = "github:vic/nix-versions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neonmono = {
+      url = "github:neonvoidx/NeonMono";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/v5";
       inputs.nixpkgs.follows = "nixpkgs";

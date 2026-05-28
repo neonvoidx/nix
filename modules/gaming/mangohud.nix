@@ -1,4 +1,4 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.mangohud =
     { host, user, ... }:
@@ -39,7 +39,7 @@
                 table_columns = 2;
                 toggle_hud = "Shift_R+F12";
                 font_size = 16;
-                font_file = "${pkgs.neonmono}/share/fonts/truetype/NeonMono-Medium.ttf";
+                font_file = "${inputs.neonmono.packages.${pkgs.system}.default}/share/fonts/truetype/NeonMono-Medium.ttf";
                 font_glyph_ranges = "korean, chinese, chinese_simplified, japanese, cyrillic, thai, vietnamese, latin_ext_a, latin_ext_b";
                 gpu_color = "a48cf2";
                 cpu_text = "CPU";

@@ -1,11 +1,10 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.fonts.nixos =
     { pkgs, ... }:
     {
       fonts.packages = with pkgs; [
-        neonmono
-        monolisa
+        (inputs.neonmono.packages.${pkgs.system}.default)
         fira-sans
         roboto
         material-icons

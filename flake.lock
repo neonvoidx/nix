@@ -394,11 +394,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1779914964,
-        "narHash": "sha256-xnAvZFURq0rIs2bv6Oky64Hh/eXfwxaGdAnWt8k9bxI=",
+        "lastModified": 1779972944,
+        "narHash": "sha256-f+FuaavedFCZcSQZ9LH8e2zVN3/7bbirVmR8x88c90k=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "023169e1be01cf12f42170fe22b0623a94b5c757",
+        "rev": "faecc5950a15073f273ef30652e49d2db18878ce",
         "type": "github"
       },
       "original": {
@@ -653,6 +653,44 @@
         "type": "github"
       }
     },
+    "iosevka-upstream": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774705911,
+        "narHash": "sha256-Se+GIx+Uea/lMOdTDhbt/H+F0yeyMHclpSp52U+pmtA=",
+        "owner": "be5invis",
+        "repo": "Iosevka",
+        "rev": "49312e9338d63caba2a9b2c6a71ece2da2f73981",
+        "type": "github"
+      },
+      "original": {
+        "owner": "be5invis",
+        "ref": "refs/tags/v34.3.0",
+        "repo": "Iosevka",
+        "type": "github"
+      }
+    },
+    "neonmono": {
+      "inputs": {
+        "iosevka-upstream": "iosevka-upstream",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779975991,
+        "narHash": "sha256-SFZ9BBnLcMUw6bT+aaLcDX1Gn9N7N7Mvd1Pv8Fo17Nk=",
+        "owner": "neonvoidx",
+        "repo": "NeonMono",
+        "rev": "f6641ca71ad2c9b4bbfe1eb79da31b5182b8c2ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "neonvoidx",
+        "repo": "NeonMono",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -751,11 +789,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779935670,
-        "narHash": "sha256-4xk5mkA1GGT7362uXHq7zToNMxAWiLsiHNa3xecI1wU=",
+        "lastModified": 1779976259,
+        "narHash": "sha256-YlpCZ1sFJet0FLHvnZ2+KSHGdC33hOQSJJD15u0t5ys=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "6df784dd16ba4cee339e0ed7ffc494afccf14e26",
+        "rev": "fbb944de1e7da518f003a221b02780d3639a8d79",
         "type": "github"
       },
       "original": {
@@ -821,6 +859,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "import-tree": "import-tree",
+        "neonmono": "neonmono",
         "nix-index-database": "nix-index-database",
         "nix-versions": "nix-versions",
         "nixpkgs": "nixpkgs_2",
