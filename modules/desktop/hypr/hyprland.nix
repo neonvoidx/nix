@@ -197,18 +197,21 @@
               -- -----------------------------------------------------------------------
 
               ${lib.optionalString isMultiMonitor ''
-                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout_opts = { orientation = "top" } })
+                -- Primary workspace per monitor — sets the default when focusing each monitor.
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = 4, monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = 5, monitor = default_monitor, default = true })
-                hl.workspace_rule({ workspace = 6, monitor = default_monitor, default = true, layout = "floating" })
-                hl.workspace_rule({ workspace = 10, monitor = default_monitor, default = true })
-                hl.workspace_rule({ workspace = 11, monitor = default_monitor, default = true })
+                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout_opts = { orientation = "top" } })
+
+                -- Secondary workspaces have NO monitor binding — scripts (restore/screen-toggle)
+                -- handle placement dynamically based on active layout. Avoids binding conflicts
+                -- when the bound monitor is disabled (e.g. DP-2 in work layouts).
+                hl.workspace_rule({ workspace = 4 })
+                hl.workspace_rule({ workspace = 5 })
+                hl.workspace_rule({ workspace = 6, layout = "floating" })
+                hl.workspace_rule({ workspace = 10 })
+                hl.workspace_rule({ workspace = 11 })
                 hl.workspace_rule({
                   workspace = "name:gaming",
-                  monitor = default_monitor,
-                  default = true,
                   no_rounding = true,
                   decorate = false,
                   no_border = true,

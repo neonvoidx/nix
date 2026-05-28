@@ -15,15 +15,16 @@ if [ -f "$LAYOUT_FILE" ]; then
   current_layout=$(tr -d '\n' < "$LAYOUT_FILE")
 fi
 
-move_all_workspaces_to_monitor() {
-  # Get the list of existing workspace IDs
-  existing_workspaces=$(hyprctl workspaces -j | jq '.[].id')
+set_cursor_default_monitor() {
+  hyprctl keyword cursor:default_monitor "$1" >/dev/null 2>&1 || true
+}
 
-  for workspace in "${WORKSPACES_TO_MOVE[@]}"; do
-    if echo "$existing_workspaces" | grep -q -w "$workspace"; then
-      hyprctl eval "move_workspace_to_monitor($(printf '%s' "$workspace" | jq -Rr @json), $(printf '%s' "$1" | jq -Rr @json))" >/dev/null 2>&1 || true
-    fi
-  done
+dispatch_move_workspace() {
+  hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\" })" >/dev/null 2>&1 || true
+}
+
+dispatch_focus_monitor() {
+  hyprctl dispatch "hl.dsp.focus({ monitor = \"$1\" })" >/dev/null 2>&1 || true
 }
 
 if [ "$1" = "1" ]; then
@@ -43,19 +44,22 @@ if [ "$1" = "1" ]; then
   # Enforce workspace-to-monitor bindings after layout transition.
   # The layout re-config may momentarily shuffle workspaces; explicitly
   # place every workspace back on its designated monitor.
-  hyprctl eval "
-    move_workspace_to_monitor(\"1\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"2\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
-    move_workspace_to_monitor(\"4\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"5\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"6\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"7\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"8\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"9\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"10\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-    move_workspace_to_monitor(\"11\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
-  " >/dev/null 2>&1 || true
+  dispatch_move_workspace 1  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 2  "$SECONDARY_MONITOR"
+  dispatch_move_workspace 3  "HDMI-A-1"
+  dispatch_move_workspace 4  "$SECONDARY_MONITOR"
+  dispatch_move_workspace 5  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 6  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 7  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 8  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 9  "$PRIMARY_MONITOR"
+  dispatch_move_workspace 10 "$PRIMARY_MONITOR"
+  dispatch_move_workspace 11 "$PRIMARY_MONITOR"
+
+  # Cursor default must follow the active primary monitor, never HDMI.
+  set_cursor_default_monitor "$PRIMARY_MONITOR"
+  dispatch_focus_monitor "$PRIMARY_MONITOR"
+
   # Persist chosen layout in a single file so it can be restored after nix rebuild.
   echo "$next_layout" > "$LAYOUT_FILE"
   exit
@@ -71,7 +75,16 @@ else
   "$APPLY_SCRIPT" "$next_layout"
   # Let monitors settle (DP-2 being disabled may shuffle workspaces)
   sleep 0.5
-  move_all_workspaces_to_monitor "$SECONDARY_MONITOR"
+
+  # Move every workspace to the secondary monitor.
+  for ws in 1 2 4 5 6 7 8 9 10 11; do
+    dispatch_move_workspace "$ws" "$SECONDARY_MONITOR"
+  done
+
+  # Cursor default must follow the active primary monitor, never HDMI.
+  set_cursor_default_monitor "$SECONDARY_MONITOR"
+  dispatch_focus_monitor "$SECONDARY_MONITOR"
+
   echo "$next_layout" > "$LAYOUT_FILE"
   exit
 fi
