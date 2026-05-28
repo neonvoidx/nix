@@ -20,6 +20,10 @@
       url = "github:vic/nix-versions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvim-config = {
+      url = "github:neonvoidx/nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neonmono = {
       url = "github:neonvoidx/NeonMono";
       inputs.nixpkgs.follows = "nixpkgs";

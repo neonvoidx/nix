@@ -19,7 +19,7 @@
         den.aspects.lsd
         den.aspects.mcp
         den.aspects.nh
-        den.aspects.neovim
+        den.aspects.nvim
         den.aspects.opencode
         den.aspects.payrespects
         den.aspects.starship
