@@ -70,7 +70,7 @@
             }
             {
               type = "custom";
-              key = " FONT";
+              key = "󰛖 FONT";
               format = "NeonMono";
             }
             {
