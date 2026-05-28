@@ -1,5 +1,9 @@
 name: build and cache
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     branches: [ master ]
@@ -7,12 +11,14 @@ on:
       - '**.nix'
       - 'flake.lock'
       - 'assets/**'
+      - '.github/workflows/**'
   push:
     branches: [ master ]
     paths:
       - '**.nix'
       - 'flake.lock'
       - 'assets/**'
+      - '.github/workflows/**'
 
 jobs:
   check:
