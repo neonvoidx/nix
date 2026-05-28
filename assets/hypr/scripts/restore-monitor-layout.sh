@@ -31,22 +31,39 @@ if [ -x "$APPLY_SCRIPT" ]; then
 fi
 
 # ── Enforce workspace-to-monitor bindings ──────────────────────────────────
-# After apply_monitor_layout() reconfigures monitors (and may disable DP-2
-# when restoring the "work"/"work-notouch" layout), workspaces can be
-# reassigned to wrong monitors (e.g. workspace 5 landing on HDMI-A-1).
-# Re-bind each workspace to its designated monitor so the portrait monitor
-# (HDMI-A-1) always gets workspace 3 and never 5.
+# In work layouts DP-2 is disabled, so all workspaces go to DP-3.
+# In default layouts DP-2 is the primary, DP-3 is secondary.
+# Without this, workspaces drift to HDMI-A-1 when moves to DP-2 fail silently.
 
-hyprctl eval "
-move_workspace_to_monitor(\"1\", \"DP-2\")
-move_workspace_to_monitor(\"2\", \"DP-3\")
-move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
-move_workspace_to_monitor(\"4\", \"DP-3\")
-move_workspace_to_monitor(\"5\", \"DP-2\")
-move_workspace_to_monitor(\"6\", \"DP-2\")
-move_workspace_to_monitor(\"10\", \"DP-2\")
-move_workspace_to_monitor(\"11\", \"DP-2\")
-" >/dev/null 2>&1 || true
+if [[ "$layout" == work* ]]; then
+  hyprctl eval "
+    move_workspace_to_monitor(\"1\", \"DP-3\")
+    move_workspace_to_monitor(\"2\", \"DP-3\")
+    move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
+    move_workspace_to_monitor(\"4\", \"DP-3\")
+    move_workspace_to_monitor(\"5\", \"DP-3\")
+    move_workspace_to_monitor(\"6\", \"DP-3\")
+    move_workspace_to_monitor(\"7\", \"DP-3\")
+    move_workspace_to_monitor(\"8\", \"DP-3\")
+    move_workspace_to_monitor(\"9\", \"DP-3\")
+    move_workspace_to_monitor(\"10\", \"DP-3\")
+    move_workspace_to_monitor(\"11\", \"DP-3\")
+  " >/dev/null 2>&1 || true
+else
+  hyprctl eval "
+    move_workspace_to_monitor(\"1\", \"DP-2\")
+    move_workspace_to_monitor(\"2\", \"DP-3\")
+    move_workspace_to_monitor(\"3\", \"HDMI-A-1\")
+    move_workspace_to_monitor(\"4\", \"DP-3\")
+    move_workspace_to_monitor(\"5\", \"DP-2\")
+    move_workspace_to_monitor(\"6\", \"DP-2\")
+    move_workspace_to_monitor(\"7\", \"DP-2\")
+    move_workspace_to_monitor(\"8\", \"DP-2\")
+    move_workspace_to_monitor(\"9\", \"DP-2\")
+    move_workspace_to_monitor(\"10\", \"DP-2\")
+    move_workspace_to_monitor(\"11\", \"DP-2\")
+  " >/dev/null 2>&1 || true
+fi
 
 "$HOME/.config/hypr/scripts/restore-xrandr-primary.sh"
 

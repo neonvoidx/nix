@@ -37,6 +37,9 @@ if [ "$1" = "1" ]; then
   esac
   "$APPLY_SCRIPT" "$next_layout"
 
+  # Let monitors settle before moving workspaces (DP-2 may be re-enabling)
+  sleep 0.5
+
   # Enforce workspace-to-monitor bindings after layout transition.
   # The layout re-config may momentarily shuffle workspaces; explicitly
   # place every workspace back on its designated monitor.
@@ -47,6 +50,9 @@ if [ "$1" = "1" ]; then
     move_workspace_to_monitor(\"4\", $(printf '%s' "$SECONDARY_MONITOR" | jq -Rr @json))
     move_workspace_to_monitor(\"5\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
     move_workspace_to_monitor(\"6\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"7\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"8\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
+    move_workspace_to_monitor(\"9\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
     move_workspace_to_monitor(\"10\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
     move_workspace_to_monitor(\"11\", $(printf '%s' "$PRIMARY_MONITOR" | jq -Rr @json))
   " >/dev/null 2>&1 || true
@@ -63,6 +69,8 @@ else
     *) next_layout="$current_layout" ;;
   esac
   "$APPLY_SCRIPT" "$next_layout"
+  # Let monitors settle (DP-2 being disabled may shuffle workspaces)
+  sleep 0.5
   move_all_workspaces_to_monitor "$SECONDARY_MONITOR"
   echo "$next_layout" > "$LAYOUT_FILE"
   exit
