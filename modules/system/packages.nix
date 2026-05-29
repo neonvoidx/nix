@@ -31,6 +31,8 @@
         mediainfo
         mtr
         nix-converter
+        nixfmt
+        nixpkgs-review
         ncdu
         nurl
         nvd
@@ -43,6 +45,7 @@
         swappy
         traceroute
         tree
+        treefmt
         tree-sitter
         udiskie
         unzip
