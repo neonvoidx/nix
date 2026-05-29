@@ -21,7 +21,10 @@
 
       systemd.services.cups-color-default = {
         description = "Force color printing default for HP printer";
-        after = [ "cups.service" "cups-ensure-printers.service" ];
+        after = [
+          "cups.service"
+          "cups-ensure-printers.service"
+        ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "oneshot";
