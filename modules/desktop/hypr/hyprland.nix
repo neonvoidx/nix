@@ -551,7 +551,6 @@
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
-                hl.exec_cmd("systemctl --user start noctalia-shell.service")
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 -- TODO: remove setpriv wrapper after Hyprland drops ambient caps internally
                 -- https://github.com/hyprwm/Hyprland/discussions/14844

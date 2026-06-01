@@ -14,6 +14,12 @@
           minimizeToTray = false;
           tray = true;
         };
+        extraQuickCss = /* css */ ''
+          /*Highlight text select color */
+          [role="textbox"] *::selection {
+            background: #7081d0 !important;
+          }
+        '';
         vencord.settings = {
           enabledThemes = [ "stylix.css" ];
           autoUpdate = true;
