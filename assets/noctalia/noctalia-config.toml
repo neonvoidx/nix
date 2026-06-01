@@ -96,13 +96,16 @@ ui_scale = 1.1000000089406967
 
     [[shell.session.actions]]
     action = "lock"
-    enabled = false
-    shortcut = "1"
+    enabled = true
+    shortcut = "x"
     variant = "default"
 
     [[shell.session.actions]]
-    action = "logout"
+    action = "command"
+    command = "hyprshutdown"
     enabled = true
+    glyph = "logout"
+    label = "Logout"
     shortcut = "l"
     variant = "default"
 
@@ -129,9 +132,15 @@ builtin = "Eldritch"
 
 [wallpaper]
 directory = "/home/neonvoid/pics/ultrawide"
+directory_dark = "/home/neonvoid/pics/ultrawide"
+directory_light = "/home/neonvoid/pics/ultrawide"
 per_monitor_directories = true
 transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
 
+    [wallpaper.automation]
+    enabled = true
+    interval_minutes = 5
+    recursive = false
 
     [wallpaper.monitor.DP-2]
     directory = "/home/neonvoid/pics/ultrawide"

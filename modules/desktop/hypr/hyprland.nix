@@ -343,7 +343,7 @@
 
               local reminder_size = { "(monitor_w*0.2)", "(monitor_h*0.3)" }
               local reminder_move = { "(monitor_w-(monitor_w*0.2)-10)", "(monitor_h-(monitor_h*0.3)-10)" }
-              local floating_max_size = { "(monitor_w*0.9)", "(monitor_h*0.9)" }
+              local floating_max_size = { "(monitor_w*0.8)", "(monitor_h*0.8)" }
 
               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "satty", match = { class = "com.gabm.satty" }, float = true, max_size = floating_max_size })
