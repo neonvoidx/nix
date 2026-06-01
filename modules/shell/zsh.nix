@@ -256,6 +256,7 @@
                 # Re-assert history options after deferred plugins (e.g. zsh-vi-mode) may reset them
                 setopt SHARE_HISTORY INC_APPEND_HISTORY
 
+                eval "$(devenv hook zsh)"
               '';
         };
       };

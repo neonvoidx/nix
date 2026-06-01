@@ -13,6 +13,7 @@
         blueman
         cmatrix
         comma
+        devenv
         evtest
         ffmpeg
         file-roller
