@@ -347,7 +347,7 @@
 
               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "satty", match = { class = "com.gabm.satty" }, float = true, max_size = floating_max_size })
-              hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size })
+              hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
 
