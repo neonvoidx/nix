@@ -307,9 +307,9 @@
               -- Media And Screenshot Binds
               -- -----------------------------------------------------------------------
 
-              hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
-              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
-              hl.bind("CTRL + Print", hl.dsp.exec_cmd('grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
+              hl.bind("Print", hl.dsp.exec_cmd('hyprctl keyword render:cm_enabled 0; grim -g "$(slurp -d)" - | wl-copy; hyprctl keyword render:cm_enabled 1'))
+              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('hyprctl keyword render:cm_enabled 0; grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; hyprctl keyword render:cm_enabled 1'))
+              hl.bind("CTRL + Print", hl.dsp.exec_cmd('hyprctl keyword render:cm_enabled 0; grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; hyprctl keyword render:cm_enabled 1'))
 
               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
@@ -551,6 +551,7 @@
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
+                hl.exec_cmd("systemctl --user start noctalia-shell.service")
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 -- TODO: remove setpriv wrapper after Hyprland drops ambient caps internally
                 -- https://github.com/hyprwm/Hyprland/discussions/14844
