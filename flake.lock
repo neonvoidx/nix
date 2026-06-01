@@ -1022,11 +1022,11 @@
         "resolved-nvim": "resolved-nvim"
       },
       "locked": {
-        "lastModified": 1780336745,
-        "narHash": "sha256-tVp43DxIihgc9SZdfjzN5svs2PJ0JIkwvun7t2pbUfU=",
+        "lastModified": 1780338581,
+        "narHash": "sha256-fBC/jVks53TU6/HzNVomU+E2m56ZI6hs4gEL68iH0lQ=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "9d6220790ec340f6650d80bc9fbee7eac8d2cac4",
+        "rev": "78966e3b8d9b61ca670d14c59c4dd171d6ccd765",
         "type": "github"
       },
       "original": {

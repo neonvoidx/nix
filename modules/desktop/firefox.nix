@@ -235,6 +235,21 @@
                     updateInterval = 24 * 60 * 60 * 1000; # every day
                     definedAliases = [ "@y" ];
                   };
+                  "devenv" = {
+                    urls = [
+                      {
+                        template = "https://devenv.new";
+                        params = [
+                          {
+                            name = "q";
+                            value = "{searchTerms}";
+                          }
+                        ];
+                      }
+                    ];
+                    icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                    definedAliases = [ "@d" ];
+                  };
                   bing.metaData.hidden = true;
                   google.metaData.hidden = true;
                 };

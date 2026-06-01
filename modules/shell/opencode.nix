@@ -45,6 +45,7 @@
             diff_style = "auto";
           };
         };
+        zsh.initContent = "alias oc=opencode";
       };
     };
 }
