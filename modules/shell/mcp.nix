@@ -1,8 +1,9 @@
 { den, ... }:
 {
   den.aspects.mcp.homeManager =
-    { ... }:
+    { pkgs, ... }:
     {
+      home.packages = [ pkgs.github-mcp-server ];
       programs.mcp = {
         enable = true;
         servers = {
@@ -20,6 +21,10 @@
               "run"
               "github:JEFF7712/nix-agent"
             ];
+          };
+          github = {
+            command = "github-mcp-server";
+            args = [ "stdio" ];
           };
         };
       };
