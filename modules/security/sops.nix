@@ -12,7 +12,6 @@
             age.sshKeyPaths = map (user: "/home/${user.userName}/.ssh/id_ed25519") (
               builtins.attrValues host.users
             );
-            validateSopsFiles = false;
             secrets = {
               "cachix" = {
                 owner = "neonvoid";

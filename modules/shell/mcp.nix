@@ -1,14 +1,6 @@
 { den, ... }:
 {
   den.aspects.mcp = {
-    nixos = {
-      environment.extraInit = ''
-        if [ -f /run/secrets/github-pat ]; then
-          export GITHUB_TOKEN="$(cat /run/secrets/github-pat)"
-        fi
-      '';
-    };
-
     homeManager =
       { pkgs, ... }:
       {

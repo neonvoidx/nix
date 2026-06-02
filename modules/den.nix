@@ -18,7 +18,7 @@
     schema.user.classes = [ "homeManager" ];
     default = {
       nixos = {
-        system.stateVersion = "26.05";
+        system.stateVersion = "26.11";
         "home-manager" = {
           # For hosts with home manager users, automatically make home manager use host's nixpkgs
           useGlobalPkgs = true;
@@ -37,7 +37,9 @@
           ];
         };
       };
-      homeManager.home.stateVersion = "26.05";
+      homeManager = {
+        home.stateVersion = "26.11";
+      };
       includes = [
         # Automatically sets home.username, home.homeDirectory, users.users.<name>
         den._.define-user

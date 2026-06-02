@@ -75,6 +75,10 @@
               line-numbers-zero-style = "#${c.base03}";
             };
           };
+          home.sessionVariables = {
+            GITHUB_PERSONAL_ACCESS_TOKEN = "$(cat /run/secrets/github-pat)";
+          };
+
           programs.gh = {
             enable = true;
             gitCredentialHelper.enable = true;

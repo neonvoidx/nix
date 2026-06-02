@@ -7,6 +7,7 @@
         imports = [ inputs.stylix.nixosModules.stylix ];
         stylix = {
           enable = true;
+          enableReleaseChecks = false;
           polarity = "dark";
 
           targets.qt = {
@@ -52,6 +53,10 @@
     homeManager =
       { lib, ... }:
       {
+        # TODO: remove enableReleaseChecks = false when PR#2337 is merged and we switch to stylix main
+        stylix = {
+          enableReleaseChecks = false;
+        };
         stylix.targets = {
           cava.rainbow.enable = true;
           hyprland.enable = true;

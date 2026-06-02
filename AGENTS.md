@@ -325,7 +325,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 `modules/den.nix` centralises shared configuration applied to every host:
 
-- `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"26.05"`
+- `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"26.11"`
 - `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, `backupCommand`, and `sharedModules` (spicetify-nix, nix-index-database, noctalia)
 - `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`, `den._.hostname`
 
