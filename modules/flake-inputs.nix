@@ -46,7 +46,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:danth/stylix";
+      # TODO: remove when PR#2337 is merged — https://github.com/nix-community/stylix/pull/2337
+      url = "github:nix-community/stylix/pull/2337/head";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # TODO after zoom usb works
