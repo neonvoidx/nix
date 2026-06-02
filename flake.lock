@@ -378,11 +378,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780406545,
-        "narHash": "sha256-IYllbrgmye2+7sd4467SgUZoz6+Pot1RgL94rgTtO7o=",
+        "lastModified": 1780408569,
+        "narHash": "sha256-s7Tv6FUQThRAvW8En8XVC6HMb0uiikzVccCcCo9u/Bg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "68227a9363266a1d1b51469bfcd31679855d2e62",
+        "rev": "f384af1bec6423a0d4ba1855917ab948f64e5808",
         "type": "github"
       },
       "original": {
@@ -946,11 +946,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780405008,
-        "narHash": "sha256-Np4k313RBgSBFO0bEOZQ+DcqulVIJMUwzCPmrCV5sEk=",
+        "lastModified": 1780419877,
+        "narHash": "sha256-8ppEAcXX/SDl2A1xBEs69IGZC18Ru7JA7c/fc6Miq2Q=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "6347512f72d470456943ef17f38fe54a55cfff5c",
+        "rev": "3a21dc052298a1595922b8df34ac05f95ad332cb",
         "type": "github"
       },
       "original": {
@@ -972,11 +972,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779766384,
-        "narHash": "sha256-P7Ohnlq8b8b2fU+Sgkrej7LBTM60LBTkHleLuYzmLmU=",
+        "lastModified": 1780281641,
+        "narHash": "sha256-M/+hUKoKbHXpV0xGVfELbN1Ds1aoe3pL5p5/t46YhVo=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "57800b7ab648725ccd33551d01484ee14952ad3f",
+        "rev": "30f9ae2f04174de63ba8bcf3580ca90843b28a01",
         "type": "github"
       },
       "original": {
@@ -1190,16 +1190,15 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1780351663,
-        "narHash": "sha256-oslSO0H5BA3u5Q5rB02hmvc+7juFAAh5DtluZ5DpSb4=",
+        "lastModified": 1780418031,
+        "narHash": "sha256-/lkloe/Vlpq8GmKiHzxA3woYUubWX1mV/RDtv8TE4d0=",
         "owner": "nix-community",
         "repo": "stylix",
-        "rev": "c15e51885b7fd9af03e1c552b69cde1fffe6e8d2",
+        "rev": "b670c2bdf09861b3215f30fc8a70f2fe26dc5f16",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "pull/2337/head",
         "repo": "stylix",
         "type": "github"
       }
