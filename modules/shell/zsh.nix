@@ -210,6 +210,10 @@
           initContent =
             lib.mkBefore # bash
               ''
+                if [[ -n "$DEVENV_ROOT" ]]; then
+                  return
+                fi
+
                 zmodload zsh/nearcolor
 
                 ZVM_INIT_MODE=sourcing
