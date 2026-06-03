@@ -27,7 +27,11 @@ dispatch_focus_monitor() {
   hyprctl dispatch "hl.dsp.focus({ monitor = \"$1\" })" >/dev/null 2>&1 || true
 }
 
+SAVE_STATE_SCRIPT="$HOME/.config/hypr/scripts/save-state.sh"
+RESTORE_STATE_SCRIPT="$HOME/.config/hypr/scripts/restore-state.sh"
+
 if [ "$1" = "1" ]; then
+  "$SAVE_STATE_SCRIPT"
   echo "both" > "$SCREEN_STATE_FILE"
   xrandr --output "$PRIMARY_MONITOR" --primary
   # Enable both monitors
@@ -62,8 +66,10 @@ if [ "$1" = "1" ]; then
 
   # Persist chosen layout in a single file so it can be restored after nix rebuild.
   echo "$next_layout" > "$LAYOUT_FILE"
+  "$RESTORE_STATE_SCRIPT"
   exit
 else
+  "$SAVE_STATE_SCRIPT"
   echo "external" > "$SCREEN_STATE_FILE"
   xrandr --output "$SECONDARY_MONITOR" --primary
   # Disable the primary monitor and keep the secondary active
@@ -86,5 +92,6 @@ else
   dispatch_focus_monitor "$SECONDARY_MONITOR"
 
   echo "$next_layout" > "$LAYOUT_FILE"
+  "$RESTORE_STATE_SCRIPT"
   exit
 fi

@@ -6,6 +6,7 @@
 
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/hypr"
 WORKSPACE_FILE="$STATE_DIR/active-workspace"
+WINDOW_FILE="$STATE_DIR/active-window"
 
 mkdir -p "$STATE_DIR"
 
@@ -22,6 +23,13 @@ while true; do
     case "$line" in
       "workspace>>"*)
         printf '%s' "${line#workspace>>}" > "$WORKSPACE_FILE"
+        ;;
+      "activewindow>>"*)
+        window_info="${line#activewindow>>}"
+        window_addr="${window_info%%,*}"
+        if [ -n "$window_addr" ]; then
+          printf 'address:%s' "$window_addr" > "$WINDOW_FILE"
+        fi
         ;;
       "configreloaded>>"*)
         # Give Hyprland time to finish applying the new config before restoring state.
