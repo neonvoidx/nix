@@ -26,31 +26,6 @@
         in
         {
           # --------------------------------------------------------------------------
-          # Session Services
-          # --------------------------------------------------------------------------
-
-          systemd.user.services.hypr-restore-monitor-layout = {
-            Unit = {
-              Description = "Restore Hyprland monitor layout from persisted state";
-              After = [
-                "graphical-session.target"
-                "hyprland-session.target"
-              ];
-              PartOf = [ "graphical-session.target" ];
-            };
-
-            Service = {
-              Type = "oneshot";
-              ExecStart = "%h/.config/hypr/scripts/restore-monitor-layout.sh";
-            };
-
-            Install.WantedBy = [
-              "hyprland-session.target"
-              "graphical-session.target"
-            ];
-          };
-
-          # --------------------------------------------------------------------------
           # Hyprland
           # --------------------------------------------------------------------------
 

@@ -20,7 +20,7 @@ set_cursor_default_monitor() {
 }
 
 dispatch_move_workspace() {
-  hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\" })" >/dev/null 2>&1 || true
+  hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\", follow = false })" >/dev/null 2>&1 || true
 }
 
 dispatch_focus_monitor() {

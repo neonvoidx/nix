@@ -32,6 +32,12 @@ while true; do
         fi
         ;;
       "configreloaded>>"*)
+        # Snapshot the current workspace + window NOW, before Hyprland's own
+        # post-reload workspace shuffling overwrites the state file.
+        SAVE_STATE="$HOME/.config/hypr/scripts/save-state.sh"
+        if [ -x "$SAVE_STATE" ]; then
+          "$SAVE_STATE"
+        fi
         # Give Hyprland time to finish applying the new config before restoring state.
         sleep 0.5
         "$HOME/.config/hypr/scripts/restore-monitor-layout.sh" &

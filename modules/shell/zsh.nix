@@ -244,8 +244,10 @@
 
                 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
-                if command -v fastfetch &> /dev/null; then
-                  fastfetch
+                if [ -z "$DEVENV_ROOT" ]; then
+                  if command -v fastfetch &> /dev/null; then
+                    fastfetch
+                  fi
                 fi
 
                 if [ -z "$SSH_AUTH_SOCK" ]; then

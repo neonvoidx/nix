@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+LOCK_FILE="/tmp/hypr-restore-monitor-layout.lock"
+
+# Prevent concurrent restores (e.g. daemon + rebuild triggering at the same time).
+exec 9>"$LOCK_FILE"
+if ! flock -n 9; then
+  exit 0
+fi
+
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/hypr"
 LAYOUT_FILE="$STATE_DIR/monitor-layout"
 
@@ -12,6 +20,14 @@ mkdir -p "$STATE_DIR"
 # If Hyprland isn't running, don't error.
 if ! hyprctl -j monitors >/dev/null 2>&1; then
   exit 0
+fi
+
+# Snapshot current workspace + window before moving anything, so the
+# restore at the end reflects the user's pre-reload state, not whatever
+# Hyprland shuffles during layout application.
+SAVE_STATE="$HOME/.config/hypr/scripts/save-state.sh"
+if [ -x "$SAVE_STATE" ]; then
+  "$SAVE_STATE"
 fi
 
 layout="default"
@@ -36,7 +52,7 @@ fi
 # Use direct hyprctl dispatch (not hyprctl eval) to avoid Lua IPC issues.
 
 dispatch_move_workspace() {
-  hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\" })" >/dev/null 2>&1 || true
+  hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\", follow = false })" >/dev/null 2>&1 || true
 }
 
 dispatch_focus_monitor() {
