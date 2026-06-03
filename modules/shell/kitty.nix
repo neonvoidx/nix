@@ -26,6 +26,8 @@
         settings = {
           copy_on_select = "clipboard";
 
+          auto_reload_config = -1;
+
           # Font settings
           bold_font = "auto";
           italic_font = "auto";

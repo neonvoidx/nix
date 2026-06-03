@@ -551,9 +551,7 @@
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
-                -- TODO: remove setpriv wrapper after Hyprland drops ambient caps internally
-                -- https://github.com/hyprwm/Hyprland/discussions/14844
-                hl.exec_cmd("setpriv --ambient-caps -all steam", { workspace = "10 silent" })
+                hl.exec_cmd("steam", { workspace = "10 silent" })
               end)
 
                 ${lib.optionalString isMultiMonitor /* lua */ ''

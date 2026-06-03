@@ -210,10 +210,6 @@
           initContent =
             lib.mkBefore # bash
               ''
-                if [[ -n "$DEVENV_ROOT" ]]; then
-                  return
-                fi
-
                 zmodload zsh/nearcolor
 
                 ZVM_INIT_MODE=sourcing
@@ -257,7 +253,6 @@
                 fi
                 ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519 2>/dev/null
 
-                # Re-assert history options after deferred plugins (e.g. zsh-vi-mode) may reset them
                 setopt SHARE_HISTORY INC_APPEND_HISTORY
 
                 eval "$(devenv hook zsh)"
