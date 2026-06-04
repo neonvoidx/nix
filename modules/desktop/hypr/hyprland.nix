@@ -327,7 +327,6 @@
               hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
-
               -- Invisible XWayland helper windows can briefly steal focus.
               hl.window_rule({
                 name = "xwaylandhelper",
@@ -340,6 +339,7 @@
 
               -- Workspace placement.
               hl.window_rule({ name = "vesktop", match = { class = "vesktop" }, workspace = "3 silent" })
+              hl.window_rule({ name = "discord-popout", match = { class = "vesktop", initial_title = "Discord Popout" }, workspace = "2 silent" })
               hl.window_rule({ name = "streamcontroller", match = { class = "com.core447.StreamController" }, workspace = "special:streamcontroller silent" })
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "3 silent" })
