@@ -56,7 +56,6 @@
         stylix.targets = {
           cava.rainbow.enable = true;
           firefox.enable = false;
-          halloy.enable = true;
           hyprland.colors.enable = false;
           hyprland.enable = true;
           kitty.enable = false;
