@@ -73,6 +73,7 @@
         # Setups thunderbird and protonmailbridge, unique to my user, edit email.nix to setup your accounts
         den.aspects.email
         den.aspects.vesktop
+        den.aspects.halloy
       ]
       ++ lib.optionals (host.isGaming or false) [
         # Gaming — gated via host.isGaming

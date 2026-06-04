@@ -53,6 +53,7 @@
                   // user_pref("network.dnsCacheExpiration", 0);
                   // user_pref("network.dnsCacheExpirationGracePeriod", 0);
                   // Nova UI
+                  user_pref("widget.non-native-theme.scrollbar.style", 4);
                   user_pref("browser.nova.enabled")
                   user_pref("browser.newtabpage.activity-stream.nova.enabled")
                   user_pref("browser.urlbar.nova.featureGate")

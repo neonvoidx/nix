@@ -55,15 +55,16 @@
       {
         stylix.targets = {
           cava.rainbow.enable = true;
-          hyprland.enable = true;
-          starship.enable = true;
-          spicetify.enable = false;
-          hyprland.colors.enable = false;
           firefox.enable = false;
+          halloy.enable = true;
+          hyprland.colors.enable = false;
+          hyprland.enable = true;
           kitty.enable = false;
           neovim.enable = false;
           noctalia-shell.enable = false;
           obsidian.enable = false;
+          spicetify.enable = false;
+          starship.enable = true;
           yazi.enable = false;
           qt = {
             platform = lib.mkForce "qtct";

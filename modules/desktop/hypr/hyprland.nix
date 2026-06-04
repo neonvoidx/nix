@@ -171,7 +171,7 @@
               -- Workspace Rules
               -- -----------------------------------------------------------------------
 
-              ${lib.optionalString isMultiMonitor ''
+              ${lib.optionalString isMultiMonitor /* lua */ ''
                 -- Primary workspace per monitor — sets the default when focusing each monitor.
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
@@ -209,6 +209,7 @@
               hl.bind(mod .. " + SHIFT + b", hl.dsp.exec_cmd("firefox --private-window"))
               hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r"))
               hl.bind(mod .. " + e", hl.dsp.exec_cmd("thunar"))
+              hl.bind(mod .. " + o", hl.dsp.exec_cmd("obsidian"))
 
               -- -----------------------------------------------------------------------
               -- Window Binds
