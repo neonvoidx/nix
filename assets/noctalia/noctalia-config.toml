@@ -102,7 +102,7 @@ ui_scale = 1.1000000089406967
 
     [[shell.session.actions]]
     action = "command"
-    command = "hyprshutdown"
+    command = "/etc/profiles/per-user/neonvoid/bin/hyprshutdown"
     enabled = true
     glyph = "logout"
     label = "Logout"
