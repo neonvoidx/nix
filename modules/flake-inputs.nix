@@ -30,7 +30,6 @@
     };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/v5";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";
