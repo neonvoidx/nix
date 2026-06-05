@@ -201,7 +201,7 @@
               hl.bind(mod .. " + SHIFT + q", hl.dsp.exec_cmd("hyprshutdown"))
               hl.bind(mod .. " + Return", hl.dsp.exec_cmd("kitty"))
               hl.bind(mod .. " + delete", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
-              hl.bind(mod .. " + SHIFT + delete", hl.dsp.exec_cmd("noctalia msg screen-lock"))
+              hl.bind(mod .. " + SHIFT + delete", hl.dsp.exec_cmd("noctalia msg session lock"))
               hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
               hl.bind(mod .. " + v", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
               hl.bind(mod .. " + bracketright", hl.dsp.exec_cmd("noctalia msg wallpaper-random"))
