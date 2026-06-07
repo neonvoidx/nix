@@ -12,6 +12,9 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+    hyprland-fix-hdr-screenshare = {
+      url = "github:yayuuu/hyprland-fix-hdr-screenshare";
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

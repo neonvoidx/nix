@@ -1,4 +1,20 @@
-{ den, inputs, ... }:
+{ pkgs, den, inputs, ... }:
+let
+  hyprlandFixHdrScreenshare = pkgs.stdenv.mkDerivation {
+    name = "hyprland-fix-hdr-screenshare";
+    src = inputs.hyprland-fix-hdr-screenshare;
+    nativeBuildInputs = with pkgs; [ pkg-config ];
+    buildInputs = with pkgs; [
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
+      pixman libdrm pango cairo libinput udev wayland libxkbcommon
+    ];
+    buildPhase = "make CXX=g++";
+    installPhase = ''
+      mkdir -p $out/lib
+      cp fix-hdr-screenshare.so $out/lib/
+    '';
+  };
+in
 {
   den.aspects.hyprland =
     { host, ... }:
@@ -34,6 +50,8 @@
             package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
             portalPackage =
               inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+
+            plugins = [ "${hyprlandFixHdrScreenshare}/lib/fix-hdr-screenshare.so" ];
 
             configType = "lua";
             extraConfig = /* lua */ ''
