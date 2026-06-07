@@ -1,20 +1,4 @@
-{ pkgs, den, inputs, ... }:
-let
-  hyprlandFixHdrScreenshare = pkgs.stdenv.mkDerivation {
-    name = "hyprland-fix-hdr-screenshare";
-    src = inputs.hyprland-fix-hdr-screenshare;
-    nativeBuildInputs = with pkgs; [ pkg-config ];
-    buildInputs = with pkgs; [
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
-      pixman libdrm pango cairo libinput udev wayland libxkbcommon
-    ];
-    buildPhase = "make CXX=g++";
-    installPhase = ''
-      mkdir -p $out/lib
-      cp fix-hdr-screenshare.so $out/lib/
-    '';
-  };
-in
+{ den, inputs, ... }:
 {
   den.aspects.hyprland =
     { host, ... }:
@@ -39,6 +23,21 @@ in
         }:
         let
           isMultiMonitor = host.isMultiMonitor or false;
+
+          hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+
+          hyprlandFixHdrScreenshare = pkgs.hyprlandPlugins.mkHyprlandPlugin {
+            pluginName = "fix-hdr-screenshare";
+            version = "unstable-2026";
+            src = inputs.hyprland-fix-hdr-screenshare;
+            hyprland = hyprlandPkg;
+            meta.description = "Disable the HDR unmodified-copy MRT path used for screenshare";
+            buildPhase = "make";
+            installPhase = ''
+              mkdir -p $out/lib
+              cp fix-hdr-screenshare.so $out/lib
+            '';
+          };
         in
         {
           # --------------------------------------------------------------------------

@@ -14,6 +14,7 @@
     };
     hyprland-fix-hdr-screenshare = {
       url = "github:yayuuu/hyprland-fix-hdr-screenshare";
+      flake = false;
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

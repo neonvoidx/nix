@@ -24,10 +24,6 @@
                 "github:JEFF7712/nix-agent"
               ];
             };
-            github = {
-              command = "github-mcp-server";
-              args = [ "stdio" ];
-            };
           };
         };
       };

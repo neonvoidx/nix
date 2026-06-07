@@ -15,7 +15,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-fix-hdr-screenshare.url = "github:yayuuu/hyprland-fix-hdr-screenshare";
+    hyprland-fix-hdr-screenshare = {
+      url = "github:yayuuu/hyprland-fix-hdr-screenshare";
+      flake = false;
+    };
     import-tree.url = "github:vic/import-tree";
     neonmono = {
       url = "github:neonvoidx/NeonMono";
