@@ -5,6 +5,10 @@
 
   inputs = {
     den.url = "github:denful/den/refs/tags/v0.17.0";
+    eldritch-cursors = {
+      url = "github:eldritch-theme/cursors";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

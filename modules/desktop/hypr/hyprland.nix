@@ -289,16 +289,25 @@
               -- Media And Screenshot Binds
               -- -----------------------------------------------------------------------
 
+              -- Screenshot
               hl.bind("Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp -d)" - | wl-copy; kill $WPID'))
               hl.bind("SHIFT + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
               hl.bind("CTRL + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
+              --- Volume up/down
               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
+              -- Mute output
               hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
+              -- Microphone volume
+              hl.bind("CTRL + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+"))
+              hl.bind("CTRL + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-"))
+              -- Microphone mute
               hl.bind("CTRL + XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
+              -- Play/pause, next and previous media player
               hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
               hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
               hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
+              -- Brightness
               hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
               hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
 
@@ -529,7 +538,7 @@
               hl.on("hyprland.start", function()
                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
                 hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
-                hl.exec_cmd("hyprctl setcursor catppuccin-mocha-sapphire-cursors 32")
+                hl.exec_cmd("hyprctl setcursor eldritch-great-old-green-cursors 32")
                 hl.exec_cmd("~/.config/hypr/scripts/save-workspace.sh")
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })

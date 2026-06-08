@@ -25,8 +25,8 @@
           };
 
           cursor = {
-            name = "catppuccin-mocha-sapphire-cursors";
-            package = pkgs.catppuccin-cursors.mochaSapphire;
+            name = "Eldritch Cthulhu Great Old Green";
+            package = inputs.eldritch-cursors.packages.${pkgs.system}.great-old-green;
             size = 32;
           };
 
