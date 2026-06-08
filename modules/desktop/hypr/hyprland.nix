@@ -25,21 +25,6 @@
           isMultiMonitor = host.isMultiMonitor or false;
 
           hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-
-            hyprlandFixHdrScreenshare = pkgs.hyprlandPlugins.mkHyprlandPlugin {
-            pluginName = "fix-hdr-screenshare";
-            version = "unstable-2026";
-            src = inputs.hyprland-fix-hdr-screenshare;
-            hyprland = hyprlandPkg;
-            meta.description = "Disable the HDR unmodified-copy MRT path used for screenshare";
-            buildPhase = ''
-              make EXTRA_FLAGS="-I${hyprlandPkg.dev}/include/hyprland/src/output"
-            '';
-            installPhase = ''
-              mkdir -p $out/lib
-              cp fix-hdr-screenshare.so $out/lib
-            '';
-          };
         in
         {
           # --------------------------------------------------------------------------
@@ -52,7 +37,7 @@
             portalPackage =
               inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
-            plugins = [ "${hyprlandFixHdrScreenshare}/lib/fix-hdr-screenshare.so" ];
+            plugins = [ ];
 
             configType = "lua";
             extraConfig = /* lua */ ''

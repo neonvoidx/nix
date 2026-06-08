@@ -12,10 +12,6 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
-    hyprland-fix-hdr-screenshare = {
-      url = "github:yayuuu/hyprland-fix-hdr-screenshare";
-      flake = false;
-    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,10 +47,5 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # TODO after zoom usb works
-    # zoom-sync = {
-    #   url = "github:ozboar/zoom-sync";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 }
