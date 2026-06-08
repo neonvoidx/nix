@@ -1116,8 +1116,7 @@
         "scopebuddy": "scopebuddy",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
-        "stylix": "stylix",
-        "zoom-sync": "zoom-sync"
+        "stylix": "stylix"
       }
     },
     "scopebuddy": {
@@ -1412,27 +1411,6 @@
       "original": {
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
-        "type": "github"
-      }
-    },
-    "zoom-sync": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1775937407,
-        "narHash": "sha256-uxuazOuX2mCEdrM2Cs2GSDMoHFAw88mhK2pvOt/4o4c=",
-        "owner": "ozboar",
-        "repo": "zoom-sync",
-        "rev": "69af4fb5ad1ec30dc4e8744358b1fe3ef9280722",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ozboar",
-        "ref": "feat/zoom-tkl-dyna",
-        "repo": "zoom-sync",
         "type": "github"
       }
     }

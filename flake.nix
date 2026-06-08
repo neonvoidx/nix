@@ -50,9 +50,5 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zoom-sync = {
-      url = "github:ozboar/zoom-sync/feat/zoom-tkl-dyna";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }
