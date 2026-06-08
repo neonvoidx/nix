@@ -19,9 +19,9 @@
 
           icons = {
             enable = true;
-            light = "Dracula";
-            dark = "Dracula";
-            package = pkgs.dracula-icon-theme;
+            light = "Eldritch-Suru-Cthulhu";
+            dark = "Eldritch-Suru-Cthulhu";
+            package = pkgs.eldritch-icon-theme;
           };
 
           cursor = {
