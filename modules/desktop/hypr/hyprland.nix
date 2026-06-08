@@ -289,9 +289,9 @@
               -- Media And Screenshot Binds
               -- -----------------------------------------------------------------------
 
-              hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
-              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
-              hl.bind("CTRL + Print", hl.dsp.exec_cmd('grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
+              hl.bind("Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp -d)" - | wl-copy; kill $WPID'))
+              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
+              hl.bind("CTRL + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
               hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))

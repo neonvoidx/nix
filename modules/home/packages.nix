@@ -48,6 +48,7 @@
         thunar-archive-plugin
         thunar-media-tags-plugin
         thunar-volman
+        wayfreeze
         wl-clipboard
       ];
     };
