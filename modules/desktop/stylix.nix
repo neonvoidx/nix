@@ -15,12 +15,19 @@
             platform = lib.mkForce "qtct";
           };
           targets.gtk.enable = true;
+          targets.gtksourceview.enable = false;
 
           icons = {
             enable = true;
             light = "Dracula";
             dark = "Dracula";
             package = pkgs.dracula-icon-theme;
+          };
+
+          cursor = {
+            name = "catppuccin-mocha-sapphire-cursors";
+            package = pkgs.catppuccin-cursors.mochaSapphire;
+            size = 32;
           };
 
           base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml";
