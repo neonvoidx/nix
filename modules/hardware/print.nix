@@ -1,7 +1,7 @@
 { den, ... }:
 {
   den.aspects.print.nixos =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       hardware.printers = {
         ensurePrinters = [
@@ -50,10 +50,8 @@
       systemd.services."cups-ensure-printers" = {
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
-        serviceConfig = {
-          Restart = "on-failure";
-          RestartSec = "30s";
-        };
+        serviceConfig.Restart = lib.mkOverride 90 "on-failure";
+        serviceConfig.RestartSec = lib.mkOverride 90 "30s";
       };
 
       services.avahi = {

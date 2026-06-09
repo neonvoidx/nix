@@ -24,11 +24,11 @@
             package = pkgs.eldritch-icon-theme;
           };
 
-          cursor = {
-            name = "Eldritch Cthulhu Great Old Green";
-            package = inputs.eldritch-cursors.packages.${pkgs.stdenv.hostPlatform.system}.great-old-green;
-            size = 32;
-          };
+            cursor = {
+              name = "eldritch-great-old-green-cursors";
+              package = inputs.eldritch-cursors.packages.${pkgs.stdenv.hostPlatform.system}.great-old-green;
+              size = 32;
+            };
 
           base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml";
 
