@@ -26,7 +26,7 @@
 
           cursor = {
             name = "Eldritch Cthulhu Great Old Green";
-            package = inputs.eldritch-cursors.packages.${pkgs.system}.great-old-green;
+            package = inputs.eldritch-cursors.packages.${pkgs.stdenv.hostPlatform.system}.great-old-green;
             size = 32;
           };
 
