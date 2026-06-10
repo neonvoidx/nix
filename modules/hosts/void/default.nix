@@ -62,7 +62,6 @@
             kernelModules = [ "amdgpu" ];
           };
           kernelPackages = pkgs.linuxPackages_zen;
-          extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
           kernelModules = [
             "amdgpu"
             "ntsync"
@@ -99,6 +98,7 @@
             enable32Bit = lib.mkDefault true;
           };
           steam-hardware.enable = true;
+          xone.enable = true;
         };
 
         powerManagement.cpuFreqGovernor = "performance";
