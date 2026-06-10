@@ -51,6 +51,20 @@
               format = "{all}";
             }
             {
+              type = "cpu";
+              key = "󰻠 CPU";
+              keyColor = "#fbbf24";
+              format = "{name}  ({cores-physical}P/{cores-logical}L)  {freq-max}";
+            }
+            {
+              type = "gpu";
+              key = "󰍹 GPU";
+              keyColor = "#d946ef";
+              detectionMethod = "vulkan";
+              hideType = "integrated";
+              format = "{name}  ({dedicated-total})";
+            }
+            {
               type = "terminal";
               key = "󰆍 TERM";
               keyColor = "#f7c67f";
@@ -72,6 +86,12 @@
               type = "custom";
               key = "󰛖 FONT";
               format = "NeonMono";
+            }
+            {
+              type = "localip";
+              key = "󰩠 IP";
+              keyColor = "#2dd4bf";
+              format = "{ipv4}";
             }
             {
               type = "uptime";

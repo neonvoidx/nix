@@ -291,9 +291,9 @@
               -- -----------------------------------------------------------------------
 
               -- Screenshot
-              hl.bind("Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp -d)" - | wl-copy; kill $WPID'))
-              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim -g "$(slurp)" - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
-              hl.bind("CTRL + Print", hl.dsp.exec_cmd('wayfreeze -i & WPID=$! && grim - | satty -f - --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"; kill $WPID'))
+              hl.bind("Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim -g "$(slurp -d)" - | wl-copy; kill $PID'))
+              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim -g "$(slurp)" /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
+              hl.bind("CTRL + Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
               --- Volume up/down
               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
