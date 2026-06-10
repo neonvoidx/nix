@@ -6,9 +6,10 @@ enable_sounds = false
 capsule = true
 capsule_foreground = "tertiary"
 capsule_groups = [ "system", "audio", "settings", "datetime" ]
-center = [ "active_window" ]
+center = [ "active_window", "weather" ]
 contact_shadow = true
 end = [
+    "tray",
     "input_volume",
     "output_volume",
     "cpu",
@@ -33,7 +34,7 @@ margin_edge = 5.0
 margin_ends = 8.0
 padding = 10
 radius = 8
-start = [ "launcher", "taskbar", "tray", "left-spacer", "media", "audio_visualizer" ]
+start = [ "launcher", "workspaces", "taskbar", "left-spacer", "media", "audio_visualizer", "bongocat" ]
 thickness = 38
 widget_spacing = 12
 
@@ -70,6 +71,9 @@ behavior_order = [ "lock", "screen-off", "suspend" ]
     enabled = true
     lock_before_suspend = true
     timeout = 7200
+
+[location]
+auto_locate = true
 
 [lockscreen_widgets]
 enabled = false
@@ -182,12 +186,6 @@ transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
     interval_minutes = 5
     recursive = false
 
-    [wallpaper.default]
-    path = "/home/neonvoid/pics/ultrawide/hyprbeast.jpg"
-
-    [wallpaper.last]
-    path = "/home/neonvoid/pics/ultrawide/eye.png"
-
     [wallpaper.monitor.DP-2]
     directory = "/home/neonvoid/pics/ultrawide"
     directory_dark = "/home/neonvoid/pics/ultrawide"
@@ -203,15 +201,6 @@ transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
     directory_dark = "/home/neonvoid/pics/vertical"
     directory_light = "/home/neonvoid/pics/vertical"
 
-    [wallpaper.monitors.DP-2]
-    path = "/home/neonvoid/pics/ultrawide/marathonsnipe.png"
-
-    [wallpaper.monitors.DP-3]
-    path = "/home/neonvoid/pics/ultrawide/eye.png"
-
-    [wallpaper.monitors.HDMI-A-1]
-    path = "/home/neonvoid/pics/vertical/dead-transit.jpg"
-
 [weather]
 auto_locate = true
 
@@ -225,6 +214,7 @@ title_scroll = "always"
 capsule = true
 capsule_group = "audio"
 high_color = "secondary"
+show_when_idle = true
 width = 112.0
 
 [widget.battery]
@@ -237,7 +227,7 @@ capsule_group = "settings"
 
 [widget.bongocat]
 audio_spectrum = false
-input_device = "/dev/input/hidraw17"
+input_device = "/dev/input/event2"
 scope = "shared"
 script = "scripts/bongocat.lua"
 tappy_mode = true
@@ -279,7 +269,7 @@ color = "primary"
 glyph = "bomb"
 
 [widget.left-spacer]
-length = 120.0
+length = 25
 type = "spacer"
 
 [widget.media]
@@ -321,11 +311,13 @@ type = "scripted"
 color = "error"
 
 [widget.taskbar]
+capsule_radius = 6
 font_weight = 700
 group_by_workspace = true
 group_single_icon_per_app = true
-inactive_opacity = 0.69999999999999996
+inactive_opacity = 0.75
 scale = 1.3
+show_workspace_label = false
 workspace_label_placement = "inside"
 
 [widget.temp]
@@ -333,6 +325,9 @@ capsule = true
 capsule_group = "system"
 
 [widget.tray]
+capsule = true
+capsule_border = "tertiary"
+capsule_radius = 5
 scale = 1.3
 
 [widget.wallpaper]
@@ -340,7 +335,9 @@ capsule = true
 capsule_group = "settings"
 
 [widget.workspaces]
+display = "none"
 empty_color = "shadow"
 font_weight = 700
-minimal = true
-scale = 1.1500000000000001
+minimal = false
+pill_scale = 0.80000000000000004
+scale = 1.3500000000000001
