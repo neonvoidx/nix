@@ -222,8 +222,9 @@
               hl.bind(mod .. " + q", hl.dsp.window.close())
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.center())
-              hl.bind(mod .. " + f", hl.dsp.window.fullscreen({ action = "toggle", mode = "maximized" }))
-              hl.bind(mod .. " + SHIFT + f", hl.dsp.window.fullscreen(0))
+              -- Skip fullscreen toggles for game windows (steam_app_*, gamescope, wow.exe).
+              hl.bind(mod .. " + f", hl.dsp.exec_cmd([[bash -c 'cls=$(hyprctl activewindow -j | jq -r '"'"'.class // ""'"'"'); case "$cls" in steam_app_*|gamescope|wow.exe) ;; *) hyprctl dispatch fullscreen ;; esac']]))
+              hl.bind(mod .. " + SHIFT + f", hl.dsp.exec_cmd([[bash -c 'cls=$(hyprctl activewindow -j | jq -r '"'"'.class // ""'"'"'); case "$cls" in steam_app_*|gamescope|wow.exe) ;; *) hyprctl dispatch fullscreen ;; esac']]))
               hl.bind(mod .. " + c", hl.dsp.window.center())
               hl.bind("ALT + TAB", hl.dsp.focus({ last = true }))
 
