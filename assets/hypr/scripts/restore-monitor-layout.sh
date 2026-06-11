@@ -30,6 +30,11 @@ if [ -x "$SAVE_STATE" ]; then
   "$SAVE_STATE"
 fi
 
+# Capture workspace ID immediately after save, in case save-workspace.sh
+# daemon (running concurrently) overwrites the state file during our
+# workspace creation loop below.
+restore_ws=$(hyprctl -j activeworkspace 2>/dev/null | jq -r '.id' 2>/dev/null || echo "")
+
 layout="default"
 if [ -f "$LAYOUT_FILE" ]; then
   layout=$(cat "$LAYOUT_FILE" | tr -d '\n')
@@ -45,6 +50,13 @@ if [ -x "$APPLY_SCRIPT" ]; then
   # Let monitors settle before dispatching workspace
   sleep 0.5
 fi
+
+# Hyprland creates workspaces lazily — moveworkspacetomonitor only moves
+# existing workspaces. Pre-create flexible workspaces so the dispatch below
+# doesn't silently fail on non-existent ones.
+for ws in 4 5 6 7 8 9 10 11; do
+  hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws\" })" >/dev/null 2>&1 || true
+done
 
 # ── Enforce workspace-to-monitor bindings ──────────────────────────────────
 # In work layouts DP-2 is disabled, so all workspaces go to DP-3.
@@ -98,13 +110,9 @@ hyprctl keyword cursor:default_monitor "$PRIMARY_MON" >/dev/null 2>&1 || true
 dispatch_focus_monitor "$PRIMARY_MON"
 
 # Restore focused workspace
-WORKSPACE_FILE="$STATE_DIR/active-workspace"
-if [ -f "$WORKSPACE_FILE" ]; then
-  workspace=$(tr -d '\n' < "$WORKSPACE_FILE")
-  if [ -n "$workspace" ]; then
-    hyprctl dispatch "hl.dsp.focus({ workspace = \"$workspace\" })" >/dev/null 2>&1 || true
-    sleep 0.1
-  fi
+if [ -n "$restore_ws" ]; then
+  hyprctl dispatch "hl.dsp.focus({ workspace = \"$restore_ws\" })" >/dev/null 2>&1 || true
+  sleep 0.1
 fi
 
 # Restore focused window address

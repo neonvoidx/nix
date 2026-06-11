@@ -180,11 +180,12 @@
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
                 hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout_opts = { orientation = "top" } })
+                -- ws 4 always lives on DP-3 regardless of layout (never migrates).
+                hl.workspace_rule({ workspace = 4, monitor = secondary_monitor })
 
                 -- Secondary workspaces have NO monitor binding — scripts (restore/screen-toggle)
                 -- handle placement dynamically based on active layout. Avoids binding conflicts
                 -- when the bound monitor is disabled (e.g. DP-2 in work layouts).
-                hl.workspace_rule({ workspace = 4 })
                 hl.workspace_rule({ workspace = 5 })
                 hl.workspace_rule({ workspace = 6, layout = "floating" })
                 hl.workspace_rule({ workspace = 10 })
@@ -537,6 +538,7 @@
               -- -----------------------------------------------------------------------
 
               hl.on("hyprland.start", function()
+                hl.exec_cmd("noctalia")
                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
                 hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 hl.exec_cmd("hyprctl setcursor eldritch-great-old-green-cursors 32")
@@ -546,7 +548,6 @@
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
-                hl.exec_cmd("noctalia")
               end)
 
                 ${lib.optionalString isMultiMonitor /* lua */ ''

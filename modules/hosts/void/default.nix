@@ -74,6 +74,9 @@
             "amdgpu.ppfeaturemask=0xfffd7fff"
             "amdgpu.noretry=0"
             "amdgpu.lockup_timeout=10000"
+            # Fix Xbox Wireless Adapter disconnect loop on AMD xHCI:
+            # b = reset-resume, k = no LPM, n = delay control messages
+            "usbcore.quirks=045e:02e6:bkn"
             # "amdgpu.mes_log_enable=1"
             # Workaround for RX 9070 XT (RDNA4) SMU firmware version mismatch (driver 0x2e vs fw 0x33)
             # Disables dynamic power management to prevent SMU hang-on-transition until kernel catches up.
