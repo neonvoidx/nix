@@ -223,8 +223,8 @@
               hl.bind(mod .. " + q", hl.dsp.window.close())
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.center())
-              -- Skip fullscreen toggles for game windows (steam_app_*, gamescope, wow.exe).
-              local function toggle_fs(dispatcher)
+              -- Skip actions for game windows (steam_app_*, gamescope, wow.exe).
+              local function skip_for_games(dispatcher)
                 return function()
                   local w = hl.get_active_window()
                   if w then
@@ -236,8 +236,8 @@
                   end
                 end
               end
-              hl.bind(mod .. " + f", toggle_fs(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
-              hl.bind(mod .. " + SHIFT + f", toggle_fs(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
+              hl.bind(mod .. " + f", skip_for_games(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
+              hl.bind(mod .. " + SHIFT + f", skip_for_games(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
               hl.bind(mod .. " + c", hl.dsp.window.center())
               hl.bind("ALT + TAB", hl.dsp.focus({ last = true }))
 
@@ -262,7 +262,7 @@
               hl.bind(mod .. " + r", hl.dsp.submap("resize"))
               hl.bind(mod .. " + equal", hl.dsp.window.resize({ x = 50, y = 0, relative = true }), { repeating = true })
               hl.bind(mod .. " + minus", hl.dsp.window.resize({ x = -50, y = 0, relative = true }), { repeating = true })
-              hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+              hl.bind(mod .. " + mouse:272", skip_for_games(hl.dsp.window.drag()), { mouse = true })
               hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
               -- -----------------------------------------------------------------------

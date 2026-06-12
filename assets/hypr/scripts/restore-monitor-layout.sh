@@ -45,23 +45,16 @@ case "$layout" in
   *) layout="default" ;;
 esac
 
-if [ -x "$APPLY_SCRIPT" ]; then
-  "$APPLY_SCRIPT" "$layout" || true
-  # Let monitors settle before dispatching workspace
-  sleep 0.5
+# Determine primary/secondary monitors based on layout.
+if [[ "$layout" == work* ]]; then
+  PRIMARY_MON="DP-3"
+  SECONDARY_MON=""
+else
+  PRIMARY_MON="DP-2"
+  SECONDARY_MON="DP-3"
 fi
 
-# Hyprland creates workspaces lazily — moveworkspacetomonitor only moves
-# existing workspaces. Pre-create flexible workspaces so the dispatch below
-# doesn't silently fail on non-existent ones.
-for ws in 4 5 6 7 8 9 10 11; do
-  hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws\" })" >/dev/null 2>&1 || true
-done
-
-# ── Enforce workspace-to-monitor bindings ──────────────────────────────────
-# In work layouts DP-2 is disabled, so all workspaces go to DP-3.
-# In default layouts DP-2 is the primary, DP-3 is secondary.
-# Use direct hyprctl dispatch (not hyprctl eval) to avoid Lua IPC issues.
+# ── Helper dispatchers ─────────────────────────────────────────────────────
 
 dispatch_move_workspace() {
   hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$1\", monitor = \"$2\", follow = false })" >/dev/null 2>&1 || true
@@ -71,9 +64,30 @@ dispatch_focus_monitor() {
   hyprctl dispatch "hl.dsp.focus({ monitor = \"$1\" })" >/dev/null 2>&1 || true
 }
 
+# ── Monitor layout ─────────────────────────────────────────────────────────
+
+# Config init already applies "default" at startup. Re-applying it redundantly
+# can briefly deactivate/reactivate monitors and shuffle workspaces.
+# Only apply when the layout differs from the config default.
+if [ -x "$APPLY_SCRIPT" ] && [[ "$layout" != "default" ]]; then
+  "$APPLY_SCRIPT" "$layout" || true
+  sleep 0.5
+fi
+
+# ── Pre-create workspaces ──────────────────────────────────────────────────
+
+# Focus the primary monitor first so all created workspaces land there.
+dispatch_focus_monitor "$PRIMARY_MON"
+
+for ws in 4 5 6 7 8 9 10 11; do
+  hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws\" })" >/dev/null 2>&1 || true
+done
+
+# ── Enforce workspace-to-monitor bindings ──────────────────────────────────
+# In work layouts DP-2 is disabled, so all workspaces go to DP-3.
+# In default layouts DP-2 is the primary, DP-3 is secondary.
+
 if [[ "$layout" == work* ]]; then
-  PRIMARY_MON="DP-3"
-  SECONDARY_MON=""
   dispatch_move_workspace 1  "$PRIMARY_MON"
   dispatch_move_workspace 2  "$PRIMARY_MON"
   dispatch_move_workspace 3  "HDMI-A-1"
@@ -86,8 +100,6 @@ if [[ "$layout" == work* ]]; then
   dispatch_move_workspace 10 "$PRIMARY_MON"
   dispatch_move_workspace 11 "$PRIMARY_MON"
 else
-  PRIMARY_MON="DP-2"
-  SECONDARY_MON="DP-3"
   dispatch_move_workspace 1  "$PRIMARY_MON"
   dispatch_move_workspace 2  "$SECONDARY_MON"
   dispatch_move_workspace 3  "HDMI-A-1"
