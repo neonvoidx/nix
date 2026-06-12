@@ -224,8 +224,20 @@
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.center())
               -- Skip fullscreen toggles for game windows (steam_app_*, gamescope, wow.exe).
-              hl.bind(mod .. " + f", hl.dsp.exec_cmd([[bash -c 'cls=$(hyprctl activewindow -j | jq -r '"'"'.class // ""'"'"'); case "$cls" in steam_app_*|gamescope|wow.exe) ;; *) hyprctl dispatch fullscreen ;; esac']]))
-              hl.bind(mod .. " + SHIFT + f", hl.dsp.exec_cmd([[bash -c 'cls=$(hyprctl activewindow -j | jq -r '"'"'.class // ""'"'"'); case "$cls" in steam_app_*|gamescope|wow.exe) ;; *) hyprctl dispatch fullscreen ;; esac']]))
+              local function toggle_fs(dispatcher)
+                return function()
+                  local w = hl.get_active_window()
+                  if w then
+                    local cls = w.class
+                    if cls and (cls:match("^steam_app_") or cls == "gamescope" or cls == "wow.exe") then
+                      return
+                    end
+                    hl.dispatch(dispatcher)
+                  end
+                end
+              end
+              hl.bind(mod .. " + f", toggle_fs(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
+              hl.bind(mod .. " + SHIFT + f", toggle_fs(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
               hl.bind(mod .. " + c", hl.dsp.window.center())
               hl.bind("ALT + TAB", hl.dsp.focus({ last = true }))
 
