@@ -12,7 +12,7 @@
           };
           Service = {
             ExecStart = "${pkgs.streamcontroller}/bin/streamcontroller -b";
-            Restart = "on-failure";
+            Restart = "always";
             RestartSec = 5;
           };
           Install = {
