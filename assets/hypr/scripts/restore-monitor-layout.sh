@@ -74,15 +74,6 @@ if [ -x "$APPLY_SCRIPT" ] && [[ "$layout" != "default" ]]; then
   sleep 0.5
 fi
 
-# ── Pre-create workspaces ──────────────────────────────────────────────────
-
-# Focus the primary monitor first so all created workspaces land there.
-dispatch_focus_monitor "$PRIMARY_MON"
-
-for ws in 4 5 6 7 8 9 10 11; do
-  hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws\" })" >/dev/null 2>&1 || true
-done
-
 # ── Enforce workspace-to-monitor bindings ──────────────────────────────────
 # In work layouts DP-2 is disabled, so all workspaces go to DP-3.
 # In default layouts DP-2 is the primary, DP-3 is secondary.

@@ -183,13 +183,16 @@
                 -- ws 4 always lives on DP-3 regardless of layout (never migrates).
                 hl.workspace_rule({ workspace = 4, monitor = secondary_monitor })
 
-                -- Secondary workspaces have NO monitor binding — scripts (restore/screen-toggle)
-                -- handle placement dynamically based on active layout. Avoids binding conflicts
-                -- when the bound monitor is disabled (e.g. DP-2 in work layouts).
-                hl.workspace_rule({ workspace = 5 })
-                hl.workspace_rule({ workspace = 6, layout = "floating" })
-                hl.workspace_rule({ workspace = 10 })
-                hl.workspace_rule({ workspace = 11 })
+                -- Secondary workspaces are assigned to the primary monitor by default.
+                -- If the monitor is disabled (e.g. DP-2 in work layouts), Hyprland
+                -- ignores the rule and creates them on the active monitor instead.
+                hl.workspace_rule({ workspace = 5, monitor = default_monitor })
+                hl.workspace_rule({ workspace = 6, monitor = default_monitor, layout = "floating" })
+                hl.workspace_rule({ workspace = 7, monitor = default_monitor })
+                hl.workspace_rule({ workspace = 8, monitor = default_monitor })
+                hl.workspace_rule({ workspace = 9, monitor = default_monitor })
+                hl.workspace_rule({ workspace = 10, monitor = default_monitor })
+                hl.workspace_rule({ workspace = 11, monitor = default_monitor })
                 hl.workspace_rule({
                   workspace = "name:gaming",
                   no_rounding = true,
