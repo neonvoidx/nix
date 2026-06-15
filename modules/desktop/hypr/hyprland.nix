@@ -179,7 +179,7 @@
                 -- Primary workspace per monitor — sets the default when focusing each monitor.
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout_opts = { orientation = "top" } })
+                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top", mfact = 0.7 } })
                 -- ws 4 always lives on DP-3 regardless of layout (never migrates).
                 hl.workspace_rule({ workspace = 4, monitor = secondary_monitor })
 
@@ -565,16 +565,7 @@
                 hl.exec_cmd("steam", { workspace = "10 silent" })
               end)
 
-                ${lib.optionalString isMultiMonitor /* lua */ ''
-                  hl.on("window.open", function(w)
-                    if w.class ~= "vesktop" then
-                      return
-                    end
 
-                    hl.dispatch(hl.dsp.window.move({ direction = "u", window = "class:vesktop" }))
-                    hl.dispatch(hl.dsp.window.resize({ x = 1440, y = 2560 * 0.7, window = "class:vesktop" }))
-                  end)
-                ''}
             '';
           };
 
