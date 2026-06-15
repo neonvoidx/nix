@@ -179,7 +179,7 @@
                 -- Primary workspace per monitor — sets the default when focusing each monitor.
                 hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top", mfact = 0.7 } })
+                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top" } })
                 -- ws 4 always lives on DP-3 regardless of layout (never migrates).
                 hl.workspace_rule({ workspace = 4, monitor = secondary_monitor })
 
@@ -551,6 +551,12 @@
               -- -----------------------------------------------------------------------
               -- Event Hooks
               -- -----------------------------------------------------------------------
+
+              hl.on("workspace.created", function(ws)
+                if ws.id == 3 then
+                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                end
+              end)
 
               hl.on("hyprland.start", function()
                 hl.exec_cmd("noctalia")
