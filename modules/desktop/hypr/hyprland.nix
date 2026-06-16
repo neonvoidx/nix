@@ -552,7 +552,27 @@
               -- Event Hooks
               -- -----------------------------------------------------------------------
 
-              hl.on("workspace.created", function(ws)
+              -- Ensure workspace 3 (portrait monitor) always has mfact 0.7
+              -- and vesktop is always the master window.
+              hl.on("window.open", function(w)
+                if w.workspace and w.workspace.id == 3 then
+                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                  if w.class == "vesktop" then
+                    hl.dispatch(hl.dsp.layout("swapwithmaster"))
+                  end
+                end
+              end)
+
+              hl.on("window.move_to_workspace", function(w, ws)
+                if ws.id == 3 then
+                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                  if w.class == "vesktop" then
+                    hl.dispatch(hl.dsp.layout("swapwithmaster"))
+                  end
+                end
+              end)
+
+              hl.on("workspace.active", function(ws)
                 if ws.id == 3 then
                   hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
                 end
