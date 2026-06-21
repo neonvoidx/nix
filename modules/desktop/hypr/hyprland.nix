@@ -540,6 +540,9 @@
 
               hl.device({ name = "logitech-wireless-mouse-pid:4099-mouse", scroll_factor = 0.8 })
 
+              -- Per-workspace master layout: orientation top for portrait monitor
+              hl.workspace_rule({ workspace = "3", layout_opts = { orientation = "top" } })
+
               hl.curve("easeOutCubic", { type = "bezier", points = { { 0.65, 0 }, { 0.35, 0.8 } } })
               hl.curve("easeInOut", { type = "bezier", points = { { 0.42, 0 }, { 0.58, 0.8 } } })
               hl.curve("overshoot", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 0.8 } } })
@@ -552,29 +555,12 @@
               -- Event Hooks
               -- -----------------------------------------------------------------------
 
-              -- Ensure workspace 3 (portrait monitor) always has mfact 0.7
-              -- and vesktop is always the master window.
-              hl.on("window.open", function(w)
-                if w.workspace and w.workspace.id == 3 then
-                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                  if w.class == "vesktop" then
-                    hl.dispatch(hl.dsp.layout("swapwithmaster"))
-                  end
-                end
-              end)
-
-              hl.on("window.move_to_workspace", function(w, ws)
-                if ws.id == 3 then
-                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                  if w.class == "vesktop" then
-                    hl.dispatch(hl.dsp.layout("swapwithmaster"))
-                  end
-                end
-              end)
-
+              -- Set mfact and ensure vesktop is master on workspace 3 when activated.
+              -- Orientation is handled via hl.workspace_rule above.
               hl.on("workspace.active", function(ws)
                 if ws.id == 3 then
                   hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                  hl.dispatch(hl.dsp.layout("swapwithmaster"))
                 end
               end)
 
