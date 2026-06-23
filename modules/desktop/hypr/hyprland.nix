@@ -128,6 +128,51 @@
               end
 
               -- -----------------------------------------------------------------------
+              -- Monitor helpers
+              -- -----------------------------------------------------------------------
+
+              local function is_monitor_active(name)
+                local monitors = hl.get_monitors()
+                if not monitors then
+                  return false
+                end
+                for _, m in ipairs(monitors) do
+                  if m.name == name then
+                    return true
+                  end
+                end
+                return false
+              end
+
+              -- Move a workspace away from HDMI-A-1 to the correct target.
+              local function move_ws_from_hdmi(ws_id)
+                if ws_id == 3 then
+                  return
+                end
+                local target
+                if ws_id == 10 or ws_id == 11 then
+                  -- Gaming: DP-2 if active, else DP-3
+                  target = is_monitor_active(default_monitor) and default_monitor or secondary_monitor
+                elseif ws_id == 2 or ws_id == 4 then
+                  target = secondary_monitor
+                else
+                  target = is_monitor_active(default_monitor) and default_monitor or secondary_monitor
+                end
+                hl.dispatch(hl.dsp.workspace.move({ workspace = tostring(ws_id), monitor = target, follow = false }))
+              end
+
+              local function get_ws_monitor(ws)
+                if not ws then
+                  return nil
+                end
+                local m = ws.monitor
+                if type(m) == "table" then
+                  return m.name
+                end
+                return m
+              end
+
+              -- -----------------------------------------------------------------------
               -- Environment
               -- -----------------------------------------------------------------------
 
@@ -540,9 +585,6 @@
 
               hl.device({ name = "logitech-wireless-mouse-pid:4099-mouse", scroll_factor = 0.8 })
 
-              -- Per-workspace master layout: orientation top for portrait monitor
-              hl.workspace_rule({ workspace = "3", layout_opts = { orientation = "top" } })
-
               hl.curve("easeOutCubic", { type = "bezier", points = { { 0.65, 0 }, { 0.35, 0.8 } } })
               hl.curve("easeInOut", { type = "bezier", points = { { 0.42, 0 }, { 0.58, 0.8 } } })
               hl.curve("overshoot", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 0.8 } } })
@@ -555,12 +597,74 @@
               -- Event Hooks
               -- -----------------------------------------------------------------------
 
-              -- Set mfact and ensure vesktop is master on workspace 3 when activated.
-              -- Orientation is handled via hl.workspace_rule above.
-              hl.on("workspace.active", function(ws)
-                if ws.id == 3 then
-                  hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+              -- Helper: layoutmsg targets the active workspace, so temporarily
+              -- focus ws 3 before dispatching, then restore.
+              local function ensure_ws3_layout(win_class)
+                local cur = hl.get_active_window()
+                local cur_ws_id = cur and cur.workspace and cur.workspace.id
+
+                if cur_ws_id ~= 3 then
+                  hl.dispatch(hl.dsp.focus({ workspace = 3 }))
+                end
+                hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                if win_class == "vesktop" then
                   hl.dispatch(hl.dsp.layout("swapwithmaster"))
+                end
+                if cur_ws_id and cur_ws_id ~= 3 then
+                  hl.dispatch(hl.dsp.focus({ workspace = cur_ws_id }))
+                end
+              end
+
+              hl.on("window.open", function(w)
+                local ws = w.workspace
+                if ws then
+                  local ws_id = ws.id
+                  if ws_id == 3 then
+                    ensure_ws3_layout(w.class)
+                  end
+                  local mon = get_ws_monitor(ws)
+                  if mon == portrait_monitor and ws_id ~= 3 then
+                    move_ws_from_hdmi(ws_id)
+                  end
+                end
+              end)
+
+              hl.on("window.move_to_workspace", function(w, ws)
+                if ws then
+                  local ws_id = ws.id
+                  if ws_id == 3 then
+                    ensure_ws3_layout(w.class)
+                  end
+                  local mon = get_ws_monitor(ws)
+                  if mon == portrait_monitor and ws_id ~= 3 then
+                    move_ws_from_hdmi(ws_id)
+                  end
+                end
+              end)
+
+              hl.on("workspace.active", function(ws)
+                if ws then
+                  local ws_id = ws.id
+                  if ws_id == 3 then
+                    hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                  end
+                  local mon = get_ws_monitor(ws)
+                  if mon == portrait_monitor and ws_id ~= 3 then
+                    move_ws_from_hdmi(ws_id)
+                  end
+                end
+              end)
+
+              hl.on("monitor.added", function()
+                local workspaces = hl.get_workspaces()
+                if not workspaces then
+                  return
+                end
+                for _, ws in ipairs(workspaces) do
+                  local mon = get_ws_monitor(ws)
+                  if mon == portrait_monitor and ws.id ~= 3 then
+                    move_ws_from_hdmi(ws.id)
+                  end
                 end
               end)
 
