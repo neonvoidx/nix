@@ -4,7 +4,7 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    den.url = "github:denful/den/refs/tags/v0.17.0";
+    den.url = "github:denful/den/refs/tags/v0.18.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
       inputs.nixpkgs.follows = "nixpkgs";

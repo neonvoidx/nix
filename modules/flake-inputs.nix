@@ -3,7 +3,7 @@
 { lib, ... }:
 {
   flake-file.inputs = {
-    den.url = "github:denful/den/refs/tags/v0.17.0";
+    den.url = "github:denful/den/refs/tags/v0.18.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
