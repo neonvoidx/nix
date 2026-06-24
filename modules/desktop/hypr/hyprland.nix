@@ -597,45 +597,21 @@
               -- Event Hooks
               -- -----------------------------------------------------------------------
 
-              -- Helper: layoutmsg targets the active workspace, so temporarily
-              -- focus ws 3 before dispatching, then restore.
-              local function ensure_ws3_layout(win_class)
-                local cur = hl.get_active_window()
-                local cur_ws_id = cur and cur.workspace and cur.workspace.id
-
-                if cur_ws_id ~= 3 then
-                  hl.dispatch(hl.dsp.focus({ workspace = 3 }))
-                end
-                hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                if cur_ws_id and cur_ws_id ~= 3 then
-                  hl.dispatch(hl.dsp.focus({ workspace = cur_ws_id }))
-                end
-              end
+              -- NOTE: Do NOT dispatch layout commands (mfact, swapwithmaster, etc.) inside
+              -- window.open / window.move_to_workspace — the layout engine isn't ready yet
+              -- and will segfault in CMasterAlgorithm::layoutMsg.  Use workspace.active
+              -- or hyprland.start instead.
 
               hl.on("window.open", function(w)
                 local ws = w.workspace
-                if ws then
-                  local ws_id = ws.id
-                  if ws_id == 3 then
-                    ensure_ws3_layout(w.class)
-                  end
-                  local mon = get_ws_monitor(ws)
-                  if mon == portrait_monitor and ws_id ~= 3 then
-                    move_ws_from_hdmi(ws_id)
-                  end
+                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
+                  move_ws_from_hdmi(ws.id)
                 end
               end)
 
               hl.on("window.move_to_workspace", function(w, ws)
-                if ws then
-                  local ws_id = ws.id
-                  if ws_id == 3 then
-                    ensure_ws3_layout(w.class)
-                  end
-                  local mon = get_ws_monitor(ws)
-                  if mon == portrait_monitor and ws_id ~= 3 then
-                    move_ws_from_hdmi(ws_id)
-                  end
+                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
+                  move_ws_from_hdmi(ws.id)
                 end
               end)
 
@@ -676,6 +652,14 @@
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
+                -- Set master ratio for ws 3 (portrait monitor). Safe here because
+                -- hyprland.start fires after all initialization is complete.
+                local cur_ws = hl.get_active_workspace()
+                hl.dispatch(hl.dsp.focus({ workspace = 3 }))
+                hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
+                if cur_ws then
+                  hl.dispatch(hl.dsp.focus({ workspace = cur_ws.id }))
+                end
               end)
 
 
