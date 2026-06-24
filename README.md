@@ -54,7 +54,7 @@ My NixOS configuration using the [den](https://github.com/vic/den) framework wit
 - **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`) accessible in any aspect
 - **Hyprland** — Wayland compositor, fully configured in `desktop/hypr/hyprland.nix`
 - **Stylix** — System-wide theming (NixOS + HM in one aspect file)
-- **SOPS** — Encrypted secrets, decrypted to `/run/secrets/` at boot
+- **SOPS** — Age-encrypted secrets, decrypted to `/run/secrets/` at boot via systemd service
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
 - **nixCats** — Neovim configuration with language server support
 - **nh flake apps** — `nix run .#void` / `nix run .#voidframe` for building with nh
@@ -235,5 +235,6 @@ mynewhost = {
 
 ## SOPS Secrets
 
-See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted and decrypted to `/run/secrets/` at boot.
+See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted with per-machine
+standalone keys and decrypted to `/run/secrets/` at boot via a systemd service.
 

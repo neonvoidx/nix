@@ -607,9 +607,6 @@
                   hl.dispatch(hl.dsp.focus({ workspace = 3 }))
                 end
                 hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                if win_class == "vesktop" then
-                  hl.dispatch(hl.dsp.layout("swapwithmaster"))
-                end
                 if cur_ws_id and cur_ws_id ~= 3 then
                   hl.dispatch(hl.dsp.focus({ workspace = cur_ws_id }))
                 end

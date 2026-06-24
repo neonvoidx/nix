@@ -1,97 +1,96 @@
 # Secrets Management with sops-nix
 
-## Initial Setup
+Secrets are encrypted with [sops](https://github.com/getsops/sops) using age keys.
+Each machine has its own boot-time decryption key at `/etc/sops/age/key.txt`,
+and the user's SSH-derived key is kept for manual editing.
 
-1. **Generate your age key from your user SSH key:**
+## Architecture
 
-   ```bash
-   # Generate public age key
-   nix-shell -p ssh-to-age --run 'ssh-to-age < ~/.ssh/id_ed25519.pub'
-   
-   # Generate and save private age key
-   mkdir -p ~/.config/sops/age
-   nix-shell -p ssh-to-age --run 'ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'
-   chmod 600 ~/.config/sops/age/keys.txt
-   ```
+- **`secrets/secrets.yaml`** — encrypted with all machine keys + the user admin key
+- **`/run/secrets/`** — decrypted at boot via `sops-install-secrets.service`
+- **`/etc/sops/age/key.txt`** — per-machine standalone age key (NOT derived from SSH)
+- **`~/.config/sops/age/keys.txt`** — user's SSH-derived age key (for CLI editing)
 
-2. **Update `.sops.yaml` with your age public key:**
-   - Replace `age1xxxxxx...` in `.sops.yaml` with the output from step 1
+## Initial Machine Setup
 
-3. **Get your email passwords:**
-
-   **For Gmail:**
-   - Go to <https://myaccount.google.com/apppasswords>
-   - Create an app password for Thunderbird
-   - Copy the generated password
-
-4. **Edit the secrets file:**
-
-   ```bash
-   # First time: edit the unencrypted template
-   nano secrets/secrets.yaml
-   # Add your passwords
-   
-   # Then encrypt it
-   nix-shell -p sops --run 'sops -e -i secrets/secrets.yaml'
-   ```
-
-5. **Update the system:**
-
-   ```bash
-   sudo nixos-rebuild switch --flake .#void
-   # or
-   sudo nixos-rebuild switch --flake .#voidframe
-   ```
-
-## Editing Secrets Later
+Every new machine needs its own boot-time age key:
 
 ```bash
-# Decrypt, edit, and re-encrypt
+# 1. Generate a standalone age key
+sudo mkdir -p /etc/sops/age
+nix-shell -p age --run 'age-keygen -o /tmp/age-key.txt'
+sudo mv /tmp/age-key.txt /etc/sops/age/key.txt
+sudo chmod 600 /etc/sops/age/key.txt
+
+# 2. Get the public key
+sudo cat /etc/sops/age/key.txt | grep "^# public key:"
+# → age1abc...
+```
+
+### Add the new machine to the keychain
+
+1. Add the new public key to `.sops.yaml`:
+   ```yaml
+   keys:
+     - &admin_neonvoid age1p7jngse0vtfer554m7kq6dxkakfr5hpkl4sel4hfz3elpm0mmuxqcjcj6r
+     - &machinename_boot age1abc...  # new machine key
+
+   creation_rules:
+     - path_regex: secrets/secrets\.yaml$
+       key_groups:
+         - age:
+             - *admin_neonvoid
+             - *machinename_boot
+   ```
+
+2. Re-encrypt secrets with the new key:
+   ```bash
+   nix-shell -p sops --run 'sops updatekeys secrets/secrets.yaml'
+   ```
+
+3. Rebuild:
+   ```bash
+   sudo nixos-rebuild switch --flake .#machinename
+   ```
+
+## Editing Secrets
+
+```bash
+# Decrypt, edit, and re-encrypt in place
 nix-shell -p sops --run 'sops secrets/secrets.yaml'
+```
+
+This uses your SSH-derived key at `~/.config/sops/age/keys.txt`.
+
+## Key Locations
+
+| Key | Purpose | Location |
+|-----|---------|----------|
+| **Admin (SSH-derived)** | CLI editing via `sops` | `~/.config/sops/age/keys.txt` |
+| **Per-machine (standalone)** | Boot-time decryption | `/etc/sops/age/key.txt` |
+
+## Adding a Machine
+
+1. SSH into the new machine
+2. Generate its age key (see Initial Machine Setup above)
+3. Get the public key
+4. Add it to `.sops.yaml` and re-encrypt
+5. Commit and push the updated `.sops.yaml` and `secrets/secrets.yaml`
+6. Rebuild the new machine
+
+## Key Backup
+
+The per-machine key at `/etc/sops/age/key.txt` is unique to each machine.
+If you lose it, that machine can't decrypt secrets anymore.
+
+Backup strategy:
+
+```bash
+# Save a copy to a secure location
+sudo cat /etc/sops/age/key.txt | gpg -c > ~/backup-machine-key.txt.gpg
 ```
 
 ## Notes
 
-- The secrets file will be encrypted with your age key
-- Only systems with the corresponding SSH private key can decrypt it
-- Secrets are decrypted at boot time to `/run/secrets/`
 - Never commit unencrypted secrets to git!
-
-## Backing Up Your Age Key
-
-**IMPORTANT:** Your age private key (`~/.config/sops/age/keys.txt`) is derived from your SSH private key (`~/.ssh/id_ed25519`).
-
-### Recovery Options
-
-**Option 1: Keep your SSH key safe (recommended)**
-Since the age key is generated from your SSH key, as long as you have `~/.ssh/id_ed25519`, you can always regenerate the age key:
-
-```bash
-mkdir -p ~/.config/sops/age
-nix-shell -p ssh-to-age --run 'ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'
-chmod 600 ~/.config/sops/age/keys.txt
-```
-
-**Option 2: Back up the age key separately**
-
-```bash
-# Encrypt and back up to a secure location
-gpg -c ~/.config/sops/age/keys.txt
-# Copy keys.txt.gpg to a secure backup location (USB drive, password manager, etc.)
-```
-
-**Option 3: Store in a password manager**
-Copy the contents of `~/.config/sops/age/keys.txt` to your password manager (like Bitwarden, 1Password, etc.)
-
-### For New Machines
-
-1. Copy your SSH key to the new machine: `~/.ssh/id_ed25519`
-2. Regenerate the age key using the command from Option 1 above
-3. The new machine can now decrypt your secrets!
-
-### Multiple Machines
-
-If you want multiple machines to decrypt your secrets, you have two options:
-
-1. **Use the same SSH key** on all machines (copy `~/.ssh/id_ed25519`)
-2. **Add multiple age keys** to `.sops.yaml` - each machine can have its own SSH/age key
+- Re-encrypt after adding/removing keys: `sops updatekeys secrets/secrets.yaml`
