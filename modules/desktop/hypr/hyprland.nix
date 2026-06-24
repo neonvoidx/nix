@@ -308,8 +308,8 @@
               hl.bind(mod .. " + m", hl.dsp.layout("swapwithmaster"))
               hl.bind(mod .. " + i", hl.dsp.layout("addmaster"))
               hl.bind(mod .. " + r", hl.dsp.submap("resize"))
-              hl.bind(mod .. " + equal", hl.dsp.window.resize({ x = 50, y = 0, relative = true }), { repeating = true })
-              hl.bind(mod .. " + minus", hl.dsp.window.resize({ x = -50, y = 0, relative = true }), { repeating = true })
+              hl.bind(mod .. " + equal", hl.dsp.layout("mfact +0.05"), { repeating = true })
+              hl.bind(mod .. " + minus", hl.dsp.layout("mfact -0.05"), { repeating = true })
               hl.bind(mod .. " + mouse:272", skip_for_games(hl.dsp.window.drag()), { mouse = true })
               hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
