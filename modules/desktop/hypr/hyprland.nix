@@ -541,9 +541,11 @@
                   cm_enabled = true,
                   cm_auto_hdr = 0,
                   non_shader_cm = 0,
-                  keep_unmodified_copy = 0,
+                  -- Keeps unmodified SDR frame copy for screensharing, 1 is on always
+                  -- useful if transparent screenshots in hdr
+                  keep_unmodified_copy = 1,
+                  use_shader_blur_blend = false,
                   use_fp16=2,
-                  -- use_shader_blur_blend = true,
                 },
 
                 misc = {
@@ -652,14 +654,6 @@
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
-                -- Set master ratio for ws 3 (portrait monitor). Safe here because
-                -- hyprland.start fires after all initialization is complete.
-                local cur_ws = hl.get_active_workspace()
-                hl.dispatch(hl.dsp.focus({ workspace = 3 }))
-                hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                if cur_ws then
-                  hl.dispatch(hl.dsp.focus({ workspace = cur_ws.id }))
-                end
               end)
 
 
