@@ -287,7 +287,7 @@
               hl.bind(mod .. " + f", skip_for_games(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
               hl.bind(mod .. " + SHIFT + f", skip_for_games(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
               hl.bind(mod .. " + c", hl.dsp.window.center())
-              hl.bind("ALT + TAB", hl.dsp.focus({ last = true }))
+              hl.bind("ALT + TAB", hl.dsp.focus({ workspace = "previous" }))
 
               hl.bind(mod .. " + h", hl.dsp.focus({ direction = "left" }))
               hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -513,7 +513,7 @@
                   new_status = "slave",
                   new_on_top = false,
                   allow_small_split = false,
-                  mfact = 0.58,
+                  mfact = 0.60,
                 },
 
                 decoration = {
@@ -576,7 +576,7 @@
                   no_break_fs_vrr = 1,
                   enable_hyprcursor = true,
                   -- Fixes HDR cursor brightness
-                  no_hardware_cursors=1;
+                  no_hardware_cursors=0;
                   ${lib.optionalString isMultiMonitor "default_monitor = default_monitor,"}
                 },
 
@@ -618,15 +618,11 @@
               end)
 
               hl.on("workspace.active", function(ws)
-                if ws then
-                  local ws_id = ws.id
-                  if ws_id == 3 then
-                    hl.dispatch(hl.dsp.layout("mfact exact 0.7"))
-                  end
-                  local mon = get_ws_monitor(ws)
-                  if mon == portrait_monitor and ws_id ~= 3 then
-                    move_ws_from_hdmi(ws_id)
-                  end
+                if not ws then return end
+
+                local mon = get_ws_monitor(ws)
+                if mon == portrait_monitor and ws.id ~= 3 then
+                  move_ws_from_hdmi(ws.id)
                 end
               end)
 
@@ -654,6 +650,7 @@
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
+                hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
               end)
 
 
