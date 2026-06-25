@@ -576,7 +576,7 @@
                   no_break_fs_vrr = 1,
                   enable_hyprcursor = true,
                   -- Fixes HDR cursor brightness
-                  no_hardware_cursors=0;
+                  no_hardware_cursors=1;
                   ${lib.optionalString isMultiMonitor "default_monitor = default_monitor,"}
                 },
 
