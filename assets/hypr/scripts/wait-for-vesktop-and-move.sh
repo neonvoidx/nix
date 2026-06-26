@@ -10,9 +10,11 @@ while true; do
   sleep 1
 done
 
+sleep 2
+
 hyprctl dispatch 'hl.dsp.window.move({ direction = "u", window = "class:vesktop" })' || true
 
 TARGET_W=1440
-TARGET_H=$((2440 * 70 / 100))
+TARGET_H=$((2440 * 75 / 100))
 
 hyprctl dispatch "hl.dsp.window.resize({ x = $TARGET_W, y = $TARGET_H, relative = false, window = \"class:vesktop\" })" || true
