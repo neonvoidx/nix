@@ -135,7 +135,6 @@
 
         home.packages = with pkgs; [
           xfce4-exo
-          gtklp
         ];
 
         xdg.configFile."xfce4/helpers.rc".text = ''
