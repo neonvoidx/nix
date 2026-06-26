@@ -4,8 +4,6 @@
     homeManager =
       { pkgs, ... }:
       {
-        home.packages = [ pkgs.github-mcp-server ];
-
         programs.mcp = {
           enable = true;
           servers = {
