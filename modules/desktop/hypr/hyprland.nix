@@ -284,8 +284,10 @@
                   end
                 end
               end
-              hl.bind(mod .. " + f", skip_for_games(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
-              hl.bind(mod .. " + SHIFT + f", skip_for_games(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
+              hl.bind(mod .. " + f", hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" }))
+              hl.bind(mod .. " + SHIFT + f", hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" }))
+              -- hl.bind(mod .. " + f", skip_for_games(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
+              -- hl.bind(mod .. " + SHIFT + f", skip_for_games(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
               hl.bind(mod .. " + c", hl.dsp.window.center())
               hl.bind("ALT + TAB", hl.dsp.focus({ workspace = "previous" }))
 
