@@ -678,6 +678,25 @@
           };
 
           # --------------------------------------------------------------------------
+          # Resume hook — restore xrandr primary after suspend
+          # --------------------------------------------------------------------------
+
+          systemd.user.services."restore-xrandr-primary" = {
+            Unit = {
+              Description = "Restore xrandr primary monitor after resume";
+              After = [ "graphical-session.target" ];
+            };
+            Service = {
+              Type = "oneshot";
+              ExecStart = "%h/.config/hypr/scripts/restore-xrandr-primary.sh";
+              RemainAfterExit = true;
+            };
+            Install = {
+              WantedBy = [ "graphical-session.target" "sleep.target" ];
+            };
+          };
+
+          # --------------------------------------------------------------------------
           # Linked Hypr Assets
           # --------------------------------------------------------------------------
 
