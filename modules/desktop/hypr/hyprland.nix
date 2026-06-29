@@ -27,8 +27,6 @@
           defaultMonitor = "DP-2";
           secondaryMonitor = "DP-3";
           portraitMonitor = "HDMI-A-1";
-
-          hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
         in
         {
           # --------------------------------------------------------------------------
@@ -104,6 +102,7 @@
 
               }
 
+              ---@diagnostic disable-next-line: lowercase-global
               function apply_monitor_layout(name)
                 local layout = monitor_layouts[name]
                 if layout == nil then
@@ -115,6 +114,7 @@
                 end
               end
 
+              ---@diagnostic disable-next-line: lowercase-global
               function move_workspace_to_monitor(workspace, monitor)
                 hl.dispatch(hl.dsp.workspace.move({ workspace = tostring(workspace), monitor = monitor }))
               end
@@ -214,24 +214,24 @@
 
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 -- Primary workspace per monitor — sets the default when focusing each monitor.
-                hl.workspace_rule({ workspace = 1, monitor = default_monitor, default = true })
-                hl.workspace_rule({ workspace = 2, monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = 3, monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top" } })
+                hl.workspace_rule({ workspace = "1", monitor = default_monitor, default = true })
+                hl.workspace_rule({ workspace = "2", monitor = secondary_monitor, default = true })
+                hl.workspace_rule({ workspace = "3", monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top" } })
                 -- ws 4 always lives on DP-3 regardless of layout (never migrates).
-                hl.workspace_rule({ workspace = 4, monitor = secondary_monitor })
+                hl.workspace_rule({ workspace = "4", monitor = secondary_monitor })
 
                 -- Secondary workspaces are assigned to the primary monitor by default.
                 -- If the monitor is disabled (e.g. DP-2 in work layouts), Hyprland
                 -- ignores the rule and creates them on the active monitor instead.
-                hl.workspace_rule({ workspace = 5, monitor = default_monitor })
-                hl.workspace_rule({ workspace = 6, monitor = default_monitor, layout = "floating" })
-                hl.workspace_rule({ workspace = 7, monitor = default_monitor })
-                hl.workspace_rule({ workspace = 8, monitor = default_monitor })
-                hl.workspace_rule({ workspace = 9, monitor = default_monitor })
-                hl.workspace_rule({ workspace = 10, monitor = default_monitor })
-                hl.workspace_rule({ workspace = 11, monitor = default_monitor })
-                hl.workspace_rule({
-                  workspace = "name:gaming",
+                hl.workspace_rule({ workspace = "5", monitor = default_monitor })
+                hl.workspace_rule({ workspace = "6", monitor = default_monitor, layout = "floating" })
+                hl.workspace_rule({ workspace = "7", monitor = default_monitor })
+                hl.workspace_rule({ workspace = "8", monitor = default_monitor })
+                hl.workspace_rule({ workspace = "9", monitor = default_monitor })
+                hl.workspace_rule({ workspace = "10", monitor = default_monitor })
+                hl.workspace_rule({ 
+                  workspace = "11", 
+                  monitor = default_monitor,                  
                   no_rounding = true,
                   decorate = false,
                   no_border = true,
@@ -396,6 +396,7 @@
               hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
+              hl.window_rule({name="thunderbird", match={class="thunderbird"}, suppress_event="activatefocus"})
               -- Invisible XWayland helper windows can briefly steal focus.
               hl.window_rule({
                 name = "xwaylandhelper",
@@ -433,8 +434,8 @@
               hl.window_rule({ name = "lostarksplash", match = { class = "^steam_app_.*$", initial_title = "SplashScreen" }, float = true, center = true, max_size = floating_max_size, fullscreen = false, workspace = "11" })
               hl.window_rule({ name = "ffxiv", match = { title = "FINAL FANTASY XIV" }, workspace = "11", float = false, fullscreen = true, content="game"  })
               hl.window_rule({ name = "gamescopegames", match = { class = "gamescope" }, workspace = "11" })
-              hl.window_rule({ name = "wow", match = { initial_class = "wow.exe" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false, content="game"})
-              hl.window_rule({ name = "wowxwayland", match = { initial_class = "steam_app_0", title = "World of Warcraft" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false, content="game"})
+              hl.window_rule({ name = "wow", match = { initial_class = "wow.exe" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false})
+              hl.window_rule({ name = "wowxwayland", match = { initial_class = "steam_app_0", title = "World of Warcraft" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false})
               hl.window_rule({ name = "hytale", match = { title = "Hytale", class = "HytaleClient" }, fullscreen = true, workspace = "11" , content="game"})
 
               -- Battle.net and Wine windows.
@@ -593,12 +594,6 @@
               -- -----------------------------------------------------------------------
               -- Event Hooks
               -- -----------------------------------------------------------------------
-
-              -- NOTE: Do NOT dispatch layout commands (mfact, swapwithmaster, etc.) inside
-              -- window.open / window.move_to_workspace — the layout engine isn't ready yet
-              -- and will segfault in CMasterAlgorithm::layoutMsg.  Use workspace.active
-              -- or hyprland.start instead.
-
               hl.on("window.open", function(w)
                 local ws = w.workspace
                 if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
@@ -637,14 +632,19 @@
               hl.on("hyprland.start", function()
                 hl.exec_cmd("noctalia")
                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
-                hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
+                -- Ignoring this, home manager seems to auto add this to top, but leaving for brevity
+                -- hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
+                -- Restart portal
+                hl.exec_cmd("systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 hl.exec_cmd("hyprctl setcursor eldritch-great-old-green-cursors 32")
                 hl.exec_cmd("~/.config/hypr/scripts/save-workspace.sh")
                 hl.exec_cmd("xrandr --output DP-2 --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
+                -- Add sleep so protonmailbridge has time to startup in the background
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
+                -- Watch for vesktop start and move to top of workspace 3 master layout and resize (one shot)
                 hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
               end)
 
@@ -671,6 +671,7 @@
 
           # --------------------------------------------------------------------------
           # Resume hook — restore xrandr primary after suspend
+          # because steam games (xwayland) rely on xrandr primary for resolution sometimes o.O
           # --------------------------------------------------------------------------
 
           systemd.user.services."restore-xrandr-primary" = {
