@@ -176,34 +176,7 @@
                     }
                 }
             },
-            "4x1": {
-                "states": {
-                    "0": {
-                        "actions": [
-                            {
-                                "id": "com_core447_OSPlugin::RunCommand",
-                                "settings": {
-                                    "command": "~/.config/hypr/scripts/gamescreen-toggle.sh",
-                                    "display_output": false,
-                                    "detached": false
-                                }
-                            }
-                        ],
-                        "image-control-action": 0,
-                        "label-control-actions": [
-                            0,
-                            0,
-                            0
-                        ],
-                        "background-control-action": 0,
-                        "labels": {
-                            "center": {
-                                "text": "Game"
-                            }
-                        }
-                    }
-                }
-            },
+
             "3x1": {
                 "states": {
                     "0": {

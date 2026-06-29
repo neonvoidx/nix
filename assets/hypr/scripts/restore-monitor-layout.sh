@@ -41,7 +41,7 @@ if [ -f "$LAYOUT_FILE" ]; then
 fi
 
 case "$layout" in
-  default|notouch|work|work-notouch) ;;
+  default|work) ;;
   *) layout="default" ;;
 esac
 

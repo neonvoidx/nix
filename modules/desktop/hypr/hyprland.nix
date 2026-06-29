@@ -82,7 +82,6 @@
                 mode = "preferred",
                 position = "auto",
                 scale = 1,
-                sdr_eotf = "gamma22",
               }
 
               local monitor_layouts = {
@@ -92,24 +91,13 @@
                   portrait_monitor_rule("3440x727"),
                   auto_monitor,
                 },
-                notouch = {
-                  hdr_monitor(default_monitor, "4880x1582"),
-                  hdr_monitor(secondary_monitor, "4880x0"),
-                  portrait_monitor_rule("3332x712"),
-                  auto_monitor,
-                },
                 work = {
                   { output = default_monitor, disabled = true },
                   hdr_monitor(secondary_monitor, "4880x0"),
                   portrait_monitor_rule("3440x727"),
                   auto_monitor,
                 },
-                work_notouch = {
-                  { output = default_monitor, disabled = true },
-                  hdr_monitor(secondary_monitor, "4880x0"),
-                  portrait_monitor_rule("2212x712"),
-                  auto_monitor,
-                },
+
               }
 
               function apply_monitor_layout(name)
@@ -692,7 +680,10 @@
               RemainAfterExit = true;
             };
             Install = {
-              WantedBy = [ "graphical-session.target" "sleep.target" ];
+              WantedBy = [
+                "graphical-session.target"
+                "sleep.target"
+              ];
             };
           };
 

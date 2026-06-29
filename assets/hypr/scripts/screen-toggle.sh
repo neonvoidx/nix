@@ -36,7 +36,6 @@ if [ "$1" = "1" ]; then
   xrandr --output "$PRIMARY_MONITOR" --primary
   # Enable both monitors
   case "$current_layout" in
-    work-notouch) next_layout="notouch" ;;
     work) next_layout="default" ;;
     *) next_layout="$current_layout" ;;
   esac
@@ -74,7 +73,6 @@ else
   xrandr --output "$SECONDARY_MONITOR" --primary
   # Disable the primary monitor and keep the secondary active
   case "$current_layout" in
-    notouch) next_layout="work-notouch" ;;
     default) next_layout="work" ;;
     *) next_layout="$current_layout" ;;
   esac
