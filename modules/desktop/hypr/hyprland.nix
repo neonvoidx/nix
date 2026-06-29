@@ -24,6 +24,10 @@
         let
           isMultiMonitor = host.isMultiMonitor or false;
 
+          defaultMonitor = "DP-2";
+          secondaryMonitor = "DP-3";
+          portraitMonitor = "HDMI-A-1";
+
           hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
         in
         {
@@ -43,9 +47,9 @@
             extraConfig = /* lua */ ''
               local mod = "SUPER"
 
-              local default_monitor = "DP-2"
-              local secondary_monitor = "DP-3"
-              local portrait_monitor = "HDMI-A-1"
+              local default_monitor = "${defaultMonitor}"
+              local secondary_monitor = "${secondaryMonitor}"
+              local portrait_monitor = "${portraitMonitor}"
 
               local function hdr_monitor(output, position)
                 return {
@@ -568,7 +572,7 @@
                   enable_hyprcursor = true,
                   -- Fixes HDR cursor brightness
                   no_hardware_cursors=1;
-                  ${lib.optionalString isMultiMonitor "default_monitor = default_monitor,"}
+                  ${lib.optionalString isMultiMonitor "default_monitor = \"${defaultMonitor}\","}
                 },
 
                 quirks = {
