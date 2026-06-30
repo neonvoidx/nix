@@ -10,6 +10,11 @@
       nixpkgs = {
         config = {
           allowUnfree = true;
+          # https://github.com/NixOS/nixpkgs/issues/535580
+          permittedInsecurePackages = [
+            "pnpm-10.29.2"
+            "pnpm-10.34.0"
+          ];
         };
       };
       nix = {
