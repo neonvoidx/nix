@@ -321,7 +321,7 @@
               hl.bind(mod .. " + 8", hl.dsp.focus({ workspace = "8" }))
               hl.bind(mod .. " + 9", hl.dsp.focus({ workspace = "9" }))
               hl.bind(mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
-              hl.bind(mod .. " + d", hl.dsp.focus({ workspace = "3" }))
+              hl.bind(mod .. " + d", hl.dsp.focus({ window = "class=vesktop" }))
               hl.bind(mod .. " + s", hl.dsp.focus({ workspace = "10" }))
               hl.bind(mod .. " + g", hl.dsp.focus({ workspace = "11" }))
 

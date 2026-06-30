@@ -22,21 +22,6 @@
         };
       };
 
-      accounts.calendar.accounts = {
-        "thundermail" = {
-          primary = true;
-          remote = {
-            type = "caldav";
-            url = "https://mail.thundermail.com";
-            userName = "me@neonvoid.dev";
-          };
-          thunderbird = {
-            enable = true;
-            profiles = [ "default" ];
-          };
-        };
-      };
-
       accounts.email.accounts = {
         "thundermail" = {
           primary = true;

@@ -12,8 +12,9 @@
           allowUnfree = true;
           # https://github.com/NixOS/nixpkgs/issues/535580
           permittedInsecurePackages = [
-            "pnpm-10.29.2"
-            "pnpm-10.34.0"
+            "pnpm-10.29.2" # Waiting for https://nixpkgs-tracker.ocfox.me/?pr=536660 hydra merge
+            "pnpm-10.34.0" # nvim config depends on it for now
+            "electron-39.8.10" # waiting for bitwarden update
           ];
         };
       };
