@@ -541,7 +541,7 @@
                   -- useful if transparent screenshots in hdr
                   keep_unmodified_copy = 1,
                   use_shader_blur_blend = false,
-                  use_fp16=2,
+                  use_fp16 = 2,
                 },
 
                 misc = {
@@ -574,10 +574,6 @@
                   -- Fixes HDR cursor brightness
                   no_hardware_cursors=1;
                   ${lib.optionalString isMultiMonitor "default_monitor = \"${defaultMonitor}\","}
-                },
-
-                quirks = {
-                  prefer_hdr = 1,
                 },
               })
 
