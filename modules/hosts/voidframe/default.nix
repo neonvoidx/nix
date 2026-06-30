@@ -45,10 +45,6 @@
           kernelPackages = pkgs.linuxPackages_zen;
         };
 
-        # Workaround for https://github.com/NixOS/nixpkgs/issues/535850
-        # linuxPackages_zen outputs "vmlinuz" instead of "bzImage"
-        system.boot.loader.kernelFile = "vmlinuz";
-
         hardware.graphics = {
           enable = true;
           enable32Bit = true;

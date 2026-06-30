@@ -90,10 +90,6 @@
           ];
         };
 
-        # Workaround for https://github.com/NixOS/nixpkgs/issues/535850
-        # linuxPackages_zen outputs "vmlinuz" instead of "bzImage"
-        system.boot.loader.kernelFile = "vmlinuz";
-
         hardware = {
           amdgpu = {
             initrd.enable = lib.mkDefault true;
