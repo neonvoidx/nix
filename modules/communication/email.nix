@@ -3,21 +3,6 @@
   den.aspects.email.homeManager =
     { pkgs, ... }:
     {
-      services.protonmail-bridge = {
-        enable = true;
-        extraPackages = with pkgs; [ gnome-keyring ];
-      };
-
-      systemd.user.services.protonmail-bridge = {
-        Unit = {
-          After = [
-            "graphical-session.target"
-            "gnome-keyring.service"
-          ];
-          Wants = [ "gnome-keyring.service" ];
-        };
-      };
-
       programs.thunderbird = {
         enable = true;
         settings = {
@@ -27,7 +12,7 @@
         profiles."default" = {
           isDefault = true;
           accountsOrder = [
-            "proton"
+            "thundermail"
             "gmail"
           ];
           extensions = [ ];
@@ -37,32 +22,40 @@
         };
       };
 
+      accounts.calendar.accounts = {
+        "thundermail" = {
+          primary = true;
+          remote = {
+            type = "caldav";
+            url = "https://mail.thundermail.com";
+            userName = "me@neonvoid.dev";
+          };
+          thunderbird = {
+            enable = true;
+            profiles = [ "default" ];
+          };
+        };
+      };
+
       accounts.email.accounts = {
-        "proton" = {
+        "thundermail" = {
           primary = true;
           realName = "neonvoidx";
           address = "me@neonvoid.dev";
           userName = "me@neonvoid.dev";
 
-          # Proton Mail Bridge configuration
           imap = {
-            host = "127.0.0.1";
-            port = 1143;
-            tls = {
-              enable = true;
-              useStartTls = true;
-            };
-            authentication = "login";
+            host = "mail.thundermail.com";
+            port = 993;
+            tls.enable = true;
+            authentication = "xoauth2";
           };
 
           smtp = {
-            host = "127.0.0.1";
-            port = 1025;
-            tls = {
-              enable = true;
-              useStartTls = true;
-            };
-            authentication = "login";
+            host = "mail.thundermail.com";
+            port = 465;
+            tls.enable = true;
+            authentication = "xoauth2";
           };
 
           thunderbird = {

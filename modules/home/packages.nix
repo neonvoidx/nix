@@ -10,6 +10,7 @@
         appimage-run
         aseprite
         asciinema
+        bitwarden-desktop
         blueman
         cmatrix
         comma
@@ -36,7 +37,6 @@
         obsidian
         oculante
         pinta
-        proton-pass
         prusa-slicer
         redact
         seahorse
