@@ -1,4 +1,4 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.ly =
     { host, ... }:
@@ -10,10 +10,13 @@
           ...
         }:
         {
+          environment.etc."ly/blackhole.dur".source = inputs.self + "/assets/ly/blackhole.dur";
+
           services.displayManager.ly = {
             enable = true;
             settings = {
-              animation = "gameoflife";
+              animation = "dur_file";
+              dur_file_path = "/etc/ly/blackhole.dur";
               asterisk = "0x2022";
               bigclock = "en";
               bigclock_seconds = true;
