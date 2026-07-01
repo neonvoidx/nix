@@ -1,3 +1,0 @@
-# Fellowship
-SCB_GAMESCOPE_ARGS="-w 3440 -h 1440 -W 3440 -H 1440 -r 144 -f --hdr-enabled --force-grab-cursor --adaptive-sync -m 1.0"
-command="${command//fellowship.exe/fellowship-launcher.exe}"

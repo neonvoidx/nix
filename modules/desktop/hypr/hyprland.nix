@@ -321,7 +321,7 @@
               hl.bind(mod .. " + 8", hl.dsp.focus({ workspace = "8" }))
               hl.bind(mod .. " + 9", hl.dsp.focus({ workspace = "9" }))
               hl.bind(mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
-              hl.bind(mod .. " + d", hl.dsp.focus({ window = "class=vesktop" }))
+              hl.bind(mod .. " + d", hl.dsp.focus({ window = "class:vesktop" }))
               hl.bind(mod .. " + s", hl.dsp.focus({ workspace = "10" }))
               hl.bind(mod .. " + g", hl.dsp.focus({ workspace = "11" }))
 
@@ -396,7 +396,7 @@
               hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
-              hl.window_rule({name="thunderbird", match={class="thunderbird"}, suppress_event="activatefocus"})
+              hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="4 silent", suppress_event="activatefocus"})
               -- Invisible XWayland helper windows can briefly steal focus.
               hl.window_rule({
                 name = "xwaylandhelper",
@@ -413,7 +413,7 @@
               hl.window_rule({ name = "streamcontroller", match = { class = "com.core447.StreamController" }, workspace = "special:streamcontroller silent" })
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "3 silent" })
-                hl.window_rule({ name = "thunderbird", match = { class = "org.mozilla.Thunderbird" }, workspace = "4 silent" })
+                -- thunderbird handled above (non-multimonitor rule applies to all)
                 hl.window_rule({ name = "fractal", match = { class = "org.gnome.Fractal" }, workspace = "4 silent" })
               ''}
               ${lib.optionalString (!isMultiMonitor) /* lua */ ''
@@ -533,13 +533,12 @@
                 },
 
                 render = {
-                  -- direct_scanout = 2,
-                  -- cm_enabled = true,
-                  cm_auto_hdr = 2,
-                  -- non_shader_cm = 0,
+                  direct_scanout = 2,
+                  cm_auto_hdr = 0,
+                  non_shader_cm = 2,
                   -- Keeps unmodified SDR frame copy for screensharing, 1 is on always
                   -- useful if transparent screenshots in hdr
-                  keep_unmodified_copy = 1,
+                  -- keep_unmodified_copy = 1,
                 },
 
                 misc = {
@@ -574,6 +573,8 @@
                   no_hardware_cursors=1;
                   ${lib.optionalString isMultiMonitor "default_monitor = \"${defaultMonitor}\","}
                 },
+
+
               })
 
               hl.device({ name = "logitech-wireless-mouse-pid:4099-mouse", scroll_factor = 0.8 })
