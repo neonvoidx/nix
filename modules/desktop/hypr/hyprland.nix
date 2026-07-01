@@ -533,15 +533,13 @@
                 },
 
                 render = {
-                  direct_scanout = 1,
-                  cm_enabled = true,
-                  cm_auto_hdr = 0,
-                  non_shader_cm = 0,
+                  -- direct_scanout = 2,
+                  -- cm_enabled = true,
+                  cm_auto_hdr = 2,
+                  -- non_shader_cm = 0,
                   -- Keeps unmodified SDR frame copy for screensharing, 1 is on always
                   -- useful if transparent screenshots in hdr
                   keep_unmodified_copy = 1,
-                  use_shader_blur_blend = false,
-                  use_fp16 = 2,
                 },
 
                 misc = {
@@ -569,7 +567,8 @@
 
                 cursor = {
                   sync_gsettings_theme = true,
-                  no_break_fs_vrr = 1,
+                  no_break_fs_vrr = 2,
+                  min_refresh_rate=60,
                   enable_hyprcursor = true,
                   -- Fixes HDR cursor brightness
                   no_hardware_cursors=1;
@@ -628,8 +627,6 @@
               hl.on("hyprland.start", function()
                 hl.exec_cmd("noctalia")
                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
-                -- Ignoring this, home manager seems to auto add this to top, but leaving for brevity
-                -- hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 -- Restart portal
                 hl.exec_cmd("systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 hl.exec_cmd("hyprctl setcursor eldritch-great-old-green-cursors 32")
