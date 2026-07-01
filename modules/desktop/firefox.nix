@@ -34,6 +34,88 @@
               };
               # Betterfox first, then personal overrides — order guarantees our prefs win
               extraConfig =
+                let
+                  uiCustomization = builtins.toJSON {
+                    placements = {
+                      "widget-overflow-fixed-list" = [ ];
+                      "unified-extensions-area" = [
+                        "smallweb_kagi_com-browser-action"
+                        "_506e023c-7f2b-40a3-8066-bc5deb40aebe_-browser-action"
+                        "_react-devtools-browser-action"
+                        "_f60d7183-d8f1-4a2b-891b-f2de614ada9e_-browser-action"
+                        "_09acf9ff-55d4-4366-a1a9-c9b3c8877c09_-browser-action"
+                        "_c4b582ec-4343-438c-bda2-2f691c16c262_-browser-action"
+                        "search_kagi_com-browser-action"
+                        "_09d1226f-0dd0-4ad7-8a0f-cca316ea271e_-browser-action"
+                      ];
+                      "nav-bar" = [
+                        "sidebar-button"
+                        "back-button"
+                        "forward-button"
+                        "stop-reload-button"
+                        "customizableui-special-spring1"
+                        "vertical-spacer"
+                        "urlbar-container"
+                        "jid0-bnmfwww2w2w4e4edvcddbnmhdvg_jetpack-browser-action"
+                        "_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action"
+                        "_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action"
+                        "78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action"
+                        "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
+                        "ublock0_raymondhill_net-browser-action"
+                        "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action"
+                        "_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action"
+                        "addon_darkreader_org-browser-action"
+                        "vpn_proton_ch-browser-action"
+                        "unified-extensions-button"
+                        "downloads-button"
+                        "fxa-toolbar-menu-button"
+                        "preferences-button"
+                        "developer-button"
+                        "firefox-view-button"
+                        "alltabs-button"
+                        "reset-pbm-toolbar-button"
+                      ];
+                      "toolbar-menubar" = [ "menubar-items" ];
+                      "TabsToolbar" = [ ];
+                      "vertical-tabs" = [ "tabbrowser-tabs" ];
+                      "PersonalToolbar" = [ "personal-bookmarks" ];
+                    };
+                    seen = [
+                      "developer-button"
+                      "profiler-button"
+                      "screenshot-button"
+                      "_react-devtools-browser-action"
+                      "_f60d7183-d8f1-4a2b-891b-f2de614ada9e_-browser-action"
+                      "_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action"
+                      "78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action"
+                      "_09acf9ff-55d4-4366-a1a9-c9b3c8877c09_-browser-action"
+                      "vpn_proton_ch-browser-action"
+                      "jid0-bnmfwww2w2w4e4edvcddbnmhdvg_jetpack-browser-action"
+                      "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action"
+                      "ublock0_raymondhill_net-browser-action"
+                      "_c4b582ec-4343-438c-bda2-2f691c16c262_-browser-action"
+                      "_506e023c-7f2b-40a3-8066-bc5deb40aebe_-browser-action"
+                      "_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action"
+                      "addon_darkreader_org-browser-action"
+                      "reset-pbm-toolbar-button"
+                      "search_kagi_com-browser-action"
+                      "smallweb_kagi_com-browser-action"
+                      "_09d1226f-0dd0-4ad7-8a0f-cca316ea271e_-browser-action"
+                      "_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action"
+                      "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
+                    ];
+                    dirtyAreaCache = [
+                      "nav-bar"
+                      "vertical-tabs"
+                      "toolbar-menubar"
+                      "TabsToolbar"
+                      "PersonalToolbar"
+                      "unified-extensions-area"
+                    ];
+                    currentVersion = 24;
+                    newElementCount = 9;
+                  };
+                in
                 builtins.readFile (
                   builtins.fetchurl {
                     url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
@@ -54,16 +136,16 @@
                   // user_pref("network.dnsCacheExpirationGracePeriod", 0);
                   // Nova UI
                   user_pref("widget.non-native-theme.scrollbar.style", 4);
-                  user_pref("browser.nova.enabled")
-                  user_pref("browser.newtabpage.activity-stream.nova.enabled")
-                  user_pref("browser.urlbar.nova.featureGate")
-                  user_pref("browser.settings-redesign.enabled", true)
-                  user_pref("browser.smartwindow.nova.enabled", true)
-                  user_pref("browser.urlbar.quicksuggest.ampTopPickUseNovaIconSize")
+                  user_pref("browser.nova.enabled", true);
+                  user_pref("browser.newtabpage.activity-stream.nova.enabled", true);
+                  user_pref("browser.urlbar.nova.featureGate", true);
+                  user_pref("browser.settings-redesign.enabled", true);
+                  user_pref("browser.smartwindow.nova.enabled", true);
+                  user_pref("browser.urlbar.quicksuggest.ampTopPickUseNovaIconSize", true);
                   user_pref("print.print_in_color", true);
                   user_pref("print.default-print-settings.printBGColors", true);
                   user_pref("print.default-print-settings.printBGImages", true);
-                  user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-fixed-list\":[],\"unified-extensions-area\":[\"smallweb_kagi_com-browser-action\",\"_506e023c-7f2b-40a3-8066-bc5deb40aebe_-browser-action\",\"_react-devtools-browser-action\",\"_f60d7183-d8f1-4a2b-891b-f2de614ada9e_-browser-action\",\"_09acf9ff-55d4-4366-a1a9-c9b3c8877c09_-browser-action\",\"_c4b582ec-4343-438c-bda2-2f691c16c262_-browser-action\",\"search_kagi_com-browser-action\",\"_09d1226f-0dd0-4ad7-8a0f-cca316ea271e_-browser-action\"],\"nav-bar\":[\"sidebar-button\",\"back-button\",\"forward-button\",\"stop-reload-button\",\"customizableui-special-spring1\",\"vertical-spacer\",\"urlbar-container\",\"jid0-bnmfwww2w2w4e4edvcddbnmhdvg_jetpack-browser-action\",\"_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action\",\"_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action\",\"78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action\",\"_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action\",\"ublock0_raymondhill_net-browser-action\",\"_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action\",\"_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action\",\"addon_darkreader_org-browser-action\",\"vpn_proton_ch-browser-action\",\"unified-extensions-button\",\"downloads-button\",\"fxa-toolbar-menu-button\",\"preferences-button\",\"developer-button\",\"firefox-view-button\",\"alltabs-button\",\"reset-pbm-toolbar-button\"],\"toolbar-menubar\":[\"menubar-items\"],\"TabsToolbar\":[],\"vertical-tabs\":[\"tabbrowser-tabs\"],\"PersonalToolbar\":[\"personal-bookmarks\"]},\"seen\":[\"developer-button\",\"profiler-button\",\"screenshot-button\",\"_react-devtools-browser-action\",\"_f60d7183-d8f1-4a2b-891b-f2de614ada9e_-browser-action\",\"_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action\",\"78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action\",\"_09acf9ff-55d4-4366-a1a9-c9b3c8877c09_-browser-action\",\"vpn_proton_ch-browser-action\",\"jid0-bnmfwww2w2w4e4edvcddbnmhdvg_jetpack-browser-action\",\"_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action\",\"ublock0_raymondhill_net-browser-action\",\"_c4b582ec-4343-438c-bda2-2f691c16c262_-browser-action\",\"_506e023c-7f2b-40a3-8066-bc5deb40aebe_-browser-action\",\"_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action\",\"addon_darkreader_org-browser-action\",\"reset-pbm-toolbar-button\",\"search_kagi_com-browser-action\",\"smallweb_kagi_com-browser-action\",\"_09d1226f-0dd0-4ad7-8a0f-cca316ea271e_-browser-action\",\"_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action\",\"_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action\"],\"dirtyAreaCache\":[\"nav-bar\",\"vertical-tabs\",\"toolbar-menubar\",\"TabsToolbar\",\"PersonalToolbar\",\"unified-extensions-area\"],\"currentVersion\":24,\"newElementCount\":9}")
+                  user_pref("browser.uiCustomization.state", "${builtins.replaceStrings ["\""] ["\\\""] uiCustomization}");
                   user_pref("places.frecency.bookmarkVisitBonus", 2000);
                   user_pref("places.frecency.unvisitedBookmarkBonus", 2000);
                   user_pref("browser.preferences.experimental.hidden", false);
