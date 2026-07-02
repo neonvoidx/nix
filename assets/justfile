@@ -12,7 +12,7 @@ check flake_path="~/nix":
 
 # Garbage collect and clean up old Nix generations
 clean:
-    nh clean all -k 5 --no-direnv --optimise
+    nh clean all -k 5 --optimise
 
 # Initialize a dev environment in the current directory from a FlakeHub template
 dev template:

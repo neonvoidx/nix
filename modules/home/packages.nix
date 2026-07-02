@@ -32,6 +32,7 @@
         hyprsysteminfo
         kdePackages.okular
         kitty-themes
+        lazyjj
         libsecret
         inputs.nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
         obsidian

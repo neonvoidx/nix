@@ -8,10 +8,12 @@
         den.aspects.bat
         den.aspects.btop
         den.aspects.direnv
+        den.aspects.delta
         den.aspects.fastfetch
         den.aspects.fzf
         den.aspects.ghostty
         den.aspects.git
+        den.aspects.jj
         den.aspects.jq
         den.aspects.just
         den.aspects.kitty
