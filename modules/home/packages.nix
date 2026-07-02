@@ -12,6 +12,7 @@
         asciinema
         bitwarden-desktop
         blueman
+        bottles
         cmatrix
         comma
         devenv
