@@ -24,6 +24,7 @@
       den.aspects.pcscd
       # den.aspects.ly
       den.aspects.noctalia-greeter
+      den.aspects.polkit
 
       # Services
       den.aspects.ananicy

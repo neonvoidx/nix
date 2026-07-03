@@ -1,7 +1,7 @@
 { den, inputs, ... }:
 {
   den.aspects.noctalia-greeter =
-    { host, ... }:
+    { host, user, ... }:
     {
       nixos =
         { pkgs, ... }:
@@ -16,6 +16,9 @@
               package = inputs.noctalia-greeter.packages.${pkgs.stdenv.hostPlatform.system}.default;
               greeter-args = "";
               settings = {
+                user = {
+                  default = user.userName;
+                };
                 output = {
                   layout = if host.isMultiMonitor then "HDMI-A-1:3440,727; DP-3:4880,0; DP-2:4880,1440" else "";
                 };

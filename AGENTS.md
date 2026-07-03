@@ -201,6 +201,7 @@ in
       den.aspects.sops
       den.aspects.pcscd
       den.aspects.noctalia-greeter
+      den.aspects.polkit
 
       # Services
       den.aspects.ananicy
@@ -279,6 +280,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.pipewire
       den.aspects.streamcontroller
       den.aspects.usb
+      den.aspects.polkit
 
       # Home
       den.aspects.common
