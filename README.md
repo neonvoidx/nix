@@ -25,7 +25,7 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
-│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, regreet)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, mcp, nh, opencode, payrespects, starship, tealdeer, yazi, zoxide)
@@ -189,7 +189,7 @@ den.hosts.x86_64-linux = {
       den.aspects.bluetooth
       den.aspects.kernel
       den.aspects.sops
-      den.aspects.ly
+      den.aspects.noctalia-greeter
       den.aspects.systempackages
     ];
 
@@ -243,4 +243,3 @@ mynewhost = {
 
 See [secrets/README.md](./secrets/README.md). Secrets are age-encrypted with per-machine
 standalone keys and decrypted to `/run/secrets/` at boot via a systemd service.
-

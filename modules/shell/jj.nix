@@ -13,6 +13,9 @@
                 name = user.gitName;
                 email = user.gitEmail;
               };
+              ui = {
+                default-command = "log";
+              };
             };
           };
         };

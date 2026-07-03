@@ -119,7 +119,7 @@
                 builtins.readFile (
                   builtins.fetchurl {
                     url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
-                    sha256 = "1bgwdzr8g0fdw9p2zw34scinj5684ag13kjr7di4b48lags5ccp8";
+                    sha256 = "sha256:11q7yl8l10zybf43fvkvlaiqibviank7s47yqrsbfa881nz47sf9";
                   }
                 )
                 + /* javascript */ ''
@@ -145,7 +145,9 @@
                   user_pref("print.print_in_color", true);
                   user_pref("print.default-print-settings.printBGColors", true);
                   user_pref("print.default-print-settings.printBGImages", true);
-                  user_pref("browser.uiCustomization.state", "${builtins.replaceStrings ["\""] ["\\\""] uiCustomization}");
+                  user_pref("browser.uiCustomization.state", "${
+                    builtins.replaceStrings [ "\"" ] [ "\\\"" ] uiCustomization
+                  }");
                   user_pref("places.frecency.bookmarkVisitBonus", 2000);
                   user_pref("places.frecency.unvisitedBookmarkBonus", 2000);
                   user_pref("browser.preferences.experimental.hidden", false);

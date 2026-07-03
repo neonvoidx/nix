@@ -34,6 +34,10 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     noctalia.url = "github:noctalia-dev/noctalia";
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvim-config = {
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";

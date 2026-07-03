@@ -114,7 +114,7 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
-│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, regreet)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar, …)
 │   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, mcp, nh, opencode, payrespects, starship, tealdeer, yazi, zoxide)
@@ -200,7 +200,7 @@ in
       # Security
       den.aspects.sops
       den.aspects.pcscd
-      den.aspects.ly
+      den.aspects.noctalia-greeter
 
       # Services
       den.aspects.ananicy
