@@ -14,13 +14,13 @@
         };
 
       homeManager =
-        { ... }:
+        { lib, ... }:
         {
           programs.noctalia = {
             enable = true;
             systemd.enable = false;
 
-            settings = ../../assets/noctalia/noctalia-config.toml;
+            settings = lib.mkForce (builtins.fromTOML (builtins.readFile ../../assets/noctalia/noctalia-config.toml));
           };
         };
     };
