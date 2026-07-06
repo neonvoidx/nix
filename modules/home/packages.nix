@@ -10,7 +10,6 @@
         appimage-run
         aseprite
         asciinema
-        bitwarden-desktop
         blueman
         cmatrix
         comma
