@@ -7,7 +7,6 @@
         # Shell tools
         den.aspects.bat
         den.aspects.btop
-        den.aspects.bw
         den.aspects.direnv
         den.aspects.delta
         den.aspects.fastfetch
