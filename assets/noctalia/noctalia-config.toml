@@ -129,10 +129,10 @@ widget_order = [
         show_password_hint = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
-    box_height = 70.0
-    box_width = 400.0
-    cx = 1720.0
-    cy = 1317.0
+    box_height = 64.0
+    box_width = 520.0
+    cx = 1728.0
+    cy = 848.0
     output = "DP-3"
     rotation = 0.0
     scale = 1.0

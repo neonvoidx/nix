@@ -20,7 +20,7 @@
                   default = user.userName;
                 };
                 output = {
-                  layout = if host.isMultiMonitor or false then "HDMI-A-1:3440,727; DP-3:4880,0; DP-2:4880,1440" else "";
+                  layout = if host.isMultiMonitor or false then "DP-3:4880,0; DP-2:4880,1440" else "";
                 };
                 appearance = {
                   scheme = "Eldritch";
