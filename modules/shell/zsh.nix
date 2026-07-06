@@ -153,6 +153,14 @@
                 for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
               '';
 
+            download_nixpkgs_cache_index = # bash
+              ''
+                filename="index-$(uname -m | sed 's/^arm64$/aarch64/')-$(uname | tr A-Z a-z)"
+                mkdir -p ~/.cache/nix-index && cd ~/.cache/nix-index
+                wget -q -N https://github.com/nix-community/nix-index-database/releases/latest/download/$filename
+                ln -f $filename files
+              '';
+
             ffmpeg-downsize = # bash
               ''
                 if ! command -v ffmpeg &> /dev/null; then

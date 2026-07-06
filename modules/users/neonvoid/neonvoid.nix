@@ -7,6 +7,7 @@
         # Shell tools
         den.aspects.bat
         den.aspects.btop
+        den.aspects.bw
         den.aspects.direnv
         den.aspects.delta
         den.aspects.fastfetch
@@ -21,6 +22,7 @@
         den.aspects.lsd
         den.aspects.mcp
         den.aspects.nh
+        den.aspects.nix-index
         den.aspects.nvim
         den.aspects.opencode
         den.aspects.payrespects
