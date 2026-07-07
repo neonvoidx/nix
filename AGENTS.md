@@ -448,6 +448,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 - **Styling/colors**: base16 palette via stylix
 - **Secrets**: SOPS age-encrypted in `secrets/`, decrypted to `/run/secrets/` at boot
 - **Git tracking**: new files must be `git add`-ed before rebuilding (Nix only evaluates git-tracked files)
+- **Documentation**: keep `AGENTS.md` and `README.md` up to date when making changes — add new aspects, hosts, users, conventions, and structural changes to both files
 
 ---
 
