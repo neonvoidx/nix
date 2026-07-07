@@ -24,11 +24,11 @@
             package = pkgs.eldritch-icon-theme;
           };
 
-            cursor = {
-              name = "eldritch-great-old-green-cursors";
-              package = inputs.eldritch-cursors.packages.${pkgs.stdenv.hostPlatform.system}.great-old-green;
-              size = 32;
-            };
+          cursor = {
+            name = "eldritch-great-old-green-cursors";
+            package = inputs.eldritch-cursors.packages.${pkgs.stdenv.hostPlatform.system}.great-old-green;
+            size = 32;
+          };
 
           base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml";
 
@@ -60,21 +60,24 @@
     homeManager =
       { lib, ... }:
       {
-        stylix.targets = {
-          cava.rainbow.enable = true;
-          firefox.enable = false;
-          hyprland.colors.enable = false;
-          hyprland.enable = true;
-          kitty.enable = false;
-          neovim.enable = false;
-          noctalia-shell.enable = false;
-          obsidian.enable = false;
-          spicetify.enable = false;
-          starship.enable = true;
-          yazi.enable = false;
-          qt = {
-            platform = lib.mkForce "qtct";
-            standardDialogs = "xdgdesktopportal";
+        stylix = {
+          autoEnable = true;
+          targets = {
+            cava.rainbow.enable = true;
+            # Force qtct styling for qt dialogs
+            qt = {
+              platform = lib.mkForce "qtct";
+              standardDialogs = "xdgdesktopportal";
+            };
+            # Disable the following, we already have more intricate Eldritch themes for these
+            firefox.enable = false;
+            hyprland.enable = false;
+            kitty.enable = false;
+            neovim.enable = false;
+            noctalia.enable = false;
+            obsidian.enable = false;
+            spicetify.enable = false;
+            yazi.enable = false;
           };
         };
       };
