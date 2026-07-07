@@ -5,6 +5,12 @@
     {
       nixos =
         { pkgs, ... }:
+        let
+          mainMon = host.monitors.main or {};
+          builtinMon = host.monitors.builtin or {};
+
+          primaryDisplay = mainMon.name or builtinMon.name or "";
+        in
         {
           programs.steam = {
             enable = true;
@@ -26,6 +32,8 @@
             RADV_DEBUG = "nomeshshader";
             # Disable upload heap host-visible VRAM — improves stability with VKD3D DX12 titles
             VKD3D_CONFIG = "no_upload_hvv";
+            # Primary display for Proton Wayland driver
+            WAYLANDDRV_PRIMARY_DISPLAY = primaryDisplay;
           };
         };
 

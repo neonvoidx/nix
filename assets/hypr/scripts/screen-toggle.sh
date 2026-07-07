@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-PRIMARY_MONITOR="DP-2"
-SECONDARY_MONITOR="DP-3"
+
+MODE="${1:-}"
+PRIMARY_MONITOR="${2:-DP-2}"
+SECONDARY_MONITOR="${3:-DP-3}"
+PORTRAIT_MONITOR="${4:-HDMI-A-1}"
 WORKSPACES_TO_MOVE=(1 2 4 5 6 7 8 9 10 11) # everything but discord/spotify workspace
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/hypr"
 GAMESCREEN_STATE_FILE="$STATE_DIR/gamescreen"
@@ -30,7 +33,7 @@ dispatch_focus_monitor() {
 SAVE_STATE_SCRIPT="$HOME/.config/hypr/scripts/save-state.sh"
 RESTORE_STATE_SCRIPT="$HOME/.config/hypr/scripts/restore-state.sh"
 
-if [ "$1" = "1" ]; then
+if [ "$MODE" = "1" ]; then
   "$SAVE_STATE_SCRIPT"
   echo "both" > "$SCREEN_STATE_FILE"
   xrandr --output "$PRIMARY_MONITOR" --primary
@@ -41,15 +44,13 @@ if [ "$1" = "1" ]; then
   esac
   "$APPLY_SCRIPT" "$next_layout"
 
-  # Let monitors settle before moving workspaces (DP-2 may be re-enabling)
+  # Let monitors settle before moving workspaces (primary may be re-enabling)
   sleep 0.5
 
   # Enforce workspace-to-monitor bindings after layout transition.
-  # The layout re-config may momentarily shuffle workspaces; explicitly
-  # place every workspace back on its designated monitor.
   dispatch_move_workspace 1  "$PRIMARY_MONITOR"
   dispatch_move_workspace 2  "$SECONDARY_MONITOR"
-  dispatch_move_workspace 3  "HDMI-A-1"
+  dispatch_move_workspace 3  "$PORTRAIT_MONITOR"
   dispatch_move_workspace 4  "$SECONDARY_MONITOR"
   dispatch_move_workspace 5  "$PRIMARY_MONITOR"
   dispatch_move_workspace 6  "$PRIMARY_MONITOR"
@@ -59,9 +60,12 @@ if [ "$1" = "1" ]; then
   dispatch_move_workspace 10 "$PRIMARY_MONITOR"
   dispatch_move_workspace 11 "$PRIMARY_MONITOR"
 
-  # Cursor default must follow the active primary monitor, never HDMI.
+  # Cursor default must follow the active primary monitor, never portrait.
   set_cursor_default_monitor "$PRIMARY_MONITOR"
   dispatch_focus_monitor "$PRIMARY_MONITOR"
+
+  # Restore xrandr primary based on screen state
+  "$HOME/.config/hypr/scripts/restore-xrandr-primary.sh" "$PRIMARY_MONITOR" "$SECONDARY_MONITOR"
 
   # Persist chosen layout in a single file so it can be restored after nix rebuild.
   echo "$next_layout" > "$LAYOUT_FILE"
@@ -77,7 +81,6 @@ else
     *) next_layout="$current_layout" ;;
   esac
   "$APPLY_SCRIPT" "$next_layout"
-  # Let monitors settle (DP-2 being disabled may shuffle workspaces)
   sleep 0.5
 
   # Move every workspace to the secondary monitor.
@@ -85,9 +88,12 @@ else
     dispatch_move_workspace "$ws" "$SECONDARY_MONITOR"
   done
 
-  # Cursor default must follow the active primary monitor, never HDMI.
+  # Cursor default must follow the active primary monitor, never portrait.
   set_cursor_default_monitor "$SECONDARY_MONITOR"
   dispatch_focus_monitor "$SECONDARY_MONITOR"
+
+  # Restore xrandr primary based on screen state
+  "$HOME/.config/hypr/scripts/restore-xrandr-primary.sh" "$PRIMARY_MONITOR" "$SECONDARY_MONITOR"
 
   echo "$next_layout" > "$LAYOUT_FILE"
   "$RESTORE_STATE_SCRIPT"

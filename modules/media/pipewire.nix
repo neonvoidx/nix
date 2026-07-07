@@ -170,62 +170,35 @@
               # NOTE: Host specific
               # disables all random devices we don't use
               # like motherboard IO audio devices
-              (lib.mkIf (host.hostName == "void") {
+              (lib.mkIf (host ? audio) {
                 "51-disable-devices" = {
-                  "monitor.alsa.rules" = [
-                    {
-                      matches = [
-                        { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Mic2__source"; }
-                        { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Mic1__source"; }
-                        { "node.name" = "alsa_output.pci-0000_03_00.1.hdmi-stereo-extra1"; }
-                        { "node.name" = "alsa_output.usb-R__DE_Microphones_R__DE_NT-USB_Mini_F5DF5DCC-00.analog-stereo"; }
-                        { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__SPDIF__sink"; }
-                        { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
-                        { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Speaker__sink"; }
-                      ];
-                      actions.update-props."node.disabled" = true;
-                    }
-                  ];
+                  "monitor.alsa.rules" = [{
+                    matches = map (n: { "node.name" = n; }) host.audio.disabledNodes;
+                    actions.update-props."node.disabled" = true;
+                  }];
                 };
-                # Default devices
-                # NOTE: Sets default system devices i.e mic and speaker/headphones
                 "52-default-devices" = {
                   "monitor.alsa.rules" = [
                     {
-                      matches = [
-                        { "node.name" = "alsa_input.usb-R__DE_Microphones_R__DE_NT-USB_Mini_F5DF5DCC-00.mono-fallback"; }
-                      ];
+                      matches = [{ "node.name" = host.audio.defaultMic; }];
                       actions.update-props."priority.session" = 2000;
                     }
                     {
-                      matches = [
-                        { "node.name" = "alsa_output.usb-Schiit_Audio_Schiit_Unison_Modius_ES-00.analog-stereo"; }
-                      ];
+                      matches = [{ "node.name" = host.audio.defaultSpeaker; }];
                       actions.update-props."priority.session" = 1000;
                     }
                   ];
                 };
-                # Bluetooth devices
                 "53-bluez-devices" = {
-                  "monitor.bluez.rules" = [
-                    {
-                      matches = [ { "device.name" = "bluez_card.D0_8C_68_6F_52_78"; } ];
-                      actions = {
-                        update-props = {
-                          "bluez5.auto-connect" = [
-                            "hfp_hf"
-                            "hsp_hs"
-                            "a2dp_sink"
-                          ];
-                          "bluez5.hw-volume" = [
-                            "hfp_hf"
-                            "hsp_hs"
-                            "a2dp_sink"
-                          ];
-                        };
+                  "monitor.bluez.rules" = [{
+                    matches = [{ "device.name" = host.audio.bluetoothCard; }];
+                    actions = {
+                      update-props = {
+                        "bluez5.auto-connect" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+                        "bluez5.hw-volume" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
                       };
-                    }
-                  ];
+                    };
+                  }];
                 };
               })
             ];

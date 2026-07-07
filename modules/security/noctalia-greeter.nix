@@ -4,7 +4,7 @@
     { host, user, ... }:
     {
       nixos =
-        { pkgs, ... }:
+        { pkgs, lib, ... }:
         {
           imports = [
             (inputs.noctalia-greeter.nixosModules.default or inputs.noctalia-greeter)
@@ -20,7 +20,14 @@
                   default = user.userName;
                 };
                 output = {
-                  layout = if host.isMultiMonitor or false then "DP-3:4880,0; DP-2:4880,1440" else "";
+                  layout = lib.concatStringsSep "; " (
+                    lib.optionals (builtins.hasAttr "monitors" host) (
+                      lib.optional (builtins.hasAttr "secondary" host.monitors)
+                        "${host.monitors.secondary.name}:${builtins.replaceStrings ["x"] [","] host.monitors.secondary.position}"
+                      ++ lib.optional (builtins.hasAttr "main" host.monitors)
+                        "${host.monitors.main.name}:${builtins.replaceStrings ["x"] [","] host.monitors.main.position}"
+                    )
+                  );
                 };
                 appearance = {
                   scheme = "Eldritch";

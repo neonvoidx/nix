@@ -372,7 +372,7 @@ settings_show_advanced = true
 ui_scale = 1.1000000089406967
 
     [shell.greeter_sync]
-    auto_sync = true
+    auto_sync = false
 
     [shell.panel]
     borders = true

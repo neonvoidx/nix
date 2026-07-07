@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+PRIMARY_MON="${1:-DP-2}"
+SECONDARY_MON="${2:-DP-3}"
+PORTRAIT_MON="${3:-HDMI-A-1}"
+
 LOCK_FILE="/tmp/hypr-restore-monitor-layout.lock"
 
 # Prevent concurrent restores (e.g. daemon + rebuild triggering at the same time).
@@ -45,13 +49,11 @@ case "$layout" in
   *) layout="default" ;;
 esac
 
-# Determine primary/secondary monitors based on layout.
+# Determine which monitor is active based on layout.
 if [[ "$layout" == work* ]]; then
-  PRIMARY_MON="DP-3"
-  SECONDARY_MON=""
+  ACTIVE_MON="$SECONDARY_MON"
 else
-  PRIMARY_MON="DP-2"
-  SECONDARY_MON="DP-3"
+  ACTIVE_MON="$PRIMARY_MON"
 fi
 
 # ── Helper dispatchers ─────────────────────────────────────────────────────
@@ -66,34 +68,29 @@ dispatch_focus_monitor() {
 
 # ── Monitor layout ─────────────────────────────────────────────────────────
 
-# Config init already applies "default" at startup. Re-applying it redundantly
-# can briefly deactivate/reactivate monitors and shuffle workspaces.
-# Only apply when the layout differs from the config default.
 if [ -x "$APPLY_SCRIPT" ] && [[ "$layout" != "default" ]]; then
   "$APPLY_SCRIPT" "$layout" || true
   sleep 0.5
 fi
 
 # ── Enforce workspace-to-monitor bindings ──────────────────────────────────
-# In work layouts DP-2 is disabled, so all workspaces go to DP-3.
-# In default layouts DP-2 is the primary, DP-3 is secondary.
 
 if [[ "$layout" == work* ]]; then
-  dispatch_move_workspace 1  "$PRIMARY_MON"
-  dispatch_move_workspace 2  "$PRIMARY_MON"
-  dispatch_move_workspace 3  "HDMI-A-1"
-  dispatch_move_workspace 4  "$PRIMARY_MON"
-  dispatch_move_workspace 5  "$PRIMARY_MON"
-  dispatch_move_workspace 6  "$PRIMARY_MON"
-  dispatch_move_workspace 7  "$PRIMARY_MON"
-  dispatch_move_workspace 8  "$PRIMARY_MON"
-  dispatch_move_workspace 9  "$PRIMARY_MON"
-  dispatch_move_workspace 10 "$PRIMARY_MON"
-  dispatch_move_workspace 11 "$PRIMARY_MON"
+  dispatch_move_workspace 1  "$ACTIVE_MON"
+  dispatch_move_workspace 2  "$ACTIVE_MON"
+  dispatch_move_workspace 3  "$PORTRAIT_MON"
+  dispatch_move_workspace 4  "$ACTIVE_MON"
+  dispatch_move_workspace 5  "$ACTIVE_MON"
+  dispatch_move_workspace 6  "$ACTIVE_MON"
+  dispatch_move_workspace 7  "$ACTIVE_MON"
+  dispatch_move_workspace 8  "$ACTIVE_MON"
+  dispatch_move_workspace 9  "$ACTIVE_MON"
+  dispatch_move_workspace 10 "$ACTIVE_MON"
+  dispatch_move_workspace 11 "$ACTIVE_MON"
 else
   dispatch_move_workspace 1  "$PRIMARY_MON"
   dispatch_move_workspace 2  "$SECONDARY_MON"
-  dispatch_move_workspace 3  "HDMI-A-1"
+  dispatch_move_workspace 3  "$PORTRAIT_MON"
   dispatch_move_workspace 4  "$SECONDARY_MON"
   dispatch_move_workspace 5  "$PRIMARY_MON"
   dispatch_move_workspace 6  "$PRIMARY_MON"
@@ -104,9 +101,9 @@ else
   dispatch_move_workspace 11 "$PRIMARY_MON"
 fi
 
-"$HOME/.config/hypr/scripts/restore-xrandr-primary.sh"
+"$HOME/.config/hypr/scripts/restore-xrandr-primary.sh" "$PRIMARY_MON" "$SECONDARY_MON"
 
-# Cursor default must follow the active primary monitor, never HDMI.
+# Cursor default must follow the active primary monitor, never portrait.
 hyprctl keyword cursor:default_monitor "$PRIMARY_MON" >/dev/null 2>&1 || true
 
 # Focus the primary monitor so workspace 1 lands in the right place

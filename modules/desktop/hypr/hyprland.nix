@@ -15,24 +15,73 @@
         };
 
       homeManager =
-        {
-          pkgs,
-          lib,
-          config,
-          ...
-        }:
+        { pkgs, lib, config, ... }:
         let
           isMultiMonitor = host.isMultiMonitor or false;
 
-          defaultMonitor = "DP-2";
-          secondaryMonitor = "DP-3";
-          portraitMonitor = "HDMI-A-1";
+          monitors = host.monitors or {};
+          mainMon = monitors.main or {};
+          secondaryMon = monitors.secondary or {};
+          portraitMon = monitors.portrait or {};
+          builtinMon = monitors.builtin or {};
+
+          defaultMonitor = mainMon.name or "";
+          secondaryMonitor = secondaryMon.name or "";
+          portraitMonitor = portraitMon.name or "";
+
+          mkMonitorAttrs = monAttrs: {
+            output = monAttrs.name or "";
+            disabled = false;
+            mode = monAttrs.mode or "preferred";
+            scale = monAttrs.scale or 1.0;
+            position = monAttrs.position or "0x0";
+            vrr = monAttrs.vrr or 0;
+          } // lib.optionalAttrs (monAttrs ? transform) {
+            transform = monAttrs.transform;
+          } // lib.optionalAttrs (monAttrs.supports_hdr or false) {
+            bitdepth = monAttrs.bitdepth or 8;
+            cm = monAttrs.cm or "default";
+            supports_hdr = if monAttrs.supports_hdr then 1 else 0;
+            supports_wide_color = if monAttrs.supports_wide_color or false then 1 else 0;
+            sdrbrightness = monAttrs.sdrbrightness or 0.5;
+            sdrsaturation = monAttrs.sdrsaturation or 1.0;
+            sdr_max_luminance = monAttrs.sdr_max_luminance or 400;
+            sdr_min_luminance = monAttrs.sdr_min_luminance or 0.2;
+          };
+
+          toLua = v:
+            if builtins.isString v then ''"${v}"''
+            else if builtins.isInt v then toString v
+            else if builtins.isFloat v then toString v
+            else if v == true then "1"
+            else if v == false then "0"
+            else "nil";
+
+          attrsToLua = attrs:
+            "{ " + lib.concatStringsSep ", " (lib.mapAttrsToList (n: v: "${n} = ${toLua v}") attrs) + " }";
+
+          monListLua = attrsList:
+            lib.concatStringsSep ",\n" (map (attrs: attrsToLua (mkMonitorAttrs attrs)) attrsList);
+
+          monLayoutsLua = if isMultiMonitor then ''
+            local monitor_layouts = {
+              default = {
+                ${monListLua [ mainMon secondaryMon portraitMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
+              },
+              work = {
+                { output = "${defaultMonitor}", disabled = true },
+                ${monListLua [ secondaryMon portraitMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
+              },
+            }
+          '' else ''
+            local monitor_layouts = {
+              default = {
+                ${monListLua [ builtinMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
+              },
+            }
+          '';
         in
         {
-          # --------------------------------------------------------------------------
-          # Hyprland
-          # --------------------------------------------------------------------------
-
           wayland.windowManager.hyprland = {
             enable = true;
             package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
@@ -49,58 +98,7 @@
               local secondary_monitor = "${secondaryMonitor}"
               local portrait_monitor = "${portraitMonitor}"
 
-              local function hdr_monitor(output, position)
-                return {
-                  output = output,
-                  position = position,
-                  disabled = false,
-                  mode = "3440x1440@143.92",
-                  scale = 1.0,
-                  bitdepth = 10,
-                  cm = "hdredid",
-                  supports_hdr = 1,
-                  supports_wide_color = 1,
-                  sdrbrightness = 0.5,
-                  sdrsaturation = 1.0,
-                  sdr_max_luminance = 408,
-                  sdr_min_luminance = 0.2339,
-                  vrr = 1,
-                }
-              end
-
-              local function portrait_monitor_rule(position)
-                return {
-                  output = portrait_monitor,
-                  position = position,
-                  disabled = false,
-                  mode = "2560x1440@59.95",
-                  scale = 1.0,
-                  transform = 1,
-                }
-              end
-
-              local auto_monitor = {
-                output = "",
-                mode = "preferred",
-                position = "auto",
-                scale = 1,
-              }
-
-              local monitor_layouts = {
-                default = {
-                  hdr_monitor(default_monitor, "4880x1440"),
-                  hdr_monitor(secondary_monitor, "4880x0"),
-                  portrait_monitor_rule("3440x727"),
-                  auto_monitor,
-                },
-                work = {
-                  { output = default_monitor, disabled = true },
-                  hdr_monitor(secondary_monitor, "4880x0"),
-                  portrait_monitor_rule("3440x727"),
-                  auto_monitor,
-                },
-
-              }
+              ${monLayoutsLua}
 
               ---@diagnostic disable-next-line: lowercase-global
               function apply_monitor_layout(name)
@@ -136,14 +134,12 @@
                 return false
               end
 
-              -- Move a workspace away from HDMI-A-1 to the correct target.
               local function move_ws_from_hdmi(ws_id)
                 if ws_id == 3 then
                   return
                 end
                 local target
                 if ws_id == 10 or ws_id == 11 then
-                  -- Gaming: DP-2 if active, else DP-3
                   target = is_monitor_active(default_monitor) and default_monitor or secondary_monitor
                 elseif ws_id == 2 or ws_id == 4 then
                   target = secondary_monitor
@@ -191,47 +187,26 @@
               -- Monitors
               -- -----------------------------------------------------------------------
 
-              ${
-                if isMultiMonitor then
-                  /* lua */ ''
-                    apply_monitor_layout("default")
-                  ''
-                else
-                  /* lua */ ''
-                    hl.monitor({
-                      output = "eDP-1",
-                      mode = "2880x1920@120",
-                      position = "0x0",
-                      scale = 1.33333,
-                    })
-                    hl.monitor(auto_monitor)
-                  ''
-              }
+              apply_monitor_layout("default")
 
               -- -----------------------------------------------------------------------
               -- Workspace Rules
               -- -----------------------------------------------------------------------
 
               ${lib.optionalString isMultiMonitor /* lua */ ''
-                -- Primary workspace per monitor — sets the default when focusing each monitor.
                 hl.workspace_rule({ workspace = "1", monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = "2", monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = "3", monitor = portrait_monitor, default = true, layout = "master", layout_opts = { orientation = "top" } })
-                -- ws 4 always lives on DP-3 regardless of layout (never migrates).
+                hl.workspace_rule({ workspace = "3", monitor = ${if portraitMonitor != "" then "portrait_monitor" else "default_monitor"}, default = true, layout = "master", layout_opts = { orientation = "top" } })
                 hl.workspace_rule({ workspace = "4", monitor = secondary_monitor })
-
-                -- Secondary workspaces are assigned to the primary monitor by default.
-                -- If the monitor is disabled (e.g. DP-2 in work layouts), Hyprland
-                -- ignores the rule and creates them on the active monitor instead.
                 hl.workspace_rule({ workspace = "5", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "6", monitor = default_monitor, layout = "floating" })
                 hl.workspace_rule({ workspace = "7", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "8", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "9", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "10", monitor = default_monitor })
-                hl.workspace_rule({ 
-                  workspace = "11", 
-                  monitor = default_monitor,                  
+                hl.workspace_rule({
+                  workspace = "11",
+                  monitor = default_monitor,
                   no_rounding = true,
                   decorate = false,
                   no_border = true,
@@ -263,23 +238,8 @@
               hl.bind(mod .. " + q", hl.dsp.window.close())
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
               hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.center())
-              -- Skip actions for game windows (steam_app_*, gamescope, wow.exe).
-              local function skip_for_games(dispatcher)
-                return function()
-                  local w = hl.get_active_window()
-                  if w then
-                    local cls = w.class
-                    if cls and (cls:match("^steam_app_") or cls == "gamescope" or cls == "wow.exe") then
-                      return
-                    end
-                    hl.dispatch(dispatcher)
-                  end
-                end
-              end
               hl.bind(mod .. " + f", hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" }))
               hl.bind(mod .. " + SHIFT + f", hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" }))
-              -- hl.bind(mod .. " + f", skip_for_games(hl.dsp.window.fullscreen({ mode="maximized", action = "toggle" })))
-              -- hl.bind(mod .. " + SHIFT + f", skip_for_games(hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" })))
               hl.bind(mod .. " + c", hl.dsp.window.center())
               hl.bind("ALT + TAB", hl.dsp.focus({ workspace = "previous" }))
 
@@ -304,7 +264,14 @@
               hl.bind(mod .. " + r", hl.dsp.submap("resize"))
               hl.bind(mod .. " + equal", hl.dsp.layout("mfact +0.05"), { repeating = true })
               hl.bind(mod .. " + minus", hl.dsp.layout("mfact -0.05"), { repeating = true })
-              hl.bind(mod .. " + mouse:272", skip_for_games(hl.dsp.window.drag()), { mouse = true })
+              hl.bind(mod .. " + mouse:272", function()
+                local w = hl.get_active_window()
+                if w then
+                  local cls = w.class
+                  if cls and (cls:match("^steam_app_") or cls == "gamescope" or cls == "wow.exe") then return end
+                  hl.dispatch(hl.dsp.window.drag())
+                end
+              end, { mouse = true })
               hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
               -- -----------------------------------------------------------------------
@@ -345,25 +312,18 @@
               -- Media And Screenshot Binds
               -- -----------------------------------------------------------------------
 
-              -- Screenshot
               hl.bind("Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim -g "$(slurp -d)" - | wl-copy; kill $PID'))
               hl.bind("SHIFT + Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim -g "$(slurp)" /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
               hl.bind("CTRL + Print", hl.dsp.exec_cmd('wayfreeze & PID=$!; sleep .1; grim /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
-              --- Volume up/down
               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
-              -- Mute output
               hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
-              -- Microphone volume
               hl.bind("CTRL + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+"))
               hl.bind("CTRL + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-"))
-              -- Microphone mute
               hl.bind("CTRL + XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
-              -- Play/pause, next and previous media player
               hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
               hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
               hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
-              -- Brightness
               hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
               hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
 
@@ -397,7 +357,6 @@
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
               hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="4 silent", suppress_event="activatefocus"})
-              -- Invisible XWayland helper windows can briefly steal focus.
               hl.window_rule({
                 name = "xwaylandhelper",
                 match = { xwayland = true, title = "^$", class = "^$", initial_class = "^$", initial_title = "^$" },
@@ -406,26 +365,21 @@
                 no_blur = true,
                 suppress_event = "activatefocus",
               })
-
-              -- Workspace placement.
               hl.window_rule({ name = "vesktop", match = { class = "vesktop" }, workspace = "3 silent" })
               hl.window_rule({ name = "discord-popout", match = { class = "vesktop", initial_title = "Discord Popout" }, workspace = "2 silent" })
               hl.window_rule({ name = "streamcontroller", match = { class = "com.core447.StreamController" }, workspace = "special:streamcontroller silent" })
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "3 silent" })
-                -- thunderbird handled above (non-multimonitor rule applies to all)
                 hl.window_rule({ name = "fractal", match = { class = "org.gnome.Fractal" }, workspace = "4 silent" })
               ''}
               ${lib.optionalString (!isMultiMonitor) /* lua */ ''
                 hl.window_rule({ name = "spotifyframe", match = { class = "spotify" }, workspace = "4 silent" })
               ''}
 
-              -- Development.
               hl.window_rule({ name = "godot_all", match = { class = "Godot" }, workspace = "6", float = true })
               hl.window_rule({ name = "godot_game", match = { title = ".*(DEBUG).*", initial_title = "Godot" }, workspace = "11", float = true, max_size = floating_max_size })
               hl.window_rule({ name= "godot_float", match = {class="org.godotengine.Editor", float=true}, max_size = floating_max_size, center=true})
 
-              -- Steam and games.
               hl.window_rule({ match = { content = "game", fullscreen = true }, confine_pointer = true })
               hl.window_rule({ name = "steampopup", match = { title = "Steamwebhelper" }, workspace = "10 silent", suppress_event = "activatefocus" })
               hl.window_rule({ name = "steamsignin", match = { initial_title = "Sign in to Steam", initial_class = "steam" }, float = true, center = true, max_size = floating_max_size, suppress_event = "activatefocus", workspace = "10 silent" })
@@ -438,7 +392,6 @@
               hl.window_rule({ name = "wowxwayland", match = { initial_class = "steam_app_0", title = "World of Warcraft" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false})
               hl.window_rule({ name = "hytale", match = { title = "Hytale", class = "HytaleClient" }, fullscreen = true, workspace = "11" , content="game"})
 
-              -- Battle.net and Wine windows.
               hl.window_rule({ name = "battlenetxwayland", match = { title = "^Battle.net.*" }, float = false, fullscreen = false, fullscreen_state = "0 0", workspace = "10 silent", suppress_event = "fullscreen activatefocus" })
               hl.window_rule({ name = "bnetgifts", match = { class = "steam_app_0", title = "Gifts" }, float = true, fullscreen = false, fullscreen_state = "0 0", workspace = "10", suppress_event = "fullscreen" })
               hl.window_rule({ name = "bnetwhispers", match = { title = "Battle.net.*Chats and Groups" }, float = true, fullscreen = false, fullscreen_state = "0 0", workspace = "10", suppress_event = "fullscreen" })
@@ -446,7 +399,6 @@
               hl.window_rule({ name = "battlenet", match = { initial_class = "battle.net.exe" }, float = false, fullscreen = false, fullscreen_state = "0 0", workspace = "10 silent", suppress_event = "fullscreen activatefocus" })
               hl.window_rule({ name = "bnettray", match = { class = "steam_app_0", title = "^$" }, workspace = "10", float = true, fullscreen = false })
 
-              -- Floating popups and overlays.
               hl.window_rule({ name = "thunderbirdreminder", match = { class = "org.mozilla.Thunderbird", title = "^.*Reminder.*$" }, suppress_event = "activatefocus", float = true, pin = true, size = reminder_size, move = reminder_move, max_size = floating_max_size })
               hl.window_rule({ name = "kittydropdown", match = { class = "kittyquick" }, float = true, pin = true })
               hl.window_rule({ name = "pip", match = { class = "firefox", title = "Picture-in-Picture" }, suppress_event = "activatefocus", float = true, pin = true, size = reminder_size, move = reminder_move, max_size = floating_max_size, no_initial_focus = true })
@@ -536,9 +488,6 @@
                   direct_scanout = 2,
                   cm_auto_hdr = 0,
                   non_shader_cm = 2,
-                  -- Keeps unmodified SDR frame copy for screensharing, 1 is on always
-                  -- useful if transparent screenshots in hdr
-                  -- keep_unmodified_copy = 1,
                 },
 
                 misc = {
@@ -567,14 +516,11 @@
                 cursor = {
                   sync_gsettings_theme = true,
                   no_break_fs_vrr = 2,
-                  min_refresh_rate=60,
+                  min_refresh_rate = 60,
                   enable_hyprcursor = true,
-                  -- Fixes HDR cursor brightness
-                  no_hardware_cursors=1;
+                  no_hardware_cursors = 1,
                   ${lib.optionalString isMultiMonitor "default_monitor = \"${defaultMonitor}\","}
                 },
-
-
               })
 
               hl.device({ name = "logitech-wireless-mouse-pid:4099-mouse", scroll_factor = 0.8 })
@@ -590,6 +536,7 @@
               -- -----------------------------------------------------------------------
               -- Event Hooks
               -- -----------------------------------------------------------------------
+
               hl.on("window.open", function(w)
                 local ws = w.workspace
                 if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
@@ -627,22 +574,19 @@
 
               hl.on("hyprland.start", function()
                 hl.exec_cmd("noctalia")
-                hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh")
-                -- Restart portal
+                hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh \"${defaultMonitor}\" \"${secondaryMonitor}\" \"${portraitMonitor}\"")
                 hl.exec_cmd("systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
                 hl.exec_cmd("hyprctl setcursor eldritch-great-old-green-cursors 32")
                 hl.exec_cmd("~/.config/hypr/scripts/save-workspace.sh")
-                hl.exec_cmd("xrandr --output DP-2 --primary")
+                hl.exec_cmd("xrandr --output ${defaultMonitor} --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
-                -- Add sleep so protonmailbridge has time to startup in the background
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
-                -- Watch for vesktop start and move to top of workspace 3 master layout and resize (one shot)
+                ${lib.optionalString (portraitMonitor != "") /* lua */ ''
                 hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
+                ''}
               end)
-
-
             '';
           };
 
@@ -675,7 +619,7 @@
             };
             Service = {
               Type = "oneshot";
-              ExecStart = "%h/.config/hypr/scripts/restore-xrandr-primary.sh";
+              ExecStart = "%h/.config/hypr/scripts/restore-xrandr-primary.sh \"${defaultMonitor}\" \"${secondaryMonitor}\"";
               RemainAfterExit = true;
             };
             Install = {

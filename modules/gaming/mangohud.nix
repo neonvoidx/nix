@@ -11,6 +11,11 @@
       };
       homeManager =
         { lib, pkgs, ... }:
+        let
+          mainMon = host.monitors.main or host.monitors.builtin or {};
+          fpsMatch = builtins.match ".*@([0-9]+)\\.?[0-9]*" (mainMon.mode or "");
+          fpsText = if fpsMatch != null then builtins.elemAt fpsMatch 0 else "60";
+        in
         {
           programs.mangohud = {
             enable = true;
@@ -46,7 +51,7 @@
                 gpu_color = "a48cf2";
                 cpu_text = "CPU";
                 cpu_color = "36f498";
-                fps_value = "60,144";
+                fps_value = "60,${fpsText}";
                 fps_color = "f16b75,f7c67f,36f498";
                 gpu_load_value = "60,90";
                 gpu_load_color = "36f498,f7c67f,f16b75";
