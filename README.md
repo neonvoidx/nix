@@ -25,10 +25,10 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
-│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter)
-│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar, …)
-│   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle)
-│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, mcp, nh, opencode, payrespects, starship, tealdeer, yazi, zoxide)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
+│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
+│   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf, ghostty, git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
@@ -48,22 +48,23 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 
 | Host | Hardware | Role | Attributes |
 |------|----------|------|------------|
-| **void** | AMD Ryzen 9 9950X, AMD RX 9070 XT, 3440×1440 | Desktop | `isMultiMonitor=true`, `gpuPciDev=0000:03:00.0` |
-| **voidframe** | AMD Ryzen 7 7840U, Framework 16, 2880×1920 | Laptop | `isLaptop=true` |
+| **void** | AMD Ryzen 9 9950X, AMD RX 9070 XT, 3× monitors (2×3440×1440 + 2560×1440) | Desktop | `isMultiMonitor=true`, `isGaming=true`, `audio`, `network` objects |
+| **voidframe** | AMD Ryzen 7 7840U, Framework 16, 2880×1920 | Laptop | `isLaptop=true`, `isGaming=false` |
 
 ## Key Features
 
 - **den Framework** — auto-generates `nixosConfigurations`, wires Home-Manager, provides `host`/`user` context
 - **import-tree** — all `.nix` files under `modules/` are auto-discovered; no manual wiring needed
 - **Aspect Pattern** — every feature is a self-contained file with optional `nixos` and `homeManager` sections
-- **Host Context** — freeform attributes on hosts (`isGaming`, `isLaptop`, `xRes`, `gpuPciDev`, etc.) accessible in any aspect
+- **Host Context** — freeform attributes on hosts (`monitors`, `audio`, `network`, `isGaming`, `isLaptop`, `xRes`, `gpuPciDev`, etc.) accessible in any aspect
 - **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`) accessible in any aspect
-- **Hyprland** — Wayland compositor, fully configured in `desktop/hypr/hyprland.nix`
-- **Stylix** — System-wide theming (NixOS + HM in one aspect file)
+- **Hyprland** — Wayland compositor with Lua config, multi-monitor layouts, HDR support, game workspace management
+- **Stylix** — System-wide theming (base16, GTK, Qt, fonts) in one aspect file
 - **SOPS** — Age-encrypted secrets, decrypted to `/run/secrets/` at boot via systemd service
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
-- **nixCats** — Neovim configuration with language server support
+- **nvim** — Neovim config from `neonvoidx/nvim` via flake input
 - **nh flake apps** — `nix run .#void` / `nix run .#voidframe` for building with nh
+- **Conditional Includes** — aspects gated by `host.isGaming or false` via `lib.optionals`
 
 > **AI Agents:** See [`AGENTS.md`](./AGENTS.md) for detailed context when working with this flake.
 
@@ -111,12 +112,12 @@ Each feature is a self-contained **aspect** file. NixOS and Home-Manager config 
 To access **host or user context**, use the outer aspect lambda:
 
 ```nix
-{ den, ... }:
+{ den, lib, ... }:
 {
   den.aspects.example =
     { host, user, ... }:
     {
-      nixos = { pkgs, ... }: {
+      nixos = { pkgs, lib, ... }: {
         # host.xRes, host.isMultiMonitor or false, host.isLaptop or false, etc.
         # Note: networking.hostName is set automatically by den._.hostname
       };
@@ -133,6 +134,26 @@ To access **host or user context**, use the outer aspect lambda:
 > **Note:** `host` and `user` are only available in the **outer** aspect lambda, not inside `nixos`/`homeManager` module args. Capture them via Nix's lexical scoping (they are automatically in scope for inner lambdas).
 
 > **Note:** Host attributes are freeform — use `host.isLaptop or false` when an attribute may not exist on all hosts.
+
+For **conditional includes** with `lib.optionals`:
+
+```nix
+{ den, lib, ... }:
+{
+  den.aspects.example =
+    { host, ... }:
+    {
+      includes = [
+        den.aspects.steam
+        den.aspects.mangohud
+      ]
+      ++ lib.optionals (host.isGaming or false) [
+        den.aspects.deadlock
+        den.aspects.wow
+      ];
+    };
+}
+```
 
 ## Adding a New Aspect
 
@@ -163,6 +184,9 @@ To access **host or user context**, use the outer aspect lambda:
 ```nix
 den.hosts.x86_64-linux = {
   mynewhost = {
+    monitors = {
+      main = { name = "DP-1"; mode = "1920x1080@60"; scale = 1.0; primary = true; };
+    };
     xRes = "1920";
     yRes = "1080";
     isLaptop = true;          # freeform — any attributes you want
@@ -211,23 +235,25 @@ That's it — den auto-generates the `nixosConfiguration` output from `hosts.nix
 1. Create `modules/users/<username>/<username>.nix`:
 
 ```nix
-{ den, ... }:
+{ den, lib, ... }:
 {
-  den.aspects.<username> = {
-    includes = [
-      den.aspects.zsh
-      den.aspects.git
-      # ... all aspects this user should have, look at neonvoid for full list
-    ];
+  den.aspects.<username> =
+    { ... }:
+    {
+      includes = [
+        den.aspects.zsh
+        den.aspects.git
+        # ... all aspects this user should have, look at neonvoid for full list
+      ];
 
-    nixos = { ... }: {
-      # den._.define-user, den._.primary-user, and den._.user-shell handle
-      # isNormalUser, shell, and wheel automatically — only add extras here
-      users.users.<username> = {
-        extraGroups = [ "audio" "video" "networkmanager" ];
+      nixos = { ... }: {
+        # den._.define-user, den._.primary-user, and den._.user-shell handle
+        # isNormalUser, shell, and wheel automatically — only add extras here
+        users.users.<username> = {
+          extraGroups = [ "audio" "video" "networkmanager" ];
+        };
       };
     };
-  };
 }
 ```
 

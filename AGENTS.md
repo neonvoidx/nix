@@ -74,7 +74,8 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
     { host, user, ... }:
     {
       nixos = { pkgs, lib, ... }: {
-        # host.hostName, host.xRes, host.isGaming or false, host.isLaptop or false
+        # host.hostName, host.monitors, host.xRes, host.isMultiMonitor or false,
+        # host.isLaptop or false, host.isGaming or false, host.gpuPciDev, etc.
         systemd.services.greetd = lib.mkIf (host.isMultiMonitor or false) {
           preStart = "${pkgs.fbset}/bin/fbset -xres ${host.xRes} -yres ${host.yRes}";
         };
@@ -90,6 +91,30 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
 
 > **Critical:** `host` and `user` are only available in the **outer aspect lambda**, NOT inside `nixos`/`homeManager` module args. They are captured via Nix lexical scoping.
 > Use `host.attr or false` / `host.attr or ""` for attributes that may not exist on all hosts.
+
+### Conditional Includes via `lib.optionals`
+
+User aspects can conditionally include other aspects based on host context:
+
+```nix
+{ den, lib, ... }:
+{
+  den.aspects.example =
+    { host, ... }:
+    {
+      includes = [
+        # always included
+        den.aspects.steam
+        den.aspects.mangohud
+      ]
+      ++ lib.optionals (host.isGaming or false) [
+        # only on gaming hosts
+        den.aspects.deadlock
+        den.aspects.wow
+      ];
+    };
+}
+```
 
 ---
 
@@ -114,10 +139,10 @@ Aspects can receive `host` and `user` context via the outer aspect lambda:
 │   ├── hosts.nix          # Declares hosts and their attributes
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
-│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter)
-│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar, …)
-│   │   └── hypr/          # Hyprland sub-aspects (hyprland, hypridle)
-│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, fastfetch, fzf, ghostty, git, jq, just, kitty, lazygit, lsd, mcp, nh, opencode, payrespects, starship, tealdeer, yazi, zoxide)
+│   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
+│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
+│   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf, ghostty, git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
@@ -141,7 +166,7 @@ secrets/                       # SOPS-encrypted secrets
 
 ## Host Definitions
 
-**`modules/hosts.nix`** — declares all hosts with freeform attributes:
+**`modules/hosts.nix`** — declares all hosts with freeform attributes including structured `monitors`, `audio`, `network` objects:
 
 ```nix
 { den, ... }:
@@ -149,6 +174,8 @@ let
   neonvoid = {
     gitName = "neonvoidx";
     gitEmail = "me@neonvoid.dev";
+    emailName = "neonvoidx";
+    emailAddress = "me@neonvoid.dev";
   };
   timezone = "America/New_York";
 in
@@ -156,20 +183,58 @@ in
   den.hosts.x86_64-linux = {
     void = {
       users.neonvoid = neonvoid;
+
+      monitors = {
+        main = { name = "DP-2"; mode = "3440x1440@143.92"; scale = 1.0; primary = true; ... };
+        secondary = { name = "DP-3"; mode = "3440x1440@143.92"; ... };
+        portrait = { name = "HDMI-A-1"; mode = "2560x1440@59.95"; transform = 1; ... };
+      };
+
+      isMultiMonitor = true;
       xRes = "3440";
       yRes = "1440";
-      isMultiMonitor = true;
-      gpuPciDev = "0000:03:00.0"; # AMD RX 9070 XT
+      gpuPciDev = "0000:03:00.0";
+      gpuPciAudioDev = "0000:03:00.1";
+      gpuVendorDeviceId = "1002:7550";
+
+      audio = {
+        disabledNodes = [ ... ];
+        defaultMic = "alsa_input.usb-...";
+        defaultSpeaker = "alsa_output.usb-...";
+        bluetoothCard = "bluez_card...";
+      };
+
+      network = {
+        dns = [ "192.168.86.7" "192.168.86.8" ];
+        interface = "eth0";
+        mac = "9c:6b:00:98:96:96";
+        ip = "192.168.86.20";
+        prefixLength = 24;
+        gateway = "192.168.86.1";
+      };
+
+      nasIp = "192.168.86.6";
+      printerUri = "ipps://192.168.86.186/ipp/print";
       greeting = "The Void";
       timezone = timezone;
+      isGaming = true;
     };
+
     voidframe = {
       users.neonvoid = neonvoid;
+
+      monitors.builtin = {
+        name = "eDP-1"; mode = "2880x1920@120";
+        scale = 1.33333; primary = true;
+      };
+
+      isLaptop = true;
       xRes = "2880";
       yRes = "1920";
-      isLaptop = true;
+      network.wireless = true;
       greeting = "Void Frame";
       timezone = timezone;
+      isGaming = false;
     };
   };
 }
@@ -211,9 +276,10 @@ in
       den.aspects.systempackages
     ];
 
-    nixos = { lib, pkgs, ... }: {
+    nixos = { lib, pkgs, config, ... }: {
       imports = [ (inputs.self + "/hosts/void/hardware-configuration.nix") ];
-      # boot, hardware, networking specifics...
+      # boot (limine with secure boot, amdgpu kernel modules, zen kernel, kernel params)
+      # hardware.amdgpu, hardware.steam-hardware, static IP networking
     };
   };
 }
@@ -225,95 +291,104 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 **Hosts:**
 
-- **`void`** — Desktop (AMD Ryzen 9 9950X, RX 9070 XT, 3440×1440 ultrawide)
-- **`voidframe`** — Framework laptop (AMD Ryzen 7 7840U)
+- **`void`** — Desktop (AMD Ryzen 9 9950X, RX 9070 XT, 3x monitors: 2×3440×1440 + 2560×1440 portrait)
+- **`voidframe`** — Framework laptop (AMD Ryzen 7 7840U, 2880×1920)
 
 ---
 
 ## User Definitions
 
-**`modules/users/neonvoid/neonvoid.nix`** — user aspect with all desktop/app includes:
+**`modules/users/neonvoid/neonvoid.nix`** — user aspect with all desktop/shell/app includes and host-conditional gaming aspects:
 
 ```nix
-{ den, ... }:
+{ den, lib, ... }:
 {
-  den.aspects.neonvoid = {
-    includes = [
-      # Shell tools
-      den.aspects.zsh
-      den.aspects.bat
-      den.aspects.btop
-      den.aspects.direnv
-      den.aspects.fastfetch
-      den.aspects.fzf
-      den.aspects.ghostty
-      den.aspects.git
-      den.aspects.jq
-      den.aspects.just
-      den.aspects.kitty
-      den.aspects.lazygit
-      den.aspects.lsd
-      den.aspects.nh
-      den.aspects.payrespects
-      den.aspects.tealdeer
-      den.aspects.yazi
-      den.aspects.zoxide
+  den.aspects.neonvoid =
+    { host, ... }:
+    {
+      includes = [
+        # Shell tools
+        den.aspects.bat
+        den.aspects.btop
+        den.aspects.direnv
+        den.aspects.delta
+        den.aspects.fastfetch
+        den.aspects.fzf
+        den.aspects.ghostty
+        den.aspects.git
+        den.aspects.jj
+        den.aspects.jq
+        den.aspects.just
+        den.aspects.kitty
+        den.aspects.lazygit
+        den.aspects.lsd
+        den.aspects.mcp
+        den.aspects.nh
+        den.aspects.nix-index
+        den.aspects.nvim
+        den.aspects.opencode
+        den.aspects.payrespects
+        den.aspects.starship
+        den.aspects.tealdeer
+        den.aspects.yazi
+        den.aspects.zoxide
+        den.aspects.zsh
 
-      # Desktop
-      den.aspects."desktop-environment"
-      den.aspects.fonts
-      den.aspects.xdg
-      den.aspects.stylix
-      den.aspects.noctalia
-      den.aspects.flatpak
-      den.aspects.clipboard
-      den.aspects.cursor
-      den.aspects.firefox
-      den.aspects.gtk
-      den.aspects.hyprland
-      den.aspects.hypridle
-      den.aspects.satty
-      den.aspects.thunar
+        # Desktop
+        den.aspects.de
+        den.aspects.fonts
+        den.aspects.xdg
+        den.aspects.stylix
+        den.aspects.noctalia
+        den.aspects.flatpak
+        den.aspects.clipboard
+        den.aspects.cursor
+        den.aspects.firefox
+        den.aspects.gtk
+        den.aspects.hyprland
+        den.aspects.satty
+        den.aspects.thunar
 
-      # Services (user-level)
-      den.aspects.gnomekeyring
-      den.aspects.pipewire
-      den.aspects.streamcontroller
-      den.aspects.usb
-      den.aspects.polkit
+        # Services (user-level)
+        den.aspects.gnomekeyring
+        den.aspects.pipewire
+        den.aspects.streamcontroller
+        den.aspects.usb
 
-      # Home
-      den.aspects.common
-      den.aspects.files
-      den.aspects.packages
+        # Home
+        den.aspects.common
+        den.aspects.files
+        den.aspects.packages
 
-      # Media
-      den.aspects.cava
-      den.aspects.easyeffects
-      den.aspects.mpv
-      den.aspects.obsstudio
-      den.aspects.pics
-      den.aspects.spicetify
+        # Media
+        den.aspects.cava
+        den.aspects.easyeffects
+        den.aspects.mpv
+        den.aspects.obsstudio
+        den.aspects.pics
+        den.aspects.spicetify
 
-      # Gaming
-      den.aspects.steam
-      den.aspects.mangohud
+        # Gaming
+        den.aspects.steam
+        den.aspects.mangohud
 
-      # Communication
-      den.aspects.email
-      den.aspects.vesktop
+        # Communication
+        den.aspects.email
+        den.aspects.vesktop
+      ]
+      ++ lib.optionals (host.isGaming or false) [
+        # Gaming — gated via host.isGaming
+        den.aspects.deadlock
+        den.aspects.wow
+      ];
 
-      # IDE
-      den.aspects.nixcats
-    ];
-
-    nixos = { ... }: {
-      users.users.neonvoid = {
-        description = "NeonVoid";
-        extraGroups = [ "networkmanager" "audio" "video" "input" "libvirtd" ];
+      nixos = { ... }: {
+        users.users.neonvoid = {
+          description = "neonvoid";
+          extraGroups = [ "networkmanager" "audio" "video" "input" "libvirtd" "dialout" ];
+        };
       };
     };
-  };
 }
 ```
 
@@ -330,8 +405,10 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 `modules/den.nix` centralises shared configuration applied to every host:
 
 - `den.default.nixos.system.stateVersion` and `den.default.homeManager.home.stateVersion` — set to `"26.11"`
-- `den.ctx.hm-host.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, `backupCommand`, and `sharedModules` (spicetify-nix, nix-index-database, noctalia)
+- `den.default.nixos.home-manager` — `useGlobalPkgs`, `useUserPackages`, `backupFileExtension`, `backupCommand` (removes old backup before backing up), `sharedModules` (spicetify-nix, nix-index-database, noctalia)
 - `den.default.includes` — `den._.home-manager`, `den._.define-user`, `den._.primary-user`, `den._.user-shell "zsh"`, `den._.inputs'`, `den._.self'`, `den._.hostname`
+- Imports `dendritic` from both `flake-file` and `den` for the den schema
+- `den.schema.user.classes = [ "homeManager" ]`
 
 ---
 
@@ -348,22 +425,26 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
 | `noctalia` | Quickshell bar/launcher/lockscreen |
+| `noctalia-greeter` | Noctalia display manager greeter |
 | `spicetify-nix` | Spotify theming |
 | `nix-index-database` | Fast `nix-locate` lookups |
 | `nix-versions` | Version tracking for nix commands |
 | `nvim-config` | Neovim config (neonvoidx/nvim) |
+| `neonmono` | Custom monospace font (neonvoidx/NeonMono) |
 | `scopebuddy` | ScopeBuddy driver |
+| `eldritch-cursors` | Eldritch theme cursors |
+| `flake-file` | Regenerates flake.nix from flake-inputs.nix |
 
 ---
 
 ## Conventions
 
 - **Module file names**: kebab-case (`desktop-environment.nix`, `system-packages.nix`)
-- **Aspect names**: match the file name (`den.aspects."desktop-environment"`)
+- **Aspect names**: match the file name (`den.aspects."desktop-environment"`). Shorthand names used: `de` for `environment.nix`.
 - **Host names**: lowercase (`void`, `voidframe`)
-- **User**: `neonvoid`
+- **User**: `neonvoid` (lowercase in description)
 - **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `hyprland/_data/keybindings.nix`)
-- **Host-specific conditionals**: use `host.attr or false` in the outer lambda, `osConfig.fileSystems ? "/games"` for filesystem checks in HM modules, or `config.networking.hostName == "void"` inside nixos modules
+- **Host-specific conditionals**: use `host.attr or false` in the outer lambda, `lib.optionals` for conditional includes, `osConfig.fileSystems ? "/games"` for filesystem checks in HM modules, or `config.networking.hostName == "void"` inside nixos modules
 - **Styling/colors**: base16 palette via stylix
 - **Secrets**: SOPS age-encrypted in `secrets/`, decrypted to `/run/secrets/` at boot
 - **Git tracking**: new files must be `git add`-ed before rebuilding (Nix only evaluates git-tracked files)
