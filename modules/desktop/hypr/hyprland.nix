@@ -15,71 +15,125 @@
         };
 
       homeManager =
-        { pkgs, lib, config, ... }:
+        {
+          pkgs,
+          lib,
+          config,
+          ...
+        }:
         let
           isMultiMonitor = host.isMultiMonitor or false;
 
-          monitors = host.monitors or {};
-          mainMon = monitors.main or {};
-          secondaryMon = monitors.secondary or {};
-          portraitMon = monitors.portrait or {};
-          builtinMon = monitors.builtin or {};
+          monitors = host.monitors or { };
+          mainMon = monitors.main or { };
+          secondaryMon = monitors.secondary or { };
+          portraitMon = monitors.portrait or { };
+          builtinMon = monitors.builtin or { };
 
           defaultMonitor = mainMon.name or "";
           secondaryMonitor = secondaryMon.name or "";
           portraitMonitor = portraitMon.name or "";
 
-          mkMonitorAttrs = monAttrs: {
-            output = monAttrs.name or "";
-            disabled = false;
-            mode = monAttrs.mode or "preferred";
-            scale = monAttrs.scale or 1.0;
-            position = monAttrs.position or "0x0";
-            vrr = monAttrs.vrr or 0;
-          } // lib.optionalAttrs (monAttrs ? transform) {
-            transform = monAttrs.transform;
-          } // lib.optionalAttrs (monAttrs.supports_hdr or false) {
-            bitdepth = monAttrs.bitdepth or 8;
-            cm = monAttrs.cm or "default";
-            supports_hdr = if monAttrs.supports_hdr then 1 else 0;
-            supports_wide_color = if monAttrs.supports_wide_color or false then 1 else 0;
-            sdrbrightness = monAttrs.sdrbrightness or 0.5;
-            sdrsaturation = monAttrs.sdrsaturation or 1.0;
-            sdr_max_luminance = monAttrs.sdr_max_luminance or 400;
-            sdr_min_luminance = monAttrs.sdr_min_luminance or 0.2;
-          };
+          mkMonitorAttrs =
+            monAttrs:
+            {
+              output = monAttrs.name or "";
+              disabled = false;
+              mode = monAttrs.mode or "preferred";
+              scale = monAttrs.scale or 1.0;
+              position = monAttrs.position or "0x0";
+              vrr = monAttrs.vrr or 0;
+            }
+            // lib.optionalAttrs (monAttrs ? transform) {
+              transform = monAttrs.transform;
+            }
+            // lib.optionalAttrs (monAttrs.supports_hdr or false) {
+              bitdepth = monAttrs.bitdepth or 8;
+              cm = monAttrs.cm or "default";
+              supports_hdr = if monAttrs.supports_hdr then 1 else 0;
+              supports_wide_color = if monAttrs.supports_wide_color or false then 1 else 0;
+              sdrbrightness = monAttrs.sdrbrightness or 0.5;
+              sdrsaturation = monAttrs.sdrsaturation or 1.0;
+              sdr_max_luminance = monAttrs.sdr_max_luminance or 400;
+              sdr_min_luminance = monAttrs.sdr_min_luminance or 0.2;
+            };
 
-          toLua = v:
-            if builtins.isString v then ''"${v}"''
-            else if builtins.isInt v then toString v
-            else if builtins.isFloat v then toString v
-            else if v == true then "1"
-            else if v == false then "0"
-            else "nil";
+          toLua =
+            v:
+            if builtins.isString v then
+              ''"${v}"''
+            else if builtins.isInt v then
+              toString v
+            else if builtins.isFloat v then
+              toString v
+            else if v == true then
+              "1"
+            else if v == false then
+              "0"
+            else
+              "nil";
 
-          attrsToLua = attrs:
+          attrsToLua =
+            attrs:
             "{ " + lib.concatStringsSep ", " (lib.mapAttrsToList (n: v: "${n} = ${toLua v}") attrs) + " }";
 
-          monListLua = attrsList:
-            lib.concatStringsSep ",\n" (map (attrs: attrsToLua (mkMonitorAttrs attrs)) attrsList);
+          monListLua =
+            attrsList: lib.concatStringsSep ",\n" (map (attrs: attrsToLua (mkMonitorAttrs attrs)) attrsList);
 
-          monLayoutsLua = if isMultiMonitor then ''
-            local monitor_layouts = {
-              default = {
-                ${monListLua [ mainMon secondaryMon portraitMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
-              },
-              work = {
-                { output = "${defaultMonitor}", disabled = true },
-                ${monListLua [ secondaryMon portraitMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
-              },
-            }
-          '' else ''
-            local monitor_layouts = {
-              default = {
-                ${monListLua [ builtinMon { output = ""; mode = "preferred"; position = "auto"; scale = 1.0; } ]},
-              },
-            }
-          '';
+          monLayoutsLua =
+            if isMultiMonitor then
+              ''
+                local monitor_layouts = {
+                  default = {
+                    ${
+                      monListLua [
+                        mainMon
+                        secondaryMon
+                        portraitMon
+                        {
+                          output = "";
+                          mode = "preferred";
+                          position = "auto";
+                          scale = 1.0;
+                        }
+                      ]
+                    },
+                  },
+                  work = {
+                    { output = "${defaultMonitor}", disabled = true },
+                    ${
+                      monListLua [
+                        secondaryMon
+                        portraitMon
+                        {
+                          output = "";
+                          mode = "preferred";
+                          position = "auto";
+                          scale = 1.0;
+                        }
+                      ]
+                    },
+                  },
+                }
+              ''
+            else
+              ''
+                local monitor_layouts = {
+                  default = {
+                    ${
+                      monListLua [
+                        builtinMon
+                        {
+                          output = "";
+                          mode = "preferred";
+                          position = "auto";
+                          scale = 1.0;
+                        }
+                      ]
+                    },
+                  },
+                }
+              '';
         in
         {
           wayland.windowManager.hyprland = {
@@ -196,7 +250,9 @@
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.workspace_rule({ workspace = "1", monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = "2", monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = "3", monitor = ${if portraitMonitor != "" then "portrait_monitor" else "default_monitor"}, default = true, layout = "master", layout_opts = { orientation = "top" } })
+                hl.workspace_rule({ workspace = "3", monitor = ${
+                  if portraitMonitor != "" then "portrait_monitor" else "default_monitor"
+                }, default = true, layout = "master", layout_opts = { orientation = "top" } })
                 hl.workspace_rule({ workspace = "4", monitor = secondary_monitor })
                 hl.workspace_rule({ workspace = "5", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "6", monitor = default_monitor, layout = "floating" })
@@ -570,6 +626,10 @@
                     move_ws_from_hdmi(ws.id)
                   end
                 end
+                -- Delayed full restore to catch workspaces Hyprland shuffles
+                -- onto wrong monitors after all monitors settle (session-lock
+                -- restore, post-resume reallocation, etc.).
+                hl.exec_cmd("(sleep 2 && ~/.config/hypr/scripts/restore-monitor-layout.sh \"${defaultMonitor}\" \"${secondaryMonitor}\" \"${portraitMonitor}\") &")
               end)
 
               hl.on("hyprland.start", function()
@@ -584,7 +644,7 @@
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
                 ${lib.optionalString (portraitMonitor != "") /* lua */ ''
-                hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
+                  hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")
                 ''}
               end)
             '';
@@ -620,6 +680,28 @@
             Service = {
               Type = "oneshot";
               ExecStart = "%h/.config/hypr/scripts/restore-xrandr-primary.sh \"${defaultMonitor}\" \"${secondaryMonitor}\"";
+              RemainAfterExit = true;
+            };
+            Install = {
+              WantedBy = [
+                "graphical-session.target"
+                "sleep.target"
+              ];
+            };
+          };
+
+          # --------------------------------------------------------------------------
+          # Resume hook — restore workspace-to-monitor bindings after suspend
+          # --------------------------------------------------------------------------
+
+          systemd.user.services."restore-monitor-layout-after-resume" = {
+            Unit = {
+              Description = "Restore workspace-to-monitor bindings after resume";
+              After = [ "graphical-session.target" ];
+            };
+            Service = {
+              Type = "oneshot";
+              ExecStart = "%h/.config/hypr/scripts/restore-monitor-layout.sh \"${defaultMonitor}\" \"${secondaryMonitor}\" \"${portraitMonitor}\"";
               RemainAfterExit = true;
             };
             Install = {
