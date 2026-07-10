@@ -76,6 +76,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: check
+    timeout-minutes: 90
     permissions:
       id-token: write
       contents: read
@@ -131,7 +132,7 @@ jobs:
         with:
           primary-key: nix-${{ runner.os }}-${{ matrix.host }}-${{ hashFiles('flake.lock') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-${{ matrix.host }}-
-          gc-max-store-size-linux: 8G
+          gc-max-store-size-linux: 4G
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v15
