@@ -11,7 +11,6 @@
         den.aspects.delta
         den.aspects.fastfetch
         den.aspects.fzf
-        den.aspects.ghostty
         den.aspects.git
         den.aspects.jj
         den.aspects.jq

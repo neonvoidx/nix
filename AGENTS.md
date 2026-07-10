@@ -142,7 +142,7 @@ User aspects can conditionally include other aspects based on host context:
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
 │   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
-│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf, ghostty, git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
@@ -314,7 +314,6 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
         den.aspects.delta
         den.aspects.fastfetch
         den.aspects.fzf
-        den.aspects.ghostty
         den.aspects.git
         den.aspects.jj
         den.aspects.jq

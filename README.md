@@ -28,7 +28,7 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
 │   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
 │   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
-│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf, ghostty, git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
+│   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, starship, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
 │   ├── communication/     # Communication aspects (vesktop, email)
