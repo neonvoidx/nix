@@ -28,6 +28,7 @@
         theme = spicePkgs.themes.sleek;
         colorScheme = "Eldritch";
         wayland = true;
+        windowManagerPatch = true;
       };
     };
 }
