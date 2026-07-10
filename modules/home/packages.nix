@@ -8,7 +8,6 @@
     {
       home.packages = with pkgs; [
         appimage-run
-        aseprite
         asciinema
         blueman
         cmatrix
