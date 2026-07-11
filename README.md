@@ -46,18 +46,20 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 
 ## Hosts
 
-| Host | Hardware | Role | Attributes |
-|------|----------|------|------------|
-| **void** | AMD Ryzen 9 9950X, AMD RX 9070 XT, 3× monitors (2×3440×1440 + 2560×1440) | Desktop | `isMultiMonitor=true`, `isGaming=true`, `audio`, `network` objects |
-| **voidframe** | AMD Ryzen 7 7840U, Framework 16, 2880×1920 | Laptop | `isLaptop=true`, `isGaming=false` |
+| Host | Hardware | Role | Key Attributes |
+|------|----------|------|----------------|
+| **void** | AMD Ryzen 9 9950X, AMD RX 9070 XT, 3× monitors (2×3440×1440 + 2560×1440 portrait) | Desktop | `isMultiMonitor=true`, `isGaming=true`, `gpuPciDev`, `gpuVendorDeviceId`, `audio` (defaultMic/Speaker/bluetoothCard), `network` (static IP), `nasIp`, `printerUri`, `greeting`, `timezone` |
+| **voidframe** | AMD Ryzen 7 7840U, Framework 16, 2880×1920 | Laptop | `isLaptop=true`, `isGaming=false`, `network.wireless=true`, `greeting`, `timezone` |
+
+Monitors are defined as structured objects with per-output attributes (`name`, `mode`, `scale`, `position`, `primary`, `bitdepth`, `cm`, `supports_hdr`, `supports_wide_color`, `vrr`, `transform`, etc.).
 
 ## Key Features
 
 - **den Framework** — auto-generates `nixosConfigurations`, wires Home-Manager, provides `host`/`user` context
 - **import-tree** — all `.nix` files under `modules/` are auto-discovered; no manual wiring needed
 - **Aspect Pattern** — every feature is a self-contained file with optional `nixos` and `homeManager` sections
-- **Host Context** — freeform attributes on hosts (`monitors`, `audio`, `network`, `isGaming`, `isLaptop`, `xRes`, `gpuPciDev`, etc.) accessible in any aspect
-- **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`) accessible in any aspect
+- **Host Context** — freeform attributes on hosts (`monitors`, `audio`, `network`, `isGaming`, `isLaptop`, `xRes`, `yRes`, `gpuPciDev`, `gpuVendorDeviceId`, `nasIp`, `printerUri`, `greeting`, `timezone`, etc.) accessible in any aspect
+- **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`, `emailName`, `emailAddress`) accessible in any aspect
 - **Hyprland** — Wayland compositor with Lua config, multi-monitor layouts, HDR support, game workspace management
 - **Stylix** — System-wide theming (base16, GTK, Qt, fonts) in one aspect file
 - **SOPS** — Age-encrypted secrets, decrypted to `/run/secrets/` at boot via systemd service
@@ -71,14 +73,21 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 ## Usage
 
 ```bash
-# Build (dry run)
-nixos-rebuild dry-build --flake .#void
+# Validate configuration
+nix flake check
+nix-agent_check --level lint
+nix-agent_check --level dry-build
+
+# Build without activating
+nix-agent_build
+
+# Diff against running system
+nix-agent_diff
 
 # Deploy
-sudo nixos-rebuild switch --flake .#void
-sudo nixos-rebuild switch --flake .#voidframe
+nix-agent_switch
 
-# Or use the flake apps (builds with nh)
+# Or use nh flake apps
 nix run .#void
 nix run .#voidframe
 
@@ -87,6 +96,9 @@ nix flake update
 
 # Add or change a flake input: edit modules/flake-inputs.nix, then regenerate flake.nix
 nix run .#write-flake
+
+# Format all .nix files
+nix-agent_format
 ```
 
 ## Den Framework Pattern
@@ -118,12 +130,16 @@ To access **host or user context**, use the outer aspect lambda:
     { host, user, ... }:
     {
       nixos = { pkgs, lib, ... }: {
-        # host.xRes, host.isMultiMonitor or false, host.isLaptop or false, etc.
+        # host.hostName, host.monitors, host.xRes, host.yRes
+        # host.isMultiMonitor or false, host.isLaptop or false, host.isGaming or false
+        # host.gpuPciDev, host.gpuVendorDeviceId, host.audio, host.network
+        # host.greeting, host.timezone, host.nasIp, host.printerUri
         # Note: networking.hostName is set automatically by den._.hostname
       };
 
       homeManager = { osConfig, ... }: {
-        # user.userName, user.homeDirectory, user.gitName, user.gitEmail, etc.
+        # user.userName, user.homeDirectory, user.gitName, user.gitEmail
+        # user.emailName, user.emailAddress
         # osConfig accesses the NixOS config (e.g. osConfig.fileSystems ? "/games")
         home.file."example".text = "hello ${user.userName}";
       };
@@ -184,25 +200,41 @@ For **conditional includes** with `lib.optionals`:
 ```nix
 den.hosts.x86_64-linux = {
   mynewhost = {
+    users.neonvoid = neonvoid;  # reuse the user attrset defined in the let block
+
     monitors = {
-      main = { name = "DP-1"; mode = "1920x1080@60"; scale = 1.0; primary = true; };
+      main = {
+        name = "DP-1";
+        mode = "1920x1080@60";
+        scale = 1.0;
+        position = "0x0";
+        primary = true;
+      };
     };
+
     xRes = "1920";
     yRes = "1080";
-    isLaptop = true;          # freeform — any attributes you want
-    users.neonvoid = {};
+
+    # Optional — add any freeform attributes your aspects need:
+    # gpuPciDev = "0000:01:00.0";
+    # audio = { defaultMic = "..."; defaultSpeaker = "..."; };
+    # network = { wireless = true; };
+    # isLaptop = true;
+    # isGaming = false;
+    # greeting = "My Host";
+    # timezone = "America/New_York";
   };
 };
 ```
 
-1. Create `modules/hosts/mynewhost/default.nix`:
+2. Create `modules/hosts/mynewhost/default.nix`:
 
 ```nix
 { den, inputs, ... }:
 {
   den.aspects.mynewhost = {
     includes = [
-      # pick and choose aspects you want
+      # Core system
       den.aspects.boot
       den.aspects.locale
       den.aspects.networking
@@ -210,10 +242,19 @@ den.hosts.x86_64-linux = {
       den.aspects.users
       den.aspects.overlays
       den.aspects.nixsettings
+
+      # Hardware
       den.aspects.bluetooth
       den.aspects.kernel
+      den.aspects.udev
+
+      # Security
       den.aspects.sops
+      den.aspects.pcscd
       den.aspects.noctalia-greeter
+      den.aspects.polkit
+
+      # System packages
       den.aspects.systempackages
     ];
 
@@ -226,7 +267,7 @@ den.hosts.x86_64-linux = {
 }
 ```
 
-1. Add `hosts/mynewhost/hardware-configuration.nix` (from `nixos-generate-config`).
+3. Add `hosts/mynewhost/hardware-configuration.nix` (from `nixos-generate-config`).
 
 That's it — den auto-generates the `nixosConfiguration` output from `hosts.nix`.
 
@@ -257,11 +298,16 @@ That's it — den auto-generates the `nixosConfiguration` output from `hosts.nix
 }
 ```
 
-1. Add the user to the host entry in `modules/hosts.nix`:
+2. Add the user to the host entry in `modules/hosts.nix`:
 
 ```nix
 mynewhost = {
-  users.<username> = {};
+  users.myuser = {
+    gitName = "My Name";
+    gitEmail = "me@example.com";
+    emailName = "My Name";
+    emailAddress = "me@example.com";
+  };
 };
 ```
 
