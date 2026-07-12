@@ -1,7 +1,12 @@
-{ den, inputs, ... }:
+{
+  den,
+  inputs,
+  lib,
+  ...
+}:
 {
   den.aspects.noctalia =
-    { host, ... }:
+    { host, user, ... }:
     {
       nixos =
         { pkgs, config, ... }:
@@ -14,13 +19,740 @@
         };
 
       homeManager =
-        { lib, ... }:
+        { ... }:
+        let
+          homeDir = "/home/${user.userName}";
+          monitors = host.monitors or { };
+          mainName = monitors.main.name or null;
+          secondaryName = monitors.secondary.name or null;
+          portraitName = monitors.portrait.name or null;
+          builtinName = monitors.builtin.name or null;
+          primaryName =
+            if mainName != null then
+              mainName
+            else if builtinName != null then
+              builtinName
+            else
+              "";
+        in
         {
           programs.noctalia = {
             enable = true;
             systemd.enable = false;
 
-            settings = lib.mkForce (builtins.fromTOML (builtins.readFile ../../assets/noctalia/noctalia-config.toml));
+            settings = lib.mkForce {
+              audio = {
+                enable_overdrive = false;
+                enable_sounds = false;
+              };
+
+              bar.main = {
+                capsule = true;
+                capsule_foreground = "tertiary";
+                capsule_groups = [
+                  "system"
+                  "audio"
+                  "settings"
+                  "datetime"
+                ];
+                center = [
+                  "cat"
+                  "active_window"
+                ];
+                contact_shadow = true;
+                end = [
+                  "tray"
+                  "input_volume"
+                  "output_volume"
+                  "cpu"
+                  "ram"
+                  "temp"
+                  "network_rx"
+                  "network_tx"
+                  "battery"
+                  "caffeine"
+                  "recorder"
+                  "bluetooth"
+                  "brightness"
+                  "wallpaper"
+                  "control-center"
+                  "notifications"
+                  "weather"
+                  "clock"
+                  "date"
+                  "session"
+                ];
+                font_weight = 700;
+                margin_edge = 5.0;
+                margin_ends = 8.0;
+                padding = 10;
+                radius = 8;
+                start = [
+                  "launcher"
+                  "workspaces"
+                  "taskbar"
+                  "left-spacer"
+                  "media"
+                  "audio_visualizer"
+                ];
+                thickness = 38;
+                widget_spacing = 12;
+              }
+              // lib.optionalAttrs (portraitName != null) {
+                monitor = {
+                  ${portraitName} = {
+                    enabled = false;
+                    reserve_space = false;
+                  };
+                };
+              };
+
+              calendar = {
+                enabled = true;
+                account.personal_google = {
+                  name = "Personal Calendar";
+                  type = "google";
+                };
+              };
+
+              desktop_widgets.enabled = false;
+
+              idle = {
+                behavior_order = [
+                  "lock"
+                  "screen-off"
+                  "suspend"
+                ];
+                behavior = {
+                  lock = {
+                    action = "lock";
+                    enabled = true;
+                    timeout = 600;
+                  };
+                  screen-off = {
+                    action = "screen_off";
+                    enabled = true;
+                    timeout = 900;
+                  };
+                  suspend = {
+                    action = "suspend";
+                    enabled = true;
+                    lock_before_suspend = true;
+                    timeout = 7200;
+                  };
+                };
+              };
+
+              location = {
+                address = "Hooksett, NH";
+                auto_locate = false;
+              };
+
+              lockscreen_widgets = {
+                enabled = true;
+                schema_version = 1;
+                widget_order =
+                  lib.optionals (portraitName != null) [ "lockscreen-login-box@${portraitName}" ]
+                  ++ lib.optionals (secondaryName != null) [ "lockscreen-login-box@${secondaryName}" ]
+                  ++ lib.optionals (mainName != null) [ "lockscreen-login-box@${mainName}" ]
+                  ++ lib.optionals (builtinName != null) [ "lockscreen-login-box@${builtinName}" ]
+                  ++ [
+                    "lockscreen-widget-0000000000000001"
+                    "lockscreen-widget-0000000000000002"
+                    "lockscreen-widget-0000000000000003"
+                    "lockscreen-widget-0000000000000004"
+                    "lockscreen-widget-0000000000000005"
+                    "lockscreen-widget-0000000000000006"
+                    "lockscreen-widget-0000000000000007"
+                    "lockscreen-widget-0000000000000008"
+                    "lockscreen-widget-0000000000000009"
+                    "lockscreen-widget-000000000000000a"
+                    "lockscreen-widget-000000000000000b"
+                    "lockscreen-widget-000000000000000c"
+                    "lockscreen-widget-000000000000000d"
+                  ];
+                grid = {
+                  cell_size = 8;
+                  major_interval = 4;
+                  visible = true;
+                };
+                widget =
+                  lib.optionalAttrs (mainName != null) {
+                    "lockscreen-login-box@${mainName}" = {
+                      box_height = 96.0;
+                      box_width = 560.0;
+                      cx = 1728.0;
+                      cy = 896.0;
+                      output = mainName;
+                      rotation = 0.0;
+                      scale = 1.0;
+                      type = "login_box";
+                      settings = {
+                        background_opacity = 0.0;
+                        input_radius = 10.0;
+                        show_caps_lock = true;
+                        show_keyboard_layout = true;
+                        show_login_button = true;
+                        show_password_hint = true;
+                      };
+                    };
+                  }
+                  // lib.optionalAttrs (secondaryName != null) {
+                    "lockscreen-login-box@${secondaryName}" = {
+                      box_height = 64.0;
+                      box_width = 520.0;
+                      cx = 1728.0;
+                      cy = 848.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      scale = 1.0;
+                      type = "login_box";
+                      settings = {
+                        show_caps_lock = true;
+                        show_keyboard_layout = true;
+                        show_login_button = true;
+                        show_password_hint = true;
+                      };
+                    };
+                  }
+                  // lib.optionalAttrs (portraitName != null) {
+                    "lockscreen-login-box@${portraitName}" = {
+                      box_height = 70.0;
+                      box_width = 400.0;
+                      cx = 720.0;
+                      cy = 2437.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      scale = 1.0;
+                      type = "login_box";
+                      settings = {
+                        show_caps_lock = true;
+                        show_keyboard_layout = true;
+                        show_login_button = true;
+                        show_password_hint = true;
+                      };
+                    };
+                  }
+                  // lib.optionalAttrs (builtinName != null) {
+                    "lockscreen-login-box@${builtinName}" = {
+                      box_height = 96.0;
+                      box_width = 560.0;
+                      cx = 1440.0;
+                      cy = 960.0;
+                      output = builtinName;
+                      rotation = 0.0;
+                      scale = 1.0;
+                      type = "login_box";
+                      settings = {
+                        background_opacity = 0.0;
+                        input_radius = 10.0;
+                        show_caps_lock = true;
+                        show_keyboard_layout = true;
+                        show_login_button = true;
+                        show_password_hint = true;
+                      };
+                    };
+                  }
+                  // {
+                    "lockscreen-widget-0000000000000001" = {
+                      box_height = 96.0;
+                      box_width = 496.0;
+                      cx = 1728.0;
+                      cy = 1360.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "audio_visualizer";
+                      settings = {
+                        background = false;
+                        bands = 32;
+                        show_when_idle = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000002" = {
+                      box_height = 224.0;
+                      box_width = 640.0;
+                      cx = 1728.0;
+                      cy = 608.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "clock";
+                      settings = {
+                        background = false;
+                        background_color = "surface";
+                        background_opacity = 0.42999999999999999;
+                        background_padding = 10;
+                        background_radius = 12;
+                        center_text = false;
+                        circle = true;
+                        clock_style = "digital";
+                        color = "primary";
+                        font_family = "";
+                        format = "{:%H:%M}";
+                        shadow = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000003" = {
+                      box_height = 144.0;
+                      box_width = 448.0;
+                      cx = 1720.0;
+                      cy = 1240.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "media_player";
+                      settings = {
+                        background_radius = 18;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000004" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3274.0;
+                      cy = 148.89999389648438;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "cpu_usage";
+                        stat2 = "cpu_temp";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000005" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3274.0;
+                      cy = 363.10000610351562;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "ram_pct";
+                        stat2 = "";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000006" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3274.0;
+                      cy = 571.0999755859375;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "net_rx";
+                        stat2 = "net_tx";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000007" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 134.0;
+                      cy = 130.60000610351562;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "weather";
+                      settings = {
+                        background = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000008" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3267.0;
+                      cy = 79.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "CPU";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000009" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3267.0;
+                      cy = 294.20001220703125;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "RAM";
+                      };
+                    };
+                    "lockscreen-widget-000000000000000a" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3267.0;
+                      cy = 502.19998168945312;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "Net";
+                      };
+                    };
+                    "lockscreen-widget-000000000000000b" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3360.0;
+                      cy = 1384.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "shutdown";
+                        glyph = "shutdown";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-000000000000000c" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3298.0;
+                      cy = 1384.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "reboot";
+                        glyph = "reboot";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-000000000000000d" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3232.0;
+                      cy = 1384.0;
+                      output = primaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "systemctl suspend";
+                        glyph = "suspend";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                  };
+              };
+
+              osd = {
+                position = "top_center";
+                scale = 1.100000089406967;
+              };
+
+              plugin_settings."noctalia/screen_recorder" = {
+                color_range = "full";
+                directory = "";
+              };
+
+              plugins = {
+                enabled = [
+                  "noctalia/screen_recorder"
+                  "noctalia/bongocat"
+                ];
+                source = [
+                  {
+                    auto_update = true;
+                    kind = "git";
+                    location = "https://github.com/noctalia-dev/official-plugins";
+                    name = "official";
+                  }
+                  {
+                    auto_update = true;
+                    kind = "git";
+                    location = "https://github.com/noctalia-dev/community-plugins";
+                    name = "community";
+                  }
+                ];
+              };
+
+              shell = {
+                avatar_path = "${homeDir}/.face";
+                font_family = "NeonMono";
+                lang = "en";
+                launch_apps_as_systemd_services = true;
+                polkit_agent = true;
+                screen_time_enabled = true;
+                settings_show_advanced = true;
+                ui_scale = 1.100000089406967;
+
+                greeter_sync.auto_sync = false;
+
+                panel = {
+                  borders = true;
+                  control_center_placement = "floating";
+                  open_near_click_control_center = true;
+                  session_placement = "floating";
+                  session_position = "center";
+                  wallpaper_placement = "centered";
+                };
+
+                session.actions = [
+                  {
+                    action = "lock";
+                    enabled = true;
+                    shortcut = "x";
+                    variant = "primary";
+                  }
+                  {
+                    action = "command";
+                    command = "${homeDir}/.nix-profile/bin/hyprshutdown";
+                    enabled = true;
+                    glyph = "logout";
+                    label = "Logout";
+                    shortcut = "l";
+                    variant = "secondary";
+                  }
+                  {
+                    action = "lock_and_suspend";
+                    enabled = true;
+                    label = "Lock & Suspend";
+                    shortcut = "h";
+                    variant = "outline";
+                  }
+                  {
+                    action = "suspend";
+                    enabled = false;
+                    shortcut = "h";
+                    variant = "default";
+                  }
+                  {
+                    action = "reboot";
+                    enabled = true;
+                    shortcut = "r";
+                    variant = "destructive";
+                  }
+                  {
+                    action = "shutdown";
+                    enabled = true;
+                    shortcut = "s";
+                    variant = "destructive";
+                  }
+                ];
+              };
+
+              theme = {
+                builtin = "Eldritch";
+                community_palette = "Oxocarbon";
+                mode = "dark";
+                source = "builtin";
+              };
+
+              wallpaper = {
+                directory = "${homeDir}/pics/ultrawide";
+                directory_dark = "${homeDir}/pics/ultrawide";
+                directory_light = "${homeDir}/pics/ultrawide";
+                per_monitor_directories = true;
+                transition = [
+                  "disc"
+                  "fade"
+                  "honeycomb"
+                  "stripes"
+                  "wipe"
+                  "zoom"
+                ];
+                transition_on_startup = true;
+
+                automation = {
+                  enabled = true;
+                  interval_minutes = 5;
+                  recursive = false;
+                };
+
+                monitor =
+                  lib.optionalAttrs (mainName != null) {
+                    ${mainName} = {
+                      directory = "${homeDir}/pics/ultrawide";
+                      directory_dark = "${homeDir}/pics/ultrawide";
+                      directory_light = "${homeDir}/pics/ultrawide";
+                    };
+                  }
+                  // lib.optionalAttrs (secondaryName != null) {
+                    ${secondaryName} = {
+                      directory = "${homeDir}/pics/ultrawide";
+                      directory_dark = "${homeDir}/pics/ultrawide";
+                      directory_light = "${homeDir}/pics/ultrawide";
+                    };
+                  }
+                  // lib.optionalAttrs (portraitName != null) {
+                    ${portraitName} = {
+                      directory = "${homeDir}/pics/vertical";
+                      directory_dark = "${homeDir}/pics/vertical";
+                      directory_light = "${homeDir}/pics/vertical";
+                    };
+                  }
+                  // lib.optionalAttrs (builtinName != null) {
+                    ${builtinName} = {
+                      directory = "${homeDir}/pics/ultrawide";
+                      directory_dark = "${homeDir}/pics/ultrawide";
+                      directory_light = "${homeDir}/pics/ultrawide";
+                    };
+                  };
+              };
+
+              weather = {
+                auto_locate = true;
+                unit = "imperial";
+              };
+
+              widget = {
+                active_window = {
+                  color = "primary";
+                  icon_size = 22.0;
+                  max_length = 320.0;
+                  title_scroll = "always";
+                };
+                audio_visualizer = {
+                  capsule = true;
+                  capsule_group = "audio";
+                  high_color = "secondary";
+                  show_when_idle = false;
+                  width = 112.0;
+                };
+                battery = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                bluetooth = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                bongocat = {
+                  audio_spectrum = false;
+                  input_device = "/dev/input/event2";
+                  scope = "shared";
+                  script = "scripts/bongocat.lua";
+                  tappy_mode = true;
+                  type = "scripted";
+                };
+                brightness = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                caffeine = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                cat = {
+                  input_device = "/dev/input/event2";
+                  interactive = false;
+                  type = "noctalia/bongocat:cat";
+                };
+                clock = {
+                  capsule = true;
+                  capsule_foreground = "primary";
+                  capsule_group = "datetime";
+                };
+                control-center = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                cpu = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                date = {
+                  capsule = true;
+                  capsule_foreground = "primary";
+                  capsule_group = "datetime";
+                  format = "{:%d %b %Y}";
+                };
+                input_volume = {
+                  capsule = true;
+                  capsule_group = "audio";
+                };
+                launcher = {
+                  color = "primary";
+                  glyph = "bomb";
+                };
+                "left-spacer" = {
+                  length = 25;
+                  type = "spacer";
+                };
+                media = {
+                  art_size = 56.0;
+                  capsule = true;
+                  capsule_foreground = "secondary";
+                  capsule_group = "audio";
+                  hide_when_no_media = true;
+                  max_length = 350.0;
+                  title_scroll = "always";
+                };
+                network_rx = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                network_tx = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                notifications = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                output_volume = {
+                  capsule = true;
+                  capsule_group = "audio";
+                };
+                ram = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                recorder = {
+                  type = "noctalia/screen_recorder:recorder";
+                };
+                screen_recorder = {
+                  capsule = true;
+                  capsule_group = "settings";
+                  script = "scripts/screen_recorder.lua";
+                  type = "scripted";
+                };
+                session = {
+                  color = "error";
+                };
+                taskbar = {
+                  capsule_radius = 6;
+                  font_weight = 700;
+                  group_by_workspace = true;
+                  group_single_icon_per_app = true;
+                  inactive_opacity = 0.75;
+                  scale = 1.3;
+                  show_workspace_label = true;
+                  workspace_label_placement = "inside";
+                };
+                temp = {
+                  capsule = true;
+                  capsule_group = "system";
+                };
+                tray = {
+                  capsule = true;
+                  capsule_border = "tertiary";
+                  capsule_radius = 5;
+                  scale = 1.3;
+                };
+                wallpaper = {
+                  capsule = true;
+                  capsule_group = "settings";
+                };
+                workspaces = {
+                  display = "none";
+                  empty_color = "shadow";
+                  font_weight = 700;
+                  minimal = false;
+                  pill_scale = 0.80000000000000004;
+                  scale = 1.3500000000000001;
+                };
+              };
+            };
           };
         };
     };
