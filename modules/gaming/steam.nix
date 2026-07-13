@@ -6,8 +6,8 @@
       nixos =
         { pkgs, ... }:
         let
-          mainMon = host.monitors.main or {};
-          builtinMon = host.monitors.builtin or {};
+          mainMon = host.monitors.main or { };
+          builtinMon = host.monitors.builtin or { };
 
           primaryDisplay = mainMon.name or builtinMon.name or "";
         in
@@ -47,6 +47,7 @@
             protontricks
             vulkan-tools
             sgdboop
+            adwsteamgtk
           ];
         };
     };
