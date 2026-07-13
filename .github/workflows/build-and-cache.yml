@@ -70,6 +70,19 @@ jobs:
             substituters = ${{ steps.cache-config.outputs.substituters }}
             trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
 
+      - name: Cache Nix store
+        uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-${{ runner.os }}-check-${{ hashFiles('flake.lock') }}
+          restore-prefixes-first-match: nix-${{ runner.os }}-check-
+          gc-max-store-size-linux: 4G
+
+      - name: Set up Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: neonvoidx
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
       - name: Nix flake check
         run: nix flake check -L
 
@@ -143,4 +156,4 @@ jobs:
       - name: Build ${{ matrix.host }}
         run: |
           nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel \
-            --no-link -L
+            --no-link -L --option max-jobs 2
