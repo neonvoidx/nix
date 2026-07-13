@@ -21,74 +21,8 @@ on:
       - '.github/workflows/**'
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    defaults:
-      run:
-        shell: bash -euo pipefail {0}
-    steps:
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: false
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Extract Nix cache config
-        id: cache-config
-        run: |
-          python3 - <<'EOF'
-          import re, os
-
-          with open('modules/nix/settings.nix') as f:
-              content = f.read()
-
-          def extract_list(name):
-              m = re.search(rf'{name}\s*=\s*\[(.*?)\];', content, re.DOTALL)
-              if not m: return ''
-              return ' '.join(re.findall(r'"([^"]+)"', m.group(1)))
-
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              out.write(f"substituters={extract_list('substituters')}\n")
-              out.write(f"trusted-public-keys={extract_list('trusted-public-keys')}\n")
-          EOF
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            substituters = ${{ steps.cache-config.outputs.substituters }}
-            trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
-
-      - name: Cache Nix store
-        uses: nix-community/cache-nix-action@v6
-        with:
-          primary-key: nix-${{ runner.os }}-check-${{ hashFiles('flake.lock') }}
-          restore-prefixes-first-match: nix-${{ runner.os }}-check-
-          gc-max-store-size-linux: 4G
-
-      - name: Set up Cachix
-        uses: cachix/cachix-action@v15
-        with:
-          name: neonvoidx
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-
-      - name: Nix flake check
-        run: nix flake check -L
-
   build:
     runs-on: ubuntu-latest
-    needs: check
     timeout-minutes: 90
     permissions:
       id-token: write
@@ -96,9 +30,6 @@ jobs:
     defaults:
       run:
         shell: bash -euo pipefail {0}
-    strategy:
-      matrix:
-        host: [void, voidframe]
     steps:
       - name: Free disk space
         uses: jlumbroso/free-disk-space@main
@@ -140,20 +71,26 @@ jobs:
             substituters = ${{ steps.cache-config.outputs.substituters }}
             trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
 
-      - name: Cache Nix store
-        uses: nix-community/cache-nix-action@v6
-        with:
-          primary-key: nix-${{ runner.os }}-${{ matrix.host }}-${{ hashFiles('flake.lock') }}
-          restore-prefixes-first-match: nix-${{ runner.os }}-${{ matrix.host }}-
-          gc-max-store-size-linux: 4G
-
-      - name: Set up Cachix
+      - name: Setup Cachix
         uses: cachix/cachix-action@v15
         with:
           name: neonvoidx
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
-      - name: Build ${{ matrix.host }}
+      - name: Restore substituters
+        run: echo "NIX_USER_CONF_FILES=${NIX_USER_CONF_FILES}:/etc/nix/nix.conf" >> "$GITHUB_ENV"
+
+      - name: Check
+        run: nix flake check -L
+
+      - name: Build and cache void
         run: |
-          nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel \
-            --no-link -L --option max-jobs 2
+          cachix watch-exec neonvoidx -- \
+            nix build .#nixosConfigurations.void.config.system.build.toplevel \
+            --no-link -L --option max-jobs 1
+
+      - name: Build and cache voidframe
+        run: |
+          cachix watch-exec neonvoidx -- \
+            nix build .#nixosConfigurations.voidframe.config.system.build.toplevel \
+            --no-link -L --option max-jobs 1
