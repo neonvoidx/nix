@@ -409,7 +409,7 @@
 
               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "satty", match = { class = "com.gabm.satty" }, float = true, max_size = floating_max_size })
-              hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia.Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
+              hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia", title="Noctalia Settings" }, float = true, center = true, max_size = floating_max_size, size={ "(monitor_w*0.6)", "(monitor_h*0.6)" } })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
               hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="4 silent", suppress_event="activatefocus"})
@@ -438,6 +438,7 @@
 
               hl.window_rule({ match = { content = "game", fullscreen = true }, confine_pointer = true })
               hl.window_rule({ name = "steampopup", match = { title = "Steamwebhelper" }, workspace = "10 silent", suppress_event = "activatefocus" })
+              hl.window_rule({ name = "steamnotification", match = { class = "steam", title = "^notificationtoasts" }, pin=true, suppress_event = "activatefocus", float=true })
               hl.window_rule({ name = "steamsignin", match = { initial_title = "Sign in to Steam", initial_class = "steam" }, float = true, center = true, max_size = floating_max_size, suppress_event = "activatefocus", workspace = "10 silent" })
               hl.window_rule({ name = "steam", match = { class = "steam|Steam" }, workspace = "10 silent", suppress_event = "activatefocus" })
               hl.window_rule({ name = "steamgames", match = { class = "^steam_app_.*$" }, workspace = "11", fullscreen = true, content="game"})
