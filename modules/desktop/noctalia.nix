@@ -271,7 +271,7 @@
                     "lockscreen-widget-0000000000000002" = {
                       box_height = 224.0;
                       box_width = 640.0;
-                      cx = 1728.0;
+                      cx = 1720.0;
                       cy = 608.0;
                       output = primaryName;
                       rotation = 0.0;
@@ -444,9 +444,16 @@
                   };
               };
 
+              notification = {
+                monitors = lib.pipe (host.monitors or { }) [
+                  (lib.filterAttrs (_: m: !(m.isRotated or false)))
+                  (lib.mapAttrsToList (_: m: m.name))
+                ];
+              };
+
               osd = {
                 position = "top_center";
-                scale = 1.100000089406967;
+                scale = 1.1000000089406967;
               };
 
               plugin_settings."noctalia/screen_recorder" = {
@@ -483,7 +490,7 @@
                 polkit_agent = true;
                 screen_time_enabled = true;
                 settings_show_advanced = true;
-                ui_scale = 1.100000089406967;
+                ui_scale = 1.1000000089406967;
 
                 greeter_sync.auto_sync = false;
 
@@ -724,9 +731,11 @@
                   font_weight = 700;
                   group_by_workspace = true;
                   group_single_icon_per_app = true;
+                  hide_empty_workspaces = true;
                   inactive_opacity = 0.75;
                   scale = 1.3;
                   show_workspace_label = true;
+                  workspace_group_capsule = false;
                   workspace_label_placement = "inside";
                 };
                 temp = {

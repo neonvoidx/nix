@@ -49,8 +49,20 @@ in
           name = "HDMI-A-1";
           mode = "2560x1440@59.95";
           scale = 1.0;
+          # Transform list:
+          # 0 -> normal (no transforms)
+          # 1 -> 90 degrees
+          # 2 -> 180 degrees
+          # 3 -> 270 degrees
+          # 4 -> flipped
+          # 5 -> flipped + 90 degrees
+          # 6 -> flipped + 180 degrees
+          # 7 -> flipped + 270 degrees
           transform = 1;
           position = "3440x727";
+          # If monitor is rotated, i.e portrait mode
+          #
+          isRotated = true;
         };
       };
 
@@ -78,7 +90,10 @@ in
       };
 
       network = {
-        dns = [ "192.168.86.7" "192.168.86.8" ];
+        dns = [
+          "192.168.86.7"
+          "192.168.86.8"
+        ];
         interface = "eth0";
         mac = "9c:6b:00:98:96:96";
         ip = "192.168.86.20";
