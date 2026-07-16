@@ -11,6 +11,8 @@
         config = {
           allowUnfree = true;
           permittedInsecurePackages = [
+            # until https://github.com/nixos/nixpkgs/pull/542528 is merged
+            "electron-40.10.5"
           ];
         };
       };
