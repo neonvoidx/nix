@@ -40,6 +40,8 @@
             enable = true;
             systemd.enable = false;
 
+            # if you want to read from file instead
+            # settings = lib.mkForce (builtins.fromTOML (builtins.readFile ../../assets/noctalia/noctalia-config.toml));
             settings = lib.mkForce {
               audio = {
                 enable_overdrive = false;

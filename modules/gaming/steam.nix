@@ -47,7 +47,8 @@
             protontricks
             vulkan-tools
             sgdboop
-            adwsteamgtk
+            # if you want GTK theme style for Steam, requires manual running to apply
+            # adwsteamgtk
           ];
         };
     };
