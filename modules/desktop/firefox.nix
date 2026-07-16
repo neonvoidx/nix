@@ -136,12 +136,12 @@
                   // user_pref("network.dnsCacheExpirationGracePeriod", 0);
                   // Nova UI
                   user_pref("widget.non-native-theme.scrollbar.style", 4);
-                  user_pref("browser.nova.enabled", true);
-                  user_pref("browser.newtabpage.activity-stream.nova.enabled", true);
-                  user_pref("browser.urlbar.nova.featureGate", true);
-                  user_pref("browser.settings-redesign.enabled", true);
-                  user_pref("browser.smartwindow.nova.enabled", true);
-                  user_pref("browser.urlbar.quicksuggest.ampTopPickUseNovaIconSize", true);
+                  // user_pref("browser.nova.enabled", true);
+                  // user_pref("browser.newtabpage.activity-stream.nova.enabled", true);
+                  // user_pref("browser.urlbar.nova.featureGate", true);
+                  // user_pref("browser.settings-redesign.enabled", true);
+                  // user_pref("browser.smartwindow.nova.enabled", true);
+                  // user_pref("browser.urlbar.quicksuggest.ampTopPickUseNovaIconSize", true);
                   user_pref("print.print_in_color", true);
                   user_pref("print.default-print-settings.printBGColors", true);
                   user_pref("print.default-print-settings.printBGImages", true);
