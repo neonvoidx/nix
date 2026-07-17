@@ -1073,7 +1073,7 @@
                 };
                 bongocat = {
                   audio_spectrum = false;
-                  input_device = "/dev/input/event2";
+                  input_device = "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd";
                   scope = "shared";
                   script = "scripts/bongocat.lua";
                   tappy_mode = true;
