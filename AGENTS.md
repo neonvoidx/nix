@@ -470,6 +470,33 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 
 ---
 
+## Noctalia TOML → Nix Conversion
+
+When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export, follow these rules:
+
+### What to convert
+- All `[section]` and `[section.subsection]` map to nested nix attrsets
+- TOML arrays become nix lists
+- TOML inline tables become nix attrsets
+- Use `host.monitors` variables (`mainName`, `secondaryName`, `portraitName`, `builtinName`) instead of hardcoded monitor names
+- Use `${homeDir}` instead of `/home/neonvoid`
+
+### What to ignore
+- **Wallpaper sections** — `wallpaper.default`, `wallpaper.last`, `wallpaper.monitors.*` (runtime state, not config)
+- **`dock`** — not used in nix config
+- **Shell paths** — keep nix-style paths (`${homeDir}/.nix-profile/bin/...`) rather than TOML's `/etc/profiles/per-user/...`
+- Any TOML key that is purely runtime state (e.g. last wallpaper path, active state)
+
+### What to check for differences
+- **New plugins** — compare `plugins.enabled` lists
+- **New plugin_settings** — compare `plugin_settings` sections
+- **New widgets** — compare `widget.*` sections
+- **Bar layout changes** — compare `bar.main.start`, `bar.main.center`, `bar.main.end` widget lists
+- **OSD settings** — compare `osd.*` (e.g. `kinds.media`)
+- **Widget property additions** — compare individual widget settings (e.g. `input_devices` on `widget.cat`)
+
+---
+
 ## Useful Commands
 
 ```bash

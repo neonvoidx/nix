@@ -69,15 +69,14 @@
                   "cpu"
                   "ram"
                   "temp"
-                  "network_rx"
-                  "network_tx"
+                  "nix-monitor"
                   "battery"
                   "caffeine"
+                  "control-center"
                   "recorder"
                   "bluetooth"
                   "brightness"
                   "wallpaper"
-                  "control-center"
                   "notifications"
                   "weather"
                   "clock"
@@ -172,6 +171,33 @@
                     "lockscreen-widget-000000000000000b"
                     "lockscreen-widget-000000000000000c"
                     "lockscreen-widget-000000000000000d"
+                    "lockscreen-widget-000000000000000e"
+                    "lockscreen-widget-000000000000000f"
+                    "lockscreen-widget-0000000000000010"
+                    "lockscreen-widget-0000000000000011"
+                    "lockscreen-widget-0000000000000012"
+                    "lockscreen-widget-0000000000000013"
+                    "lockscreen-widget-0000000000000014"
+                    "lockscreen-widget-0000000000000015"
+                    "lockscreen-widget-0000000000000016"
+                    "lockscreen-widget-0000000000000017"
+                    "lockscreen-widget-0000000000000018"
+                    "lockscreen-widget-0000000000000019"
+                    "lockscreen-widget-000000000000001a"
+                    "lockscreen-widget-000000000000001b"
+                    "lockscreen-widget-000000000000001c"
+                    "lockscreen-widget-000000000000001d"
+                    "lockscreen-widget-000000000000001e"
+                    "lockscreen-widget-000000000000001f"
+                    "lockscreen-widget-0000000000000020"
+                    "lockscreen-widget-0000000000000021"
+                    "lockscreen-widget-0000000000000022"
+                    "lockscreen-widget-0000000000000023"
+                    "lockscreen-widget-0000000000000024"
+                    "lockscreen-widget-0000000000000025"
+                    "lockscreen-widget-0000000000000026"
+                    "lockscreen-widget-0000000000000027"
+                    "lockscreen-widget-0000000000000028"
                   ];
                 grid = {
                   cell_size = 8;
@@ -191,11 +217,29 @@
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
+                        center_password_text = false;
                         input_radius = 10.0;
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000026" = {
+                      box_height = 256.0;
+                      box_width = 288.0;
+                      cx = 1728.0;
+                      cy = 456.0;
+                      output = mainName;
+                      rotation = 0.0;
+                      type = "sticker";
+                      settings = {
+                        background = false;
+                        background_opacity = 0.78000000000000003;
+                        background_padding = 0;
+                        background_radius = 32;
+                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        opacity = 1.0;
                       };
                     };
                   }
@@ -204,16 +248,209 @@
                       box_height = 64.0;
                       box_width = 520.0;
                       cx = 1728.0;
-                      cy = 848.0;
+                      cy = 896.0;
                       output = secondaryName;
                       rotation = 0.0;
                       scale = 1.0;
                       type = "login_box";
                       settings = {
+                        background_opacity = 0.0;
+                        center_password_text = false;
+                        input_radius = 10.0;
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                      };
+                    };
+                    "lockscreen-widget-000000000000000e" = {
+                      box_height = 224.0;
+                      box_width = 640.0;
+                      cx = 1720.0;
+                      cy = 616.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "clock";
+                      settings = {
+                        background = false;
+                        background_color = "surface";
+                        background_opacity = 0.42999999999999999;
+                        background_padding = 10;
+                        background_radius = 12;
+                        center_text = false;
+                        circle = true;
+                        clock_style = "digital";
+                        color = "primary";
+                        font_family = "";
+                        format = "{:%H:%M}";
+                        shadow = true;
+                      };
+                    };
+                    "lockscreen-widget-000000000000000f" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3282.0;
+                      cy = 156.89999389648438;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "cpu_usage";
+                        stat2 = "cpu_temp";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000010" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3275.0;
+                      cy = 87.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "CPU";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000011" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3275.0;
+                      cy = 296.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "RAM";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000012" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3282.0;
+                      cy = 371.10000610351562;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "ram_pct";
+                        stat2 = "";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000013" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3275.0;
+                      cy = 504.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "Net";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000014" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 3282.0;
+                      cy = 579.0999755859375;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "net_rx";
+                        stat2 = "net_tx";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000015" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3368.0;
+                      cy = 1392.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "shutdown";
+                        glyph = "shutdown";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000016" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3306.0;
+                      cy = 1392.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "reboot";
+                        glyph = "reboot";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000017" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 3240.0;
+                      cy = 1392.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "systemctl suspend";
+                        glyph = "suspend";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000018" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 142.0;
+                      cy = 138.60000610351562;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "weather";
+                      settings = {
+                        background = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000025" = {
+                      box_height = 144.0;
+                      box_width = 448.0;
+                      cx = 1728.0;
+                      cy = 1248.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "media_player";
+                      settings = {
+                        background_radius = 18;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000027" = {
+                      box_height = 256.0;
+                      box_width = 288.0;
+                      cx = 1736.0;
+                      cy = 432.0;
+                      output = secondaryName;
+                      rotation = 0.0;
+                      type = "sticker";
+                      settings = {
+                        background = false;
+                        background_opacity = 0.78000000000000003;
+                        background_padding = 0;
+                        background_radius = 32;
+                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        opacity = 1.0;
                       };
                     };
                   }
@@ -221,17 +458,210 @@
                     "lockscreen-login-box@${portraitName}" = {
                       box_height = 70.0;
                       box_width = 400.0;
-                      cx = 720.0;
-                      cy = 2437.0;
+                      cx = 728.0;
+                      cy = 1459.0;
                       output = portraitName;
                       rotation = 0.0;
                       scale = 1.0;
                       type = "login_box";
                       settings = {
+                        background_opacity = 0.0;
+                        center_password_text = false;
+                        input_radius = 10.0;
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                      };
+                    };
+                    "lockscreen-widget-0000000000000019" = {
+                      box_height = 224.0;
+                      box_width = 640.0;
+                      cx = 720.0;
+                      cy = 1176.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "clock";
+                      settings = {
+                        background = false;
+                        background_color = "surface";
+                        background_opacity = 0.42999999999999999;
+                        background_padding = 10;
+                        background_radius = 12;
+                        center_text = false;
+                        circle = true;
+                        clock_style = "digital";
+                        color = "primary";
+                        font_family = "";
+                        format = "{:%H:%M}";
+                        shadow = true;
+                      };
+                    };
+                    "lockscreen-widget-000000000000001a" = {
+                      box_height = 144.0;
+                      box_width = 448.0;
+                      cx = 736.0;
+                      cy = 1928.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "media_player";
+                      settings = {
+                        background_radius = 18;
+                      };
+                    };
+                    "lockscreen-widget-000000000000001b" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1329.5;
+                      cy = 222.5;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "cpu_usage";
+                        stat2 = "cpu_temp";
+                      };
+                    };
+                    "lockscreen-widget-000000000000001c" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1334.0;
+                      cy = 422.5;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "ram_pct";
+                        stat2 = "";
+                      };
+                    };
+                    "lockscreen-widget-000000000000001d" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1334.0;
+                      cy = 657.5;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "sysmon";
+                      settings = {
+                        stat = "net_rx";
+                        stat2 = "net_tx";
+                      };
+                    };
+                    "lockscreen-widget-000000000000001e" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 112.0;
+                      cy = 64.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "weather";
+                      settings = {
+                        background = true;
+                      };
+                    };
+                    "lockscreen-widget-000000000000001f" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1329.5;
+                      cy = 146.5;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "CPU";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000020" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1334.0;
+                      cy = 349.5;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "RAM";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000021" = {
+                      box_height = 0.0;
+                      box_width = 0.0;
+                      cx = 1334.0;
+                      cy = 584.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "label";
+                      settings = {
+                        background = false;
+                        title = "Net";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000022" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 1400.0;
+                      cy = 2520.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "shutdown";
+                        glyph = "shutdown";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000023" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 1344.0;
+                      cy = 2520.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "reboot";
+                        glyph = "reboot";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000024" = {
+                      box_height = 48.0;
+                      box_width = 48.0;
+                      cx = 1280.0;
+                      cy = 2520.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "button";
+                      settings = {
+                        background = true;
+                        command = "systemctl suspend";
+                        glyph = "suspend";
+                        label = "";
+                        variant = "default";
+                      };
+                    };
+                    "lockscreen-widget-0000000000000028" = {
+                      box_height = 256.0;
+                      box_width = 288.0;
+                      cx = 736.0;
+                      cy = 952.0;
+                      output = portraitName;
+                      rotation = 0.0;
+                      type = "sticker";
+                      settings = {
+                        background = false;
+                        background_opacity = 0.78000000000000003;
+                        background_padding = 0;
+                        background_radius = 32;
+                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        opacity = 1.0;
                       };
                     };
                   }
@@ -274,7 +704,7 @@
                       box_height = 224.0;
                       box_width = 640.0;
                       cx = 1720.0;
-                      cy = 608.0;
+                      cy = 648.0;
                       output = primaryName;
                       rotation = 0.0;
                       type = "clock";
@@ -456,6 +886,11 @@
               osd = {
                 position = "top_center";
                 scale = 1.1000000089406967;
+                kinds.media = false;
+              };
+
+              plugin_settings."avivbintangaringga/nix-monitor" = {
+                update_command = "j update";
               };
 
               plugin_settings."noctalia/screen_recorder" = {
@@ -467,6 +902,7 @@
                 enabled = [
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
+                  "avivbintangaringga/nix-monitor"
                 ];
                 source = [
                   {
@@ -653,6 +1089,7 @@
                 };
                 cat = {
                   input_device = "/dev/input/event2";
+                  input_devices = [ "/dev/input/event2" ];
                   interactive = false;
                   type = "noctalia/bongocat:cat";
                 };
@@ -695,6 +1132,9 @@
                   hide_when_no_media = true;
                   max_length = 350.0;
                   title_scroll = "always";
+                };
+                "nix-monitor" = {
+                  type = "avivbintangaringga/nix-monitor:nix-monitor";
                 };
                 network_rx = {
                   capsule = true;
