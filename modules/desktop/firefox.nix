@@ -124,6 +124,8 @@
                 )
                 + /* javascript */ ''
                   // Personal overrides — applied after Betterfox to take precedence
+                  user_pref("browser.ai.control.default", "available");
+                  user_pref("browser.ai.control.smartTabGroups", "enabled");
                   // TODO https://bugzilla.mozilla.org/show_bug.cgi?id=1642854 once this is merged
                   // user_pref("gfx.wayland.hdr", true);
                   // user_pref("gfx.wayland.hdr.force-enabled", true);

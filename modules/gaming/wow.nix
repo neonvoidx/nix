@@ -7,8 +7,11 @@
         wowup-cf
       ];
 
-      xdg.mimeApps.defaultApplications = {
-        "x-scheme-handler/curseforge" = "wowup-cf.desktop";
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "x-scheme-handler/curseforge" = "wowup-cf.desktop";
+        };
       };
     };
 }
