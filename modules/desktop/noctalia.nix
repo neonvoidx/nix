@@ -69,7 +69,6 @@
                   "cpu"
                   "ram"
                   "temp"
-                  "nix-monitor"
                   "battery"
                   "caffeine"
                   "control-center"
@@ -77,6 +76,7 @@
                   "bluetooth"
                   "brightness"
                   "wallpaper"
+                  "display_mode"
                   "notifications"
                   "weather"
                   "clock"
@@ -677,6 +677,7 @@
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
+                        center_password_text = false;
                         input_radius = 10.0;
                         show_caps_lock = true;
                         show_keyboard_layout = true;
@@ -889,10 +890,6 @@
                 kinds.media = false;
               };
 
-              plugin_settings."avivbintangaringga/nix-monitor" = {
-                update_command = "j update";
-              };
-
               plugin_settings."noctalia/screen_recorder" = {
                 color_range = "full";
                 directory = "";
@@ -902,7 +899,6 @@
                 enabled = [
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
-                  "avivbintangaringga/nix-monitor"
                 ];
                 source = [
                   {
@@ -987,7 +983,6 @@
 
               theme = {
                 builtin = "Eldritch";
-                community_palette = "Oxocarbon";
                 mode = "dark";
                 source = "builtin";
               };
@@ -1071,14 +1066,6 @@
                   capsule = true;
                   capsule_group = "settings";
                 };
-                bongocat = {
-                  audio_spectrum = false;
-                  input_device = "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd";
-                  scope = "shared";
-                  script = "scripts/bongocat.lua";
-                  tappy_mode = true;
-                  type = "scripted";
-                };
                 brightness = {
                   capsule = true;
                   capsule_group = "settings";
@@ -1089,7 +1076,7 @@
                 };
                 cat = {
                   input_device = "/dev/input/event2";
-                  input_devices = [ "/dev/input/event2" ];
+                  input_devices = [ "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd" ];
                   interactive = false;
                   type = "noctalia/bongocat:cat";
                 };
@@ -1112,6 +1099,13 @@
                   capsule_group = "datetime";
                   format = "{:%d %b %Y}";
                 };
+                display_mode = {
+                  command = "~/.config/hypr/scripts/screen-toggle.sh 1";
+                  enable_scroll = false;
+                  glyph = "device-projector";
+                  right_command = "~/.config/hypr/scripts/screen-toggle.sh 0";
+                  type = "custom_button";
+                };
                 input_volume = {
                   capsule = true;
                   capsule_group = "audio";
@@ -1132,9 +1126,6 @@
                   hide_when_no_media = true;
                   max_length = 350.0;
                   title_scroll = "always";
-                };
-                "nix-monitor" = {
-                  type = "avivbintangaringga/nix-monitor:nix-monitor";
                 };
                 network_rx = {
                   capsule = true;
