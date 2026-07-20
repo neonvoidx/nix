@@ -7,7 +7,7 @@ TARGET_H="${2:-1830}"
 
 while true; do
   if hyprctl -j clients | jq -e 'any(.class == "vesktop")' >/dev/null 2>&1 && \
-     hyprctl -j clients | jq -e 'any(.class == "Spotify")' >/dev/null 2>&1; then
+     hyprctl -j clients | jq -e 'any(.class == "spotify")' >/dev/null 2>&1; then
     break
   fi
   sleep 1
