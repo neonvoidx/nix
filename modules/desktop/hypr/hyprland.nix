@@ -408,6 +408,8 @@
               local floating_max_size = { "(monitor_w*0.8)", "(monitor_h*0.8)" }
               local floating_default_size = { "(monitor_w*0.6)", "(monitor_h*0.6)" }
 
+              hl.window_rule({ name = "blender-file", match = { title = "Blender File View", class="blender" }, float = true, center = true, max_size = floating_max_size, size = floating_default_size })
+
               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
               hl.window_rule({ name = "satty", match = { class = "com.gabm.satty" }, float = true, max_size = floating_max_size })
               hl.window_rule({ name = "noctalia_settings", match = { class = "dev.noctalia.Noctalia", title="Noctalia Settings" }, float = true, center = true, max_size = floating_max_size, size=floating_default_size })
@@ -436,7 +438,7 @@
 
               hl.window_rule({ name = "godot_all", match = { class = "Godot" }, workspace = "6", float = true })
               hl.window_rule({ name = "godot_game", match = { title = ".*(DEBUG).*", initial_title = "Godot" }, workspace = "11", float = true, max_size = floating_max_size })
-              hl.window_rule({ name= "godot_float", match = {class="org.godotengine.Editor", float=true}, max_size = floating_max_size, center=true})
+              hl.window_rule({ name= "godot_float", match = {class="org.godotengine.*", float=true}, max_size = floating_max_size, center=true, size=floating_default_size})
 
               hl.window_rule({ match = { content = "game", fullscreen = true }, confine_pointer = true })
               hl.window_rule({ name = "steampopup", match = { title = "Steamwebhelper" }, workspace = "10 silent", suppress_event = "activatefocus" })

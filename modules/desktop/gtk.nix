@@ -36,11 +36,13 @@
               bookmarks = [
                 "file:///synology"
                 "file:///home/${user.userName}/.config"
+                "file:///home/${user.userName}/3D"
                 "file:///home/${user.userName}/Downloads"
                 "file:///home/${user.userName}/Videos"
                 "file:///home/${user.userName}/dev"
                 "file:///home/${user.userName}/nix"
                 "file:///home/${user.userName}/pics"
+                "file:///home/${user.userName}/.local/share/Trash/files"
               ]
               ++ extraFsBookmarks;
             };
