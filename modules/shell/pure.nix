@@ -33,15 +33,15 @@
             zstyle ':prompt:pure:git:dirty' detailed no
             zstyle ':prompt:pure:path:separator' dim yes
 
-            # zstyle ':prompt:pure:git:arrow' color "${c.base08}"
-            # zstyle ':prompt:pure:git:branch' color "${c.base0C}"
-            # zstyle ':prompt:pure:path' color "${c.base0B}"
-            # zstyle ':prompt:pure:prompt:error' color "${c.base08}"
-            # zstyle ':prompt:pure:prompt:success' color "${c.base0B}"
-            # zstyle ':prompt:pure:prompt:continuation' color "${c.base0A}"
-            # zstyle ':prompt:pure:suspended_jobs' color "${c.base08}"
-            # zstyle ':prompt:pure:user' color "${c.base0D}"
-            # zstyle ':prompt:pure:user:root' color "${c.base0A}"
+            zstyle ':prompt:pure:git:arrow' color "${c.base0C}"
+            zstyle ':prompt:pure:git:branch' color "${c.base0C}"
+            zstyle ':prompt:pure:path' color "${c.base0D}"
+            zstyle ':prompt:pure:prompt:error' color "${c.base08}"
+            zstyle ':prompt:pure:prompt:success' color "${c.base0B}"
+            zstyle ':prompt:pure:prompt:continuation' color "${c.base09}"
+            zstyle ':prompt:pure:suspended_jobs' color "${c.base08}"
+            zstyle ':prompt:pure:user' color "${c.base0F}"
+            zstyle ':prompt:pure:user:root' color "${c.base08}"
 
             if [[ -n $AI_AGENT$CLAUDECODE$CURSOR_AGENT$GEMINI_CLI$OPENCODE ]]; then
             	zstyle :prompt:pure:git show no
