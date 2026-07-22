@@ -66,7 +66,7 @@
                   "tray"
                   "input_volume"
                   "output_volume"
-                  "cpu"
+                  "cat_2"
                   "ram"
                   "temp"
                   "battery"
@@ -890,6 +890,12 @@
                 kinds.media = false;
               };
 
+              plugin_settings."noctalia/bitwarden" = {
+                gen_length = 14;
+                gen_special = true;
+                vault_timeout = "never";
+              };
+
               plugin_settings."noctalia/screen_recorder" = {
                 color_range = "full";
                 directory = "";
@@ -899,6 +905,7 @@
                 enabled = [
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
+                  "dotnetrob/cat"
                 ];
                 source = [
                   {
@@ -1079,6 +1086,13 @@
                   input_devices = [ "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd" ];
                   interactive = false;
                   type = "noctalia/bongocat:cat";
+                };
+                cat_2 = {
+                  cat_color = "hover";
+                  cat_color_mode = "custom";
+                  cat_size = 39;
+                  show_cpu_percent = true;
+                  type = "dotnetrob/cat:cat";
                 };
                 clock = {
                   capsule = true;
