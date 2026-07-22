@@ -189,7 +189,7 @@
               end
 
               local function move_ws_from_hdmi(ws_id)
-                if ws_id == 3 then
+                if ws_id == 13 then
                   return
                 end
                 local target
@@ -250,11 +250,8 @@
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.workspace_rule({ workspace = "1", monitor = default_monitor, default = true })
                 hl.workspace_rule({ workspace = "2", monitor = secondary_monitor, default = true })
-                hl.workspace_rule({ workspace = "3", monitor = ${
-                  if portraitMonitor != "" then "portrait_monitor" else "default_monitor"
-                }, default = true, layout = "master", layout_opts = { orientation = "top" } })
+                hl.workspace_rule({ workspace = "3", monitor = default_monitor})
                 hl.workspace_rule({ workspace = "4", monitor = default_monitor })
-                hl.workspace_rule({ workspace = "12", monitor = secondary_monitor })
                 hl.workspace_rule({ workspace = "5", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "6", monitor = default_monitor, layout = "floating" })
                 hl.workspace_rule({ workspace = "7", monitor = default_monitor })
@@ -269,6 +266,10 @@
                   no_border = true,
                   no_shadow = true,
                 })
+                hl.workspace_rule({ workspace = "12", monitor = secondary_monitor })
+                hl.workspace_rule({ workspace = "13", monitor = ${
+                  if portraitMonitor != "" then "portrait_monitor" else "default_monitor"
+                }, default = true, layout = "master", layout_opts = { orientation = "top" } })
               ''}
 
               -- -----------------------------------------------------------------------
@@ -360,7 +361,7 @@
               hl.bind(mod .. " + SHIFT + 8", hl.dsp.window.move({ workspace = 8 }))
               hl.bind(mod .. " + SHIFT + 9", hl.dsp.window.move({ workspace = 9 }))
               hl.bind(mod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
-              hl.bind(mod .. " + SHIFT + d", hl.dsp.window.move({ workspace = 3 }))
+              hl.bind(mod .. " + SHIFT + d", hl.dsp.window.move({ workspace = 13 }))
               hl.bind(mod .. " + SHIFT + s", hl.dsp.window.move({ workspace = 10 }))
               hl.bind(mod .. " + SHIFT + g", hl.dsp.window.move({ workspace = 11 }))
               hl.bind(mod .. " + SHIFT + t", hl.dsp.window.move({ workspace = 12 }))
@@ -428,11 +429,11 @@
                 no_blur = true,
                 suppress_event = "activatefocus",
               })
-              hl.window_rule({ name = "vesktop", match = { class = "vesktop" }, workspace = "3 silent" })
+              hl.window_rule({ name = "vesktop", match = { class = "vesktop" }, workspace = "13 silent" })
               hl.window_rule({ name = "discord-popout", match = { class = "vesktop", initial_title = "Discord Popout" }, workspace = "2 silent" })
               hl.window_rule({ name = "streamcontroller", match = { class = "com.core447.StreamController" }, workspace = "special:streamcontroller silent" })
               ${lib.optionalString isMultiMonitor /* lua */ ''
-                hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "3 silent" })
+                hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "13 silent" })
                 hl.window_rule({ name = "fractal", match = { class = "org.gnome.Fractal" }, workspace = "12 silent" })
               ''}
               ${lib.optionalString (!isMultiMonitor) /* lua */ ''
@@ -628,13 +629,13 @@
 
               hl.on("window.open", function(w)
                 local ws = w.workspace
-                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
+                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 13 then
                   move_ws_from_hdmi(ws.id)
                 end
               end)
 
               hl.on("window.move_to_workspace", function(w, ws)
-                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 3 then
+                if ws and get_ws_monitor(ws) == portrait_monitor and ws.id ~= 13 then
                   move_ws_from_hdmi(ws.id)
                 end
               end)
@@ -643,7 +644,7 @@
                 if not ws then return end
 
                 local mon = get_ws_monitor(ws)
-                if mon == portrait_monitor and ws.id ~= 3 then
+                if mon == portrait_monitor and ws.id ~= 13 then
                   move_ws_from_hdmi(ws.id)
                 end
               end)
@@ -655,7 +656,7 @@
                 end
                 for _, ws in ipairs(workspaces) do
                   local mon = get_ws_monitor(ws)
-                  if mon == portrait_monitor and ws.id ~= 3 then
+                  if mon == portrait_monitor and ws.id ~= 13 then
                     move_ws_from_hdmi(ws.id)
                   end
                 end
@@ -674,7 +675,7 @@
                 hl.exec_cmd("xrandr --output ${defaultMonitor} --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "12 silent" })
-                hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
+                hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "13 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
                 ${lib.optionalString (portraitMonitor != "") /* lua */ ''
                   hl.exec_cmd("~/.config/hypr/scripts/wait-for-vesktop-and-move.sh")

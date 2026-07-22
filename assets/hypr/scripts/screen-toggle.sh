@@ -50,7 +50,7 @@ if [ "$MODE" = "1" ]; then
   # Enforce workspace-to-monitor bindings after layout transition.
   dispatch_move_workspace 1  "$PRIMARY_MONITOR"
   dispatch_move_workspace 2  "$SECONDARY_MONITOR"
-  dispatch_move_workspace 3  "$PORTRAIT_MONITOR"
+  dispatch_move_workspace 3  "$PRIMARY_MONITOR"
   dispatch_move_workspace 4  "$PRIMARY_MONITOR"
   dispatch_move_workspace 5  "$PRIMARY_MONITOR"
   dispatch_move_workspace 6  "$PRIMARY_MONITOR"
@@ -60,6 +60,7 @@ if [ "$MODE" = "1" ]; then
   dispatch_move_workspace 10 "$PRIMARY_MONITOR"
   dispatch_move_workspace 11 "$PRIMARY_MONITOR"
   dispatch_move_workspace 12 "$SECONDARY_MONITOR"
+  dispatch_move_workspace 13  "$PORTRAIT_MONITOR"
 
   # Cursor default must follow the active primary monitor, never portrait.
   set_cursor_default_monitor "$PRIMARY_MONITOR"
@@ -85,7 +86,7 @@ else
   sleep 0.5
 
   # Move every workspace to the secondary monitor.
-  for ws in 1 2 4 5 6 7 8 9 10 11 12; do
+  for ws in 1 2 3 4 5 6 7 8 9 10 11 12; do
     dispatch_move_workspace "$ws" "$SECONDARY_MONITOR"
   done
 
