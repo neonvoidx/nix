@@ -112,7 +112,7 @@
         environment.systemPackages = with pkgs; [
           sbctl
           amdgpu_top
-          (blender.override { rocmSupport = true; })
+          blender-rocm
         ];
 
         networking = {
