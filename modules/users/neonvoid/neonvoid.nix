@@ -24,6 +24,7 @@
         den.aspects.nvim
         den.aspects.opencode
         den.aspects.payrespects
+        den.aspects.pure
         den.aspects.tealdeer
         den.aspects.yazi
         den.aspects.zoxide
