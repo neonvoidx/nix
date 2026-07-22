@@ -346,7 +346,18 @@
               hl.bind(mod .. " + 8", hl.dsp.focus({ workspace = "8" }))
               hl.bind(mod .. " + 9", hl.dsp.focus({ workspace = "9" }))
               hl.bind(mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
-              hl.bind(mod .. " + d", hl.dsp.focus({ window = "class:vesktop" }))
+              hl.bind(mod .. " + d", function()
+                local wins = hl.get_windows()
+                if wins then
+                  for _, w in ipairs(wins) do
+                    if w.class and w.class:match("vesktop") then
+                      hl.dispatch(hl.dsp.focus({ window = "class:vesktop" }))
+                      return
+                    end
+                  end
+                end
+                hl.dispatch(hl.dsp.focus({ workspace = "13" }))
+              end)
               hl.bind(mod .. " + s", hl.dsp.focus({ workspace = "10" }))
               hl.bind(mod .. " + g", hl.dsp.focus({ workspace = "11" }))
               hl.bind(mod .. " + t", hl.dsp.focus({ workspace = "12" }))
