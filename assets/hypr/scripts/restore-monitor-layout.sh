@@ -87,11 +87,12 @@ if [[ "$layout" == work* ]]; then
   dispatch_move_workspace 9  "$ACTIVE_MON"
   dispatch_move_workspace 10 "$ACTIVE_MON"
   dispatch_move_workspace 11 "$ACTIVE_MON"
+  dispatch_move_workspace 12 "$ACTIVE_MON"
 else
   dispatch_move_workspace 1  "$PRIMARY_MON"
   dispatch_move_workspace 2  "$SECONDARY_MON"
   dispatch_move_workspace 3  "$PORTRAIT_MON"
-  dispatch_move_workspace 4  "$SECONDARY_MON"
+  dispatch_move_workspace 4  "$PRIMARY_MON"
   dispatch_move_workspace 5  "$PRIMARY_MON"
   dispatch_move_workspace 6  "$PRIMARY_MON"
   dispatch_move_workspace 7  "$PRIMARY_MON"
@@ -99,6 +100,7 @@ else
   dispatch_move_workspace 9  "$PRIMARY_MON"
   dispatch_move_workspace 10 "$PRIMARY_MON"
   dispatch_move_workspace 11 "$PRIMARY_MON"
+  dispatch_move_workspace 12 "$SECONDARY_MON"
 fi
 
 "$HOME/.config/hypr/scripts/restore-xrandr-primary.sh" "$PRIMARY_MON" "$SECONDARY_MON"

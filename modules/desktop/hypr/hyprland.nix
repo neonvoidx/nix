@@ -195,7 +195,7 @@
                 local target
                 if ws_id == 10 or ws_id == 11 then
                   target = is_monitor_active(default_monitor) and default_monitor or secondary_monitor
-                elseif ws_id == 2 or ws_id == 4 then
+                elseif ws_id == 2 or ws_id == 12 then
                   target = secondary_monitor
                 else
                   target = is_monitor_active(default_monitor) and default_monitor or secondary_monitor
@@ -253,7 +253,8 @@
                 hl.workspace_rule({ workspace = "3", monitor = ${
                   if portraitMonitor != "" then "portrait_monitor" else "default_monitor"
                 }, default = true, layout = "master", layout_opts = { orientation = "top" } })
-                hl.workspace_rule({ workspace = "4", monitor = secondary_monitor })
+                hl.workspace_rule({ workspace = "4", monitor = default_monitor })
+                hl.workspace_rule({ workspace = "12", monitor = secondary_monitor })
                 hl.workspace_rule({ workspace = "5", monitor = default_monitor })
                 hl.workspace_rule({ workspace = "6", monitor = default_monitor, layout = "floating" })
                 hl.workspace_rule({ workspace = "7", monitor = default_monitor })
@@ -347,6 +348,7 @@
               hl.bind(mod .. " + d", hl.dsp.focus({ window = "class:vesktop" }))
               hl.bind(mod .. " + s", hl.dsp.focus({ workspace = "10" }))
               hl.bind(mod .. " + g", hl.dsp.focus({ workspace = "11" }))
+              hl.bind(mod .. " + t", hl.dsp.focus({ workspace = "12" }))
 
               hl.bind(mod .. " + SHIFT + 1", hl.dsp.window.move({ workspace = 1 }))
               hl.bind(mod .. " + SHIFT + 2", hl.dsp.window.move({ workspace = 2 }))
@@ -361,6 +363,7 @@
               hl.bind(mod .. " + SHIFT + d", hl.dsp.window.move({ workspace = 3 }))
               hl.bind(mod .. " + SHIFT + s", hl.dsp.window.move({ workspace = 10 }))
               hl.bind(mod .. " + SHIFT + g", hl.dsp.window.move({ workspace = 11 }))
+              hl.bind(mod .. " + SHIFT + t", hl.dsp.window.move({ workspace = 12 }))
               hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
               hl.bind(mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
@@ -416,7 +419,7 @@
               hl.window_rule({ name = "xdgfilepicker", match = { class = "xdg-desktop-portal-gtk" }, float = true, center = true, size = floating_default_size, max_size = floating_max_size })
               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
-              hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="4 silent", suppress_event="activatefocus"})
+              hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="12 silent", suppress_event="activatefocus"})
               hl.window_rule({
                 name = "xwaylandhelper",
                 match = { xwayland = true, title = "^$", class = "^$", initial_class = "^$", initial_title = "^$" },
@@ -430,10 +433,10 @@
               hl.window_rule({ name = "streamcontroller", match = { class = "com.core447.StreamController" }, workspace = "special:streamcontroller silent" })
               ${lib.optionalString isMultiMonitor /* lua */ ''
                 hl.window_rule({ name = "spotify", match = { class = "spotify" }, workspace = "3 silent" })
-                hl.window_rule({ name = "fractal", match = { class = "org.gnome.Fractal" }, workspace = "4 silent" })
+                hl.window_rule({ name = "fractal", match = { class = "org.gnome.Fractal" }, workspace = "12 silent" })
               ''}
               ${lib.optionalString (!isMultiMonitor) /* lua */ ''
-                hl.window_rule({ name = "spotifyframe", match = { class = "spotify" }, workspace = "4 silent" })
+                hl.window_rule({ name = "spotifyframe", match = { class = "spotify" }, workspace = "12 silent" })
               ''}
 
               hl.window_rule({ name = "godot_all", match = { class = "Godot" }, workspace = "6", float = true })
@@ -670,7 +673,7 @@
                 hl.exec_cmd("~/.config/hypr/scripts/save-workspace.sh")
                 hl.exec_cmd("xrandr --output ${defaultMonitor} --primary")
                 hl.exec_cmd("firefox", { workspace = "2 silent" })
-                hl.exec_cmd("sleep 8 && thunderbird", { workspace = "4 silent" })
+                hl.exec_cmd("sleep 8 && thunderbird", { workspace = "12 silent" })
                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "3 silent"})
                 hl.exec_cmd("steam", { workspace = "10 silent" })
                 ${lib.optionalString (portraitMonitor != "") /* lua */ ''
