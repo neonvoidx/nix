@@ -168,9 +168,6 @@
                     "lockscreen-widget-0000000000000008"
                     "lockscreen-widget-0000000000000009"
                     "lockscreen-widget-000000000000000a"
-                    "lockscreen-widget-000000000000000b"
-                    "lockscreen-widget-000000000000000c"
-                    "lockscreen-widget-000000000000000d"
                     "lockscreen-widget-000000000000000e"
                     "lockscreen-widget-000000000000000f"
                     "lockscreen-widget-0000000000000010"
@@ -178,9 +175,6 @@
                     "lockscreen-widget-0000000000000012"
                     "lockscreen-widget-0000000000000013"
                     "lockscreen-widget-0000000000000014"
-                    "lockscreen-widget-0000000000000015"
-                    "lockscreen-widget-0000000000000016"
-                    "lockscreen-widget-0000000000000017"
                     "lockscreen-widget-0000000000000018"
                     "lockscreen-widget-0000000000000019"
                     "lockscreen-widget-000000000000001a"
@@ -191,9 +185,6 @@
                     "lockscreen-widget-000000000000001f"
                     "lockscreen-widget-0000000000000020"
                     "lockscreen-widget-0000000000000021"
-                    "lockscreen-widget-0000000000000022"
-                    "lockscreen-widget-0000000000000023"
-                    "lockscreen-widget-0000000000000024"
                     "lockscreen-widget-0000000000000025"
                     "lockscreen-widget-0000000000000026"
                     "lockscreen-widget-0000000000000027"
@@ -207,8 +198,8 @@
                 widget =
                   lib.optionalAttrs (mainName != null) {
                     "lockscreen-login-box@${mainName}" = {
-                      box_height = 96.0;
-                      box_width = 560.0;
+                      box_height = 201.0;
+                      box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
                       output = mainName;
@@ -219,10 +210,12 @@
                         background_opacity = 0.0;
                         center_password_text = false;
                         input_radius = 10.0;
+                        layout = "regular";
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                        show_session_buttons = true;
                       };
                     };
                     "lockscreen-widget-0000000000000026" = {
@@ -245,8 +238,8 @@
                   }
                   // lib.optionalAttrs (secondaryName != null) {
                     "lockscreen-login-box@${secondaryName}" = {
-                      box_height = 64.0;
-                      box_width = 520.0;
+                      box_height = 201.0;
+                      box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
                       output = secondaryName;
@@ -257,10 +250,12 @@
                         background_opacity = 0.0;
                         center_password_text = false;
                         input_radius = 10.0;
+                        layout = "regular";
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                        show_session_buttons = true;
                       };
                     };
                     "lockscreen-widget-000000000000000e" = {
@@ -364,54 +359,6 @@
                         stat2 = "net_tx";
                       };
                     };
-                    "lockscreen-widget-0000000000000015" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3368.0;
-                      cy = 1392.0;
-                      output = secondaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "shutdown";
-                        glyph = "shutdown";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-0000000000000016" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3306.0;
-                      cy = 1392.0;
-                      output = secondaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "reboot";
-                        glyph = "reboot";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-0000000000000017" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3240.0;
-                      cy = 1392.0;
-                      output = secondaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "systemctl suspend";
-                        glyph = "suspend";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
                     "lockscreen-widget-0000000000000018" = {
                       box_height = 0.0;
                       box_width = 0.0;
@@ -456,8 +403,8 @@
                   }
                   // lib.optionalAttrs (portraitName != null) {
                     "lockscreen-login-box@${portraitName}" = {
-                      box_height = 70.0;
-                      box_width = 400.0;
+                      box_height = 201.0;
+                      box_width = 720.0;
                       cx = 728.0;
                       cy = 1459.0;
                       output = portraitName;
@@ -468,10 +415,12 @@
                         background_opacity = 0.0;
                         center_password_text = false;
                         input_radius = 10.0;
+                        layout = "regular";
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
                         show_password_hint = true;
+                        show_session_buttons = true;
                       };
                     };
                     "lockscreen-widget-0000000000000019" = {
@@ -597,54 +546,6 @@
                       settings = {
                         background = false;
                         title = "Net";
-                      };
-                    };
-                    "lockscreen-widget-0000000000000022" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 1400.0;
-                      cy = 2520.0;
-                      output = portraitName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "shutdown";
-                        glyph = "shutdown";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-0000000000000023" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 1344.0;
-                      cy = 2520.0;
-                      output = portraitName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "reboot";
-                        glyph = "reboot";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-0000000000000024" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 1280.0;
-                      cy = 2520.0;
-                      output = portraitName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "systemctl suspend";
-                        glyph = "suspend";
-                        label = "";
-                        variant = "default";
                       };
                     };
                     "lockscreen-widget-0000000000000028" = {
@@ -824,54 +725,6 @@
                       settings = {
                         background = false;
                         title = "Net";
-                      };
-                    };
-                    "lockscreen-widget-000000000000000b" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3360.0;
-                      cy = 1384.0;
-                      output = primaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "shutdown";
-                        glyph = "shutdown";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-000000000000000c" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3298.0;
-                      cy = 1384.0;
-                      output = primaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "reboot";
-                        glyph = "reboot";
-                        label = "";
-                        variant = "default";
-                      };
-                    };
-                    "lockscreen-widget-000000000000000d" = {
-                      box_height = 48.0;
-                      box_width = 48.0;
-                      cx = 3232.0;
-                      cy = 1384.0;
-                      output = primaryName;
-                      rotation = 0.0;
-                      type = "button";
-                      settings = {
-                        background = true;
-                        command = "systemctl suspend";
-                        glyph = "suspend";
-                        label = "";
-                        variant = "default";
                       };
                     };
                   };
