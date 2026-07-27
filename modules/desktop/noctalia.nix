@@ -51,12 +51,6 @@
               bar.main = {
                 capsule = true;
                 capsule_foreground = "tertiary";
-                capsule_groups = [
-                  "system"
-                  "audio"
-                  "settings"
-                  "datetime"
-                ];
                 center = [
                   "cat"
                   "active_window"
@@ -198,13 +192,12 @@
                 widget =
                   lib.optionalAttrs (mainName != null) {
                     "lockscreen-login-box@${mainName}" = {
-                      box_height = 201.0;
+                      box_height = 229.0;
                       box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
                       output = mainName;
                       rotation = 0.0;
-                      scale = 1.0;
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
@@ -214,8 +207,9 @@
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
-                        show_password_hint = true;
+                        show_media = true;
                         show_session_buttons = true;
+                        show_weather = true;
                       };
                     };
                     "lockscreen-widget-0000000000000026" = {
@@ -238,13 +232,12 @@
                   }
                   // lib.optionalAttrs (secondaryName != null) {
                     "lockscreen-login-box@${secondaryName}" = {
-                      box_height = 201.0;
+                      box_height = 229.0;
                       box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
                       output = secondaryName;
                       rotation = 0.0;
-                      scale = 1.0;
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
@@ -254,8 +247,9 @@
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
-                        show_password_hint = true;
+                        show_media = true;
                         show_session_buttons = true;
+                        show_weather = true;
                       };
                     };
                     "lockscreen-widget-000000000000000e" = {
@@ -403,13 +397,12 @@
                   }
                   // lib.optionalAttrs (portraitName != null) {
                     "lockscreen-login-box@${portraitName}" = {
-                      box_height = 201.0;
+                      box_height = 229.0;
                       box_width = 720.0;
                       cx = 728.0;
                       cy = 1459.0;
                       output = portraitName;
                       rotation = 0.0;
-                      scale = 1.0;
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
@@ -419,8 +412,9 @@
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
-                        show_password_hint = true;
+                        show_media = true;
                         show_session_buttons = true;
+                        show_weather = true;
                       };
                     };
                     "lockscreen-widget-0000000000000019" = {
@@ -574,7 +568,6 @@
                       cy = 960.0;
                       output = builtinName;
                       rotation = 0.0;
-                      scale = 1.0;
                       type = "login_box";
                       settings = {
                         background_opacity = 0.0;
@@ -583,7 +576,6 @@
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
-                        show_password_hint = true;
                       };
                     };
                   }
@@ -743,10 +735,8 @@
                 kinds.media = false;
               };
 
-              plugin_settings."noctalia/bitwarden" = {
-                gen_length = 14;
-                gen_special = true;
-                vault_timeout = "never";
+              plugin_settings."nightwatch75/file-search" = {
+                show_hidden = true;
               };
 
               plugin_settings."noctalia/screen_recorder" = {
@@ -759,22 +749,23 @@
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
                   "dotnetrob/cat"
+                  "nightwatch75/file-search"
                 ];
                 source = [
                   {
-                    auto_update = true;
                     kind = "git";
                     location = "https://github.com/noctalia-dev/official-plugins";
                     name = "official";
                   }
                   {
-                    auto_update = true;
                     kind = "git";
                     location = "https://github.com/noctalia-dev/community-plugins";
                     name = "community";
                   }
                 ];
               };
+
+              accessibility.ui_scale = 1.1000000089406967;
 
               shell = {
                 avatar_path = "${homeDir}/.face";
@@ -784,7 +775,6 @@
                 polkit_agent = true;
                 screen_time_enabled = true;
                 settings_show_advanced = true;
-                ui_scale = 1.1000000089406967;
 
                 greeter_sync.auto_sync = false;
 
@@ -794,7 +784,7 @@
                   open_near_click_control_center = true;
                   session_placement = "floating";
                   session_position = "center";
-                  wallpaper_placement = "centered";
+                  wallpaper_placement = "attached";
                 };
 
                 session.actions = [
@@ -864,7 +854,7 @@
 
                 automation = {
                   enabled = true;
-                  interval_minutes = 5;
+                  interval_seconds = 300;
                   recursive = false;
                 };
 
@@ -900,7 +890,6 @@
               };
 
               weather = {
-                auto_locate = true;
                 unit = "imperial";
               };
 
@@ -913,31 +902,23 @@
                 };
                 audio_visualizer = {
                   capsule = true;
-                  capsule_group = "audio";
-                  high_color = "secondary";
                   show_when_idle = false;
                   width = 112.0;
                 };
                 battery = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 bluetooth = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 brightness = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 caffeine = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 cat = {
-                  input_device = "/dev/input/event2";
                   input_devices = [ "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd" ];
-                  interactive = false;
                   type = "noctalia/bongocat:cat";
                 };
                 cat_2 = {
@@ -950,32 +931,30 @@
                 clock = {
                   capsule = true;
                   capsule_foreground = "primary";
-                  capsule_group = "datetime";
                 };
                 control-center = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 cpu = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 date = {
                   capsule = true;
                   capsule_foreground = "primary";
-                  capsule_group = "datetime";
                   format = "{:%d %b %Y}";
                 };
                 display_mode = {
-                  command = "~/.config/hypr/scripts/screen-toggle.sh 1";
-                  enable_scroll = false;
                   glyph = "device-projector";
-                  right_command = "~/.config/hypr/scripts/screen-toggle.sh 0";
                   type = "custom_button";
+                  actions = {
+                    left = "exec ~/.config/hypr/scripts/screen-toggle.sh 1";
+                    right = "exec ~/.config/hypr/scripts/screen-toggle.sh 0";
+                    scroll_up = "none";
+                    scroll_down = "none";
+                  };
                 };
                 input_volume = {
                   capsule = true;
-                  capsule_group = "audio";
                 };
                 launcher = {
                   color = "primary";
@@ -989,39 +968,27 @@
                   art_size = 56.0;
                   capsule = true;
                   capsule_foreground = "secondary";
-                  capsule_group = "audio";
                   hide_when_no_media = true;
                   max_length = 350.0;
                   title_scroll = "always";
                 };
                 network_rx = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 network_tx = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 notifications = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 output_volume = {
                   capsule = true;
-                  capsule_group = "audio";
                 };
                 ram = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 recorder = {
                   type = "noctalia/screen_recorder:recorder";
-                };
-                screen_recorder = {
-                  capsule = true;
-                  capsule_group = "settings";
-                  script = "scripts/screen_recorder.lua";
-                  type = "scripted";
                 };
                 session = {
                   color = "error";
@@ -1040,7 +1007,6 @@
                 };
                 temp = {
                   capsule = true;
-                  capsule_group = "system";
                 };
                 tray = {
                   capsule = true;
@@ -1050,13 +1016,11 @@
                 };
                 wallpaper = {
                   capsule = true;
-                  capsule_group = "settings";
                 };
                 workspaces = {
                   display = "none";
                   empty_color = "shadow";
                   font_weight = 700;
-                  minimal = false;
                   pill_scale = 0.80000000000000004;
                   scale = 1.3500000000000001;
                 };

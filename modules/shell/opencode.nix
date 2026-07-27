@@ -33,6 +33,7 @@
               };
             };
 
+            model = "opencode/big-pickle";
             tools.websearch = true;
             small_model = "opencode/big-pickle";
             share = "disabled";
