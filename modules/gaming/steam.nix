@@ -23,6 +23,7 @@
           };
           environment.sessionVariables = {
             # Proton settings
+            DXVK_HUD = "0";
             PROTON_ENABLE_HDR = "1";
             PROTON_USE_NTSYNC = "1";
             PROTON_FSR4_UPGRADE = "1";

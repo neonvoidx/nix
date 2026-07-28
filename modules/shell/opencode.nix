@@ -34,6 +34,7 @@
             };
 
             model = "opencode/big-pickle";
+            enabled_providers = [ "opencode" ];
             tools.websearch = true;
             small_model = "opencode/big-pickle";
             share = "disabled";
