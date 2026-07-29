@@ -24,10 +24,6 @@
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neonmono = {
-      url = "github:neonvoidx/NeonMono";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     noctalia = {
       url = "github:noctalia-dev/noctalia";
     };

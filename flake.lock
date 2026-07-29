@@ -722,23 +722,6 @@
         "type": "github"
       }
     },
-    "iosevka-upstream": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1774705911,
-        "narHash": "sha256-Se+GIx+Uea/lMOdTDhbt/H+F0yeyMHclpSp52U+pmtA=",
-        "owner": "be5invis",
-        "repo": "Iosevka",
-        "rev": "49312e9338d63caba2a9b2c6a71ece2da2f73981",
-        "type": "github"
-      },
-      "original": {
-        "owner": "be5invis",
-        "ref": "refs/tags/v34.3.0",
-        "repo": "Iosevka",
-        "type": "github"
-      }
-    },
     "milli-nvim": {
       "flake": false,
       "locked": {
@@ -767,27 +750,6 @@
       "original": {
         "owner": "Gerg-L",
         "repo": "mnw",
-        "type": "github"
-      }
-    },
-    "neonmono": {
-      "inputs": {
-        "iosevka-upstream": "iosevka-upstream",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785031852,
-        "narHash": "sha256-vXLNEqWcZ05aycm/IHFgYensbjomk7ICPTFkOzLIO7g=",
-        "owner": "neonvoidx",
-        "repo": "NeonMono",
-        "rev": "758959d7c5ee5a1b4a51555e84a13b6b9d77e85a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "neonvoidx",
-        "repo": "NeonMono",
         "type": "github"
       }
     },
@@ -1110,7 +1072,6 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "import-tree": "import-tree",
-        "neonmono": "neonmono",
         "nix-index-database": "nix-index-database",
         "nix-versions": "nix-versions",
         "nixpkgs": "nixpkgs_2",

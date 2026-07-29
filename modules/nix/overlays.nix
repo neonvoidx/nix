@@ -6,6 +6,28 @@
       nixpkgs = {
         overlays = [
           (final: prev: {
+            neonmono = prev.stdenv.mkDerivation {
+              pname = "NeonMono";
+              version = "0.1.3";
+
+              src = ../../assets/fonts/neonmono;
+
+              dontBuild = true;
+
+              installPhase = ''
+                mkdir -p $out/share/fonts/truetype
+                cp -v $src/*.ttf $out/share/fonts/truetype/
+              '';
+
+              meta = {
+                description = "Custom Iosevka font build — NeonMono";
+                homepage = "https://github.com/neonvoidx/NeonMono";
+                license = final.lib.licenses.ofl;
+                platforms = final.lib.platforms.all;
+              };
+            };
+          })
+          (final: prev: {
             eldritch-icon-theme = prev.stdenv.mkDerivation {
               pname = "eldritch-icon-theme";
               version = "20260529";
