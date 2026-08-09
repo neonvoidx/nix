@@ -70,7 +70,6 @@
           };
 
           sessionVariables = {
-            ZSH_AUTOSUGGEST_STRATEGY = "history completion match_prev_cmd";
             ZSH_DISABLE_COMPFIX = "true";
             NODE_OPTIONS = "--max-old-space-size=8192";
             DISABLE_AUTO_TITLE = "true";
@@ -98,6 +97,8 @@
             dev = "cd ~/dev";
             findhere = "find . -name";
             e = "nvim";
+            cmakeninja = "cmake -S . -B build -G Ninja";
+            di = "devenv init";
           };
 
           setOptions = [
@@ -108,6 +109,8 @@
             "HIST_BEEP"
             "HIST_FIND_NO_DUPS"
             "HIST_SAVE_NO_DUPS"
+            "SHARE_HISTORY"
+            "INC_APPEND_HISTORY"
           ];
 
           siteFunctions = {
@@ -185,16 +188,6 @@
                 ffmpeg -ss "$start" -t "$duration" -i "$input" -vf "fps=30,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "''${base}.gif"
               '';
 
-            yy = # bash
-              ''
-                local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-                yazi "$@" --cwd-file="$tmp"
-                if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                  cd -- "$cwd"
-                fi
-                rm -f -- "$tmp"
-              '';
-
             skill = # bash
               ''
                 local selected pid
@@ -233,23 +226,12 @@
                   setopt SHARE_HISTORY INC_APPEND_HISTORY HIST_REDUCE_BLANKS
                 }
 
-                if command -v cmake &> /dev/null && command -v ninja &> /dev/null; then
-                  alias cmakeninja='cmake -S . -B build -G Ninja'
-                fi
-
-                if [ -f ~/.ssh/scm-script.sh ]; then
-                  alias scm-ssh='bash ~/.ssh/scm-script.sh'
-                  scm-ssh start_agent >/dev/null 2>&1
-                fi
-
                 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
                 if [ -z "$SSH_AUTH_SOCK" ]; then
                   eval $(ssh-agent -s) > /dev/null
                 fi
                 ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519 2>/dev/null
-
-                setopt SHARE_HISTORY INC_APPEND_HISTORY
 
                 eval "$(devenv hook zsh)"
               '';
