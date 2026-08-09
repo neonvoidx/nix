@@ -55,7 +55,7 @@
           (final: prev: {
             blender-rocm = prev.symlinkJoin {
               name = "blender-rocm";
-              paths = [ prev.pkgsRocm.blender ];
+              paths = [ inputs.nixpkgs-blender.legacyPackages.${prev.system}.pkgsRocm.blender ];
 
               nativeBuildInputs = [ prev.makeWrapper ];
 

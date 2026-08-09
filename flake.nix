@@ -29,6 +29,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs-blender.url = "github:qweered/nixpkgs/config-fix";
     noctalia.url = "github:noctalia-dev/noctalia";
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";

@@ -5,6 +5,11 @@
   flake-file.inputs = {
     den.url = "github:denful/den/refs/tags/v0.18.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    # Temporary: nixos-unstable is broken for pkgsRocm/pkgsCuda in NixOS configs.
+    # Fix PR: https://github.com/NixOS/nixpkgs/pull/550890
+    # Issue:  https://github.com/NixOS/nixpkgs/issues/550852
+    # Only used for blender-rocm; remove this input once the PR is merged.
+    nixpkgs-blender.url = "github:qweered/nixpkgs/config-fix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
