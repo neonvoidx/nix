@@ -1018,11 +1018,11 @@
                   capsule = true;
                 };
                 workspaces = {
-                  display = "none";
                   empty_color = "shadow";
                   font_weight = 700;
                   pill_scale = 0.80000000000000004;
                   scale = 1.3500000000000001;
+                  show_labels = false;
                 };
               };
             };
