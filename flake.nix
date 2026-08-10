@@ -18,7 +18,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland/ab95888cd1d6961471f9e8df05f5e4a40dbb759d";
     import-tree.url = "github:vic/import-tree";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

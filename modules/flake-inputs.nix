@@ -14,8 +14,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Pinned to pre-2026-08-09 commit: newer master (f7daeb7) pegs one core at
+    # ~95% CPU (XWayland selection loop, hyprwm/Hyprland#11411). Revisit once
+    # the fix PR is merged.
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland/ab95888cd1d6961471f9e8df05f5e4a40dbb759d";
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
