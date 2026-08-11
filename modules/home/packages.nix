@@ -37,7 +37,6 @@
         oculante
         pinta
         prusa-slicer
-        protonup-qt
         redact
         seahorse
         slurp

@@ -17,9 +17,9 @@
             remotePlay.openFirewall = true;
             dedicatedServer.openFirewall = true;
             localNetworkGameTransfers.openFirewall = true;
-            extraCompatPackages = with pkgs; [
-              proton-ge-bin
-            ];
+            # extraCompatPackages = with pkgs; [
+            # proton-ge-bin
+            # ];
           };
           environment.sessionVariables = {
             # Proton settings
@@ -47,6 +47,7 @@
             protontricks
             vulkan-tools
             sgdboop
+            protonplus
             # if you want GTK theme style for Steam, requires manual running to apply
             # adwsteamgtk
           ];
