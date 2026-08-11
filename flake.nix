@@ -18,7 +18,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+file:///home/neonvoid/dev/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland";
     import-tree.url = "github:vic/import-tree";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -29,7 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    nixpkgs-blender.url = "github:qweered/nixpkgs/config-fix";
     noctalia.url = "github:noctalia-dev/noctalia";
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";

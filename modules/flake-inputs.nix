@@ -5,22 +5,12 @@
   flake-file.inputs = {
     den.url = "github:denful/den/refs/tags/v0.18.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    # Temporary: nixos-unstable is broken for pkgsRocm/pkgsCuda in NixOS configs.
-    # Fix PR: https://github.com/NixOS/nixpkgs/pull/550890
-    # Issue:  https://github.com/NixOS/nixpkgs/issues/550852
-    # Only used for blender-rocm; remove this input once the PR is merged.
-    nixpkgs-blender.url = "github:qweered/nixpkgs/config-fix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
-      # TEMP: local checkout at running commit b5a6d81 + fix/hdr-metadata-loop
-      # branch. Upstream master re-sends identical HDR metadata every frame
-      # (hdrMetadataEqual returns inverted memcmp result), forcing a full DRM
-      # modeset per commit. Restore to "github:hyprwm/Hyprland" once the fix
-      # lands upstream.
-      url = "git+file:///home/neonvoid/dev/Hyprland";
+      url = "github:hyprwm/Hyprland";
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
