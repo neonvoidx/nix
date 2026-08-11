@@ -15,11 +15,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
-      # Pinned to pre-2026-08-09 commit: newer master (f7daeb7) pegs one core at
-      # ~95% CPU (XWayland selection loop, hyprwm/Hyprland#11411). Revisit once
-      # the fix PR is merged.
-      # url = "github:hyprwm/Hyprland/ab95888cd1d6961471f9e8df05f5e4a40dbb759d";
-      url = "github:hyprwm/Hyprland";
+      # TEMP: local checkout at running commit b5a6d81 + fix/hdr-metadata-loop
+      # branch. Upstream master re-sends identical HDR metadata every frame
+      # (hdrMetadataEqual returns inverted memcmp result), forcing a full DRM
+      # modeset per commit. Restore to "github:hyprwm/Hyprland" once the fix
+      # lands upstream.
+      url = "git+file:///home/neonvoid/dev/Hyprland";
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

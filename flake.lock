@@ -463,17 +463,17 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1786378191,
-        "narHash": "sha256-74zp0pfh8yph6Fq+TyjeeXny+wMeNB/xiDcHXvJUFMg=",
-        "owner": "hyprwm",
-        "repo": "Hyprland",
-        "rev": "b5a6d81f473d5b3318ed8ae305f8c2de71faf9a6",
-        "type": "github"
+        "lastModified": 1786406646,
+        "narHash": "sha256-tudReEecusS2N80SPJsRj5alqYNbr3xHeKSLXLtX53Y=",
+        "ref": "refs/heads/fix/hdr-metadata-loop",
+        "rev": "8ca0d910b64c91fee8b118cbe24da4b7a1fcad48",
+        "revCount": 7727,
+        "type": "git",
+        "url": "file:///home/neonvoid/dev/Hyprland"
       },
       "original": {
-        "owner": "hyprwm",
-        "repo": "Hyprland",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/neonvoid/dev/Hyprland"
       }
     },
     "hyprland-guiutils": {
