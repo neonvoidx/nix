@@ -703,6 +703,9 @@
                                 hl.exec_cmd("sleep 8 && thunderbird", { workspace = "12 silent" })
                                 hl.exec_cmd("spotify --enable-features=UseOzonePlatform --ozone-platform=wayland", {workspace = "13 silent"})
                                 hl.exec_cmd("steam", { workspace = "10 silent" })
+                                ${lib.optionalString (portraitMonitor != "") /* lua */ ''
+                                  hl.exec_cmd("~/.config/hypr/scripts/wait-for-discord-and-move.sh")
+                                ''}
                               end)
             '';
           };
