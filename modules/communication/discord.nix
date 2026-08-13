@@ -74,11 +74,9 @@
       systemd.user.services.discord = {
         Unit = {
           Description = "Discord Client";
-          After = lib.mkIf config.programs.noctalia.enable [
+          After = [
             "graphical-session.target"
-            "noctalia.service"
           ];
-          Wants = lib.mkIf config.programs.noctalia.enable [ "noctalia.service" ];
           PartOf = [ "graphical-session.target" ];
         };
         Service = {
