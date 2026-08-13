@@ -8,12 +8,15 @@
           enable = true;
           plugins = with pkgs; [
             thunar-archive-plugin
-            thunar-dropbox-plugin
+            thunar-shares-plugin
             thunar-media-tags-plugin
             thunar-volman
           ];
         };
+        # Thumbnails
         services.tumbler.enable = true;
+        # Trash, Mount, and other functionalities
+        services.gvfs.enable = true;
       };
 
     homeManager =
@@ -125,9 +128,18 @@
             <action>
               <icon>printer</icon>
               <name>Print</name>
-              <command>bash %h/scripts/print-files.sh %F</command>
+              <command>bash $HOME/scripts/print-files.sh %F</command>
               <description>Print selected file(s) using a GTK printer dialog</description>
               <patterns>*</patterns>
+              <other-files/>
+            </action>
+            <action>
+              <icon>archive-extract</icon>
+              <name>Extract to Folder</name>
+              <command>bash $HOME/scripts/extract-to-folder.sh %F</command>
+              <description>Extract selected archive(s) into a folder named after each archive</description>
+              <patterns>*.zip;*.7z;*.rar;*.tar;*.tar.gz;*.tgz;*.tar.bz2;*.tbz2;*.tar.xz;*.txz;*.tar.zst;*.tar.lz4;*.tar.lz;*.gz;*.bz2;*.xz;*.zst</patterns>
+              <startup-notify/>
               <other-files/>
             </action>
           </actions>

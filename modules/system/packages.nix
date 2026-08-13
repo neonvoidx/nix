@@ -35,6 +35,7 @@
         ncdu
         nurl
         nvd
+        p7zip
         pciutils
         playerctl
         procps

@@ -22,7 +22,6 @@
         godotPackages.export-template
         gpu-screen-recorder
         grim
-        gvfs
         home-manager
         hyprpicker
         hyprpwcenter
@@ -43,10 +42,6 @@
         socat
         streamcontroller
         tenacity
-        thunar
-        thunar-archive-plugin
-        thunar-media-tags-plugin
-        thunar-volman
         wayfreeze
         wl-clipboard
       ];
