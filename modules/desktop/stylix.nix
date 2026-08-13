@@ -68,8 +68,12 @@
               enable = true;
               # Selection color carried over from the old vesktop Vencord settings
               extraCss = /* css */ ''
-                [role="textbox"] *::selection {
-                  background: #7081d0 !important;
+                    [role="textbox"] *::selection {
+                      background: #7081d0 !important;
+                    }
+                    :root {
+                    --font-primary: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+                    --font-display: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
                 }
               '';
             };

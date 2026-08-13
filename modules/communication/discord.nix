@@ -15,7 +15,7 @@
           plugins = {
             alwaysExpandRoles.enable = true;
             alwaysTrust.enable = true;
-            autoJumpToMessage.enable = true;
+            # autoJumpToMessage.enable = true;
             anonymiseFileNames = {
               enable = true;
               method = 2;
