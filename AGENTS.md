@@ -145,7 +145,7 @@ User aspects can conditionally include other aspects based on host context:
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, pure, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
-│   ├── communication/     # Communication aspects (vesktop, email)
+│   ├── communication/     # Communication aspects (email, discord)
 │   ├── home/              # Home-manager aspects (common, files, packages)
 │   ├── ide/               # Editor aspects (nvim)
 │   ├── nix/               # Nix daemon settings and overlays
@@ -372,8 +372,8 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
         den.aspects.mangohud
 
         # Communication
+        den.aspects.discord
         den.aspects.email
-        den.aspects.vesktop
       ]
       ++ lib.optionals (host.isGaming or false) [
         # Gaming — gated via host.isGaming
@@ -423,6 +423,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `hyprland` | Wayland compositor |
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
+| `nixcord` | Declarative Discord client config (Discord + Equicord + OpenASAR) |
 | `noctalia` | Quickshell bar/launcher/lockscreen |
 | `noctalia-greeter` | Noctalia display manager greeter |
 | `spicetify-nix` | Spotify theming |

@@ -11,11 +11,7 @@
           package = config.multiverse.pinned.ananicy-cpp;
           rulesProvider = pkgs.ananicy-rules-cachyos;
           extraRules = [
-            # Prevent Discord/Vesktop audio crackling during gaming
-            {
-              name = "vesktop";
-              type = "LowLatency_RT";
-            }
+            # Prevent Discord audio crackling during gaming
             {
               name = "Discord";
               type = "LowLatency_RT";

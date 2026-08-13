@@ -145,10 +145,8 @@
                   "monitor.alsa.rules" = [
                     {
                       matches = [
-                        { "application.process.binary" = "~.*vesktop.*"; }
                         { "application.process.binary" = "~.*discord.*"; }
                         { "application.process.binary" = "~.*Discord.*"; }
-                        { "application.name" = "~.*Vesktop.*"; }
                         { "application.name" = "~.*Discord.*"; }
                         { "application.process.binary" = "~.*teamspeak.*"; }
                         { "application.process.binary" = "~.*mumble.*"; }

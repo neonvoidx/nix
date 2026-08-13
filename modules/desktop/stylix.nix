@@ -64,6 +64,15 @@
           autoEnable = true;
           targets = {
             cava.rainbow.enable = true;
+            nixcord = {
+              enable = true;
+              # Selection color carried over from the old vesktop Vencord settings
+              extraCss = /* css */ ''
+                [role="textbox"] *::selection {
+                  background: #7081d0 !important;
+                }
+              '';
+            };
             # Force qtct styling for qt dialogs
             qt = {
               platform = lib.mkForce "qtct";

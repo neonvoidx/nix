@@ -51,6 +51,9 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixcord = {
+      url = "github:4evy/nixcord";
+    };
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
     };

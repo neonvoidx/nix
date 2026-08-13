@@ -31,7 +31,7 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, pure, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
-│   ├── communication/     # Communication aspects (vesktop, email)
+│   ├── communication/     # Communication aspects (email, discord)
 │   ├── home/              # Home-manager aspects (common, files, packages)
 │   ├── ide/               # Editor aspects (nvim)
 │   ├── nix/               # Nix daemon settings and overlays
@@ -62,6 +62,7 @@ Monitors are defined as structured objects with per-output attributes (`name`, `
 - **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`, `emailName`, `emailAddress`) accessible in any aspect
 - **Hyprland** — Wayland compositor with Lua config, multi-monitor layouts, HDR support, game workspace management
 - **Stylix** — System-wide theming (base16, GTK, Qt, fonts) in one aspect file
+- **Discord** — Native client via nixcord (Discord + Equicord + OpenASAR) as a systemd user service, theme + selection color injected through `stylix.targets.nixcord`
 - **SOPS** — Age-encrypted secrets, decrypted to `/run/secrets/` at boot via systemd service
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
 - **nvim** — Neovim config from `neonvoidx/nvim` via flake input
