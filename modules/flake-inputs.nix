@@ -25,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
-      url = "github:noctalia-dev/noctalia";
+      url = "github:noctalia-dev/noctalia/cachix";
     };
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";
@@ -50,6 +50,9 @@
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    multiverse = {
+      url = "github:fzakaria/nixpkgs-multiverse";
     };
   };
 }

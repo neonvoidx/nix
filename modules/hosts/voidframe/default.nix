@@ -10,6 +10,7 @@
       den.aspects.users
       den.aspects.overlays
       den.aspects.nixsettings
+      den.aspects.multiverse
 
       # Hardware
       den.aspects.bluetooth

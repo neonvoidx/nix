@@ -1,12 +1,14 @@
 { den, ... }:
 {
   den.aspects.ananicy.nixos =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     {
       services = {
         ananicy = {
           enable = true;
-          package = pkgs.ananicy-cpp;
+          # TODO remove after
+          # https://github.com/NixOS/nixpkgs/pull/552211 — remove this pin once merged.
+          package = config.multiverse.pinned.ananicy-cpp;
           rulesProvider = pkgs.ananicy-rules-cachyos;
           extraRules = [
             # Prevent Discord/Vesktop audio crackling during gaming
