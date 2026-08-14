@@ -25,11 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
-      url = "github:noctalia-dev/noctalia/cachix";
-    };
-    noctalia-greeter = {
-      url = "github:noctalia-dev/noctalia-greeter";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:noctalia-dev/noctalia/refs/tags/v5.0.0-beta.8";
     };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";

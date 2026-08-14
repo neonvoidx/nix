@@ -416,7 +416,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 > **flake.nix is auto-generated** by `flake-file`. Never edit it directly. To add or change an input, edit `modules/flake-inputs.nix` then run `nix run .#write-flake`. To update locked versions, run `nix flake update` as normal.
 
 | Input | Purpose |
-|-------|---------|
+| ------- | --------- |
 | `den` | Den framework (v0.18.0) — auto-generates nixosConfigurations, wires HM, provides context |
 | `nixpkgs` | NixOS unstable |
 | `home-manager` | User environment management |
@@ -424,8 +424,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
 | `nixcord` | Declarative Discord client config (Discord + Equicord + OpenASAR) |
-| `noctalia` | Quickshell bar/launcher/lockscreen |
-| `noctalia-greeter` | Noctalia display manager greeter |
+| `noctalia` | Desktop shell bar/launcher/lockscreen |
 | `spicetify-nix` | Spotify theming |
 | `nix-index-database` | Fast `nix-locate` lookups |
 | `nix-versions` | Version tracking for nix commands |
@@ -457,11 +456,13 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export, follow these rules:
 
 ### Source of truth
+
 - Read `/home/neonvoid/.local/state/noctalia/settings.toml` — the TOML config exported from noctalia's UI.
 - Check `git diff` (uncommitted changes) on that file to see what config was intentionally changed vs. committed state.
 - Use the uncommitted diff as reference on what to port — only port intentional config changes, not runtime state.
 
 ### What to convert
+
 - All `[section]` and `[section.subsection]` map to nested nix attrsets
 - TOML arrays become nix lists
 - TOML inline tables become nix attrsets
@@ -469,12 +470,14 @@ When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export,
 - Use `${homeDir}` instead of `/home/neonvoid`
 
 ### What to ignore
+
 - **Wallpaper sections** — `wallpaper.default`, `wallpaper.last`, `wallpaper.monitors.*` (runtime state, not config)
 - **`dock`** — not used in nix config
 - **Shell paths** — keep nix-style paths (`${homeDir}/.nix-profile/bin/...`) rather than TOML's `/etc/profiles/per-user/...`
 - Any TOML key that is purely runtime state (e.g. last wallpaper path, active state)
 
 ### What to check for differences
+
 - **New plugins** — compare `plugins.enabled` lists
 - **New plugin_settings** — compare `plugin_settings` sections
 - **New widgets** — compare `widget.*` sections
@@ -508,6 +511,7 @@ When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export,
 When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export, follow these rules:
 
 ### What to convert
+
 - All `[section]` and `[section.subsection]` map to nested nix attrsets
 - TOML arrays become nix lists
 - TOML inline tables become nix attrsets
@@ -515,12 +519,14 @@ When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export,
 - Use `${homeDir}` instead of `/home/neonvoid`
 
 ### What to ignore
+
 - **Wallpaper sections** — `wallpaper.default`, `wallpaper.last`, `wallpaper.monitors.*` (runtime state, not config)
 - **`dock`** — not used in nix config
 - **Shell paths** — keep nix-style paths (`${homeDir}/.nix-profile/bin/...`) rather than TOML's `/etc/profiles/per-user/...`
 - Any TOML key that is purely runtime state (e.g. last wallpaper path, active state)
 
 ### What to check for differences
+
 - **New plugins** — compare `plugins.enabled` lists
 - **New plugin_settings** — compare `plugin_settings` sections
 - **New widgets** — compare `widget.*` sections

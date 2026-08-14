@@ -287,6 +287,7 @@
                           hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r"))
                           hl.bind(mod .. " + e", hl.dsp.exec_cmd("thunar"))
                           hl.bind(mod .. " + o", hl.dsp.exec_cmd("obsidian"))
+                          hl.bind(mod .. " + Prior", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
 
                           -- -----------------------------------------------------------------------
                           -- Window Binds
