@@ -61,8 +61,11 @@ optimize-store:
 rebuild:
     nh os switch
 
-bootbuild:
+boot:
     nh os boot
+
+switch:
+    nh os switch
 
 mv pkg:
     nix run github:fzakaria/nixpkgs-multiverse#mvs -- query versions {{pkg}}
