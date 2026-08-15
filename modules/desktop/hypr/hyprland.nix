@@ -581,6 +581,8 @@
                                   key_press_enables_dpms = true,
                                   session_lock_xray = true,
                                   allow_session_lock_restore = true,
+                                  new_float_force_onscreen = 2,
+                                  float_force_onscreen = 2,
                                 },
 
                                 xwayland = {
