@@ -84,7 +84,6 @@
                 radius = 8;
                 start = [
                   "launcher"
-                  "workspaces"
                   "taskbar"
                   "left-spacer"
                   "media"
@@ -735,6 +734,10 @@
                 kinds.media = false;
               };
 
+              plugin_settings."kenn/keybind-cheatsheet" = {
+                show_actions = true;
+              };
+
               plugin_settings."nightwatch75/file-search" = {
                 show_hidden = true;
               };
@@ -776,7 +779,7 @@
                 screen_time_enabled = true;
                 settings_show_advanced = true;
 
-                greeter_sync.auto_sync = false;
+                greeter_sync.auto_sync = true;
 
                 panel = {
                   borders = true;
@@ -995,12 +998,14 @@
                 };
                 taskbar = {
                   capsule_radius = 6;
+                  focused_output_only = true;
                   font_weight = 700;
                   group_by_workspace = true;
                   group_single_icon_per_app = true;
                   hide_empty_workspaces = true;
                   inactive_opacity = 0.75;
-                  scale = 1.3;
+                  minimal = true;
+                  scale = 1.25;
                   show_workspace_label = true;
                   workspace_group_capsule = false;
                   workspace_label_placement = "inside";
@@ -1018,11 +1023,11 @@
                   capsule = true;
                 };
                 workspaces = {
-                  empty_color = "shadow";
+                  active_pill_size = 1.0;
+                  focused_output_only = true;
                   font_weight = 700;
-                  pill_scale = 0.80000000000000004;
-                  scale = 1.3500000000000001;
-                  show_labels = false;
+                  show_labels = true;
+                  style = "minimal";
                 };
               };
             };

@@ -19,6 +19,7 @@
           keyboardShortcut
           loopyLoop
           popupLyrics
+          madeForYouShortcut
           shuffle
         ];
         enabledCustomApps = with spicePkgs.apps; [
