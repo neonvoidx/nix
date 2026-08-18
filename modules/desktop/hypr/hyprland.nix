@@ -603,6 +603,8 @@
                                   no_break_fs_vrr = 2,
                                   min_refresh_rate = 60,
                                   enable_hyprcursor = true,
+                                  warp_on_change_workspace = 1,
+                                  warp_on_monitor_change=1,
                                   no_hardware_cursors = 1,
                                   ${lib.optionalString isMultiMonitor "default_monitor = \"${defaultMonitor}\","}
                                 },

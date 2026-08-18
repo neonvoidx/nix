@@ -91,7 +91,7 @@ shell +pkgs:
     nix-shell -p {{pkgs}}
 
 # Update all flake inputs
-update flake="~/nix": write-flake
+update flake="~/nix": 
     nix flake update --flake {{flake}}
 
 # Update specific flake input(s)

@@ -19,9 +19,6 @@
           #
           # Then use them anywhere with `config.multiverse.pinned.<attr>`.
           pins = {
-            # TODO remove after
-            # https://github.com/NixOS/nixpkgs/pull/552211 — remove this pin once merged.
-            ananicy-cpp = "1.1.1";
           };
         };
       };

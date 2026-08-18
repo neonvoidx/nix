@@ -6,9 +6,7 @@
       services = {
         ananicy = {
           enable = true;
-          # TODO remove after
-          # https://github.com/NixOS/nixpkgs/pull/552211 — remove this pin once merged.
-          package = config.multiverse.pinned.ananicy-cpp;
+          package = pkgs.ananicy-cpp;
           rulesProvider = pkgs.ananicy-rules-cachyos;
           extraRules = [
             # Prevent Discord audio crackling during gaming
