@@ -5,6 +5,7 @@
     {
       nixpkgs = {
         overlays = [
+          inputs.hyprpicker.overlays.hyprpicker-with-deps
           (final: prev: {
             neonmono = prev.stdenv.mkDerivation {
               pname = "NeonMono";

@@ -42,7 +42,6 @@
         socat
         streamcontroller
         tenacity
-        wayfreeze
         wl-clipboard
       ];
     };

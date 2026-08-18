@@ -19,6 +19,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
+    hyprpicker = {
+      url = "github:neonvoidx/hyprpicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     import-tree.url = "github:vic/import-tree";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-index-database = {
