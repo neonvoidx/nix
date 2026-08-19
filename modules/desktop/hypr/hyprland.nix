@@ -474,13 +474,6 @@
                               hl.window_rule({ name = "bnettrayiconwindow", match = { initial_class = "explorer.exe" }, float = true, size = { "25", "25" }, move = reminder_move, fullscreen = false, workspace = "10 silent", suppress_event = "fullscreen activatefocus" })
                               hl.window_rule({ name = "battlenet", match = { initial_class = "battle.net.exe" }, float = false, fullscreen = false, fullscreen_state = "0 0", workspace = "10 silent", suppress_event = "fullscreen activatefocus" })
                               hl.window_rule({name="bnetsettings", match = {title = "Battle.net Settings", class="steam_app_.*"}, pin=true})
-                              hl.window_rule({
-                                name = "bnettray",
-                                match = { class = "^steam_app_.*$", title = "^$" },
-                                workspace = "special silent",
-                                float = true,
-                                suppress_event = "activatefocus",
-                              })
 
                               hl.window_rule({ name = "thunderbirdreminder", match = { class = "org.mozilla.Thunderbird", title = "^.*Reminder.*$" }, suppress_event = "activatefocus", float = true, pin = true, size = reminder_size, move = reminder_move, max_size = floating_max_size })
                               hl.window_rule({ name = "kittydropdown", match = { class = "kittyquick" }, float = true, pin = true })

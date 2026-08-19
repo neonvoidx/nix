@@ -28,6 +28,44 @@
               };
             };
           })
+          (final: prev:
+          let
+            xembsni-src = final.fetchFromGitHub {
+              owner = "jmylchreest";
+              repo = "xembsni";
+              rev = "7de94a2afdc8bed78afd448b4dbe49076de3b98a";
+              hash = "sha256-vtm9dzj9b7YMEntu76nqLNGlDMhVicWmQ5IjsmTFtRE=";
+            };
+          in
+          {
+            xembsni = final.rustPlatform.buildRustPackage {
+              pname = "xembsni";
+              version = "0.0.1";
+
+              src = xembsni-src;
+
+              cargoLock.lockFile = xembsni-src + "/Cargo.lock";
+
+              nativeBuildInputs = with final; [
+                pkg-config
+              ];
+
+              buildInputs = with final; [
+                libxcb
+                xcbutil
+                xcbutilimage
+                xcbutilkeysyms
+              ];
+
+              meta = with final.lib; {
+                description = "XEmbed to StatusNotifierItem tray bridge for Wayland";
+                homepage = "https://github.com/jmylchreest/xembsni";
+                license = licenses.mit;
+                platforms = platforms.linux;
+                mainProgram = "xembsni";
+              };
+            };
+          })
           (final: prev: {
             eldritch-icon-theme = prev.stdenv.mkDerivation {
               pname = "eldritch-icon-theme";

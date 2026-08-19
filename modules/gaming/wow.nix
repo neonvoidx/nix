@@ -30,12 +30,31 @@
               cp -r ${contents}/usr/share/icons $out/share/icons
             '';
         })
+        pkgs.xembsni
       ];
 
       xdg.mimeApps = {
         enable = true;
         defaultApplications = {
           "x-scheme-handler/curseforge" = "curseforge.desktop";
+        };
+      };
+
+      systemd.user.services.xembsni = {
+        Unit = {
+          Description = "XEmbed to StatusNotifierItem tray bridge";
+          PartOf = "graphical-session.target";
+          After = "graphical-session.target";
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.xembsni}/bin/xembsni";
+          Restart = "on-failure";
+          RestartSec = 2;
+          Environment = "RUST_LOG=info";
+        };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
         };
       };
     };
