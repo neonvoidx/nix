@@ -53,9 +53,5 @@
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
     };
-    hyprpicker = {
-      url = "github:neonvoidx/hyprpicker";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }

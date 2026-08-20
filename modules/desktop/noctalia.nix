@@ -921,7 +921,10 @@
                   capsule = true;
                 };
                 cat = {
-                  input_devices = [ "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd" ];
+                  input_devices = [
+                    "/dev/input/by-id/usb-CannonKeys_Satisfaction75_HS-event-kbd"
+                    "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd"
+                  ];
                   type = "noctalia/bongocat:cat";
                 };
                 cat_2 = {
