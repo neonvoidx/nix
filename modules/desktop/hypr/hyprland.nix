@@ -422,7 +422,10 @@
                               local reminder_move = { "(monitor_w-(monitor_w*0.2)-10)", "(monitor_h-(monitor_h*0.3)-10)" }
                               local floating_max_size = { "(monitor_w*0.8)", "(monitor_h*0.8)" }
                               local floating_default_size = { "(monitor_w*0.6)", "(monitor_h*0.6)" }
+                              -- Goofy: https://github.com/hyprwm/Hyprland/discussions/15901
+                              -- "5751911091d2bbcd580597d489a1ec0b9dd542bd"; # last good before af0d014
 
+                              hl.window_rule({ name = "suppress-initial-maximize", match = { class = ".*" }, suppress_event = "maximize" })
                               hl.window_rule({ name = "blender-file", match = { initial_title = "File Browser", class="blender" }, float = true, center = true, max_size = floating_max_size, size = floating_default_size })
 
                               hl.window_rule({ name = "xdg-screenshare-picker", match = { initial_title = "Select what to share" }, float = true, center = true, max_size = floating_max_size })
