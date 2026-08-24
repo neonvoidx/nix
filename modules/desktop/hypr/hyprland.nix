@@ -347,11 +347,11 @@
                               hl.bind(mod .. " + 9", hl.dsp.focus({ workspace = "9" }))
                               hl.bind(mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
                               hl.bind(mod .. " + d", function()
-                                local wins = hl.get_windows()
+                                local wins = hl.get_windows({ class = "discord" })
                                 if wins then
                                   for _, w in ipairs(wins) do
-                                    if w.class and w.class:match("discord") then
-                                      hl.dispatch(hl.dsp.focus({ window = "class:discord" }))
+                                    if w.initial_title == "Discord" then
+                                      hl.dispatch(hl.dsp.focus({ window = w }))
                                       return
                                     end
                                   end
