@@ -7,9 +7,9 @@
         url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
         hash = "sha256-ocLq6EaM2E/yvH9zH2ESXZ8eLiquRHxStT/CDhJ2OdQ=";
       };
-      archon-lite = pkgs.fetchurl {
-        url = "https://github.com/RPGLogs/Uploaders-archon-lite/releases/download/v9.5.0/archon-lite-v9.5.0.AppImage";
-        hash = "sha256-ZuALgVtqsYtvnSq8hkJL4A+i4UaEpk+2L3bpSEXrhRM=";
+      archon = pkgs.fetchurl {
+        url = "https://github.com/RPGLogs/Uploaders-archon/releases/download/v9.6.0/archon-v9.6.0.AppImage";
+        hash = "sha256-69xo+1jMo91KQ6yoMOBTXLUzFRNGUJqH7G5ZeEiiX4I=";
       };
     in
     {
@@ -35,23 +35,23 @@
             '';
         })
         (pkgs.appimageTools.wrapType2 {
-          pname = "archon-lite";
-          name = "archon-lite";
-          version = "9.5.0";
-          src = archon-lite;
+          pname = "archon";
+          name = "archon";
+          version = "9.6.0";
+          src = archon;
           extraInstallCommands =
             let
               contents = pkgs.appimageTools.extract {
-                pname = "archon-lite";
-                version = "9.5.0";
-                src = archon-lite;
+                pname = "archon";
+                version = "9.6.0";
+                src = archon;
               };
             in
             ''
-              install -m 444 -D ${contents}/archon-lite.desktop $out/share/applications/archon-lite.desktop
-              substituteInPlace $out/share/applications/archon-lite.desktop \
-                  --replace-fail 'Exec=AppRun' 'Exec=archon-lite'
-              install -m 444 -D ${contents}/archon-lite.png $out/share/icons/hicolor/256x256/apps/archon-lite.png
+              install -m 444 -D ${contents}/archon.desktop $out/share/applications/archon.desktop
+              substituteInPlace $out/share/applications/archon.desktop \
+                  --replace-fail 'Exec=AppRun' 'Exec=archon'
+              install -m 444 -D ${contents}/archon.png $out/share/icons/hicolor/256x256/apps/archon.png
             '';
         })
         pkgs.xembsni
