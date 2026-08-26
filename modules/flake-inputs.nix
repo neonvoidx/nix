@@ -50,6 +50,11 @@
     nixcord = {
       url = "github:4evy/nixcord";
     };
+    # TODO Remove once hyprpicker gets version bumped and put into nix packages
+    hyprpicker = {
+      url = "github:hyprwm/hyprpicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
     };
