@@ -53,6 +53,7 @@
         via
         wget
         whois
+        wireguard-tools
         xrandr
         xwayland
         yubico-pam

@@ -24,6 +24,7 @@
       # Security
       den.aspects.sops
       den.aspects.pcscd
+      den.aspects.wireguard
       # den.aspects.ly
       den.aspects.noctalia-greeter
       den.aspects.polkit
