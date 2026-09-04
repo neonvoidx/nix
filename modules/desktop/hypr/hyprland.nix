@@ -795,6 +795,30 @@
           };
 
           # --------------------------------------------------------------------------
+          # Resume hook — restart portal services after suspend so screen sharing
+          # (ScreenCast picker) still works. Portals can die or drop their D-Bus /
+          # PipeWire connections while the user slice is frozen during sleep.
+          # --------------------------------------------------------------------------
+
+          systemd.user.services."restart-portals-after-resume" = {
+            Unit = {
+              Description = "Restart xdg-desktop-portal services after resume";
+              After = [ "graphical-session.target" ];
+            };
+            Service = {
+              Type = "oneshot";
+              ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 2 && systemctl --user restart xdg-desktop-portal-hyprland.service xdg-desktop-portal.service'";
+              RemainAfterExit = true;
+            };
+            Install = {
+              WantedBy = [
+                "graphical-session.target"
+                "sleep.target"
+              ];
+            };
+          };
+
+          # --------------------------------------------------------------------------
           # Linked Hypr Assets
           # --------------------------------------------------------------------------
 
