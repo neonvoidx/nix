@@ -8,7 +8,7 @@
     {
       programs.tmux = {
         enable = true;
-        prefix = "C-Space";
+        prefix = "C-t";
         keyMode = "vi";
         customPaneNavigationAndResize = true;
         mouse = true;
