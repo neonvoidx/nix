@@ -288,7 +288,7 @@
                           -- -----------------------------------------------------------------------
 
                           hl.bind(mod .. " + SHIFT + q", hl.dsp.exec_cmd("hyprshutdown"))
-                          hl.bind(mod .. " + Return", hl.dsp.exec_cmd("kitty"))
+                          hl.bind(mod .. " + Return", hl.dsp.exec_cmd("ghostty"))
                           hl.bind(mod .. " + delete", function()
                             warp_cursor_to_center()
                             hl.dispatch(hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
