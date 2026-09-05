@@ -11,10 +11,10 @@
       den.aspects.fzf
       den.aspects.git
       den.aspects.ghostty
+      den.aspects.kitty
       den.aspects.jj
       den.aspects.jq
       den.aspects.just
-      den.aspects.ghostty
       den.aspects.lazygit
       den.aspects.lsd
       den.aspects.mcp
