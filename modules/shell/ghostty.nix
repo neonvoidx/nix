@@ -12,6 +12,10 @@
           font-family = "NeonMono";
           font-size = 16;
 
+          # NeonMono isn't nerd-font patched. Route the nerd font codepoint
+          # ranges to the Symbols Nerd Font Mono fallback (kitty used symbol_map).
+          font-codepoint-map = "U+e000-U+e00a,U+ea60-U+ebeb,U+e0a0-U+e0c8,U+e0ca,U+e0cc-U+e0d4,U+e200-U+e2a9,U+e300-U+e3e3,U+e5fa-U+e6b1,U+e700-U+e7c5,U+f000-U+f2e0,U+f300-U+f372,U+f400-U+f532,U+f0001-U+f1af0=Symbols Nerd Font Mono";
+
           # Cursor
           cursor-style = "block";
           cursor-style-blink = true;
@@ -47,8 +51,9 @@
           copy-on-select = "clipboard";
 
           # Misc
+          # `underline-hyperlinks` was removed in Ghostty 1.3; hyperlinks only
+          # style on modifier-hover now.
           link-previews = true;
-          underline-hyperlinks = "always";
           image-storage-limit = 4000000000;
 
           keybind = [

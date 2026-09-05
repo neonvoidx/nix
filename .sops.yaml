@@ -6,6 +6,7 @@ keys:
   # Per-machine standalone age key for boot-time decryption via sops-nix systemd service
   # Generated with: age-keygen -o /etc/sops/age/key.txt
   - &void_boot age1r8cvtvgpr7vem7w93q4v06wt6f8rfuchkhgk0yqnllvaktc35dcqp4l7n3
+  - &voidframe_boot age1j8tf96n8s2a6tcg72jyahk2g8em7m5f7txukd540nl7a2s806qqsvgd0da
 
 creation_rules:
   - path_regex: secrets/secrets\.yaml$
@@ -13,3 +14,4 @@ creation_rules:
       - age:
           - *admin_neonvoid
           - *void_boot
+          - *voidframe_boot
