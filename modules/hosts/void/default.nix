@@ -35,6 +35,9 @@
       # for your own network mount drives
       den.aspects.networkdrives
 
+      # Gaming
+      den.aspects.gaming
+
       # System packages
       den.aspects.systempackages
     ];

@@ -1,4 +1,4 @@
-{ den, inputs, ... }:
+{ den, ... }:
 {
   den.aspects.steam =
     { host, ... }:
@@ -41,7 +41,6 @@
         { pkgs, ... }:
         {
           home.packages = with pkgs; [
-            inputs.scopebuddy.packages.${pkgs.stdenv.hostPlatform.system}.default
             steam
             gamescope
             protontricks

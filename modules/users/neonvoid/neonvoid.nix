@@ -1,7 +1,6 @@
-{ den, lib, ... }:
+{ den, ... }:
 {
   den.aspects.neonvoid =
-    { host, ... }:
     {
       includes = [
         # Shell tools
@@ -12,6 +11,7 @@
         den.aspects.fastfetch
         den.aspects.fzf
         den.aspects.git
+        den.aspects.ghostty
         den.aspects.jj
         den.aspects.jq
         den.aspects.just
@@ -27,6 +27,7 @@
         den.aspects.starship
         # den.aspects.pure
         den.aspects.tealdeer
+        den.aspects.tmux
         den.aspects.yazi
         den.aspects.zoxide
         den.aspects.zsh
@@ -68,19 +69,9 @@
         den.aspects.pics
         den.aspects.spicetify
 
-        # Gaming
-        den.aspects.steam
-        den.aspects.mangohud
-
         # Communication
         den.aspects.discord
         den.aspects.email
-        den.aspects.discord
-      ]
-      ++ lib.optionals (host.isGaming or false) [
-        # Gaming — gated via host.isGaming
-        den.aspects.deadlock
-        den.aspects.wow
       ];
 
       nixos =

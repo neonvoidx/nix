@@ -7,8 +7,6 @@
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/.face";
       home.file."scripts".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scripts";
-      home.file.".config/scopebuddy".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scopebuddy";
       home.file.".config/startupscripts".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/startupscripts";
 

@@ -47,6 +47,8 @@
         den._.primary-user
         # Sets shell for user at OS and HM level
         (den._.user-shell "zsh")
+        # Projects host aspect homeManager config to users
+        den._.host-aspects
         # Provides per system inputs'
         # i.e environment.systemPackages = [ inputs'.nixpkgs.legacyPackages.hello ]
         den._.inputs'
