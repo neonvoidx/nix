@@ -318,7 +318,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
         den.aspects.jj
         den.aspects.jq
         den.aspects.just
-        den.aspects.ghostty OR den.aspects.kitty
+        den.aspects.kitty
         den.aspects.lazygit
         den.aspects.lsd
         den.aspects.mcp

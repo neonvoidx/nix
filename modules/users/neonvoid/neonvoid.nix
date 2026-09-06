@@ -10,7 +10,6 @@
       den.aspects.fastfetch
       den.aspects.fzf
       den.aspects.git
-      den.aspects.ghostty
       den.aspects.kitty
       den.aspects.jj
       den.aspects.jq
