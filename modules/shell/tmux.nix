@@ -45,7 +45,7 @@
               # dotbar theme remapped to the eldritch base16 palette
               set -g @tmux-dotbar-bg '#${c.base00}'
               set -g @tmux-dotbar-fg '#${c.base04}'
-              set -g @tmux-dotbar-fg-current '#${c.base05}'
+              set -g @tmux-dotbar-fg-current '#${c.base0B}'
               set -g @tmux-dotbar-fg-session '#${c.base0C}'
               set -g @tmux-dotbar-fg-prefix '#${c.base0B}'
               set -g @tmux-dotbar-position 'bottom'
@@ -147,6 +147,15 @@
           # Move window
           bind '<' swap-window -t -1
           bind '>' swap-window -t +1
+
+          # -------------------------------------------------
+          # Status bar: active window chip
+          # -------------------------------------------------
+
+          # Active window: eldritch green rounded highlight chip
+          # (overrides dotbar's text-only active-window style; runs after
+          # the base16 theme source so it wins the cascade)
+          set-window-option -g window-status-current-format "#[fg=#${c.base0B},bg=#${c.base00}]#[fg=#${c.base00},bg=#${c.base0B}] #I:#W #[fg=#${c.base0B},bg=#${c.base00}]"
         '';
       };
     };
