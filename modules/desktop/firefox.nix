@@ -119,7 +119,7 @@
                 builtins.readFile (
                   builtins.fetchurl {
                     url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
-                    sha256 = "sha256:11q7yl8l10zybf43fvkvlaiqibviank7s47yqrsbfa881nz47sf9";
+                    sha256 = "sha256:0h2j5lsv07r81qp8ysjg3d9i9cdzhjw9ip96mxxrh9ajn73p3a9q";
                   }
                 )
                 + /* javascript */ ''
