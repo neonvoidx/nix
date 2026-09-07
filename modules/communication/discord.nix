@@ -9,6 +9,7 @@
         discord = {
           equicord.enable = true;
           openASAR.enable = true;
+          krisp.enable = true;
         };
 
         config = {
@@ -21,7 +22,6 @@
               method = 2;
             };
             betterRoleDot.enable = true;
-            blockKrisp.enable = true;
             bypassPinPrompt.enable = true;
             clearUrls.enable = true;
             copyUserUrls.enable = true;
