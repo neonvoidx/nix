@@ -157,12 +157,6 @@
           # # Swap windows
           # "ctrl+t>s" = "swap_with_window";
 
-          # vim-kitty-navigator
-          "ctrl+j" = "kitten pass_keys.py bottom ctrl+j";
-          "ctrl+k" = "kitten pass_keys.py top    ctrl+k";
-          "ctrl+h" = "kitten pass_keys.py left   ctrl+h";
-          "ctrl+l" = "kitten pass_keys.py right  ctrl+l";
-
           # Layout binds
           "kitty_mod+f" = "toggle_layout stack";
 
@@ -220,8 +214,6 @@
         d = "kitten diff";
       };
 
-      home.file.".config/kitty/pass_keys.py".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/pass_keys.py";
       home.file.".config/kitty/kitty_scrollback_nvim.py".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/kitty_scrollback_nvim.py";
       home.file.".config/kitty/kitty_scroll_prompt.py".source =
