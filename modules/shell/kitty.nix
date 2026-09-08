@@ -215,7 +215,6 @@
         };
       };
       programs.zsh.shellAliases = {
-        s = "kitten ssh";
         icat = "kitten icat";
         ssh = "kitten ssh";
         d = "kitten diff";
