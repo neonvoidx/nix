@@ -160,7 +160,7 @@
             set -g status-right-length 100
             set -g status-justify left
             set -g status-left ''''''
-            set -g status-right '#[fg=#${c.base0C},bg=#${c.base00}] #S'
+            set -g status-right '#[fg=#{?#{==:#{client_key_table},prefix},#${c.base0B},#${c.base0C}},bg=#${c.base00}] #S'
             setw -g window-status-separator ' '
             setw -g automatic-rename on
             setw -g automatic-rename-format '#{pane_current_command}'
