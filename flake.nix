@@ -33,7 +33,7 @@
       url = "github:vic/nix-versions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixcord.url = "github:4evy/nixcord?rev=87476262341abbc835f80c84d43da22cbec94e71";
+    nixcord.url = "github:4evy/nixcord";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     nvim-config = {
       url = "github:neonvoidx/nvim";

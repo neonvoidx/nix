@@ -10,6 +10,7 @@
           equicord.enable = true;
           openASAR.enable = true;
           krisp.enable = true;
+          settings.openasar.quickstart = true;
         };
 
         config = {
