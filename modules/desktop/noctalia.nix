@@ -187,7 +187,7 @@
                 widget =
                   lib.optionalAttrs (mainName != null) {
                     "lockscreen-login-box@${mainName}" = {
-                      box_height = 229.0;
+                      box_height = 196.0;
                       box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
@@ -204,6 +204,7 @@
                         show_login_button = true;
                         show_media = true;
                         show_session_buttons = true;
+                        show_unlock_hint = true;
                         show_weather = true;
                       };
                     };
@@ -227,7 +228,7 @@
                   }
                   // lib.optionalAttrs (secondaryName != null) {
                     "lockscreen-login-box@${secondaryName}" = {
-                      box_height = 229.0;
+                      box_height = 196.0;
                       box_width = 720.0;
                       cx = 1728.0;
                       cy = 896.0;
@@ -244,6 +245,7 @@
                         show_login_button = true;
                         show_media = true;
                         show_session_buttons = true;
+                        show_unlock_hint = true;
                         show_weather = true;
                       };
                     };
@@ -392,7 +394,7 @@
                   }
                   // lib.optionalAttrs (portraitName != null) {
                     "lockscreen-login-box@${portraitName}" = {
-                      box_height = 229.0;
+                      box_height = 196.0;
                       box_width = 720.0;
                       cx = 728.0;
                       cy = 1459.0;
@@ -409,6 +411,7 @@
                         show_login_button = true;
                         show_media = true;
                         show_session_buttons = true;
+                        show_unlock_hint = true;
                         show_weather = true;
                       };
                     };
@@ -747,10 +750,12 @@
                 enabled = [
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
-                  "dotnetrob/cat"
-                  "nightwatch75/file-search"
-                ];
-                source = [
+"dotnetrob/cat"
+  "nightwatch75/file-search"
+  "dunarand/tmux-provider"
+];
+
+source = [
                   {
                     kind = "git";
                     location = "https://github.com/noctalia-dev/official-plugins";
@@ -918,8 +923,8 @@
                 };
                 cat = {
                   input_devices = [
-                    "/dev/input/by-id/usb-CannonKeys_Satisfaction75_HS-event-kbd"
                     "/dev/input/by-id/usb-UBEST_Zoom75_Tiga_05D252E85C18-event-kbd"
+                    "/dev/input/by-id/usb-CannonKeys_Satisfaction75_HS-event-kbd"
                   ];
                   type = "noctalia/bongocat:cat";
                 };
@@ -994,6 +999,9 @@
                 };
                 session = {
                   color = "error";
+                };
+                sysmon = {
+                  stat = "gpu_usage";
                 };
                 taskbar = {
                   capsule_radius = 6;
