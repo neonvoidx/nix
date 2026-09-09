@@ -12,12 +12,18 @@
       ];
 
       nixos =
-        { ... }:
+        { pkgs, ... }:
         {
           programs.gamemode = {
             enable = true;
             # nice setting off
             enableRenice = false;
+            settings = {
+              custom = {
+                start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
+                end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+              };
+            };
           };
 
           users.users.${user.userName}.extraGroups = [ "gamemode" ];

@@ -24,6 +24,8 @@
         };
 
         settings = {
+          clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
+
           copy_on_select = "clipboard";
 
           auto_reload_config = -1;
