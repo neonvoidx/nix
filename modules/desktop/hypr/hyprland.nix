@@ -715,6 +715,10 @@
                               end)
 
                               hl.on("hyprland.start", function()
+                                -- The tmux server is spawned by a systemd unit at login, outside this
+                                -- session, so its panes never inherit HYPRLAND_INSTANCE_SIGNATURE.
+                                -- Push the running instance's signature into it on every start.
+                                hl.exec_cmd("tmux set-environment -g HYPRLAND_INSTANCE_SIGNATURE $HYPRLAND_INSTANCE_SIGNATURE")
                                 hl.exec_cmd("noctalia")
                                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh \"${defaultMonitor}\" \"${secondaryMonitor}\" \"${portraitMonitor}\"")
                                 hl.exec_cmd("systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
