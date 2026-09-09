@@ -56,6 +56,9 @@
             set -g renumber-windows on
             setw -g pane-base-index 1
 
+            # Allows passing of keys like ctrl+enter shift+enter etc
+            set -g extend-keys on
+
             # Pane border
             set -g pane-border-style fg=#${c.base02}
             set -g pane-active-border-style fg=#${c.base0C}
