@@ -56,8 +56,9 @@
             set -g renumber-windows on
             setw -g pane-base-index 1
 
-            # Allows passing of keys like ctrl+enter shift+enter etc
-            set -g extend-keys on
+            # Pass modified keys (Shift+Enter, Ctrl+Enter, etc.) to programs inside tmux
+            set -g extended-keys on
+            set -as terminal-features 'xterm*:extkeys'
 
             # Pane border
             set -g pane-border-style fg=#${c.base02}
