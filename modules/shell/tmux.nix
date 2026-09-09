@@ -52,6 +52,10 @@
           ];
 
           extraConfig = ''
+            # Allow OSC52 passthrough so apps inside tmux (e.g. lazygit) can
+            # reach the outer terminal's clipboard.
+            set -g allow-passthrough on
+
             # Pane indexes must stay tidy because the status plugin runs on renumbering.
             set -g renumber-windows on
             setw -g pane-base-index 1

@@ -6,6 +6,26 @@
       programs.lazygit = {
         enable = true;
         settings = {
+          os = {
+            # OSC52 clipboard copy so it works inside tmux (via passthrough)
+            # and in an OSC52-capable terminal directly. lazygit falls back
+            # to atotto/clipboard when this is unset, which has no pathway
+            # inside tmux.
+            copyToClipboardCmd = ''
+              if [[ "$TERM" =~ ^(screen|tmux) ]]; then
+                printf "\033Ptmux;\033\033]52;c;$(printf {{text}} | base64 -w 0)\a\033\\" > /dev/tty
+              else
+                printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty
+              fi
+            '';
+            readFromClipboardCmd = ''
+              if [ -n "$TMUX" ]; then
+                tmux save-buffer - 2>/dev/null || true
+              else
+                wl-paste -n 2>/dev/null || true
+              fi
+            '';
+          };
           keybinding = {
             files = {
               commitChangesWithEditor = "<disabled>";
