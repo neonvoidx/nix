@@ -39,7 +39,7 @@
             enable = true;
             extraConfig = ''
               polkit.addRule(function(action, subject) {
-                var allowedUsers = [user.userName];
+                var allowedUsers = ["${user.userName}"];
 
                 if (action.id == "org.noctalia.greeter.sync-appearance" &&
                     action.lookup("program") == "${pkgs.noctalia-greeter}/bin/noctalia-greeter-apply-appearance" &&
