@@ -8,11 +8,11 @@
           enable = true;
           enableZshIntegration = true;
           nix-direnv.enable = true;
-        };
-      };
-      home.file.".config/direnv/direnv.toml".text = lib.generators.toYAML { } {
-        whitelist = {
-          prefix = [ "~/dev" ];
+          config = {
+            whitelist = {
+              prefix = [ "~/dev" ];
+            };
+          };
         };
       };
     };
