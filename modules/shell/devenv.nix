@@ -7,7 +7,7 @@
         enable = true;
         enableZshIntegration = true;
       };
-      home.file.".config/devenv/config.yaml" = lib.generators.toYAML { } {
+      home.file.".config/devenv/config.yaml".text = lib.generators.toYAML { } {
         tui.statusline.enabled = false;
       };
     };

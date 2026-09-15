@@ -1,4 +1,4 @@
-{ den, ... }:
+{ den, lib, ... }:
 {
   den.aspects.direnv.homeManager =
     { ... }:
@@ -10,9 +10,10 @@
           nix-direnv.enable = true;
         };
       };
-      home.file.".config/direnv/direnv.toml".text = ''
-        [whitelist]
-        prefix = ["~/dev"]
-      '';
+      home.file.".config/direnv/direnv.toml".text = lib.generators.toYAML { } {
+        whitelist = {
+          prefix = [ "~/dev" ];
+        };
+      };
     };
 }
