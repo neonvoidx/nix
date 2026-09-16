@@ -93,7 +93,7 @@
               };
             };
           })
-          # TODO until https://github.com/NixOS/nixpkgs/pull/555390 is merged
+          # TODO https://github.com/NixOS/nixpkgs/issues/563241
           (final: prev: {
             opencode =
               let

@@ -1,4 +1,9 @@
-{ den, inputs, ... }:
+{
+  den,
+  lib,
+  inputs,
+  ...
+}:
 {
   den.aspects.tmux.homeManager =
     { config, pkgs, ... }:
@@ -185,6 +190,12 @@
           settings = {
           };
         };
+        zsh.initContent = lib.mkAfter /* bash */ ''
+          # If inside tmux session ignore
+          if [ -z "$TMUX" ]; then
+            sesh connect $(sesh list --icons | fzf --ansi)
+          fi
+        '';
       };
 
       systemd.user.services."tmux-default-sessions" = {
