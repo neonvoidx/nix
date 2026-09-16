@@ -16,6 +16,7 @@
         ffmpeg
         file-roller
         gh-dash
+        ghgrab
         gimp
         godot
         godotPackages.export-template
@@ -29,6 +30,7 @@
         kdePackages.okular
         kitty-themes
         lazyjj
+        lazyrsync
         libsecret
         inputs.nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
         obsidian
