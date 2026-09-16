@@ -153,7 +153,7 @@
             bind t command-prompt -I '#S' 'rename-session -- "%%"'
             bind '$' command-prompt -I '#S' 'rename-session -- "%%"'
             # Manual rename (prefix+,) also disables auto-renaming so the name sticks.
-            bind ',' command-prompt -I '#W' 'rename-window -- "%%" \; set -w automatic-rename off'
+            bind , command-prompt -I '#W' "rename-window '%%'"
 
             # Window navigation (with prefix)
             bind C-h select-window -t :-
