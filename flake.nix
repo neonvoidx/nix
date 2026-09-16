@@ -1,4 +1,4 @@
-# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# DO-NOT-EDIT. This file was auto-generated using github:denful/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
@@ -9,7 +9,7 @@
       url = "github:eldritch-theme/cursors";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-file.url = "github:vic/flake-file";
+    flake-file.url = "github:denful/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -23,7 +23,7 @@
       url = "github:hyprwm/hyprpicker";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    import-tree.url = "github:vic/import-tree";
+    import-tree.url = "github:denful/import-tree";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -35,7 +35,7 @@
     };
     nixcord.url = "github:4evy/nixcord";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    noctalia.url = "github:noctalia-dev/noctalia";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
     nvim-config = {
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
