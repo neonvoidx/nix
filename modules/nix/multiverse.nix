@@ -31,7 +31,10 @@
         multiverse = {
           enable = true;
           config.allowUnfree = true;
-          pins = { };
+          pins = {
+            # TODO until https://github.com/cachix/devenv/issues/3183
+            devenv = "2.2.2";
+          };
         };
       };
   };

@@ -7,6 +7,7 @@
       den.aspects.btop
       den.aspects.direnv
       den.aspects.devenv
+      den.aspects.multiverse
       den.aspects.delta
       den.aspects.fastfetch
       den.aspects.fzf
