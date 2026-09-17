@@ -93,6 +93,12 @@
               };
             };
           })
+          # sops-nix still builds sops-install-secrets with the removed
+          # buildGo125Module (Go 1.25 EOL). Shim it to the current builder
+          # until upstream fixes it: https://github.com/Mic92/sops-nix/issues/983
+          (final: _: {
+            buildGo125Module = final.buildGoModule;
+          })
           # TODO https://github.com/NixOS/nixpkgs/issues/563241
           (final: prev: {
             opencode =
