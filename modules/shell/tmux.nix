@@ -149,6 +149,14 @@
             # Detach
             bind d detach-client
 
+            set -g detach-on-destroy off
+
+            # Keep tmux's last-session behavior stable even after sessions are closed.
+            bind -N "last-session (via sesh)" O run-shell "sesh last"
+
+            # Window picker via sesh.
+            bind -N "sesh window picker" W run-shell "sesh window connect \"$(sesh window list | fzf-tmux -p 60%,50% --prompt '🪟  ')\""
+
             # Session management
             bind t command-prompt -I '#S' 'rename-session -- "%%"'
             bind '$' command-prompt -I '#S' 'rename-session -- "%%"'
@@ -186,10 +194,17 @@
           enable = true;
           enableAlias = true;
           enableTmuxIntegration = true;
+          icons = true;
           tmuxKey = "o";
           settings = {
+            tui = {
+              show_windows = true;
+              preview = true;
+              group_separator = true;
+            };
           };
         };
+
         zsh.initContent = lib.mkAfter /* bash */ ''
           # If inside tmux session ignore
           if [ -z "$TMUX" ]; then
