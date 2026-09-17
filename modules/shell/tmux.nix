@@ -10,12 +10,43 @@
     let
       c = config.lib.stylix.colors;
       nvim = inputs.nvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      seshFast = pkgs.writeShellScript "sesh-fast" ''
+        set -eu
+
+        if [ -n "''${TMUX:-}" ]; then
+          selection="$(${config.programs.sesh.package}/bin/sesh list -t --icons | ${pkgs.fzf}/bin/fzf-tmux -p 80%,70% \
+            --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+            --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
+            --bind 'tab:down,btab:up' \
+            --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
+            --bind 'ctrl-t:change-prompt(🪟  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
+            --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)' \
+            --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)' \
+            --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
+            --preview-window 'right:55%' \
+            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"
+        else
+          selection="$(${config.programs.sesh.package}/bin/sesh list -t --icons | ${pkgs.fzf}/bin/fzf --ansi)"
+        fi
+
+        [ -n "$selection" ] && exec ${config.programs.sesh.package}/bin/sesh connect "$selection"
+      '';
+      seshFastWindow = pkgs.writeShellScript "sesh-fast-window" ''
+        set -eu
+
+        selection="$(${config.programs.sesh.package}/bin/sesh window list | ${pkgs.fzf}/bin/fzf-tmux -p 60%,50% --prompt '🪟  ')"
+        [ -n "$selection" ] && exec ${config.programs.sesh.package}/bin/sesh window connect "$selection"
+      '';
     in
     {
       # Adds a wrapper script for resurrect to use persistence nvim when restoring neovim
       home.file.".local/bin/tmux-resurrect-nvim".source = pkgs.writeShellScript "tmux-resurrect-nvim" ''
         exec ${nvim}/bin/nvim -c 'lua require("persistence").load()'
       '';
+
+      home.file.".local/bin/sesh-fast".source = seshFast;
+      home.file.".local/bin/sesh-fast-window".source = seshFastWindow;
 
       programs = {
         tmux = {
@@ -154,15 +185,15 @@
             # Keep tmux's last-session behavior stable even after sessions are closed.
             bind -N "last-session (via sesh)" O run-shell "sesh last"
 
+            # Fast sesh picker from tmux.
+            bind -N "sesh picker" o run-shell -b '~/.local/bin/sesh-fast'
+
             # Window picker via sesh.
-            bind -N "sesh window picker" W run-shell "sesh window connect \"$(sesh window list | fzf-tmux -p 60%,50% --prompt '🪟  ')\""
+            bind -N "sesh window picker" W run-shell -b '~/.local/bin/sesh-fast-window'
 
             # Session management
             bind t command-prompt -I '#S' 'rename-session -- "%%"'
-            bind , command-prompt -I '#W' {
-              set -g @rename_window_name "%%" \;
-              rename-window "#{q:@rename_window_name}"
-            }
+            bind , command-prompt -I '#W' 'rename-window "%%"'
 
             # Window navigation (with prefix)
             bind C-h select-window -t :-
@@ -193,11 +224,12 @@
         };
         sesh = {
           enable = true;
-          enableAlias = true;
-          enableTmuxIntegration = true;
+          enableAlias = false;
+          enableTmuxIntegration = false;
           icons = true;
-          tmuxKey = "o";
           settings = {
+            cache = true;
+            sort_order = [ "tmux" "config" "tmuxinator" "zoxide" ];
             tui = {
               show_windows = true;
               preview = true;

@@ -10,6 +10,7 @@
           equicord.enable = true;
           openASAR.enable = true;
           krisp.enable = true;
+          settings.enableHardwareAcceleration = false;
           settings.openasar.quickstart = true;
           settings.openasar.setup = true;
         };
@@ -83,6 +84,10 @@
         };
         Service = {
           ExecStart = "${config.programs.nixcord.finalPackage.discord}/bin/discord";
+          Environment = [
+            "NIXOS_OZONE_WL=1"
+            "ELECTRON_OZONE_PLATFORM_HINT=wayland"
+          ];
           Restart = "on-failure";
           RestartSec = 3;
         };

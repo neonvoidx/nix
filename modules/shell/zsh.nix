@@ -232,6 +232,11 @@
                   eval $(ssh-agent -s) > /dev/null
                 fi
                 ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519 2>/dev/null
+
+                # Fast sesh picker: show live tmux sessions first, then widen out on demand.
+                function s() {
+                  ~/.local/bin/sesh-fast
+                }
               '';
         };
       };
