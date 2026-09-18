@@ -6,7 +6,6 @@
       home.pointerCursor = {
         enable = true;
         dotIcons.enable = true;
-        hyprcursor.enable = true;
       };
     };
 }

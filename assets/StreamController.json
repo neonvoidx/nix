@@ -175,33 +175,6 @@
                         "background-control-action": 0
                     }
                 }
-            },
-
-            "3x1": {
-                "states": {
-                    "0": {
-                        "actions": [
-                            {
-                                "id": "com_core447_OSPlugin::RunCommand",
-                                "settings": {
-                                    "command": "~/.config/hypr/scripts/hdr-toggle.sh"
-                                }
-                            }
-                        ],
-                        "image-control-action": 0,
-                        "label-control-actions": [
-                            0,
-                            0,
-                            0
-                        ],
-                        "background-control-action": 0,
-                        "labels": {
-                            "center": {
-                                "text": "HDR"
-                            }
-                        }
-                    }
-                }
             }
         }
     }

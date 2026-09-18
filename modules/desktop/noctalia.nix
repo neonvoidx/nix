@@ -780,6 +780,23 @@ source = [
                 screen_time_enabled = true;
                 settings_show_advanced = true;
 
+                screenshot = {
+                  save_to_file = true;
+                  directory = "${homeDir}/Screenshots";
+                  filename_pattern = "%Y%m%d_%H%M%S";
+                  copy_to_clipboard = true;
+                  freeze_screen = true;
+                  confirm_region = false;
+                  remember_last_region = false;
+                  show_cursor = false;
+                  annotate = false;
+                  skip_annotate_on_copy_save = true;
+                  close_on_copy = true;
+                  close_on_save = true;
+                  pipe_to_command = false;
+                  pipe_command = "";
+                };
+
                 greeter_sync.auto_sync = true;
 
                 panel = {
@@ -800,7 +817,7 @@ source = [
                   }
                   {
                     action = "command";
-                    command = "${homeDir}/.nix-profile/bin/hyprshutdown";
+                    command = "bash -c 'umbriel msg session-quit:skip-confirmation'";
                     enabled = true;
                     glyph = "logout";
                     label = "Logout";
@@ -954,8 +971,8 @@ source = [
                   glyph = "device-projector";
                   type = "custom_button";
                   actions = {
-                    left = "exec ~/.config/hypr/scripts/screen-toggle.sh 1";
-                    right = "exec ~/.config/hypr/scripts/screen-toggle.sh 0";
+                    left = "exec ~/scripts/toggle-monitor.sh 1";
+                    right = "exec ~/scripts/toggle-monitor.sh 0";
                     scroll_up = "none";
                     scroll_down = "none";
                   };
@@ -1039,6 +1056,8 @@ source = [
               };
             };
           };
+
+          home.file."Screenshots/.keep".text = "";
         };
     };
 }

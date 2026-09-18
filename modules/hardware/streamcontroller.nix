@@ -7,8 +7,12 @@
         systemd.user.services.streamcontroller = {
           Unit = {
             Description = "StreamController";
-            After = [ "hyprland-session.target" ];
-            PartOf = [ "hyprland-session.target" ];
+            After = [
+              "umbriel-session.target"
+            ];
+            PartOf = [
+              "umbriel-session.target"
+            ];
           };
           Service = {
             ExecStart = "${pkgs.streamcontroller}/bin/streamcontroller -b";
@@ -16,7 +20,9 @@
             RestartSec = 5;
           };
           Install = {
-            WantedBy = [ "hyprland-session.target" ];
+              WantedBy = [
+                "umbriel-session.target"
+              ];
           };
         };
       };

@@ -140,8 +140,7 @@ User aspects can conditionally include other aspects based on host context:
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
-│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
-│   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
+│   ├── desktop/           # Desktop aspects (umbriel, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, pure, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
@@ -344,8 +343,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
         den.aspects.cursor
         den.aspects.firefox
         den.aspects.gtk
-        den.aspects.hyprland
-        den.aspects.satty
+        den.aspects.umbriel
         den.aspects.thunar
 
         # Services (user-level)
@@ -420,7 +418,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `den` | Den framework (v0.18.0) — auto-generates nixosConfigurations, wires HM, provides context |
 | `nixpkgs` | NixOS unstable |
 | `home-manager` | User environment management |
-| `hyprland` | Wayland compositor |
+| `umbriel` | Second Wayland compositor (github:noctalia-dev/umbriel) |
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
 | `nixcord` | Declarative Discord client config (Discord + Equicord + OpenASAR) |
@@ -442,12 +440,32 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 - **Aspect names**: match the file name (`den.aspects."desktop-environment"`). Shorthand names used: `de` for `environment.nix`.
 - **Host names**: lowercase (`void`, `voidframe`)
 - **User**: `neonvoid` (lowercase in description)
-- **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `hyprland/_data/keybindings.nix`)
+- **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `umbriel/_data/layouts.nix`)
 - **Host-specific conditionals**: use `host.attr or false` in the outer lambda, `lib.optionals` for conditional includes, `osConfig.fileSystems ? "/games"` for filesystem checks in HM modules, or `config.networking.hostName == "void"` inside nixos modules
 - **Styling/colors**: base16 palette via stylix
 - **Secrets**: SOPS age-encrypted in `secrets/`, decrypted to `/run/secrets/` at boot
 - **Git tracking**: new files must be `git add`-ed before rebuilding (Nix only evaluates git-tracked files)
 - **Documentation**: keep `AGENTS.md` and `README.md` up to date when making changes — add new aspects, hosts, users, conventions, and structural changes to both files
+
+---
+
+## Umbriel Scrolling Layout, Work Mode & Startup
+
+`modules/desktop/umbriel.nix` uses scrolling layout on every workspace. The scrolling strip is perpendicular to `workspace_axis`: HDMI-A-1 and monitors with `isRotated = true` use `workspace_axis = "horizontal"` for top-to-bottom scrolling; other outputs use `"vertical"` for left-to-right scrolling. New lanes default to 90% of the viewport, with 25/50/75/100% size presets. Games retain fullscreen rules and portrait Discord/Spotify retain their 75/25 split.
+
+DP-2/main and DP-3/secondary each have local workspaces 1–12; HDMI-A-1/portrait retains workspace 13. During Umbriel’s first 60 seconds, Firefox and Thunderbird open on workspace 1; afterward they use normal placement. Steam always opens on workspace 2 and games on workspace 3: DP-2/main in desktop mode, DP-3/secondary in work mode. Other editors, launchers, and apps have no fixed workspace rules; Discord and Spotify retain the intentional portrait placement. Work mode disables the main output. Explicit output rules route Firefox/Thunderbird to DP-3 and Steam/games to the mode’s gaming output. Game rules open fullscreen, including Gamescope and Godot debug windows.
+
+Keybinds: Mod+1–0 select local positions 1–10; Shift variants send windows to those local positions. Umbriel uses the pointer-preferred output, with cursor follows-focus enabled. Mod+D still selects portrait workspace 13. Mod+H/J/K/L focus; Shift+H/L move columns within the workspace; Shift+J/K send the window to the next/previous workspace. Arrow keys mirror these. Mod+=/- resize primary extent by 5%, Mod+R cycles 25/50/75/100%, Mod+C centers the lane, and Mod+Shift+Space toggles floating. Mod+wheel still switches workspaces. Mod+S/G/T focus existing Steam/game/Thunderbird windows via `focus-app.sh`, independent of their workspace; the old S/T workspace shortcuts and their Shift variants are removed. The resize submap and master-count binding are removed. Toggles, app launches/focus, screenshots, close/quit/lock, direct workspace selection and sending, centering, Alt+Tab, size cycling, and track changes run once per press (`repeat = false`). Directional focus/movement, incremental resizing, volume, and brightness retain repeat; wheel workspace navigation is unchanged. Keyboard typing repeats at 25 Hz after a 600 ms delay; `input.keyboard.repeat_rate = 0` disables held-key typing independently of per-keybind repeat flags. On vertical strips, left/right movement follows the screen and reorders within a lane.
+
+The module generates `config.toml`, `config-desktop.toml`, `config-work.toml`, and `layout.env`. Toggling copies the selected mode over the live HM symlink and reloads Umbriel. The next Home Manager switch reinstalls the desktop config; the saved mode marker alone does not override that config.
+
+Runtime scripts are exposed through the out-of-store symlink `~/.config/umbriel/scripts` → `assets/umbriel/scripts`:
+
+- `focus-app.sh steam|game|thunderbird` focuses an existing matching window. Steam notification toasts, Thunderbird reminders, and game splash/launcher windows are excluded; the main Steam window is preferred. Games include `steam_app_*`, Gamescope, WoW, and the configured title matches.
+- `toggle-work-mode.sh [desktop|work|toggle]` loads `layout.env` before snapshotting, joins window workspace IDs to workspace names, reloads the selected config, then explicitly moves Steam (including floating windows) to workspace 2 and games to workspace 3 on DP-2 in desktop mode or DP-3 in work mode. Other tiled windows move from DP-2 to DP-3 when entering work mode and otherwise retain their output. Discord/Spotify stay on the portrait. A failed reload restores the actual previous config and leaves the saved mode unchanged.
+- `wait-for-discord-and-move.sh` is a session-long `umbriel subscribe windows` listener, started on multi-monitor hosts with a portrait output. Window rules give Discord a 75% lane and Spotify a 25% lane. When both main windows are present or either is replaced, the listener puts Discord first and Spotify last, reapplies their primary extents, and restores focus. It ignores Discord popouts and leaves manual sizing alone between launches. No delayed start or 120-second timeout is needed.
+
+On portrait workspace 13, each application occupies a separate full-width scrolling lane: Discord above Spotify. Do not consume them into one lane: that would put them side by side on a vertical strip. Use primary extent for their heights. Umbriel's `general.autostart` runs only at session startup, so the new listener requires a session restart or a manual launch once after installing the config.
 
 ---
 

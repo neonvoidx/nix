@@ -32,6 +32,10 @@
             decodeBase64.enable = true;
             disableDeepLinks.enable = true;
             expressionCloner.enable = true;
+            # fakeNitro = {
+            #   enable=true;
+            #   disableEmbedPermissionCheck=true;
+            # };
             favoriteEmojiFirst.enable = true;
             fixCodeblockGap.enable = true;
             fixYoutubeEmbeds.enable = true;

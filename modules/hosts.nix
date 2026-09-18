@@ -26,6 +26,7 @@ in
           sdrbrightness = 0.5;
           sdrsaturation = 1.0;
           sdr_max_luminance = 408;
+          sdr_white = 408;
           sdr_min_luminance = 0.2339;
           position = "4880x1440";
           primary = true;
@@ -42,6 +43,7 @@ in
           sdrbrightness = 0.5;
           sdrsaturation = 1.0;
           sdr_max_luminance = 408;
+          sdr_white = 408;
           sdr_min_luminance = 0.2339;
           position = "4880x0";
         };
@@ -63,6 +65,7 @@ in
           # If monitor is rotated, i.e portrait mode
           #
           isRotated = true;
+          sdr_white = 400;
         };
       };
 
@@ -119,6 +122,7 @@ in
           scale = 1.33333;
           position = "0x0";
           primary = true;
+          sdr_white = 400;
         };
       };
 

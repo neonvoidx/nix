@@ -34,18 +34,17 @@
 
       # Desktop
       den.aspects.de
-      den.aspects.fonts
-      den.aspects.xdg
-      den.aspects.stylix
-      den.aspects.noctalia
-      den.aspects.flatpak
-      den.aspects.clipboard
-      den.aspects.cursor
-      den.aspects.firefox
-      den.aspects.gtk
-      den.aspects.hyprland
-      den.aspects.satty
-      den.aspects.thunar
+        den.aspects.fonts
+        den.aspects.xdg
+        den.aspects.stylix
+        den.aspects.noctalia
+        den.aspects.flatpak
+        den.aspects.clipboard
+        den.aspects.cursor
+        den.aspects.firefox
+        den.aspects.gtk
+        den.aspects.umbriel
+        den.aspects.thunar
 
       # Services (user-level)
       den.aspects.gnomekeyring

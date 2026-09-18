@@ -21,12 +21,7 @@
         godot
         godotPackages.export-template
         gpu-screen-recorder
-        grim
         home-manager
-        hyprpicker
-        hyprpwcenter
-        hyprshutdown
-        hyprsysteminfo
         kdePackages.okular
         kitty-themes
         lazyjj
@@ -39,7 +34,6 @@
         prusa-slicer
         redact
         seahorse
-        slurp
         socat
         streamcontroller
         tenacity

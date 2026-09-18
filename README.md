@@ -26,8 +26,7 @@ My NixOS configuration using the [den](https://github.com/denful/den) framework 
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
-│   ├── desktop/           # Desktop aspects (hyprland, stylix, noctalia, flatpak, fonts, gtk, xdg, satty, clipboard, cursor, environment, firefox, thunar)
-│   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
+│   ├── desktop/           # Desktop aspects (umbriel, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, pure, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
@@ -61,6 +60,7 @@ Monitors are defined as structured objects with per-output attributes (`name`, `
 - **Host Context** — freeform attributes on hosts (`monitors`, `audio`, `network`, `isGaming`, `isLaptop`, `xRes`, `yRes`, `gpuPciDev`, `gpuVendorDeviceId`, `nasIp`, `printerUri`, `greeting`, `timezone`, etc.) accessible in any aspect
 - **User Context** — user attributes (`userName`, `homeDirectory`, `gitName`, `gitEmail`, `emailName`, `emailAddress`) accessible in any aspect
 - **Hyprland** — Wayland compositor with Lua config, multi-monitor layouts, HDR support, game workspace management
+- **Umbriel** — scrolling Wayland compositor: horizontal strips on landscape monitors and vertical strips on HDMI-A-1 / rotated monitors. Portrait workspace 13 opens Discord above Spotify at 75/25; a session listener restores that arrangement when either app reopens while allowing manual resizing. During the first 60 seconds of the session, Firefox and Thunderbird start on workspace 1 on DP-3. Steam always opens on workspace 2 and games on workspace 3, both on DP-2 normally or DP-3 in work mode. Other apps open without fixed workspace routing; Discord/Spotify retain their portrait placement. Both landscape outputs have local workspaces 1–12; Mod+1–0 selects local positions 1–10, with Shift sending windows there. The work-mode toggle disables DP-2 and moves its tiled windows to DP-3. Every toggle explicitly places Steam on workspace 2 and games on workspace 3 of the mode’s gaming output, including floating Steam windows. Other apps remain on their current output when returning to desktop mode. Game windows open fullscreen.
 - **Stylix** — System-wide theming (base16, GTK, Qt, fonts) in one aspect file
 - **Discord** — Native client via nixcord (Discord + Equicord + OpenASAR) as a systemd user service, theme + selection color injected through `stylix.targets.nixcord`
 - **SOPS** — Age-encrypted secrets, decrypted to `/run/secrets/` at boot via systemd service
@@ -70,6 +70,24 @@ Monitors are defined as structured objects with per-output attributes (`name`, `
 - **Conditional Includes** — aspects gated by `host.isGaming or false` via `lib.optionals`
 
 > **AI Agents:** See [`AGENTS.md`](./AGENTS.md) for detailed context when working with this flake.
+
+## Umbriel Keybindings
+
+`Mod` is Super. Arrow keys mirror H/J/K/L for focus and movement.
+
+| Binding | Action |
+| --- | --- |
+| Mod+H/J/K/L | Focus left/down/up/right |
+| Mod+S / Mod+G / Mod+T | Focus an open Steam / game / Thunderbird window |
+| Mod+Shift+H/L | Move the column left/right within the workspace |
+| Mod+Shift+J/K | Send the window to the next/previous workspace on that output |
+| Mod+= / Mod+- | Increase/decrease lane extent by 5% |
+| Mod+R | Cycle lane extent: 25%, 50%, 75%, 100% |
+| Mod+C | Center the scrolling lane |
+| Mod+Shift+Space | Toggle floating |
+| Mod+WheelUp/Down | Previous/next workspace |
+
+The old S/T workspace shortcuts and their Shift variants are removed. App-focus shortcuts do nothing if no matching window is open. There is no resize submap. Toggles, app launches/focus, screenshots, close/quit/lock, direct workspace selection and sending, centering, Alt+Tab, size cycling, and track changes run once per press (`repeat = false`). Directional focus/movement, incremental resizing, volume, and brightness retain repeat; wheel workspace navigation is unchanged. Keyboard typing repeats at 25 Hz after a 600 ms delay; `input.keyboard.repeat_rate = 0` disables held-key typing independently of per-keybind repeat flags. New scrolling windows default to 90% of the viewport; fullscreen games and the portrait Discord/Spotify 75/25 split keep their explicit rules. On a vertical strip, primary extent adjusts lane height; on a horizontal strip, it adjusts column width. Directional actions follow screen directions: on the portrait output, left/right reorder windows within a lane. The Discord/Spotify listener restores their separate lanes' ordering and sizes when either app reopens. Restart the Umbriel session after installing this change to start the listener.
 
 ## Usage
 

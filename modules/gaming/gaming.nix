@@ -20,8 +20,8 @@
             enableRenice = false;
             settings = {
               custom = {
-                start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
-                end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+                start = "${pkgs.libnotify}/bin/notify-send 'GameMode started' && noctalia msg notification-dnd-set on";
+                end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended' && noctalia msg notification-dnd-set off";
               };
             };
           };

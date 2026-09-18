@@ -19,6 +19,7 @@
           #
           # Then use them anywhere with `config.multiverse.pinned.<attr>`.
           pins = {
+            xwayland-satellite = "0.8.1";
           };
         };
       };
