@@ -88,6 +88,9 @@
           ];
 
           extraConfig = ''
+            # Preserve Hyprland and Umbriel sockets on reattach
+            set -ga update-environment "HYPRLAND_INSTANCE_SIGNATURE UMBRIEL_MAIN_OUT UMBRIEL_SECONDARY_OUT UMBRIEL_PORTRAIT_OUT"
+
             # Allow OSC52 passthrough so apps inside tmux (e.g. lazygit) can
             # reach the outer terminal's clipboard.
             set -g allow-passthrough on
