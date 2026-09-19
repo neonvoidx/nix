@@ -18,8 +18,11 @@
           # };
           #
           # Then use them anywhere with `config.multiverse.pinned.<attr>`.
+          # Keep in mind home manager actually picks up nix level pins
+          # we user @overlays.nix to auto import these pins
           pins = {
-            xwayland-satellite = "0.8.1";
+            # TODO until https://github.com/cachix/devenv/issues/3183
+            devenv = "2.2.2";
           };
         };
       };
@@ -32,10 +35,6 @@
         multiverse = {
           enable = true;
           config.allowUnfree = true;
-          pins = {
-            # TODO until https://github.com/cachix/devenv/issues/3183
-            devenv = "2.2.2";
-          };
         };
       };
   };

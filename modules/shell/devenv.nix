@@ -9,7 +9,6 @@
     {
       programs.devenv = {
         enable = true;
-        package = config.multiverse.pinned.devenv;
         enableZshIntegration = true;
       };
       home.file.".config/devenv/config.yaml".text = lib.generators.toYAML { } {
