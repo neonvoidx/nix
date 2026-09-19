@@ -5,6 +5,9 @@
   flake-file.inputs = {
     den.url = "github:denful/den/refs/tags/v0.18.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,6 +49,10 @@
     };
     nixcord = {
       url = "github:4evy/nixcord";
+    };
+    # TODO Remove once hyprpicker gets version bumped and put into nix packages
+    hyprpicker = {
+      url = "github:hyprwm/hyprpicker";
     };
     umbriel = {
       url = "github:noctalia-dev/umbriel";

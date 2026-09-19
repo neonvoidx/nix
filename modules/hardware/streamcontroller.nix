@@ -8,9 +8,11 @@
           Unit = {
             Description = "StreamController";
             After = [
+              "hyprland-session.target"
               "umbriel-session.target"
             ];
             PartOf = [
+              "hyprland-session.target"
               "umbriel-session.target"
             ];
           };
@@ -20,9 +22,10 @@
             RestartSec = 5;
           };
           Install = {
-              WantedBy = [
-                "umbriel-session.target"
-              ];
+            WantedBy = [
+              "hyprland-session.target"
+              "umbriel-session.target"
+            ];
           };
         };
       };

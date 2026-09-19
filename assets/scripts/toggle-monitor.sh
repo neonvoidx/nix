@@ -21,6 +21,18 @@ if [[ "$DM" == "niri" ]]; then
     echo "Invalid argument: $ARG"
     exit 1
   fi
+elif [[ "$DM" == "Hyprland" ]]; then
+  echo "Hyprland detected"
+  if [[ "$ARG" == "1" ]]; then
+    notify-send "Enabling monitor (Hyprland)"
+    ~/.config/hypr/scripts/screen-toggle.sh 1
+  elif [[ "$ARG" == "0" ]]; then
+    notify-send "Disabling monitor (Hyprland)"
+    ~/.config/hypr/scripts/screen-toggle.sh 0
+  else
+    echo "Invalid argument: $ARG"
+    exit 1
+  fi
 elif [[ "$DM" == "Umbriel" ]] || \
        [[ -n "${UMBRIEL_SOCKET:-}" ]] || \
        [[ -S "${XDG_RUNTIME_DIR:-}/umbriel-${WAYLAND_DISPLAY:-}.sock" ]]; then

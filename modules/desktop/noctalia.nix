@@ -815,15 +815,15 @@ source = [
                     shortcut = "x";
                     variant = "primary";
                   }
-                  {
-                    action = "command";
-                    command = "bash -c 'umbriel msg session-quit:skip-confirmation'";
-                    enabled = true;
-                    glyph = "logout";
-                    label = "Logout";
-                    shortcut = "l";
-                    variant = "secondary";
-                  }
+                   {
+                     action = "command";
+                     command = "bash -c 'if [ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]; then hyprshutdown; else umbriel msg session-quit:skip-confirmation; fi'";
+                     enabled = true;
+                     glyph = "logout";
+                     label = "Logout";
+                     shortcut = "l";
+                     variant = "secondary";
+                   }
                   {
                     action = "lock_and_suspend";
                     enabled = true;

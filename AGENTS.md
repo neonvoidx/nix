@@ -140,7 +140,8 @@ User aspects can conditionally include other aspects based on host context:
 │   ├── system/            # OS-level aspects (boot, locale, networking, systemd, packages, users)
 │   ├── hardware/          # Hardware aspects (bluetooth, kernel, udev, print, streamcontroller, usb)
 │   ├── security/          # Security aspects (sops, pcscd, gnome-keyring, ly, noctalia-greeter, polkit)
-│   ├── desktop/           # Desktop aspects (umbriel, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar)
+│   ├── desktop/           # Desktop aspects (hyprland, umbriel, stylix, noctalia, flatpak, fonts, gtk, xdg, clipboard, cursor, environment, firefox, thunar)
+│   │   └── hypr/          # Hyprland sub-aspect (hyprland.nix)
 │   ├── shell/             # Shell aspects (zsh, bat, btop, direnv, delta, fastfetch, fzf,  git, jj, jq, just, kitty, lazygit, lsd, mcp, nh, nix, opencode, payrespects, pure, tealdeer, yazi, zoxide)
 │   ├── gaming/            # Gaming aspects (steam, mangohud, deadlock, wow)
 │   ├── media/             # Media aspects (mpv, obs-studio, spicetify, ananicy, cava, easyeffects, pics, pipewire, network-drives)
@@ -343,6 +344,8 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
         den.aspects.cursor
         den.aspects.firefox
         den.aspects.gtk
+        den.aspects.hyprland
+        den.aspects.satty
         den.aspects.umbriel
         den.aspects.thunar
 
@@ -418,6 +421,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `den` | Den framework (v0.18.0) — auto-generates nixosConfigurations, wires HM, provides context |
 | `nixpkgs` | NixOS unstable |
 | `home-manager` | User environment management |
+| `hyprland` | Wayland compositor |
 | `umbriel` | Second Wayland compositor (github:noctalia-dev/umbriel) |
 | `stylix` | System-wide theming (base16, GTK, Qt, fonts) |
 | `sops-nix` | Secrets management (age encryption) |
@@ -440,7 +444,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 - **Aspect names**: match the file name (`den.aspects."desktop-environment"`). Shorthand names used: `de` for `environment.nix`.
 - **Host names**: lowercase (`void`, `voidframe`)
 - **User**: `neonvoid` (lowercase in description)
-- **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `umbriel/_data/layouts.nix`)
+- **`_data/` directories**: hold split-out data excluded from import-tree (e.g., `hyprland/_data/keybindings.nix`)
 - **Host-specific conditionals**: use `host.attr or false` in the outer lambda, `lib.optionals` for conditional includes, `osConfig.fileSystems ? "/games"` for filesystem checks in HM modules, or `config.networking.hostName == "void"` inside nixos modules
 - **Styling/colors**: base16 palette via stylix
 - **Secrets**: SOPS age-encrypted in `secrets/`, decrypted to `/run/secrets/` at boot
