@@ -30,6 +30,3 @@
 - Option to hide empty workspaces?
 
 # TODOs
-
-- animations & shaders, need shaders for rest, tweaking time etc
-- check out other noctalia/umbriel actions we can bind/use

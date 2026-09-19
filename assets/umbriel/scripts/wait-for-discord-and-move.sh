@@ -54,11 +54,12 @@ last_pair=""
 
   # Mark before acting so an action failure cannot loop on our own focus events.
   last_pair="$pair"
-  # With the column order enforced in configuration we only adjust extents here.
+  # Ensure both Discord and Spotify live in the master area and split top/bottom 75/25
+  "$umbriel_bin" msg layout-master-count-increase >/dev/null 2>&1 || true
   if "$umbriel_bin" msg "window-focus:$discord_id" &&
-    "$umbriel_bin" msg window-set-primary-extent:0.75 &&
-    "$umbriel_bin" msg "window-focus:$spotify_id" &&
-    "$umbriel_bin" msg window-set-primary-extent:0.25; then
+     "$umbriel_bin" msg window-set-secondary-extent:0.75 &&
+     "$umbriel_bin" msg "window-focus:$spotify_id" &&
+     "$umbriel_bin" msg window-set-secondary-extent:0.25; then
     :
   else
     echo "Could not arrange Discord/Spotify; retry on their next launch." >&2

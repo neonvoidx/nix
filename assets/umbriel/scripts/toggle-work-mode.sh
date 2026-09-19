@@ -94,10 +94,10 @@ if running && command -v "$umbriel_bin" >/dev/null 2>&1 && [[ -n "${UMBRIEL_MAIN
             . as $w |
             (if ((.app_id // "") == "steam" or
                  ((.title // "") | test("Steamwebhelper|Sign in to Steam"))) and
-                (((.title // "") | test("^notificationtoasts"; "i")) | not) then "2"
+                 (((.title // "") | test("^notificationtoasts"; "i")) | not) then "10"
              elif (((.app_id // "") | test("^(steam_app_.*|gamescope|wow[.]exe)$"; "i")) or
                    ((.title // "") | test("FINAL FANTASY XIV|World of Warcraft|Hytale|[(]DEBUG[)]"; "i"))) and
-                  (((.title // "") | test("^Gifts$|^Battle[.]net|^notificationtoasts"; "i")) | not) then "3"
+                  (((.title // "") | test("^Gifts$|^Battle[.]net|^notificationtoasts"; "i")) | not) then "11"
              else "" end) as $appTarget |
             select($appTarget != "" or (.floating // false) != true) |
             ($ws[($w.workspace | tostring)]) as $wse |
