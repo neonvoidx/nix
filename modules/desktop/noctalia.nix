@@ -142,10 +142,10 @@
                 enabled = true;
                 schema_version = 1;
                 widget_order =
-                  lib.optionals (portraitName != null) [ "lockscreen-login-box@${portraitName}" ]
+                  lib.optionals (builtinName != null) [ "lockscreen-login-box@${builtinName}" ]
+                  ++ lib.optionals (portraitName != null) [ "lockscreen-login-box@${portraitName}" ]
                   ++ lib.optionals (secondaryName != null) [ "lockscreen-login-box@${secondaryName}" ]
                   ++ lib.optionals (mainName != null) [ "lockscreen-login-box@${mainName}" ]
-                  ++ lib.optionals (builtinName != null) [ "lockscreen-login-box@${builtinName}" ]
                   ++ [
                     "lockscreen-widget-0000000000000001"
                     "lockscreen-widget-0000000000000002"
@@ -192,6 +192,8 @@
                       cx = 1728.0;
                       cy = 896.0;
                       output = mainName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "login_box";
                       settings = {
@@ -214,6 +216,8 @@
                       cx = 1728.0;
                       cy = 456.0;
                       output = mainName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sticker";
                       settings = {
@@ -233,6 +237,8 @@
                       cx = 1728.0;
                       cy = 896.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "login_box";
                       settings = {
@@ -255,6 +261,8 @@
                       cx = 1720.0;
                       cy = 616.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "clock";
                       settings = {
@@ -278,6 +286,8 @@
                       cx = 3282.0;
                       cy = 156.89999389648438;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -291,6 +301,8 @@
                       cx = 3275.0;
                       cy = 87.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -304,6 +316,8 @@
                       cx = 3275.0;
                       cy = 296.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -317,6 +331,8 @@
                       cx = 3282.0;
                       cy = 371.10000610351562;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -330,6 +346,8 @@
                       cx = 3275.0;
                       cy = 504.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -343,6 +361,8 @@
                       cx = 3282.0;
                       cy = 579.0999755859375;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -356,6 +376,8 @@
                       cx = 142.0;
                       cy = 138.60000610351562;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "weather";
                       settings = {
@@ -368,6 +390,8 @@
                       cx = 1728.0;
                       cy = 1248.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "media_player";
                       settings = {
@@ -380,6 +404,8 @@
                       cx = 1736.0;
                       cy = 432.0;
                       output = secondaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sticker";
                       settings = {
@@ -399,6 +425,8 @@
                       cx = 728.0;
                       cy = 1459.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "login_box";
                       settings = {
@@ -421,6 +449,8 @@
                       cx = 720.0;
                       cy = 1176.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "clock";
                       settings = {
@@ -444,6 +474,8 @@
                       cx = 736.0;
                       cy = 1928.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "media_player";
                       settings = {
@@ -456,6 +488,8 @@
                       cx = 1329.5;
                       cy = 222.5;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -469,6 +503,8 @@
                       cx = 1334.0;
                       cy = 422.5;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -482,6 +518,8 @@
                       cx = 1334.0;
                       cy = 657.5;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -495,6 +533,8 @@
                       cx = 112.0;
                       cy = 64.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "weather";
                       settings = {
@@ -507,6 +547,8 @@
                       cx = 1329.5;
                       cy = 146.5;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -520,6 +562,8 @@
                       cx = 1334.0;
                       cy = 349.5;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -533,6 +577,8 @@
                       cx = 1334.0;
                       cy = 584.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -546,6 +592,8 @@
                       cx = 736.0;
                       cy = 952.0;
                       output = portraitName;
+                      placement_height = 2560.0;
+                      placement_width = 1440.0;
                       rotation = 0.0;
                       type = "sticker";
                       settings = {
@@ -560,20 +608,30 @@
                   }
                   // lib.optionalAttrs (builtinName != null) {
                     "lockscreen-login-box@${builtinName}" = {
-                      box_height = 96.0;
-                      box_width = 560.0;
-                      cx = 1440.0;
-                      cy = 960.0;
+                      box_height = 196.0;
+                      box_width = 810.0;
+                      cx = 681.0;
+                      cy = 498.73236083984375;
                       output = builtinName;
+                      placement_height = 681.0;
+                      placement_width = 1362.0;
                       rotation = 0.0;
                       type = "login_box";
                       settings = {
-                        background_opacity = 0.0;
+                        background_color = "surface_variant";
+                        background_opacity = 0.88;
+                        background_radius = 12.0;
                         center_password_text = false;
-                        input_radius = 10.0;
+                        input_opacity = 1.0;
+                        input_radius = 6.0;
+                        layout = "regular";
                         show_caps_lock = true;
                         show_keyboard_layout = true;
                         show_login_button = true;
+                        show_media = true;
+                        show_session_buttons = true;
+                        show_unlock_hint = true;
+                        show_weather = true;
                       };
                     };
                   }
@@ -584,6 +642,8 @@
                       cx = 1728.0;
                       cy = 1360.0;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "audio_visualizer";
                       settings = {
@@ -598,6 +658,8 @@
                       cx = 1720.0;
                       cy = 648.0;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "clock";
                       settings = {
@@ -621,6 +683,8 @@
                       cx = 1720.0;
                       cy = 1240.0;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "media_player";
                       settings = {
@@ -633,6 +697,8 @@
                       cx = 3274.0;
                       cy = 148.89999389648438;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -646,6 +712,8 @@
                       cx = 3274.0;
                       cy = 363.10000610351562;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -659,6 +727,8 @@
                       cx = 3274.0;
                       cy = 571.0999755859375;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "sysmon";
                       settings = {
@@ -672,6 +742,8 @@
                       cx = 134.0;
                       cy = 130.60000610351562;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "weather";
                       settings = {
@@ -684,6 +756,8 @@
                       cx = 3267.0;
                       cy = 79.0;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -697,6 +771,8 @@
                       cx = 3267.0;
                       cy = 294.20001220703125;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
@@ -710,6 +786,8 @@
                       cx = 3267.0;
                       cy = 502.19998168945312;
                       output = primaryName;
+                      placement_height = 1440.0;
+                      placement_width = 3440.0;
                       rotation = 0.0;
                       type = "label";
                       settings = {
