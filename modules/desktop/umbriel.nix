@@ -1020,6 +1020,7 @@
                     y = 20;
                     anchor = "bottom_right";
                   };
+                  default_focused = false;
                 }
 
                 # SteamGridDB
