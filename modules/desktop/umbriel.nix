@@ -25,13 +25,10 @@
           mainMon = monitors.main or { };
           secondaryMon = monitors.secondary or { };
           portraitMon = monitors.portrait or { };
-          builtinMon = monitors.builtin or { };
 
           mainName = mainMon.name or "";
           secondaryName = secondaryMon.name or "";
           portraitName = portraitMon.name or "";
-          builtinName = builtinMon.name or "";
-          portraitWorkspace = if portraitName != "" then "1/${portraitName}" else "1";
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -857,12 +854,11 @@
                 }
                 # Steam games
                 {
-                  match.app_id = "^steam_app_.*(?:\\.desktop)?$";
+                  match.app_id = "^steam_app_.*";
                   default_workspace = "11";
                   default_fullscreen = true;
+                  blur = false;
                 }
-
-                # Lost Ark splash
                 {
                   match = {
                     app_id = "^steam_app_.*$";
@@ -872,7 +868,6 @@
                   default_workspace = "11";
                   default_fullscreen = true;
                 }
-
                 # FFXIV
                 {
                   match.title = "FINAL FANTASY XIV";
