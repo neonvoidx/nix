@@ -42,8 +42,19 @@ while IFS= read -r _event; do
     ([$windows[] | select(.app_id == "spotify")] | max_by(.w * .h)) as $s |
     if $d != null and $s != null then [$d.id, $s.id] | @tsv else empty end
   ' <<<"$windows")"
-  [[ -n "$pair" && "$pair" != "$last_pair" ]] || continue
+  [[ -n "$pair" ]] || continue
   IFS=$'\t' read -r discord_id spotify_id <<<"$pair"
+
+  # The same windows may be rearranged when Umbriel restores the session after
+  # sleep or unlock. Skip ordinary updates, but repair a pair that became
+  # side-by-side again.
+  if [[ "$pair" == "$last_pair" ]]; then
+    x_d_current="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows")"
+    x_s_current="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows")"
+    if [[ -n "$x_d_current" && -n "$x_s_current" ]] && (( ${x_d_current%.*} - ${x_s_current%.*} < 80 && ${x_s_current%.*} - ${x_d_current%.*} < 80 )); then
+      continue
+    fi
+  fi
 
   # active is seat-global; focused remembers one window on every workspace.
   restore_id="$(jq -r '.[] | select(.active) | .id' <<<"$windows")"
@@ -105,7 +116,6 @@ while IFS= read -r _event; do
   y_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .y // empty' <<<"$windows_now")"
 
   # Order and size the rows when they're stacked (roughly same x).
-  arranged=false
   if [[ -n "$x_d" && -n "$x_s" ]] && (( ${x_d%.*} - ${x_s%.*} < 80 && ${x_s%.*} - ${x_d%.*} < 80 )); then
     # Ensure Discord is above Spotify.
     if [[ -n "$y_d" && -n "$y_s" ]] && (( ${y_d%.*} > ${y_s%.*} )); then
@@ -118,7 +128,6 @@ while IFS= read -r _event; do
     "$umbriel_bin" msg "window-focus:$spotify_id" >/dev/null || true
     "$umbriel_bin" msg "window-set-secondary-extent:0.25" >/dev/null || true
 
-    arranged=true
   else
     echo "Discord/Spotify did not end up stacked; leaving as-is." >&2
   fi
@@ -128,8 +137,4 @@ while IFS= read -r _event; do
     "$umbriel_bin" msg "$restore_workspace" >/dev/null || true
   fi
 
-  # Exit after a successful arrangement so we don't leave a long-running listener around.
-  if [[ "$arranged" == true ]]; then
-    exit 0
-  fi
 done < <("$umbriel_bin" subscribe windows)
