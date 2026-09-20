@@ -868,15 +868,6 @@
                   default_focused = false;
                 }
 
-                {
-                  match = {
-                    app_id = "^steam_app_.*$";
-                    title = "^Battle\\.net$";
-                  };
-                  default_fullscreen = false;
-                  default_focused = false;
-                  default_floating = false;
-                }
                 # Steam games
                 {
                   match.app_id = "^steam_app_.*";
@@ -892,6 +883,18 @@
                   default_floating = true;
                   default_workspace = "11";
                   default_fullscreen = true;
+                }
+
+                # Battle.net (Steam-launched) should not follow the generic fullscreen game rule.
+                {
+                  match = {
+                    app_id = "^steam_app_.*$";
+                    title = "^Battle\\.net$";
+                  };
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
+                  default_floating = false;
                 }
                 # FFXIV
                 {
