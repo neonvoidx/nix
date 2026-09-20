@@ -870,7 +870,12 @@
 
                 # Steam games
                 {
-                  match.app_id = "^steam_app_.*";
+                  # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
+                  # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
+                  match = {
+                    app_id = "^steam_app_.*";
+                    title = ".+";
+                  };
                   default_workspace = "11";
                   default_fullscreen = true;
                   blur = false;
@@ -885,11 +890,11 @@
                   default_fullscreen = true;
                 }
 
-                # Battle.net (Steam-launched) should not follow the generic fullscreen game rule.
+                # Battle.net (Steam-launched) should open on workspace 10 and not fullscreen.
                 {
                   match = {
                     app_id = "^steam_app_.*$";
-                    title = "^Battle\\.net$";
+                    title = "^Battle\\.net.*";
                   };
                   default_workspace = "10";
                   default_fullscreen = false;
@@ -933,13 +938,6 @@
                   default_fullscreen = true;
                 }
 
-                # Battle.net
-                {
-                  match.title = "^Battle.net.*";
-                  default_focused = false;
-                  default_workspace = "11";
-                }
-
                 # Battle.net gifts
                 {
                   match = {
@@ -947,12 +945,18 @@
                     title = "Gifts";
                   };
                   default_floating = true;
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
                 }
 
                 # Battle.net whispers
                 {
                   match.title = "Battle.net.*Chats and Groups";
                   default_floating = true;
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
                 }
 
                 # Battle.net tray icon
@@ -973,14 +977,26 @@
 
                 # Battle.net
                 {
-                  match.app_id = "^battle.net.exe$";
+                  match = {
+                    app_id = "^battle[.]net[.]exe$";
+                    title = "^Battle\\.net.*";
+                  };
+                  default_workspace = "10";
+                  default_floating = true;
+                  default_fullscreen = false;
                   default_focused = false;
                 }
 
                 # Battle.net settings
                 {
-                  match.title = "Battle.net Settings";
+                  match = {
+                    app_id = "^(steam_app_.*|battle[.]net[.]exe)$";
+                    title = "Battle.net Settings";
+                  };
                   default_pinned = true;
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
                 }
 
                 # Thunderbird reminders
