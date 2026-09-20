@@ -431,8 +431,13 @@
                   action = "window-center";
                   repeat = false;
                 };
+                # Cycle focus across outputs instead of windows
                 "Alt+Tab" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-last-workspace.sh";
+                  action = "output-focus-next";
+                  repeat = false;
+                };
+                "Shift+Alt+Tab" = {
+                  action = "output-focus-previous";
                   repeat = false;
                 };
 
