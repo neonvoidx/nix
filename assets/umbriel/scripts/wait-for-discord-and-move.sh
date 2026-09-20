@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Keep Discord above Spotify when either main window opens on the portrait.
-# We do this in the master layout by promoting the stack window into master,
-# then sizing the two rows 75/25.
+# We don't rely on scrolling layout. Instead we force both windows into the
+# same master-layout area so they stack vertically, then size their rows 75/25.
 set -euo pipefail
 
 umbriel_bin="${UMBRIEL_BIN:-umbriel}"
@@ -26,7 +26,7 @@ source "$config_dir/layout.env"
 [[ -n "${UMBRIEL_PORTRAIT_OUT:-}" ]] || exit 0
 
 last_pair=""
-"$umbriel_bin" subscribe windows | while IFS= read -r _event; do
+while IFS= read -r _event; do
   # Query fresh state: our own actions can queue older subscription snapshots.
   workspaces="$("$umbriel_bin" workspaces --json)" || break
   ws_id="$(jq -r --arg out "$UMBRIEL_PORTRAIT_OUT" '
@@ -54,21 +54,82 @@ last_pair=""
 
   # Mark before acting so an action failure cannot loop on our own focus events.
   last_pair="$pair"
-  # Arrange the pair into master rows: Discord on top (75%), Spotify on bottom (25%).
-  if "$umbriel_bin" msg "window-focus:$discord_id" &&
-     "$umbriel_bin" msg layout-master-count-increase >/dev/null &&
-     "$umbriel_bin" msg window-move-up >/dev/null &&
-     "$umbriel_bin" msg "window-set-secondary-extent:0.75" >/dev/null &&
-     "$umbriel_bin" msg "window-focus:$spotify_id" &&
-     "$umbriel_bin" msg window-move-down >/dev/null &&
-     "$umbriel_bin" msg "window-set-secondary-extent:0.25" >/dev/null; then
-    :
+
+  # Ensure actions run against the portrait chat workspace.
+  # (Focusing a window by id may not always switch workspaces depending on focus policies.)
+  "$umbriel_bin" msg "workspace-switch:\"13\"/$UMBRIEL_PORTRAIT_OUT" >/dev/null || true
+  # If they're side-by-side (master+stack), move the leftmost window into the stack so the stack becomes full-width
+  # and both windows become vertical rows.
+  left_id=""
+
+  # Compute positions fresh (the subscription can be stale vs our actions).
+  windows_now="$("$umbriel_bin" windows --json)" || break
+  x_d="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows_now")"
+  x_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows_now")"
+  y_d="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .y // empty' <<<"$windows_now")"
+  y_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .y // empty' <<<"$windows_now")"
+
+  # If x differs a lot, they're arranged left/right (master+stack). Move the master window into the stack
+  # so the stack becomes full-width and the two windows become vertical rows.
+  if [[ -n "$x_d" && -n "$x_s" ]] && (( ${x_d%.*} - ${x_s%.*} > 80 || ${x_s%.*} - ${x_d%.*} > 80 )); then
+    w_d="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .w // empty' <<<"$windows_now")"
+    w_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .w // empty' <<<"$windows_now")"
+
+    if [[ -n "$w_d" && -n "$w_s" ]] && (( ${w_d%.*} < ${w_s%.*} )); then
+      # Right window is wider: treat it as master and move it into stack.
+      right_id="$discord_id"
+      if (( ${x_s%.*} > ${x_d%.*} )); then
+        right_id="$spotify_id"
+      fi
+      "$umbriel_bin" msg "window-focus:$right_id" >/dev/null || true
+      "$umbriel_bin" msg window-consume-left >/dev/null || true
+    else
+      # Default: left window is master (master.position = "left").
+      if (( ${x_d%.*} < ${x_s%.*} )); then
+        left_id="$discord_id"
+      else
+        left_id="$spotify_id"
+      fi
+      "$umbriel_bin" msg "window-focus:$left_id" >/dev/null || true
+      "$umbriel_bin" msg window-consume-right >/dev/null || true
+    fi
+
+    sleep 0.15
+  fi
+
+  # Re-query after a potential consume.
+  windows_now="$("$umbriel_bin" windows --json)" || break
+  x_d="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows_now")"
+  x_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .x // empty' <<<"$windows_now")"
+  y_d="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .y // empty' <<<"$windows_now")"
+  y_s="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .y // empty' <<<"$windows_now")"
+
+  # Order and size the rows when they're stacked (roughly same x).
+  arranged=false
+  if [[ -n "$x_d" && -n "$x_s" ]] && (( ${x_d%.*} - ${x_s%.*} < 80 && ${x_s%.*} - ${x_d%.*} < 80 )); then
+    # Ensure Discord is above Spotify.
+    if [[ -n "$y_d" && -n "$y_s" ]] && (( ${y_d%.*} > ${y_s%.*} )); then
+      "$umbriel_bin" msg "window-focus:$discord_id" >/dev/null || true
+      "$umbriel_bin" msg window-move-up >/dev/null || true
+    fi
+
+    "$umbriel_bin" msg "window-focus:$discord_id" >/dev/null || true
+    "$umbriel_bin" msg "window-set-secondary-extent:0.75" >/dev/null || true
+    "$umbriel_bin" msg "window-focus:$spotify_id" >/dev/null || true
+    "$umbriel_bin" msg "window-set-secondary-extent:0.25" >/dev/null || true
+
+    arranged=true
   else
-    echo "Could not arrange Discord/Spotify; retry on their next launch." >&2
+    echo "Discord/Spotify did not end up stacked; leaving as-is." >&2
   fi
   if [[ -n "$restore_id" ]]; then
     "$umbriel_bin" msg "window-focus:$restore_id" >/dev/null || true
   elif [[ -n "$restore_workspace" ]]; then
     "$umbriel_bin" msg "$restore_workspace" >/dev/null || true
   fi
-done
+
+  # Exit after a successful arrangement so we don't leave a long-running listener around.
+  if [[ "$arranged" == true ]]; then
+    exit 0
+  fi
+done < <("$umbriel_bin" subscribe windows)
