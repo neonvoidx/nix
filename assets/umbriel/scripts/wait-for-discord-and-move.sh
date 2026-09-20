@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Keep Discord above Spotify when either main window opens on the portrait.
-# Window rules supply the initial 75/25 lane heights. Reapply both on a new
-# pair, then leave manual resizing alone until a window is replaced.
+# We do this in the master layout by promoting the stack window into master,
+# then sizing the two rows 75/25.
 set -euo pipefail
 
 umbriel_bin="${UMBRIEL_BIN:-umbriel}"
@@ -30,7 +30,7 @@ last_pair=""
   # Query fresh state: our own actions can queue older subscription snapshots.
   workspaces="$("$umbriel_bin" workspaces --json)" || break
   ws_id="$(jq -r --arg out "$UMBRIEL_PORTRAIT_OUT" '
-    .[] | select(.name == "13" and .output == $out and .layout == "scrolling") | .id
+    .[] | select(.name == "13" and .output == $out) | .id
   ' <<<"$workspaces")"
   [[ -n "$ws_id" ]] || continue
   windows="$("$umbriel_bin" windows --json)" || break
@@ -54,12 +54,14 @@ last_pair=""
 
   # Mark before acting so an action failure cannot loop on our own focus events.
   last_pair="$pair"
-  # Ensure both Discord and Spotify live in the master area and split top/bottom 75/25
-  "$umbriel_bin" msg layout-master-count-increase >/dev/null 2>&1 || true
+  # Arrange the pair into master rows: Discord on top (75%), Spotify on bottom (25%).
   if "$umbriel_bin" msg "window-focus:$discord_id" &&
-     "$umbriel_bin" msg window-set-secondary-extent:0.75 &&
+     "$umbriel_bin" msg layout-master-count-increase >/dev/null &&
+     "$umbriel_bin" msg window-move-up >/dev/null &&
+     "$umbriel_bin" msg "window-set-secondary-extent:0.75" >/dev/null &&
      "$umbriel_bin" msg "window-focus:$spotify_id" &&
-     "$umbriel_bin" msg window-set-secondary-extent:0.25; then
+     "$umbriel_bin" msg window-move-down >/dev/null &&
+     "$umbriel_bin" msg "window-set-secondary-extent:0.25" >/dev/null; then
     :
   else
     echo "Could not arrange Discord/Spotify; retry on their next launch." >&2

@@ -50,7 +50,7 @@
             mon:
             let
               # Determine workspace axis from monitor rotation (portrait vs landscape)
-              # Use transform to detect rotated monitors (90°/270° only => vertical)
+              # Use transform to detect rotated monitors (90°/270° only => vertical).
               axis =
                 if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "vertical" else "horizontal";
             in
@@ -340,6 +340,16 @@
               };
 
               overview.zoom = 0.5;
+
+              workspace = lib.optionals (portraitName != "" && isMultiMonitor) [
+                {
+                  output = portraitName;
+                  name = "13";
+                  layout = {
+                    mode = "master";
+                  };
+                }
+              ];
 
               scratchpad = [ { name = "streamcontroller"; } ];
 
@@ -752,23 +762,35 @@
                 }
 
                 # Discord main window
-                {
-                  match = {
-                    app_id = "^discord$";
-                    title = "^(?!Discord Popout$).*";
-                  };
-                  default_workspace = "13";
-                  default_focused = false;
-                }
+                (
+                  {
+                    match = {
+                      app_id = "^discord$";
+                      title = "^(?!Discord Popout$).*";
+                    };
+                    default_workspace = "13";
+                    default_focused = false;
+                  }
+                  // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
+                    default_output = portraitName;
+                  }
+                )
 
                 # Discord popout
-                {
-                  match = {
-                    app_id = "^discord$";
-                    title = "Discord Popout";
-                  };
-                  default_focused = false;
-                }
+                (
+                  {
+                    match = {
+                      app_id = "^discord$";
+                      title = "Discord Popout";
+                    };
+                    # Streams/popout windows shouldn't take over the portrait chat workspace.
+                    default_workspace = "2";
+                    default_focused = false;
+                  }
+                  // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                    default_output = secondaryName;
+                  }
+                )
 
                 # StreamController
                 {
@@ -780,13 +802,11 @@
                 (
                   {
                     match.app_id = "^spotify$";
-                    default_workspace = "1";
+                    default_workspace = if (isMultiMonitor && portraitName != "") then "13" else "1";
                     default_focused = false;
-                    default_scrolling_column_order = 1;
                   }
                   // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
                     default_output = portraitName;
-                    default_scrolling_extent = 0.25;
                   }
                 )
               ]
@@ -914,6 +934,7 @@
                 {
                   match.title = "^Battle.net.*";
                   default_focused = false;
+                  default_workspace = "11";
                 }
 
                 # Battle.net gifts
