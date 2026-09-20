@@ -67,8 +67,14 @@
       systemd.user.services.xembsni = {
         Unit = {
           Description = "XEmbed to StatusNotifierItem tray bridge";
-          PartOf = "graphical-session.target";
-          After = "graphical-session.target";
+          PartOf = [
+            "hyprland-session.target"
+            "umbriel-session.target"
+          ];
+          After = [
+            "hyprland-session.target"
+            "umbriel-session.target"
+          ];
         };
         Service = {
           Type = "simple";
@@ -78,7 +84,10 @@
           Environment = "RUST_LOG=info";
         };
         Install = {
-          WantedBy = [ "graphical-session.target" ];
+          WantedBy = [
+            "hyprland-session.target"
+            "umbriel-session.target"
+          ];
         };
       };
     };

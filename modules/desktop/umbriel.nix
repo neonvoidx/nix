@@ -899,7 +899,6 @@
                   default_workspace = "10";
                   default_fullscreen = false;
                   default_focused = false;
-                  default_floating = false;
                 }
                 # FFXIV
                 {
@@ -953,6 +952,15 @@
                 # Battle.net whispers
                 {
                   match.title = "Battle.net.*Chats and Groups";
+                  default_floating = true;
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
+                }
+                #Bnet avatar
+                {
+                  match.title = "Select an Avatar";
+                  match.app_id = "^steam_app_.*$";
                   default_floating = true;
                   default_workspace = "10";
                   default_fullscreen = false;
