@@ -900,6 +900,16 @@
                   default_fullscreen = false;
                   default_focused = false;
                 }
+                # Battle.net wayland enabled
+                {
+                  match = {
+                    app_id = "^battle.net.exe.*$";
+                    title = "^Battle\\.net.*";
+                  };
+                  default_workspace = "10";
+                  default_fullscreen = false;
+                  default_focused = false;
+                }
                 # FFXIV
                 {
                   match.title = "FINAL FANTASY XIV";
@@ -990,7 +1000,6 @@
                     title = "^Battle\\.net.*";
                   };
                   default_workspace = "10";
-                  default_floating = true;
                   default_fullscreen = false;
                   default_focused = false;
                 }
