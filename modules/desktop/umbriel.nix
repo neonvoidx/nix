@@ -49,25 +49,29 @@
             }
             .${toString t} or "normal";
 
-           mkOutput = mon:
-             let
-               # Determine workspace axis from monitor rotation (portrait vs landscape)
-               # Use transform to detect rotated monitors (90°/270° only => vertical)
-                axis = if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "vertical" else "horizontal";
-             in
-             { enabled = true; scale = mon.scale or 1.0;
-               vrr = if (mon.vrr or 0) == 1 then "always" else "disabled";
-               workspace_axis = axis;
-               inherit (mon) mode;
-               position = mkPosition mon.position;
-             }
-             // lib.optionalAttrs (mon ? transform) {
-               transform = transformToString mon.transform;
-             }
-             // lib.optionalAttrs (mon.supports_hdr or false) {
-               hdr = "on";
-               sdr_white = builtins.floor ((mon.sdrbrightness or 0.5) * (mon.sdr_max_luminance or 400));
-             };
+          mkOutput =
+            mon:
+            let
+              # Determine workspace axis from monitor rotation (portrait vs landscape)
+              # Use transform to detect rotated monitors (90°/270° only => vertical)
+              axis =
+                if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "vertical" else "horizontal";
+            in
+            {
+              enabled = true;
+              scale = mon.scale or 1.0;
+              vrr = if (mon.vrr or 0) == 1 then "always" else "disabled";
+              workspace_axis = axis;
+              inherit (mon) mode;
+              position = mkPosition mon.position;
+            }
+            // lib.optionalAttrs (mon ? transform) {
+              transform = transformToString mon.transform;
+            }
+            // lib.optionalAttrs (mon.supports_hdr or false) {
+              hdr = "on";
+              sdr_white = builtins.floor ((mon.sdrbrightness or 0.5) * (mon.sdr_max_luminance or 400));
+            };
 
           # Gaming monitors (main/secondary ultrawides): allow tearing and
           # direct scanout for lower input lag.
@@ -745,12 +749,15 @@
                   focus_on_activate = false;
                 }
 
-                   # Discord main window
-                   {
-                     match = { app_id = "^discord$"; title = "^(?!Discord Popout$).*"; };
-                     default_workspace = "13";
-                     default_focused = false;
-                   }
+                # Discord main window
+                {
+                  match = {
+                    app_id = "^discord$";
+                    title = "^(?!Discord Popout$).*";
+                  };
+                  default_workspace = "13";
+                  default_focused = false;
+                }
 
                 # Discord popout
                 {
@@ -802,12 +809,12 @@
                   default_fullscreen = true;
                 }
 
-                   # Steam helper webpages
-                   {
-                     match.title = "Steamwebhelper";
-                     default_workspace = "10";
-                     default_focused = false;
-                   }
+                # Steam helper webpages
+                {
+                  match.title = "Steamwebhelper";
+                  default_workspace = "10";
+                  default_focused = false;
+                }
 
                 # Steam notification toasts
                 {
@@ -839,10 +846,9 @@
                   default_focused = false;
                 }
 
-                # Steam Battle.net exception: prevent fullscreen for Battle.net launched as steam_app_3083450823
                 {
                   match = {
-                    app_id = "^steam_app_3083450823$";
+                    app_id = "^steam_app_.*$";
                     title = "^Battle\\.net$";
                   };
                   default_fullscreen = false;
@@ -851,7 +857,7 @@
                 }
                 # Steam games
                 {
-                  match.app_id = "^steam_app_.*$";
+                  match.app_id = "^steam_app_.*(?:\\.desktop)?$";
                   default_workspace = "11";
                   default_fullscreen = true;
                 }
