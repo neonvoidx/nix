@@ -21,8 +21,6 @@
           # Keep in mind home manager actually picks up nix level pins
           # we user @overlays.nix to auto import these pins
           pins = {
-            # TODO until https://github.com/cachix/devenv/issues/3183
-            devenv = "2.2.2";
           };
         };
       };
