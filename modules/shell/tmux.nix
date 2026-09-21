@@ -25,7 +25,7 @@
         # does not provide. Inside a real tmux pane use it for a nested popup;
         # in the prefix+o display-popup fzf already has a tty (do not nest).
         if [ -n "''${TMUX:-}" ] && [ -z "''${SESH_IN_POPUP:-}" ]; then
-          selection="$($sesh list --icons | $fzfTmux -p 80%,70% \
+          if ! selection="$($sesh list --icons | $fzfTmux -p 80%,70% \
             --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
             --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
             --bind 'tab:down,btab:up' \
@@ -36,9 +36,11 @@
             --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
             --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
             --preview-window 'right:55%' \
-            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"
+            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"; then
+            exit 0
+          fi
         else
-          selection="$($sesh list --icons | $fzf --ansi \
+          if ! selection="$($sesh list --icons | $fzf --ansi \
             --no-sort --border-label ' sesh ' --prompt '⚡  ' \
             --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
             --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
@@ -48,7 +50,9 @@
             --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
             --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
             --preview-window 'right:55%' \
-            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"
+            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"; then
+            exit 0
+          fi
         fi
 
         # sesh connect re-resolves the target live. In a tmux pane ($TMUX set)
@@ -70,9 +74,13 @@
         fzfTmux=${pkgs.fzf}/bin/fzf-tmux
 
         if [ -n "''${TMUX:-}" ] && [ -z "''${SESH_IN_POPUP:-}" ]; then
-          selection="$($sesh window list | $fzfTmux -p 60%,50% --prompt '🪟  ')"
+          if ! selection="$($sesh window list | $fzfTmux -p 60%,50% --prompt '🪟  ')"; then
+            exit 0
+          fi
         else
-          selection="$($sesh window list | $fzf --ansi --border-label ' windows ' --prompt '🪟  ')"
+          if ! selection="$($sesh window list | $fzf --ansi --border-label ' windows ' --prompt '🪟  ')"; then
+            exit 0
+          fi
         fi
         [ -n "$selection" ] && $sesh window connect "$selection"
       '';
@@ -289,9 +297,9 @@
         };
 
         zsh.initContent = lib.mkAfter /* bash */ ''
-          # Offer the session picker on shell start, but only outside tmux:
-          # inside tmux, prefix+o / `s` already cover it.
-          if [ -z "$TMUX" ]; then
+          # Offer the session picker only in an ordinary shell. devenv creates
+          # an interactive subshell while activating its project environment.
+          if [ -z "''${TMUX:-}" ] && [ -z "''${DEVENV_ROOT:-}" ]; then
             s
           fi
         '';
