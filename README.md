@@ -68,6 +68,7 @@ Monitors are defined as structured objects with per-output attributes (`name`, `
 - **Noctalia Shell** — Quickshell bar, launcher, lock screen
 - **nvim** — Neovim config from `neonvoidx/nvim` via flake input
 - **nh flake apps** — `nix run .#void` / `nix run .#voidframe` for building with nh
+- **Tmux + sesh** — one picker (`s`, prefix+o via `display-popup`, shell start) listing all sources; resurrection saves run from a systemd timer, not continuum
 - **Conditional Includes** — aspects gated by `host.isGaming or false` via `lib.optionals`
 
 > **AI Agents:** See [`AGENTS.md`](./AGENTS.md) for detailed context when working with this flake.

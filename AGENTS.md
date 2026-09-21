@@ -473,6 +473,19 @@ On portrait workspace 13, each application occupies a separate full-width scroll
 
 ---
 
+## Tmux & Sesh Pickers
+
+`modules/shell/tmux.nix` owns tmux config, the sesh picker scripts, and two systemd user units. Key mechanics for anyone touching this:
+
+- **One picker script, three entry points.** `~/.local/bin/sesh-fast` (a `home.file` symlink to a `writeShellScript`) is the single picker used by the shell-start prompt (`s`, outside tmux only), the `s` alias inside a real pane, and the prefix+o binding. `sesh list --icons` (all sources) is the default; the ctrl-a/t/g/x/f/d rebinds switch views.
+- **tmux needs a real tty.** `run-shell` has no tty and no `$TMUX_PANE`, so fzf dies. prefix+o is `bind o display-popup -E -w 80% -h 70% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast'` — the popup provides its own pty. `SESH_IN_POPUP=1` makes the script use plain fzf instead of spawning a nested `fzf-tmux` popup.
+- **A display-popup has no `$TMUX`** (only `TMUX_PANE`), so inside a popup the script runs `sesh connect --switch` (sesh's "triggered outside the terminal" mode). With `$TMUX` set it relies on sesh's built-in client switch; from a bare terminal it attaches.
+- **Phantom `0` sessions.** `programs.tmux.newSession` is `false` so tmux never spawns `new-session -A -s 0`; a stale resurrect save had previously re-created a junk `0` session plus stale windows on every server start. The running sesh cache also goes stale, so `session-created` / `session-closed` hooks run `sesh cache refresh` (store path).
+- **Resurrection saves run from systemd, not continuum.** Continuum's in-server loop stalled (near-zero save activity), so `tmux-resurrect-save.service` + `timer` (every 10 min) run resurrect's `scripts/save.sh` against the default socket. To force a save: `systemctl --user start tmux-resurrect-save`.
+- **Session bootstrap** is `tmux-default-sessions.service` (creates `home` + `nix`, kills an unattached leftover `0`). Validate changes with `nix flake check` / `nix-agent_check`.
+
+---
+
 ## Noctalia TOML → Nix Conversion
 
 When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export, follow these rules:

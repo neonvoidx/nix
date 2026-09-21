@@ -10,11 +10,22 @@
     let
       c = config.lib.stylix.colors;
       nvim = inputs.nvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      # One picker for every entry point: the prefix+o display-popup
+      # (SESH_IN_POPUP), `s` inside a real tmux pane, and shell start outside
+      # tmux. `sesh list` defaults to all sources (tmux, configs, tmuxinator,
+      # zoxide) so a fresh dir is always offered alongside existing sessions.
       seshFast = pkgs.writeShellScript "sesh-fast" ''
         set -eu
 
-        if [ -n "''${TMUX:-}" ]; then
-          selection="$(${config.programs.sesh.package}/bin/sesh list -t --icons | ${pkgs.fzf}/bin/fzf-tmux -p 80%,70% \
+        sesh=${config.programs.sesh.package}/bin/sesh
+        fzf=${pkgs.fzf}/bin/fzf
+        fzfTmux=${pkgs.fzf}/bin/fzf-tmux
+
+        # fzf-tmux opens its own popup and needs a real tty, which run-shell
+        # does not provide. Inside a real tmux pane use it for a nested popup;
+        # in the prefix+o display-popup fzf already has a tty (do not nest).
+        if [ -n "''${TMUX:-}" ] && [ -z "''${SESH_IN_POPUP:-}" ]; then
+          selection="$($sesh list --icons | $fzfTmux -p 80%,70% \
             --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
             --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
             --bind 'tab:down,btab:up' \
@@ -23,20 +34,47 @@
             --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)' \
             --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)' \
             --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
-            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
+            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
             --preview-window 'right:55%' \
             --preview '${config.programs.sesh.package}/bin/sesh preview {}')"
         else
-          selection="$(${config.programs.sesh.package}/bin/sesh list -t --icons | ${pkgs.fzf}/bin/fzf --ansi)"
+          selection="$($sesh list --icons | $fzf --ansi \
+            --no-sort --border-label ' sesh ' --prompt '⚡  ' \
+            --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
+            --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
+            --bind 'ctrl-t:change-prompt(🪟  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
+            --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)' \
+            --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)' \
+            --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
+            --preview-window 'right:55%' \
+            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"
         fi
 
-        [ -n "$selection" ] && exec ${config.programs.sesh.package}/bin/sesh connect "$selection"
+        # sesh connect re-resolves the target live. In a tmux pane ($TMUX set)
+        # sesh switches the client itself; a display-popup has no $TMUX, so it
+        # must be told to switch explicitly, otherwise it would try to attach.
+        if [ -n "$selection" ]; then
+          if [ -n "''${SESH_IN_POPUP:-}" ]; then
+            $sesh connect --switch "$selection"
+          else
+            $sesh connect "$selection"
+          fi
+        fi
       '';
       seshFastWindow = pkgs.writeShellScript "sesh-fast-window" ''
         set -eu
 
-        selection="$(${config.programs.sesh.package}/bin/sesh window list | ${pkgs.fzf}/bin/fzf-tmux -p 60%,50% --prompt '🪟  ')"
-        [ -n "$selection" ] && exec ${config.programs.sesh.package}/bin/sesh window connect "$selection"
+        sesh=${config.programs.sesh.package}/bin/sesh
+        fzf=${pkgs.fzf}/bin/fzf
+        fzfTmux=${pkgs.fzf}/bin/fzf-tmux
+
+        if [ -n "''${TMUX:-}" ] && [ -z "''${SESH_IN_POPUP:-}" ]; then
+          selection="$($sesh window list | $fzfTmux -p 60%,50% --prompt '🪟  ')"
+        else
+          selection="$($sesh window list | $fzf --ansi --border-label ' windows ' --prompt '🪟  ')"
+        fi
+        [ -n "$selection" ] && $sesh window connect "$selection"
       '';
     in
     {
@@ -56,8 +94,11 @@
           customPaneNavigationAndResize = false;
           mouse = true;
           baseIndex = 1;
-          newSession = true;
           escapeTime = 0;
+          # Do not auto-spawn `new-session -A -s 0`. That line recreated a
+          # phantom "0" session after every restore, which a stale resurrect
+          # save then re-saved. The user service owns session bootstrapping.
+          newSession = false;
           terminal = "tmux-256color";
           shell = "${pkgs.zsh}/bin/zsh";
           historyLimit = 10000;
@@ -90,6 +131,11 @@
           extraConfig = ''
             # Preserve Hyprland and Umbriel sockets on reattach
             set -ga update-environment "HYPRLAND_INSTANCE_SIGNATURE UMBRIEL_MAIN_OUT UMBRIEL_SECONDARY_OUT UMBRIEL_PORTRAIT_OUT"
+
+            # sesh caches its session list; refresh it whenever sessions are
+            # created or killed outside sesh so the picker stays accurate.
+            set-hook -g session-created 'run-shell -b "${config.programs.sesh.package}/bin/sesh cache refresh"'
+            set-hook -g session-closed 'run-shell -b "${config.programs.sesh.package}/bin/sesh cache refresh"'
 
             # Allow OSC52 passthrough so apps inside tmux (e.g. lazygit) can
             # reach the outer terminal's clipboard.
@@ -188,11 +234,12 @@
             # Keep tmux's last-session behavior stable even after sessions are closed.
             bind -N "last-session (via sesh)" O run-shell "sesh last"
 
-            # Fast sesh picker from tmux.
-            bind -N "sesh picker" o run-shell -b '~/.local/bin/sesh-fast'
+            # Fast sesh picker. run-shell has no tty, which breaks fzf, so run
+            # the picker inside a display-popup (its own pty) and close on exit.
+            bind -N "sesh picker" o display-popup -E -w 80% -h 70% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast'
 
             # Window picker via sesh.
-            bind -N "sesh window picker" W run-shell -b '~/.local/bin/sesh-fast-window'
+            bind -N "sesh window picker" W display-popup -E -w 70% -h 60% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast-window'
 
             # Session management
             bind t command-prompt -I '#S' 'rename-session -- "%%"'
@@ -242,9 +289,10 @@
         };
 
         zsh.initContent = lib.mkAfter /* bash */ ''
-          # If inside tmux session ignore
+          # Offer the session picker on shell start, but only outside tmux:
+          # inside tmux, prefix+o / `s` already cover it.
           if [ -z "$TMUX" ]; then
-            sesh connect $(sesh list --icons | fzf --ansi)
+            s
           fi
         '';
       };
@@ -278,6 +326,37 @@
         };
         Install = {
           WantedBy = [ "default.target" ];
+        };
+      };
+
+      # Continuum's in-server save loop stalls after long uptime (see stale
+      # ~/.tmux/resurrect saves), so drive resurrection snapshots from systemd
+      # instead. Runs the plugin's own save.sh against the user's default socket.
+      systemd.user.services."tmux-resurrect-save" = {
+        Unit = {
+          Description = "Save tmux state for resurrect";
+        };
+        Service = {
+          Type = "oneshot";
+          Environment = [ "TMUX_TMPDIR=%t" ];
+          ExecStart = [
+            (pkgs.writeShellScript "tmux-resurrect-save" ''
+              ${pkgs.tmux}/bin/tmux has-session 2>/dev/null || exit 0
+              ${pkgs.tmux}/bin/tmux run-shell -d "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh"
+            '')
+          ];
+        };
+      };
+      systemd.user.timers."tmux-resurrect-save" = {
+        Unit = {
+          Description = "Periodically save tmux state for resurrect";
+        };
+        Timer = {
+          OnCalendar = "*:5/10";
+          Persistent = true;
+        };
+        Install = {
+          WantedBy = [ "timers.target" ];
         };
       };
     };
