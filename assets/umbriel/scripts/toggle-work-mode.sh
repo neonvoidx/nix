@@ -7,12 +7,15 @@
 # the rest of the session. A later home-manager switch restores the store
 # symlink (desktop mode).
 #
-# Umbriel workspaces are per-output. Desktop mode statically binds workspaces
-# 1,3-11 to the main output and 2,12 to the secondary. Work mode reassigns
-# 1-12 to the secondary and disables the main output. Umbriel moves the main
-# output's windows to the secondary when it disables; this script spreads them
-# onto the matching numbered workspaces on the way in and moves them back on
-# the way out.
+# Landscape outputs run dynamic workspaces. A few workspaces are named and
+# pinned to outputs, and because names are output-local the mode configs
+# re-scope them: STEAM/GAME follow the mode's gaming output (main in desktop
+# mode, secondary in work mode), MAIL always lives on the secondary, and
+# MEDIA on the portrait. Entering work mode disables the main output, so this
+# script moves the STEAM/GAME windows across by name and dumps the remaining
+# (anonymous) main-output windows onto the secondary's active workspace.
+# Leaving work mode moves STEAM/GAME back to the main output. MAIL and
+# anonymous windows are left where they are.
 set -euo pipefail
 
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/umbriel"
@@ -32,8 +35,8 @@ running() {
     [[ -S "${XDG_RUNTIME_DIR:-}/umbriel-${WAYLAND_DISPLAY:-}.sock" ]]
 }
 
-# Load before taking the snapshot, which needs the monitor names and the
-# main output's workspace inventory.
+# Load before taking the snapshot, which needs the monitor names and the list
+# of workspaces that follow the gaming output between modes.
 if [[ -f "$LAYOUT_ENV" ]]; then
   # shellcheck source=/dev/null
   source "$LAYOUT_ENV"
@@ -83,7 +86,7 @@ esac
 
 main_out="${UMBRIEL_MAIN_OUT:-}"
 secondary_out="${UMBRIEL_SECONDARY_OUT:-}"
-main_workspaces="${UMBRIEL_MAIN_WORKSPACES:-}"
+named_workspaces="${UMBRIEL_NAMED_WORKSPACES:-}"
 
 in_list() {
   local needle="$1" haystack="$2"
@@ -176,39 +179,61 @@ wait_for_outputs() {
   return 1
 }
 
-# Move one window to a workspace on another output. Returns non-zero if the
-# destination output is gone or the move is rejected.
+# Index of the secondary output's focused workspace, so anonymous windows can
+# be dropped onto a real workspace rather than a named one.
+active_workspace_index() {
+  local out="$1"
+  local wss index
+  wss="$("$umbriel_bin" workspaces --json 2>/dev/null || true)"
+  [[ -n "$wss" ]] || return 1
+  index="$(
+    jq -r --arg out "$out" '
+      [ .[] | select(.output == $out) ] as $w |
+      ( ( $w | map(select(.focused // false)) | .[0] ) // ( $w | .[0] ) ) | .index // empty
+    ' <<<"$wss" 2>/dev/null || true
+  )"
+  [[ -n "$index" ]] || return 1
+  printf '%s\n' "$index"
+}
+
+# Move one window to a workspace selector (bare position or "NAME"/OUTPUT).
+# Returns non-zero if the destination is gone or the move is rejected.
 move_window() {
-  local wid="$1" wname="$2" dest="$3"
-  [[ -n "$dest" ]] || return 1
+  local wid="$1" selector="$2"
+  [[ -n "$selector" ]] || return 1
   "$umbriel_bin" msg "window-focus:$wid" >/dev/null 2>&1 &&
-    "$umbriel_bin" msg "window-move-to-workspace:\"$wname\"/$dest" >/dev/null 2>&1
+    "$umbriel_bin" msg "window-move-to-workspace:$selector" >/dev/null 2>&1
 }
 
 moved=0
-if [[ "$mode" == "work" ]]; then
-  # Main output disabled: its windows now sit on the secondary output. Spread
-  # them onto the workspace of the same name so the numbers stay usable.
-  wait_for_outputs false true >/dev/null 2>&1 || true
-  if [[ -n "$snapshot" && -n "$secondary_out" ]]; then
+if [[ -n "$main_out" && -n "$secondary_out" && -n "$snapshot" ]]; then
+  if [[ "$mode" == "work" ]]; then
+    # Main output disabled: move its windows to the secondary. STEAM/GAME go
+    # to the same-named workspace; anonymous windows go to the secondary's
+    # active workspace.
+    wait_for_outputs false true >/dev/null 2>&1 || true
+    anon_pos="$(active_workspace_index "$secondary_out" || true)"
+    anon_pos="${anon_pos:-1}"
     while IFS=$'\t' read -r wid wname wout; do
       [[ -n "$wid" && -n "$wname" ]] || continue
       [[ "$wout" == "$main_out" ]] || continue
-      if move_window "$wid" "$wname" "$secondary_out"; then
+      if in_list "$wname" "$named_workspaces"; then
+        if move_window "$wid" "\"$wname\"/$secondary_out"; then
+          moved=$((moved + 1))
+        fi
+      elif move_window "$wid" "$anon_pos/$secondary_out"; then
         moved=$((moved + 1))
       fi
     done <<<"$snapshot"
-  fi
-else
-  # Main output re-enabled: bring back the windows whose numbered workspace
-  # belongs to it. The secondary's own workspaces (2,12) stay where they are.
-  wait_for_outputs true true >/dev/null 2>&1 || true
-  if [[ -n "$snapshot" && -n "$main_out" ]]; then
+  else
+    # Main output re-enabled: bring the named workspaces back. MAIL and
+    # anonymous windows stay on the secondary.
+    wait_for_outputs true true >/dev/null 2>&1 || true
     while IFS=$'\t' read -r wid wname wout; do
       [[ -n "$wid" && -n "$wname" ]] || continue
       [[ "$wout" == "$secondary_out" ]] || continue
-      in_list "$wname" "$main_workspaces" || continue
-      if move_window "$wid" "$wname" "$main_out"; then
+      in_list "$wname" "$named_workspaces" || continue
+      if move_window "$wid" "\"$wname\"/$main_out"; then
         moved=$((moved + 1))
       fi
     done <<<"$snapshot"

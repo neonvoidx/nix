@@ -83,78 +83,79 @@
           tomlFormat = pkgs.formats.toml { };
 
           # ------------------------------------------------------------------
-          # Desktop-mode and work-mode workspace layouts (static named)
+          # Workspace model: dynamic landscape workspaces plus a handful of
+          # persistent named workspaces.
           # ------------------------------------------------------------------
-          # Desktop binds the numbered workspaces to the landscape outputs,
-          # Hyprland-style: the main output owns 1,3-11 and the secondary owns
-          # 2,12. Work mode reassigns 1-12 to the secondary and disables the
-          # main output.
-          mainWorkspaces = [
-            "1"
-            "3"
-            "4"
-            "5"
-            "6"
-            "7"
-            "8"
-            "9"
-            "10"
-            "11"
-          ];
-          workWorkspaces = [
-            "1"
-            "2"
-            "3"
-            "4"
-            "5"
-            "6"
-            "7"
-            "8"
-            "9"
-            "10"
-            "11"
-            "12"
-          ];
+          # Landscape outputs run dynamic (anonymous) workspaces: bare digits
+          # select a position on the output under the pointer. A few named
+          # workspaces are pinned to outputs, and because names are
+          # output-local the names are re-scoped per mode: STEAM/GAME follow
+          # the mode's gaming output, MAIL always lives on the secondary, and
+          # MEDIA on the portrait. Single-monitor hosts stay purely dynamic.
+          steamWs = "STEAM";
+          gameWs = "GAME";
+          mailWs = "MAIL";
+          mediaWs = "MEDIA";
+
+          # Window-rule pin: the named workspace on a multi-monitor host,
+          # otherwise the first dynamic position so single-monitor hosts never
+          # reference an undefined workspace name.
+          ws = name: if isMultiMonitor then name else 1;
+
+          mkNamedWorkspace =
+            name: output: { inherit name; } // lib.optionalAttrs (output != "") { inherit output; };
+
+          desktopNamedWorkspaces = lib.optionals isMultiMonitor (
+            lib.optionals (mainName != "") [
+              (mkNamedWorkspace steamWs mainName)
+              (mkNamedWorkspace gameWs mainName)
+            ]
+            ++ lib.optionals (secondaryName != "") [
+              (mkNamedWorkspace mailWs secondaryName)
+            ]
+            ++ lib.optionals (portraitName != "") [
+              (mkNamedWorkspace mediaWs portraitName)
+            ]
+          );
+
+          workNamedWorkspaces = lib.optionals isMultiMonitor (
+            lib.optionals (secondaryName != "") [
+              (mkNamedWorkspace steamWs secondaryName)
+              (mkNamedWorkspace gameWs secondaryName)
+              (mkNamedWorkspace mailWs secondaryName)
+            ]
+            ++ lib.optionals (portraitName != "") [
+              (mkNamedWorkspace mediaWs portraitName)
+            ]
+          );
 
           desktopOutput =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
               "${mainName}" = (mkGamingOutput mainMon) // {
-                workspaces = mainWorkspaces;
                 enabled = true;
               };
             }
             // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
               "${secondaryName}" = (mkGamingOutput secondaryMon) // {
-                workspaces = [
-                  "2"
-                  "12"
-                ];
                 enabled = true;
               };
             }
             // lib.optionalAttrs (portraitName != "" && isMultiMonitor) {
               "${portraitName}" = (mkOutput portraitMon) // {
-                workspaces = [ "13" ];
                 enabled = true;
                 workspace_axis = "vertical";
               };
             };
 
-          # Work mode: same layout with the main output disabled and every
-          # numbered workspace reassigned to the secondary. Umbriel moves the
-          # main output's windows to the secondary when it disables; the
-          # toggle script spreads them onto the matching numbered workspaces.
+          # Work mode: same layout with the main output disabled. Named
+          # workspaces are re-scoped to the secondary, and toggle-work-mode.sh
+          # migrates the STEAM/GAME windows across by name.
           workOutput =
             desktopOutput
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
               "${mainName}" = desktopOutput."${mainName}" // {
                 enabled = false;
-              };
-            }
-            // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
-              "${secondaryName}" = desktopOutput."${secondaryName}" // {
-                workspaces = workWorkspaces;
               };
             };
 
@@ -162,7 +163,8 @@
             UMBRIEL_MAIN_OUT='${mainName}'
             UMBRIEL_SECONDARY_OUT='${secondaryName}'
             UMBRIEL_PORTRAIT_OUT='${portraitName}'
-            UMBRIEL_MAIN_WORKSPACES='${lib.concatStringsSep " " mainWorkspaces}'
+            UMBRIEL_NAMED_WORKSPACES='${steamWs} ${gameWs}'
+            UMBRIEL_PORTRAIT_WORKSPACE='${mediaWs}'
           '';
         in
         {
@@ -351,15 +353,7 @@
 
               overview.zoom = 0.5;
 
-              workspace = lib.optionals (portraitName != "" && isMultiMonitor) [
-                {
-                  output = portraitName;
-                  name = "13";
-                  layout = {
-                    mode = "master";
-                  };
-                }
-              ];
+              workspace = desktopNamedWorkspaces;
 
               scratchpad = [ { name = "streamcontroller"; } ];
 
@@ -371,19 +365,6 @@
                 };
 
                 # Applications
-                # Jump directly to fixed workspaces
-                "Mod+S" = {
-                  action = "workspace-switch:\"10\"";
-                  repeat = false;
-                };
-                "Mod+G" = {
-                  action = "workspace-switch:\"11\"";
-                  repeat = false;
-                };
-                "Mod+T" = {
-                  action = "workspace-switch:\"12\"";
-                  repeat = false;
-                };
                 "Mod+Return" = {
                   action = "spawn:kitty";
                   repeat = false;
@@ -497,111 +478,129 @@
                   repeat = true;
                 };
 
-                # Workspaces
+                # Workspaces: bare digits select a position on the output
+                # under the pointer.
                 "Mod+1" = {
-                  action = "workspace-switch:\"1\"";
+                  action = "workspace-switch:1";
                   repeat = false;
                 };
                 "Mod+2" = {
-                  action = "workspace-switch:\"2\"";
+                  action = "workspace-switch:2";
                   repeat = false;
                 };
                 "Mod+3" = {
-                  action = "workspace-switch:\"3\"";
+                  action = "workspace-switch:3";
                   repeat = false;
                 };
                 "Mod+4" = {
-                  action = "workspace-switch:\"4\"";
+                  action = "workspace-switch:4";
                   repeat = false;
                 };
                 "Mod+5" = {
-                  action = "workspace-switch:\"5\"";
+                  action = "workspace-switch:5";
                   repeat = false;
                 };
                 "Mod+6" = {
-                  action = "workspace-switch:\"6\"";
+                  action = "workspace-switch:6";
                   repeat = false;
                 };
                 "Mod+7" = {
-                  action = "workspace-switch:\"7\"";
+                  action = "workspace-switch:7";
                   repeat = false;
                 };
                 "Mod+8" = {
-                  action = "workspace-switch:\"8\"";
+                  action = "workspace-switch:8";
                   repeat = false;
                 };
                 "Mod+9" = {
-                  action = "workspace-switch:\"9\"";
+                  action = "workspace-switch:9";
                   repeat = false;
                 };
                 "Mod+0" = {
-                  action = "workspace-switch:\"10\"";
+                  action = "workspace-switch:10";
                   repeat = false;
                 };
-                # Jump to portrait workspace 13
-                "Mod+D" = {
-                  action = "workspace-switch:\"13\"";
-                  repeat = false;
-                };
-
                 "Mod+Shift+1" = {
-                  action = "window-move-to-workspace:\"1\"";
+                  action = "window-move-to-workspace:1";
                   repeat = false;
                 };
                 "Mod+Shift+2" = {
-                  action = "window-move-to-workspace:\"2\"";
+                  action = "window-move-to-workspace:2";
                   repeat = false;
                 };
                 "Mod+Shift+3" = {
-                  action = "window-move-to-workspace:\"3\"";
+                  action = "window-move-to-workspace:3";
                   repeat = false;
                 };
                 "Mod+Shift+4" = {
-                  action = "window-move-to-workspace:\"4\"";
+                  action = "window-move-to-workspace:4";
                   repeat = false;
                 };
                 "Mod+Shift+5" = {
-                  action = "window-move-to-workspace:\"5\"";
+                  action = "window-move-to-workspace:5";
                   repeat = false;
                 };
                 "Mod+Shift+6" = {
-                  action = "window-move-to-workspace:\"6\"";
+                  action = "window-move-to-workspace:6";
                   repeat = false;
                 };
                 "Mod+Shift+7" = {
-                  action = "window-move-to-workspace:\"7\"";
+                  action = "window-move-to-workspace:7";
                   repeat = false;
                 };
                 "Mod+Shift+8" = {
-                  action = "window-move-to-workspace:\"8\"";
+                  action = "window-move-to-workspace:8";
                   repeat = false;
                 };
                 "Mod+Shift+9" = {
-                  action = "window-move-to-workspace:\"9\"";
+                  action = "window-move-to-workspace:9";
                   repeat = false;
                 };
                 "Mod+Shift+0" = {
-                  action = "window-move-to-workspace:\"10\"";
-                  repeat = false;
-                };
-                "Mod+Shift+S" = {
-                  action = "window-move-to-workspace:\"10\"";
-                  repeat = false;
-                };
-                "Mod+Shift+G" = {
-                  action = "window-move-to-workspace:\"11\"";
-                  repeat = false;
-                };
-                "Mod+Shift+T" = {
-                  action = "window-move-to-workspace:\"12\"";
-                  repeat = false;
-                };
-                "Mod+Shift+D" = {
-                  action = "window-move-to-workspace:\"13\"";
+                  action = "window-move-to-workspace:10";
                   repeat = false;
                 };
 
-                # Cycle window focus instead of switching outputs
+                # Relative workspace navigation
+                "Mod+Home" = {
+                  action = "workspace-previous";
+                  repeat = true;
+                };
+                "Mod+End" = {
+                  action = "workspace-next";
+                  repeat = true;
+                };
+                "Mod+Shift+Home" = {
+                  action = "window-move-to-workspace-previous";
+                  repeat = true;
+                };
+                "Mod+Shift+End" = {
+                  action = "window-move-to-workspace-next";
+                  repeat = true;
+                };
+                "Mod+Grave" = {
+                  action = "workspace-focus-last";
+                  repeat = false;
+                };
+
+                # Move the active workspace to the adjacent output
+                "Mod+Alt+Left" = {
+                  action = "workspace-swap-active-output-left";
+                  repeat = false;
+                };
+                "Mod+Alt+Right" = {
+                  action = "workspace-swap-active-output-right";
+                  repeat = false;
+                };
+                "Mod+Alt+Up" = {
+                  action = "workspace-swap-active-output-up";
+                  repeat = false;
+                };
+                "Mod+Alt+Down" = {
+                  action = "workspace-swap-active-output-down";
+                  repeat = false;
+                };
+
                 # Mouse wheel for workspace navigation
                 "Mod+WheelUp" = {
                   action = "workspace-previous";
@@ -662,6 +661,42 @@
                 "XF86MonBrightnessUp" = "spawn:brightnessctl set +5%";
                 "XF86MonBrightnessDown" = "spawn:brightnessctl set 5%-";
 
+              }
+              // lib.optionalAttrs isMultiMonitor {
+                # Named workspaces: jump/move by name, independent of position.
+                "Mod+S" = {
+                  action = "workspace-switch:${steamWs}";
+                  repeat = false;
+                };
+                "Mod+G" = {
+                  action = "workspace-switch:${gameWs}";
+                  repeat = false;
+                };
+                "Mod+T" = {
+                  action = "workspace-switch:${mailWs}";
+                  repeat = false;
+                };
+                "Mod+Shift+S" = {
+                  action = "window-move-to-workspace:${steamWs}";
+                  repeat = false;
+                };
+                "Mod+Shift+G" = {
+                  action = "window-move-to-workspace:${gameWs}";
+                  repeat = false;
+                };
+                "Mod+Shift+T" = {
+                  action = "window-move-to-workspace:${mailWs}";
+                  repeat = false;
+                };
+                "Mod+Shift+D" = {
+                  action = "window-move-to-workspace:${mediaWs}";
+                  repeat = false;
+                };
+                # Focus Discord (and reveal its portrait workspace)
+                "Mod+D" = {
+                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh discord";
+                  repeat = false;
+                };
               };
 
               window_rule = [
@@ -750,13 +785,12 @@
                   default_pinned = true;
                 }
 
-                # Firefox launched during autostart lands on the browsing workspace
+                # Firefox launched during autostart opens on the active workspace
                 {
                   match = {
                     app_id = "^firefox$";
                     at_startup = true;
                   };
-                  default_workspace = "2";
                   default_focused = false;
                 }
 
@@ -766,7 +800,7 @@
                     app_id = "^thunderbird$";
                     at_startup = true;
                   };
-                  default_workspace = "12";
+                  default_workspace = ws mailWs;
                   default_focused = false;
                   focus_on_activate = false;
                 }
@@ -778,7 +812,7 @@
                       app_id = "^discord$";
                       title = "^(?!Discord Popout$).*";
                     };
-                    default_workspace = "13";
+                    default_workspace = ws mediaWs;
                     default_focused = false;
                   }
                   // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
@@ -793,8 +827,7 @@
                       app_id = "^discord$";
                       title = "Discord Popout";
                     };
-                    # Streams/popout windows shouldn't take over the portrait chat workspace.
-                    default_workspace = "2";
+                    # Streams/popout windows stay on the secondary output.
                     default_focused = false;
                   }
                   // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
@@ -812,7 +845,7 @@
                 (
                   {
                     match.app_id = "^spotify$";
-                    default_workspace = if (isMultiMonitor && portraitName != "") then "13" else "1";
+                    default_workspace = if (isMultiMonitor && portraitName != "") then mediaWs else 1;
                     default_focused = false;
                   }
                   // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
@@ -837,14 +870,14 @@
                 # Godot game (debug runs)
                 {
                   match.title = ".*(DEBUG).*";
-                  default_workspace = "3";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # Steam helper webpages
                 {
                   match.title = "Steamwebhelper";
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -864,7 +897,7 @@
                 {
                   match.title = "Sign in to Steam";
                   default_floating = true;
-                  default_workspace = "2";
+                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -874,7 +907,7 @@
                     app_id = "^steam$";
                     at_startup = true;
                   };
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -886,7 +919,7 @@
                     app_id = "^steam_app_.*";
                     title = ".+";
                   };
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -896,17 +929,17 @@
                     title = "SplashScreen";
                   };
                   default_floating = true;
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
-                # Battle.net (Steam-launched) should open on workspace 10 and not fullscreen.
+                # Battle.net (Steam-launched) should open on the STEAM workspace and not fullscreen.
                 {
                   match = {
                     app_id = "^steam_app_.*$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -916,28 +949,28 @@
                     app_id = "^battle.net.exe.*$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
                 # FFXIV
                 {
                   match.title = "FINAL FANTASY XIV";
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # Gamescope
                 {
                   match.app_id = "^gamescope$";
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # World of Warcraft (wine)
                 {
                   match.app_id = "^wow.exe$";
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -945,7 +978,7 @@
                 # World of Warcraft (xwayland)
                 {
                   match.title = "World of Warcraft";
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -953,7 +986,7 @@
                 # Hytale
                 {
                   match.title = "Hytale";
-                  default_workspace = "11";
+                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
@@ -964,7 +997,7 @@
                     title = "Gifts";
                   };
                   default_floating = true;
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -973,7 +1006,7 @@
                 {
                   match.title = "Battle.net.*Chats and Groups";
                   default_floating = true;
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -982,7 +1015,7 @@
                   match.title = "Select an Avatar";
                   match.app_id = "^steam_app_.*$";
                   default_floating = true;
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1009,7 +1042,7 @@
                     app_id = "^battle[.]net[.]exe$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1021,7 +1054,7 @@
                     title = "Battle.net Settings";
                   };
                   default_pinned = true;
-                  default_workspace = "10";
+                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1118,22 +1151,6 @@
             };
           };
 
-          systemd.user.services."workspace-history" = {
-            Unit = {
-              Description = "Track Umbriel workspace focus history";
-              After = [ "graphical-session.target" ];
-            };
-            Service = {
-              Type = "simple";
-              ExecStart = "${config.home.homeDirectory}/nix/assets/umbriel/scripts/workspace-history.sh";
-              Restart = "always";
-              RestartSec = 5;
-            };
-            Install = {
-              WantedBy = [ "graphical-session.target" ];
-            };
-          };
-
           # ------------------------------------------------------------------
           # Work-mode files
           # ------------------------------------------------------------------
@@ -1144,11 +1161,14 @@
               config.programs.umbriel.settings or { }
             );
 
-            # Work mode file: same settings with the output section swapped to
-            # disable the main monitor and keep workspaces 1-12 on the
-            # secondary monitor.
+            # Work mode file: same settings with the main output disabled and
+            # the named workspaces re-scoped to the secondary monitor.
             "umbriel/config-work.toml".source = tomlFormat.generate "umbriel-config-work.toml" (
-              (config.programs.umbriel.settings or { }) // { output = workOutput; }
+              (config.programs.umbriel.settings or { })
+              // {
+                output = workOutput;
+                workspace = workNamedWorkspaces;
+              }
             );
 
             # Layout map consumed by toggle-work-mode.sh to re-home tiled

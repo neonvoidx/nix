@@ -29,8 +29,8 @@ last_pair=""
 while IFS= read -r _event; do
   # Query fresh state: our own actions can queue older subscription snapshots.
   workspaces="$("$umbriel_bin" workspaces --json)" || break
-  ws_id="$(jq -r --arg out "$UMBRIEL_PORTRAIT_OUT" '
-    .[] | select(.name == "13" and .output == $out) | .id
+  ws_id="$(jq -r --arg out "$UMBRIEL_PORTRAIT_OUT" --arg ws "$UMBRIEL_PORTRAIT_WORKSPACE" '
+    .[] | select(.name == $ws and .output == $out) | .id
   ' <<<"$workspaces")"
   [[ -n "$ws_id" ]] || continue
   windows="$("$umbriel_bin" windows --json)" || break
@@ -68,7 +68,7 @@ while IFS= read -r _event; do
 
   # Ensure actions run against the portrait chat workspace.
   # (Focusing a window by id may not always switch workspaces depending on focus policies.)
-  "$umbriel_bin" msg "workspace-switch:\"13\"/$UMBRIEL_PORTRAIT_OUT" >/dev/null || true
+  "$umbriel_bin" msg "workspace-switch:\"$UMBRIEL_PORTRAIT_WORKSPACE\"/$UMBRIEL_PORTRAIT_OUT" >/dev/null || true
   # If they're side-by-side (master+stack), move the leftmost window into the stack so the stack becomes full-width
   # and both windows become vertical rows.
   left_id=""
