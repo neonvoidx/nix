@@ -7,10 +7,12 @@
 # the rest of the session. A later home-manager switch restores the store
 # symlink (desktop mode).
 #
-# Both landscape outputs have local workspaces 1-12. Work mode disables the
-# main output. Steam and games are explicitly placed on workspaces 2 and 3
-# on the main output in desktop mode, or the secondary output in work mode.
-# Other windows keep their current output unless it is being disabled.
+# Umbriel workspaces are per-output. Desktop mode statically binds workspaces
+# 1,3-11 to the main output and 2,12 to the secondary. Work mode reassigns
+# 1-12 to the secondary and disables the main output. Umbriel moves the main
+# output's windows to the secondary when it disables; this script spreads them
+# onto the matching numbered workspaces on the way in and moves them back on
+# the way out.
 set -euo pipefail
 
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/umbriel"
@@ -30,7 +32,8 @@ running() {
     [[ -S "${XDG_RUNTIME_DIR:-}/umbriel-${WAYLAND_DISPLAY:-}.sock" ]]
 }
 
-# Load before taking the snapshot, which needs the monitor names.
+# Load before taking the snapshot, which needs the monitor names and the
+# main output's workspace inventory.
 if [[ -f "$LAYOUT_ENV" ]]; then
   # shellcheck source=/dev/null
   source "$LAYOUT_ENV"
@@ -78,32 +81,30 @@ work)
   ;;
 esac
 
-# Snapshot windows before disabling an output. Include floating Steam/game
-# windows; ordinary floating windows retain their normal reload behavior.
-# Rows: id<TAB>destinationName<TAB>oldOutput<TAB>applicationTarget.
+main_out="${UMBRIEL_MAIN_OUT:-}"
+secondary_out="${UMBRIEL_SECONDARY_OUT:-}"
+main_workspaces="${UMBRIEL_MAIN_WORKSPACES:-}"
+
+in_list() {
+  local needle="$1" haystack="$2"
+  [[ " $haystack " == *" $needle "* ]]
+}
+
+# Snapshot every regular workspace window as id<TAB>workspaceName<TAB>output
+# before the reload, while the current mode is still live.
 snapshot=""
-if running && command -v "$umbriel_bin" >/dev/null 2>&1 && [[ -n "${UMBRIEL_MAIN_OUT:-}" ]]; then
+if running && command -v "$umbriel_bin" >/dev/null 2>&1; then
   wss="$("$umbriel_bin" workspaces --json 2>/dev/null || true)"
   wins="$("$umbriel_bin" windows --json 2>/dev/null || true)"
   if [[ -n "$wss" && -n "$wins" ]]; then
     snapshot="$(
       jq -nr --argjson wss "$wss" --argjson wins "$wins" '
-        ( $wss | map({key:(.id|tostring), value:{name:.name, output:.output}}) | from_entries ) as $ws |
+        ( $wss | map({key:.id, value:{name:.name, output:.output}}) | from_entries ) as $ws |
         [ $wins[] |
             select((.scratchpad // "") == "") |
-            . as $w |
-            (if ((.app_id // "") == "steam" or
-                 ((.title // "") | test("Steamwebhelper|Sign in to Steam"))) and
-                 (((.title // "") | test("^notificationtoasts"; "i")) | not) then "10"
-             elif (((.app_id // "") | test("^(steam_app_.*|gamescope|wow[.]exe)$"; "i")) or
-                   ((.title // "") | test("FINAL FANTASY XIV|World of Warcraft|Hytale|[(]DEBUG[)]"; "i"))) and
-                  (((.title // "") | test("^Gifts$|^Battle[.]net|^notificationtoasts"; "i")) | not) then "11"
-             else "" end) as $appTarget |
-            select($appTarget != "" or (.floating // false) != true) |
-            ($ws[($w.workspace | tostring)]) as $wse |
-            select($wse.name != null and ($appTarget != "" or $wse.name != "13") and ($wse.name != "")) |
-            [ $w.id, (if $appTarget != "" then $appTarget else $wse.name end),
-              ($wse.output // ""), ($appTarget != "") ] | @tsv
+            ($ws[.workspace]) as $wse |
+            select($wse != null and $wse.name != "" and $wse.output != "") |
+            [ .id, $wse.name, $wse.output ] | @tsv
         ] | .[]
       ' 2>/dev/null || true
     )"
@@ -143,9 +144,7 @@ fi
 
 echo "$mode" >"$MODE_FILE"
 
-# Wait for the new output layout to settle so move-to-workspace sees the
-# target outputs in their new role. If this times out the window moves simply
-# run against whichever outputs remain available.
+# Wait for the output layout to reflect the new mode before moving windows.
 wait_for_outputs() {
   local expected_main=$1 expected_secondary=$2
   local attempts=0
@@ -159,14 +158,14 @@ wait_for_outputs() {
     fi
     local main_ok="true"
     local secondary_ok="true"
-    if [[ -n "${UMBRIEL_MAIN_OUT:-}" ]]; then
+    if [[ -n "$main_out" ]]; then
       local main_enabled
-      main_enabled=$(jq -r --arg name "$UMBRIEL_MAIN_OUT" '.[] | select(.name==($name|tostring)) | .enabled // false' <<<"$outputs" 2>/dev/null || true)
+      main_enabled=$(jq -r --arg name "$main_out" '.[] | select(.name==$name) | .enabled // false' <<<"$outputs" 2>/dev/null || true)
       main_ok=$([[ "$main_enabled" == "$expected_main" ]] && echo "true" || echo "false")
     fi
-    if [[ -n "${UMBRIEL_SECONDARY_OUT:-}" ]]; then
+    if [[ -n "$secondary_out" ]]; then
       local secondary_enabled
-      secondary_enabled=$(jq -r --arg name "$UMBRIEL_SECONDARY_OUT" '.[] | select(.name==($name|tostring)) | .enabled // false' <<<"$outputs" 2>/dev/null || true)
+      secondary_enabled=$(jq -r --arg name "$secondary_out" '.[] | select(.name==$name) | .enabled // false' <<<"$outputs" 2>/dev/null || true)
       secondary_ok=$([[ "$secondary_enabled" == "$expected_secondary" ]] && echo "true" || echo "false")
     fi
     if [[ "$main_ok" == "true" ]] && [[ "$secondary_ok" == "true" ]]; then
@@ -177,38 +176,47 @@ wait_for_outputs() {
   return 1
 }
 
-# Place Steam/games explicitly even if they started on the wrong workspace.
-# Other windows only move when their output is being disabled.
-rehomed=0
-desired_main_enabled="false"
-desired_secondary_enabled="true"
-if [[ "$mode" != "work" ]]; then
-  desired_main_enabled="true"
-fi
-wait_for_outputs "$desired_main_enabled" "$desired_secondary_enabled" >/dev/null 2>&1 || true
-if [[ -n "$snapshot" ]]; then
-  while IFS=$'\t' read -r wid wname wout app_target; do
-    [[ -n "$wid" && -n "$wname" ]] || continue
-    dst="$wout"
-    if [[ "$app_target" == true ]]; then
-      if [[ "$mode" == work ]]; then
-        dst="$UMBRIEL_SECONDARY_OUT"
-      else
-        dst="$UMBRIEL_MAIN_OUT"
+# Move one window to a workspace on another output. Returns non-zero if the
+# destination output is gone or the move is rejected.
+move_window() {
+  local wid="$1" wname="$2" dest="$3"
+  [[ -n "$dest" ]] || return 1
+  "$umbriel_bin" msg "window-focus:$wid" >/dev/null 2>&1 &&
+    "$umbriel_bin" msg "window-move-to-workspace:\"$wname\"/$dest" >/dev/null 2>&1
+}
+
+moved=0
+if [[ "$mode" == "work" ]]; then
+  # Main output disabled: its windows now sit on the secondary output. Spread
+  # them onto the workspace of the same name so the numbers stay usable.
+  wait_for_outputs false true >/dev/null 2>&1 || true
+  if [[ -n "$snapshot" && -n "$secondary_out" ]]; then
+    while IFS=$'\t' read -r wid wname wout; do
+      [[ -n "$wid" && -n "$wname" ]] || continue
+      [[ "$wout" == "$main_out" ]] || continue
+      if move_window "$wid" "$wname" "$secondary_out"; then
+        moved=$((moved + 1))
       fi
-    elif [[ "$mode" == work && "$wout" == "$UMBRIEL_MAIN_OUT" ]]; then
-      dst="$UMBRIEL_SECONDARY_OUT"
-    fi
-    [[ -n "$dst" ]] || continue
-    if [[ "$app_target" == true || "$wout" != "$dst" ]]; then
-      if "$umbriel_bin" msg "window-focus:$wid" >/dev/null 2>&1 &&
-        "$umbriel_bin" msg "window-move-to-workspace:\"$wname\"/$dst" >/dev/null 2>&1; then
-        rehomed=$((rehomed + 1))
+    done <<<"$snapshot"
+  fi
+else
+  # Main output re-enabled: bring back the windows whose numbered workspace
+  # belongs to it. The secondary's own workspaces (2,12) stay where they are.
+  wait_for_outputs true true >/dev/null 2>&1 || true
+  if [[ -n "$snapshot" && -n "$main_out" ]]; then
+    while IFS=$'\t' read -r wid wname wout; do
+      [[ -n "$wid" && -n "$wname" ]] || continue
+      [[ "$wout" == "$secondary_out" ]] || continue
+      in_list "$wname" "$main_workspaces" || continue
+      if move_window "$wid" "$wname" "$main_out"; then
+        moved=$((moved + 1))
       fi
-    fi
-  done <<<"$snapshot"
+    done <<<"$snapshot"
+  fi
 fi
 
 notify "$label mode" "Monitor layout reloaded"
-[[ $rehomed -gt 0 ]] && echo "re-homed $rehomed window(s) to their $label workspaces"
+if [[ $moved -gt 0 ]]; then
+  echo "re-homed $moved window(s) to their $label workspaces"
+fi
 exit 0

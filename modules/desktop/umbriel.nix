@@ -83,58 +83,44 @@
           tomlFormat = pkgs.formats.toml { };
 
           # ------------------------------------------------------------------
-          # Work-mode and desktop-mode workspace layouts (static named)
+          # Desktop-mode and work-mode workspace layouts (static named)
           # ------------------------------------------------------------------
-          workOutput =
-            { }
-            // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
-              "${secondaryName}" = (mkGamingOutput secondaryMon) // {
-                workspaces = [
-                  "1"
-                  "2"
-                  "3"
-                  "4"
-                  "5"
-                  "6"
-                  "7"
-                  "8"
-                  "9"
-                  "10"
-                  "11"
-                  "12"
-                ];
-                enabled = true;
-              };
-            }
-            // lib.optionalAttrs (portraitName != "" && isMultiMonitor) {
-              "${portraitName}" = (mkOutput portraitMon) // {
-                workspaces = [ "13" ];
-                enabled = true;
-                workspace_axis = "vertical";
-              };
-            };
-          layoutEnv = lib.optionalString isMultiMonitor ''
-            UMBRIEL_MAIN_OUT='${mainName}'
-            UMBRIEL_SECONDARY_OUT='${secondaryName}'
-            UMBRIEL_PORTRAIT_OUT='${portraitName}'
-          '';
+          # Desktop binds the numbered workspaces to the landscape outputs,
+          # Hyprland-style: the main output owns 1,3-11 and the secondary owns
+          # 2,12. Work mode reassigns 1-12 to the secondary and disables the
+          # main output.
+          mainWorkspaces = [
+            "1"
+            "3"
+            "4"
+            "5"
+            "6"
+            "7"
+            "8"
+            "9"
+            "10"
+            "11"
+          ];
+          workWorkspaces = [
+            "1"
+            "2"
+            "3"
+            "4"
+            "5"
+            "6"
+            "7"
+            "8"
+            "9"
+            "10"
+            "11"
+            "12"
+          ];
 
           desktopOutput =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
               "${mainName}" = (mkGamingOutput mainMon) // {
-                workspaces = [
-                  "1"
-                  "3"
-                  "4"
-                  "5"
-                  "6"
-                  "7"
-                  "8"
-                  "9"
-                  "10"
-                  "11"
-                ];
+                workspaces = mainWorkspaces;
                 enabled = true;
               };
             }
@@ -154,6 +140,30 @@
                 workspace_axis = "vertical";
               };
             };
+
+          # Work mode: same layout with the main output disabled and every
+          # numbered workspace reassigned to the secondary. Umbriel moves the
+          # main output's windows to the secondary when it disables; the
+          # toggle script spreads them onto the matching numbered workspaces.
+          workOutput =
+            desktopOutput
+            // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
+              "${mainName}" = desktopOutput."${mainName}" // {
+                enabled = false;
+              };
+            }
+            // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
+              "${secondaryName}" = desktopOutput."${secondaryName}" // {
+                workspaces = workWorkspaces;
+              };
+            };
+
+          layoutEnv = lib.optionalString isMultiMonitor ''
+            UMBRIEL_MAIN_OUT='${mainName}'
+            UMBRIEL_SECONDARY_OUT='${secondaryName}'
+            UMBRIEL_PORTRAIT_OUT='${portraitName}'
+            UMBRIEL_MAIN_WORKSPACES='${lib.concatStringsSep " " mainWorkspaces}'
+          '';
         in
         {
           imports = [ inputs.umbriel.homeModules.default ];
@@ -1045,6 +1055,7 @@
                 # Picture-in-picture
                 {
                   match.title = "^(Picture-in-Picture|Picture in picture)$";
+                  match.app_id = "^firefox$";
                   default_floating = true;
                   default_pinned = true;
                   default_maximize = false;
