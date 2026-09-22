@@ -3,7 +3,7 @@
 set -euo pipefail
 
 TARGET_W="${1:-1440}"
-TARGET_H="${2:-1830}"
+TARGET_H="${2:-1920}"
 
 while true; do
   if hyprctl -j clients | jq -e 'any(.class == "discord")' >/dev/null 2>&1 && \
