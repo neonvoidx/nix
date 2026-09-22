@@ -33,20 +33,6 @@ elif [[ "$DM" == "Hyprland" ]]; then
     echo "Invalid argument: $ARG"
     exit 1
   fi
-elif [[ "$DM" == "Umbriel" ]] || \
-       [[ -n "${UMBRIEL_SOCKET:-}" ]] || \
-       [[ -S "${XDG_RUNTIME_DIR:-}/umbriel-${WAYLAND_DISPLAY:-}.sock" ]]; then
-  echo "Umbriel detected"
-  if [[ "$ARG" == "1" ]]; then
-    notify-send "Enabling monitor (Umbriel)"
-    ~/.config/umbriel/scripts/toggle-work-mode.sh desktop
-  elif [[ "$ARG" == "0" ]]; then
-    notify-send "Disabling monitor (Umbriel)"
-    ~/.config/umbriel/scripts/toggle-work-mode.sh work
-  else
-    echo "Invalid argument: $ARG"
-    exit 1
-  fi
 else
   echo "Unknown display manager/compositor"
   exit 1

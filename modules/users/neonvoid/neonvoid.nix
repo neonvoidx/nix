@@ -25,7 +25,6 @@
       den.aspects.opencode
       den.aspects.payrespects
       den.aspects.starship
-      # den.aspects.pure
       den.aspects.tealdeer
       den.aspects.tmux
       den.aspects.yazi
@@ -45,8 +44,7 @@
       den.aspects.gtk
       den.aspects.hyprland
       den.aspects.satty
-      # Disable for now
-      # den.aspects.umbriel
+      den.aspects.umbriel
       den.aspects.thunar
 
       # Services (user-level)

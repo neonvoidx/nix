@@ -49,10 +49,11 @@
           mkOutput =
             mon:
             let
-              # Determine workspace axis from monitor rotation (portrait vs landscape)
-              # Use transform to detect rotated monitors (90°/270° only => vertical).
+              # The scrolling strip is perpendicular to workspace_axis: use a
+              # horizontal workspace axis for a rotated (portrait) output so
+              # its lanes run top-to-bottom; landscape strips run left-to-right.
               axis =
-                if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "vertical" else "horizontal";
+                if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "horizontal" else "vertical";
             in
             {
               enabled = true;
@@ -80,56 +81,10 @@
               direct_scanout = true;
             };
 
-          tomlFormat = pkgs.formats.toml { };
-
-          # ------------------------------------------------------------------
-          # Workspace model: dynamic landscape workspaces plus a handful of
-          # persistent named workspaces.
-          # ------------------------------------------------------------------
-          # Landscape outputs run dynamic (anonymous) workspaces: bare digits
-          # select a position on the output under the pointer. A few named
-          # workspaces are pinned to outputs, and because names are
-          # output-local the names are re-scoped per mode: STEAM/GAME follow
-          # the mode's gaming output, MAIL always lives on the secondary, and
-          # MEDIA on the portrait. Single-monitor hosts stay purely dynamic.
-          steamWs = "STEAM";
-          gameWs = "GAME";
-          mailWs = "MAIL";
-          mediaWs = "MEDIA";
-
-          # Window-rule pin: the named workspace on a multi-monitor host,
-          # otherwise the first dynamic position so single-monitor hosts never
-          # reference an undefined workspace name.
-          ws = name: if isMultiMonitor then name else 1;
-
-          mkNamedWorkspace =
-            name: output: { inherit name; } // lib.optionalAttrs (output != "") { inherit output; };
-
-          desktopNamedWorkspaces = lib.optionals isMultiMonitor (
-            lib.optionals (mainName != "") [
-              (mkNamedWorkspace steamWs mainName)
-              (mkNamedWorkspace gameWs mainName)
-            ]
-            ++ lib.optionals (secondaryName != "") [
-              (mkNamedWorkspace mailWs secondaryName)
-            ]
-            ++ lib.optionals (portraitName != "") [
-              (mkNamedWorkspace mediaWs portraitName)
-            ]
-          );
-
-          workNamedWorkspaces = lib.optionals isMultiMonitor (
-            lib.optionals (secondaryName != "") [
-              (mkNamedWorkspace steamWs secondaryName)
-              (mkNamedWorkspace gameWs secondaryName)
-              (mkNamedWorkspace mailWs secondaryName)
-            ]
-            ++ lib.optionals (portraitName != "") [
-              (mkNamedWorkspace mediaWs portraitName)
-            ]
-          );
-
-          desktopOutput =
+          # Every output uses Umbriel's dynamic workspace inventory.  The
+          # portrait output has the horizontal workspace axis required for a
+          # vertical scrolling strip (Discord above Spotify).
+          output =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
               "${mainName}" = (mkGamingOutput mainMon) // {
@@ -141,31 +96,13 @@
                 enabled = true;
               };
             }
-            // lib.optionalAttrs (portraitName != "" && isMultiMonitor) {
+            // lib.optionalAttrs (portraitName != "") {
               "${portraitName}" = (mkOutput portraitMon) // {
                 enabled = true;
-                workspace_axis = "vertical";
+                workspace_axis = "horizontal";
               };
             };
 
-          # Work mode: same layout with the main output disabled. Named
-          # workspaces are re-scoped to the secondary, and toggle-work-mode.sh
-          # migrates the STEAM/GAME windows across by name.
-          workOutput =
-            desktopOutput
-            // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
-              "${mainName}" = desktopOutput."${mainName}" // {
-                enabled = false;
-              };
-            };
-
-          layoutEnv = lib.optionalString isMultiMonitor ''
-            UMBRIEL_MAIN_OUT='${mainName}'
-            UMBRIEL_SECONDARY_OUT='${secondaryName}'
-            UMBRIEL_PORTRAIT_OUT='${portraitName}'
-            UMBRIEL_NAMED_WORKSPACES='${steamWs} ${gameWs}'
-            UMBRIEL_PORTRAIT_WORKSPACE='${mediaWs}'
-          '';
         in
         {
           imports = [ inputs.umbriel.homeModules.default ];
@@ -182,8 +119,8 @@
                   "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
                   "steam"
                 ]
-                ++ lib.optionals (isMultiMonitor && portraitName != "") [
-                  "~/.config/umbriel/scripts/wait-for-discord-and-move.sh"
+                ++ lib.optionals (portraitName != "") [
+                  "UMBRIEL_PORTRAIT_OUT=${portraitName} ~/.config/umbriel/scripts/wait-for-discord-and-move.sh"
                 ];
                 mod_key = "Super";
                 xwayland = true;
@@ -207,7 +144,7 @@
                 EGL_PLATFORM = "wayland";
               };
 
-              output = desktopOutput;
+              inherit output;
 
               colors = {
                 shadow = "#212337FF";
@@ -252,7 +189,7 @@
               };
 
               layout = {
-                mode = "master";
+                mode = "scrolling";
                 gap = 8;
                 extent_presets = [
                   0.25
@@ -260,11 +197,10 @@
                   0.75
                   1.0
                 ];
-                master = {
-                  position = "left";
-                  default_width_fraction = 0.60;
-                  new_on_top = false;
-                  new_becomes_master = false;
+                scrolling = {
+                  default_extent_fraction = 0.9;
+                  center_underfull_strip = true;
+                  center_focused = "on_overflow";
                 };
               };
 
@@ -353,8 +289,6 @@
 
               overview.zoom = 0.5;
 
-              workspace = desktopNamedWorkspaces;
-
               scratchpad = [ { name = "streamcontroller"; } ];
 
               keybinds = {
@@ -442,27 +376,27 @@
                   repeat = false;
                 };
 
-                # Focus
+                # Directional focus stays local to the scrolling layout, then
+                # crosses to the adjacent output at a strip edge.
                 "Mod+H" = "window-focus-or-output-left";
                 "Mod+L" = "window-focus-or-output-right";
                 "Mod+K" = "window-focus-or-output-up";
                 "Mod+J" = "window-focus-or-output-down";
-                # Arrow key focus outputs
-                "Mod+Left" = "output-focus-left";
-                "Mod+Right" = "output-focus-right";
-                "Mod+Up" = "output-focus-up";
-                "Mod+Down" = "output-focus-down";
+                "Mod+Left" = "window-focus-or-output-left";
+                "Mod+Right" = "window-focus-or-output-right";
+                "Mod+Up" = "window-focus-or-output-up";
+                "Mod+Down" = "window-focus-or-output-down";
 
-                # Move within the strip horizontally; send to workspaces vertically.
-                "Mod+Shift+H" = "column-move-left";
+                # Move a window in the indicated screen direction, crossing
+                # outputs when the current strip has no neighbor.
+                "Mod+Shift+H" = "window-move-or-output-left";
                 "Mod+Shift+L" = "window-move-or-output-right";
-                "Mod+Shift+K" = "window-move-or-workspace-up";
-                "Mod+Shift+J" = "window-move-or-workspace-down";
-                # Arrow key move outputs
-                "Mod+Shift+Left" = "column-move-to-output-left";
-                "Mod+Shift+Right" = "column-move-to-output-right";
-                "Mod+Shift+Up" = "column-move-to-output-up";
-                "Mod+Shift+Down" = "column-move-to-output-down";
+                "Mod+Shift+K" = "window-move-or-output-up";
+                "Mod+Shift+J" = "window-move-or-output-down";
+                "Mod+Shift+Left" = "window-move-or-output-left";
+                "Mod+Shift+Right" = "window-move-or-output-right";
+                "Mod+Shift+Up" = "window-move-or-output-up";
+                "Mod+Shift+Down" = "window-move-or-output-down";
 
                 # Layout
                 "Mod+R" = {
@@ -583,24 +517,6 @@
                   repeat = false;
                 };
 
-                # Move the active workspace to the adjacent output
-                "Mod+Alt+Left" = {
-                  action = "workspace-swap-active-output-left";
-                  repeat = false;
-                };
-                "Mod+Alt+Right" = {
-                  action = "workspace-swap-active-output-right";
-                  repeat = false;
-                };
-                "Mod+Alt+Up" = {
-                  action = "workspace-swap-active-output-up";
-                  repeat = false;
-                };
-                "Mod+Alt+Down" = {
-                  action = "workspace-swap-active-output-down";
-                  repeat = false;
-                };
-
                 # Mouse wheel for workspace navigation
                 "Mod+WheelUp" = {
                   action = "workspace-previous";
@@ -661,42 +577,6 @@
                 "XF86MonBrightnessUp" = "spawn:brightnessctl set +5%";
                 "XF86MonBrightnessDown" = "spawn:brightnessctl set 5%-";
 
-              }
-              // lib.optionalAttrs isMultiMonitor {
-                # Named workspaces: jump/move by name, independent of position.
-                "Mod+S" = {
-                  action = "workspace-switch:${steamWs}";
-                  repeat = false;
-                };
-                "Mod+G" = {
-                  action = "workspace-switch:${gameWs}";
-                  repeat = false;
-                };
-                "Mod+T" = {
-                  action = "workspace-switch:${mailWs}";
-                  repeat = false;
-                };
-                "Mod+Shift+S" = {
-                  action = "window-move-to-workspace:${steamWs}";
-                  repeat = false;
-                };
-                "Mod+Shift+G" = {
-                  action = "window-move-to-workspace:${gameWs}";
-                  repeat = false;
-                };
-                "Mod+Shift+T" = {
-                  action = "window-move-to-workspace:${mailWs}";
-                  repeat = false;
-                };
-                "Mod+Shift+D" = {
-                  action = "window-move-to-workspace:${mediaWs}";
-                  repeat = false;
-                };
-                # Focus Discord (and reveal its portrait workspace)
-                "Mod+D" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh discord";
-                  repeat = false;
-                };
               };
 
               window_rule = [
@@ -794,13 +674,12 @@
                   default_focused = false;
                 }
 
-                # Thunderbird
+                # Thunderbird stays on the active dynamic workspace.
                 {
                   match = {
                     app_id = "^thunderbird$";
                     at_startup = true;
                   };
-                  default_workspace = ws mailWs;
                   default_focused = false;
                   focus_on_activate = false;
                 }
@@ -812,11 +691,13 @@
                       app_id = "^discord$";
                       title = "^(?!Discord Popout$).*";
                     };
-                    default_workspace = ws mediaWs;
                     default_focused = false;
                   }
-                  // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
+                  // lib.optionalAttrs (portraitName != "") {
                     default_output = portraitName;
+                    default_workspace = 1;
+                    default_scrolling_column = "discord";
+                    default_scrolling_column_order = 1;
                   }
                 )
 
@@ -830,7 +711,7 @@
                     # Streams/popout windows stay on the secondary output.
                     default_focused = false;
                   }
-                  // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                  // lib.optionalAttrs (secondaryName != "") {
                     default_output = secondaryName;
                   }
                 )
@@ -845,11 +726,13 @@
                 (
                   {
                     match.app_id = "^spotify$";
-                    default_workspace = if (isMultiMonitor && portraitName != "") then mediaWs else 1;
                     default_focused = false;
                   }
-                  // lib.optionalAttrs (isMultiMonitor && portraitName != "") {
+                  // lib.optionalAttrs (portraitName != "") {
                     default_output = portraitName;
+                    default_workspace = 1;
+                    default_scrolling_column = "spotify";
+                    default_scrolling_column_order = 2;
                   }
                 )
               ]
@@ -870,14 +753,12 @@
                 # Godot game (debug runs)
                 {
                   match.title = ".*(DEBUG).*";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # Steam helper webpages
                 {
                   match.title = "Steamwebhelper";
-                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -897,7 +778,6 @@
                 {
                   match.title = "Sign in to Steam";
                   default_floating = true;
-                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -907,7 +787,6 @@
                     app_id = "^steam$";
                     at_startup = true;
                   };
-                  default_workspace = ws steamWs;
                   default_focused = false;
                 }
 
@@ -919,7 +798,6 @@
                     app_id = "^steam_app_.*";
                     title = ".+";
                   };
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -929,17 +807,15 @@
                     title = "SplashScreen";
                   };
                   default_floating = true;
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
-                # Battle.net (Steam-launched) should open on the STEAM workspace and not fullscreen.
+                # Battle.net launched from Steam should remain windowed.
                 {
                   match = {
                     app_id = "^steam_app_.*$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -949,28 +825,24 @@
                     app_id = "^battle.net.exe.*$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
                 # FFXIV
                 {
                   match.title = "FINAL FANTASY XIV";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # Gamescope
                 {
                   match.app_id = "^gamescope$";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
                 # World of Warcraft (wine)
                 {
                   match.app_id = "^wow.exe$";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -978,7 +850,6 @@
                 # World of Warcraft (xwayland)
                 {
                   match.title = "World of Warcraft";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                   blur = false;
                 }
@@ -986,7 +857,6 @@
                 # Hytale
                 {
                   match.title = "Hytale";
-                  default_workspace = ws gameWs;
                   default_fullscreen = true;
                 }
 
@@ -997,7 +867,6 @@
                     title = "Gifts";
                   };
                   default_floating = true;
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1006,7 +875,6 @@
                 {
                   match.title = "Battle.net.*Chats and Groups";
                   default_floating = true;
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1015,7 +883,6 @@
                   match.title = "Select an Avatar";
                   match.app_id = "^steam_app_.*$";
                   default_floating = true;
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1042,7 +909,6 @@
                     app_id = "^battle[.]net[.]exe$";
                     title = "^Battle\\.net.*";
                   };
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1054,7 +920,6 @@
                     title = "Battle.net Settings";
                   };
                   default_pinned = true;
-                  default_workspace = ws steamWs;
                   default_fullscreen = false;
                   default_focused = false;
                 }
@@ -1151,32 +1016,9 @@
             };
           };
 
-          # ------------------------------------------------------------------
-          # Work-mode files
-          # ------------------------------------------------------------------
-          # Desktop mode file: identical to the live config; the toggle
-          # script copies it back when leaving work mode.
-          xdg.configFile = {
-            "umbriel/config-desktop.toml".source = tomlFormat.generate "umbriel-config-desktop.toml" (
-              config.programs.umbriel.settings or { }
-            );
-
-            # Work mode file: same settings with the main output disabled and
-            # the named workspaces re-scoped to the secondary monitor.
-            "umbriel/config-work.toml".source = tomlFormat.generate "umbriel-config-work.toml" (
-              (config.programs.umbriel.settings or { })
-              // {
-                output = workOutput;
-                workspace = workNamedWorkspaces;
-              }
-            );
-
-            # Layout map consumed by toggle-work-mode.sh to re-home tiled
-            # windows after a layout switch.
-            "umbriel/layout.env".text = layoutEnv;
-          };
-
-          # Runtime scripts: monitor toggle, portrait listener, and app focus shortcuts
+          # The portrait listener is the only runtime helper: workspace and
+          # output placement otherwise come directly from dynamic Umbriel
+          # configuration.
           home.file.".config/umbriel/scripts".source =
             config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/scripts";
           home.file.".config/umbriel/shaders".source =
