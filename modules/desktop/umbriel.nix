@@ -25,10 +25,12 @@
           mainMon = monitors.main or { };
           secondaryMon = monitors.secondary or { };
           portraitMon = monitors.portrait or { };
+          builtinMon = monitors.builtin or { };
 
           mainName = mainMon.name or "";
           secondaryName = secondaryMon.name or "";
           portraitName = portraitMon.name or "";
+          builtinName = builtinMon.name or "";
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -100,6 +102,12 @@
               "${portraitName}" = (mkOutput portraitMon) // {
                 enabled = true;
                 workspace_axis = "horizontal";
+              };
+            }
+            // lib.optionalAttrs (builtinName != "") {
+              # Laptop built-in panel (voidframe): single non-gaming output.
+              "${builtinName}" = (mkOutput builtinMon) // {
+                enabled = true;
               };
             };
 
@@ -181,6 +189,7 @@
                 };
                 focus = {
                   follows_mouse = true;
+                  follows_mouse_max_scroll = 0.5;
                 };
                 keyboard = {
                   repeat_rate = 25;
@@ -341,6 +350,24 @@
                 };
                 "Mod+Page_Up" = {
                   action = "spawn:noctalia msg notification-dnd-toggle";
+                  repeat = false;
+                };
+
+                # Focus a running application (lookup via Umbriel IPC)
+                "Mod+D" = {
+                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
+                  repeat = false;
+                };
+                "Mod+S" = {
+                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app steam";
+                  repeat = false;
+                };
+                "Mod+T" = {
+                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app thunderbird";
+                  repeat = false;
+                };
+                "Mod+G" = {
+                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh game";
                   repeat = false;
                 };
 
