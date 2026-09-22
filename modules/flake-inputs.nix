@@ -54,11 +54,10 @@
     hyprpicker = {
       url = "github:hyprwm/hyprpicker";
     };
-    # NOTE: Disable umbriel for now
-    # umbriel = {
-    #   url = "github:noctalia-dev/umbriel";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    umbriel = {
+      url = "github:noctalia-dev/umbriel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
     };
