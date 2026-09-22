@@ -89,6 +89,7 @@
             neovim.enable = false;
             noctalia.enable = false;
             obsidian.enable = false;
+            rofi.enable = false;
             spicetify.enable = false;
             yazi.enable = false;
           };

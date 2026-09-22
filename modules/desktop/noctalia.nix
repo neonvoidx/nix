@@ -12,6 +12,7 @@
         {
           environment.variables.QS_ICON_THEME = config.stylix.icons.${config.stylix.polarity};
           services.upower.enable = host.isLaptop or false;
+          services.power-profiles-daemon.enable = host.isLaptop or false;
         };
 
       homeManager =
@@ -828,12 +829,12 @@
                 enabled = [
                   "noctalia/screen_recorder"
                   "noctalia/bongocat"
-"dotnetrob/cat"
-  "nightwatch75/file-search"
-  "dunarand/tmux-provider"
-];
+                  "dotnetrob/cat"
+                  "nightwatch75/file-search"
+                  "dunarand/tmux-provider"
+                ];
 
-source = [
+                source = [
                   {
                     kind = "git";
                     location = "https://github.com/noctalia-dev/official-plugins";
@@ -893,15 +894,15 @@ source = [
                     shortcut = "x";
                     variant = "primary";
                   }
-                   {
-                     action = "command";
-                     command = "bash -c 'if [ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]; then hyprshutdown; else umbriel msg session-quit:skip-confirmation; fi'";
-                     enabled = true;
-                     glyph = "logout";
-                     label = "Logout";
-                     shortcut = "l";
-                     variant = "secondary";
-                   }
+                  {
+                    action = "command";
+                    command = "bash -c 'if [ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]; then hyprshutdown; else umbriel msg session-quit:skip-confirmation; fi'";
+                    enabled = true;
+                    glyph = "logout";
+                    label = "Logout";
+                    shortcut = "l";
+                    variant = "secondary";
+                  }
                   {
                     action = "lock_and_suspend";
                     enabled = true;
