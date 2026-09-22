@@ -490,6 +490,7 @@
                               hl.window_rule({ name = "ffxiv", match = { title = "FINAL FANTASY XIV" }, workspace = "11", float = false, fullscreen = true, content="game"  })
                               hl.window_rule({ name = "gamescopegames", match = { class = "gamescope" }, workspace = "11" })
                               hl.window_rule({ name = "wow", match = { initial_class = "wow.exe" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false})
+                              hl.window_rule({name="ow", match = {class="overwatch.exe", initial_title="Overwatch"}, monitor=default_monitor, workspace="11", fullscreen=true, content="game"})
                               hl.window_rule({ name = "wowxwayland", match = { initial_class = "steam_app_0", title = "World of Warcraft" }, monitor = default_monitor, workspace = "11", fullscreen = true, suppress_event = "fullscreen", content = "game", no_max_size = true, no_anim = true, no_shadow = true, no_dim = true, border_size = 0, no_blur = true, decorate = false, immediate = true, float = false})
                               hl.window_rule({ name = "hytale", match = { title = "Hytale", class = "HytaleClient" }, fullscreen = true, workspace = "11" , content="game"})
 
