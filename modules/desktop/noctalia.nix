@@ -19,6 +19,7 @@
         { ... }:
         let
           homeDir = "/home/${user.userName}";
+          isLaptop = host.isLaptop or false;
           monitors = host.monitors or { };
           mainName = monitors.main.name or null;
           secondaryName = monitors.secondary.name or null;
@@ -48,32 +49,44 @@
               bar.main = {
                 capsule = true;
                 capsule_foreground = "tertiary";
-                center = [
-                  "cat"
-                  "active_window"
-                ];
+                center =
+                  lib.optionals (!isLaptop) [
+                    "cat"
+                    "active_window"
+                  ];
                 contact_shadow = true;
-                end = [
-                  "tray"
-                  "input_volume"
-                  "output_volume"
-                  "cat_2"
-                  "ram"
-                  "temp"
-                  "battery"
-                  "caffeine"
-                  "control-center"
-                  "recorder"
-                  "bluetooth"
-                  "brightness"
-                  "wallpaper"
-                  "display_mode"
-                  "notifications"
-                  "weather"
-                  "clock"
-                  "date"
-                  "session"
-                ];
+                end =
+                  lib.optionals (!isLaptop) [
+                    "tray"
+                  ]
+                  ++ [
+                    "input_volume"
+                    "output_volume"
+                    "ram"
+                    "temp"
+                  ]
+                  ++ lib.optionals isLaptop [
+                    "battery"
+                    "power_profile"
+                    "caffeine"
+                  ]
+                  ++ [
+                    "control-center"
+                    "recorder"
+                    "bluetooth"
+                    "brightness"
+                    "wallpaper"
+                  ]
+                  ++ lib.optionals (!isLaptop) [
+                    "display_mode"
+                  ]
+                  ++ [
+                    "notifications"
+                    "weather"
+                    "clock"
+                    "date"
+                    "session"
+                  ];
                 font_weight = 700;
                 margin_edge = 5.0;
                 margin_ends = 8.0;
@@ -84,7 +97,13 @@
                   "taskbar"
                   "left-spacer"
                   "media"
+                ]
+                ++ lib.optionals (!isLaptop) [
                   "audio_visualizer"
+                ]
+                ++ lib.optionals isLaptop [
+                  "tray"
+                  "active_window"
                 ];
                 thickness = 38;
                 widget_spacing = 12;
@@ -107,6 +126,12 @@
               };
 
               desktop_widgets.enabled = false;
+
+              hooks = lib.optionalAttrs isLaptop {
+                battery_discharging = "noctalia msg power-set power-saver";
+                battery_charging = "noctalia msg power-set balanced";
+                battery_plugged = "noctalia msg power-set balanced";
+              };
 
               idle = {
                 behavior_order = [
@@ -1015,6 +1040,9 @@
                   capsule = true;
                 };
                 caffeine = {
+                  capsule = true;
+                };
+                power_profile = {
                   capsule = true;
                 };
                 cat = {
