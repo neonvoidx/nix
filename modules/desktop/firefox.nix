@@ -58,6 +58,7 @@
                         "urlbar-container"
                         "jid0-bnmfwww2w2w4e4edvcddbnmhdvg_jetpack-browser-action"
                         "_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action"
+                        "modheader_modheader_app-browser-action"
                         "_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action"
                         "78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action"
                         "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
@@ -71,12 +72,15 @@
                         "fxa-toolbar-menu-button"
                         "preferences-button"
                         "developer-button"
-                        "firefox-view-button"
                         "alltabs-button"
                         "reset-pbm-toolbar-button"
+                        "tridactyl_vim_cmcaine_co_uk-browser-action"
                       ];
                       "toolbar-menubar" = [ "menubar-items" ];
-                      "TabsToolbar" = [ ];
+                      "TabsToolbar" = [
+                        "smartwindow-group-tabs-button"
+                        "ai-window-toggle"
+                      ];
                       "vertical-tabs" = [ "tabbrowser-tabs" ];
                       "PersonalToolbar" = [ "personal-bookmarks" ];
                     };
@@ -103,6 +107,10 @@
                       "_09d1226f-0dd0-4ad7-8a0f-cca316ea271e_-browser-action"
                       "_57e8684d-5ae8-47d6-93c9-f870ef0e40a3_-browser-action"
                       "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
+                      "tridactyl_vim_cmcaine_co_uk-browser-action"
+                      "smartwindow-group-tabs-button"
+                      "ai-window-toggle"
+                      "modheader_modheader_app-browser-action"
                     ];
                     dirtyAreaCache = [
                       "nav-bar"
@@ -112,8 +120,8 @@
                       "PersonalToolbar"
                       "unified-extensions-area"
                     ];
-                    currentVersion = 24;
-                    newElementCount = 9;
+                    currentVersion = 26;
+                    newElementCount = 10;
                   };
                 in
                 builtins.readFile (
