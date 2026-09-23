@@ -102,12 +102,6 @@
               "${portraitName}" = (mkOutput portraitMon) // {
                 enabled = true;
                 workspace_axis = "horizontal";
-                layout.scrolling = {
-                  # Keep the first portrait lane flush with the top edge when
-                  # focus changes; Discord/Spotify occupy the whole strip.
-                  center_underfull_strip = false;
-                  center_focused = "never";
-                };
               };
             }
             // lib.optionalAttrs (builtinName != "") {
@@ -214,8 +208,11 @@
                 ];
                 scrolling = {
                   default_extent_fraction = 0.9;
-                  center_underfull_strip = true;
-                  center_focused = "on_overflow";
+                  # Retain strip/focus positions so the portrait output's
+                  # Discord/Spotify lanes stay flush with the top edge; Umbriel
+                  # only exposes these keys globally, not per-output.
+                  center_underfull_strip = false;
+                  center_focused = "never";
                 };
               };
 
