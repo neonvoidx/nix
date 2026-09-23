@@ -6,6 +6,7 @@ set -euo pipefail
 umbriel_bin="${UMBRIEL_BIN:-umbriel}"
 portrait_output="${UMBRIEL_PORTRAIT_OUT:-}"
 [[ -n "$portrait_output" ]] || exit 0
+last_pair=""
 
 socket="${UMBRIEL_SOCKET:-}"
 if [[ -z "$socket" ]]; then
@@ -17,7 +18,7 @@ fi
 export UMBRIEL_SOCKET="$socket"
 
 layout_pair() {
-  local workspaces windows ws_id pair discord_id spotify_id discord_y spotify_y discord_h spotify_h restore_id
+  local workspaces windows ws_id pair discord_id spotify_id discord_y spotify_y restore_id
   workspaces="$("$umbriel_bin" workspaces --json)" || return 1
   ws_id="$(jq -r --arg out "$portrait_output" '
     .[] | select(.output == $out and .index == 1) | .id
@@ -36,37 +37,27 @@ layout_pair() {
   IFS=$'\t' read -r discord_id spotify_id <<<"$pair"
   [[ -n "$discord_id" && -n "$spotify_id" ]] || return 0
 
-  # Actions work on the focused window, so restore the user's focus afterward.
-  restore_id="$(jq -r '.[] | select(.active) | .id' <<<"$windows")"
+  # `windows` also fires for focus and geometry changes. Only arrange a new
+  # pair, otherwise these IPC actions would continuously trigger themselves.
+  [[ "$pair" != "$last_pair" ]] || return 0
+  last_pair="$pair"
+
   discord_y="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .y' <<<"$windows")"
   spotify_y="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .y' <<<"$windows")"
-  discord_h="$(jq -r --arg id "$discord_id" '.[] | select(.id == $id) | .h' <<<"$windows")"
-  spotify_h="$(jq -r --arg id "$spotify_id" '.[] | select(.id == $id) | .h' <<<"$windows")"
 
-  # Ignore the window events emitted by the actions below once the pair is
-  # already ordered and within a small rounding tolerance of 75/25.
-  if (( ${discord_y%.*} < ${spotify_y%.*} )); then
-    local total_height=$(( ${discord_h%.*} + ${spotify_h%.*} ))
-    if (( total_height > 0 && ${discord_h%.*} * 100 >= total_height * 70 && ${discord_h%.*} * 100 <= total_height * 80 )); then
-      return 0
-    fi
-  fi
-
-  "$umbriel_bin" msg "window-focus:$discord_id" >/dev/null
   # The portrait output has a horizontal workspace axis, so its scrolling strip
-  # is vertical. Moving up puts Discord in the first lane.
+  # is vertical. Only take focus when Discord must be moved to the first lane;
+  # the opening rules assign both lane extents without IPC focus changes.
   if (( ${discord_y%.*} > ${spotify_y%.*} )); then
+    restore_id="$(jq -r '.[] | select(.active) | .id' <<<"$windows")"
+    "$umbriel_bin" msg "window-focus:$discord_id" >/dev/null
     "$umbriel_bin" msg window-move-up >/dev/null
+    [[ -z "$restore_id" ]] || "$umbriel_bin" msg "window-focus:$restore_id" >/dev/null || true
   fi
-  "$umbriel_bin" msg window-set-primary-extent:0.75 >/dev/null
-  "$umbriel_bin" msg "window-focus:$spotify_id" >/dev/null
-  "$umbriel_bin" msg window-set-primary-extent:0.25 >/dev/null
-
-  [[ -z "$restore_id" ]] || "$umbriel_bin" msg "window-focus:$restore_id" >/dev/null || true
 }
 
-# Reapply after replacements, restores, and remaps without defining persistent
-# workspaces.
+# Apply on startup and after either main window is replaced, without reacting
+# to ordinary focus, geometry, or title events.
 while IFS= read -r _; do
   layout_pair || break
 done < <("$umbriel_bin" subscribe windows)

@@ -102,6 +102,12 @@
               "${portraitName}" = (mkOutput portraitMon) // {
                 enabled = true;
                 workspace_axis = "horizontal";
+                layout.scrolling = {
+                  # Keep the first portrait lane flush with the top edge when
+                  # focus changes; Discord/Spotify occupy the whole strip.
+                  center_underfull_strip = false;
+                  center_focused = "never";
+                };
               };
             }
             // lib.optionalAttrs (builtinName != "") {
@@ -189,7 +195,7 @@
                 };
                 focus = {
                   follows_mouse = true;
-                  follows_mouse_max_scroll = 0.5;
+                  # follows_mouse_max_scroll = 0.5;
                 };
                 keyboard = {
                   repeat_rate = 25;
@@ -418,12 +424,12 @@
                 # outputs when the current strip has no neighbor.
                 "Mod+Shift+H" = "window-move-or-output-left";
                 "Mod+Shift+L" = "window-move-or-output-right";
-                "Mod+Shift+K" = "window-move-or-output-up";
-                "Mod+Shift+J" = "window-move-or-output-down";
+                "Mod+Shift+K" = "window-move-or-workspace-up";
+                "Mod+Shift+J" = "window-move-or-workspace-down";
                 "Mod+Shift+Left" = "window-move-or-output-left";
                 "Mod+Shift+Right" = "window-move-or-output-right";
-                "Mod+Shift+Up" = "window-move-or-output-up";
-                "Mod+Shift+Down" = "window-move-or-output-down";
+                "Mod+Shift+Up" = "window-move-or-workspace-up";
+                "Mod+Shift+Down" = "window-move-or-workspace-down";
 
                 # Layout
                 "Mod+R" = {
@@ -607,6 +613,15 @@
               };
 
               window_rule = [
+                # Keep the portrait output dedicated to Discord and Spotify.
+                # Later, application-specific rules override this fallback.
+                (
+                  { }
+                  // lib.optionalAttrs (portraitName != "" && mainName != "") {
+                    default_output = mainName;
+                  }
+                )
+
                 # Global blur — keep first so later rules can override it
                 {
                   blur = true;
@@ -725,6 +740,7 @@
                     default_workspace = 1;
                     default_scrolling_column = "discord";
                     default_scrolling_column_order = 1;
+                    default_scrolling_extent = 0.75;
                   }
                 )
 
@@ -760,6 +776,7 @@
                     default_workspace = 1;
                     default_scrolling_column = "spotify";
                     default_scrolling_column_order = 2;
+                    default_scrolling_extent = 0.25;
                   }
                 )
               ]

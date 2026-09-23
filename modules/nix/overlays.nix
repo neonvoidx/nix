@@ -84,6 +84,27 @@
               }
             )
             (final: prev: {
+              xwayland-satellite = prev.xwayland-satellite.overrideAttrs (
+                _:
+                let
+                  src = final.fetchFromGitHub {
+                    owner = "Supreeeme";
+                    repo = "xwayland-satellite";
+                    rev = "add2795134593faafce60e404a0a75df68e9ee0c";
+                    hash = "sha256-0TxfMgqW0/BLD4M942c5DCKYrtPvzsPJwvdcco4LQUM=";
+                  };
+                in
+                {
+                  version = "unstable-add2795";
+                  inherit src;
+                  cargoHash = null;
+                  cargoLock = {
+                    lockFile = src + "/Cargo.lock";
+                    allowBuiltinFetchGit = true;
+                  };
+                }
+              );
+
               eldritch-icon-theme = prev.stdenv.mkDerivation {
                 pname = "eldritch-icon-theme";
                 version = "20260529";
