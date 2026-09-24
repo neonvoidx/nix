@@ -23,7 +23,6 @@
         gpu-screen-recorder
         grim
         home-manager
-        inputs.hyprpicker.packages.${pkgs.stdenv.hostPlatform.system}.hyprpicker
         hyprpwcenter
         hyprshutdown
         hyprsysteminfo

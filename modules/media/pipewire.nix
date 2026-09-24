@@ -43,7 +43,7 @@
                 };
               };
               "11-clock-rates" = {
-                "context-properties" = {
+                "context.properties" = {
                   "default.clock.rate" = 48000;
                   "default.clock.allowed-rates" = [
                     44100

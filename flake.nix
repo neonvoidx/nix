@@ -4,6 +4,10 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
+    betterfox = {
+      url = "github:HeitorAugustoLN/betterfox-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     den.url = "github:denful/den/refs/tags/v0.18.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
@@ -19,7 +23,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    hyprpicker.url = "github:hyprwm/hyprpicker";
     import-tree.url = "github:denful/import-tree";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-index-database = {

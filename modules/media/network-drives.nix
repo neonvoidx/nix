@@ -4,66 +4,12 @@
     { host, user, ... }:
     {
       nixos =
-        { config, lib, pkgs, ... }:
         {
-          services.rpcbind.enable = true;
-
-          systemd.mounts =
-            map
-              (share: {
-                type = "nfs";
-                what = "${host.nasIp}:/volume1/${share}";
-                where = "/synology/${share}";
-                mountConfig.Options = "rw,noatime,vers=4,soft,timeo=30";
-              })
-              [
-                "Books"
-                "Photos"
-                "3D"
-                "VMs"
-                "Emulation"
-                "Dracula Pro"
-                "CloneHero"
-                "Docker"
-                "PixelArt"
-                "torrent"
-                "TV"
-                "Prerolls"
-                "NZB"
-                "Music"
-                "Movies"
-                "software"
-                "Secure"
-              ];
-
-          systemd.automounts =
-            map
-              (share: {
-                wantedBy = [ "multi-user.target" ];
-                automountConfig.TimeoutIdleSec = "600";
-                where = "/synology/${share}";
-              })
-              [
-                "Books"
-                "Photos"
-                "3D"
-                "VMs"
-                "Emulation"
-                "Dracula Pro"
-                "CloneHero"
-                "Docker"
-                "PixelArt"
-                "torrent"
-                "TV"
-                "Prerolls"
-                "NZB"
-                "Music"
-                "Movies"
-                "software"
-                "Secure"
-              ];
-
-          systemd.tmpfiles.rules = map (share: "d '/synology/${share}' 0777 root root") [
+          pkgs,
+          ...
+        }:
+        let
+          shares = [
             "Books"
             "Photos"
             "3D"
@@ -82,6 +28,24 @@
             "software"
             "Secure"
           ];
+        in
+        {
+          services.rpcbind.enable = true;
+
+          systemd.mounts = map (share: {
+            type = "nfs";
+            what = "${host.nasIp}:/volume1/${share}";
+            where = "/synology/${share}";
+            mountConfig.Options = "rw,noatime,vers=4,soft,timeo=30";
+          }) shares;
+
+          systemd.automounts = map (share: {
+            wantedBy = [ "multi-user.target" ];
+            automountConfig.TimeoutIdleSec = "600";
+            where = "/synology/${share}";
+          }) shares;
+
+          systemd.tmpfiles.rules = map (share: "d '/synology/${share}' 0777 root root") shares;
 
           environment.systemPackages = with pkgs; [
             nfs-utils

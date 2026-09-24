@@ -1,0 +1,18 @@
+# Project-local MCP servers. Requires uv/uvx and Nix on PATH.
+[mcp_servers.mcp-nixos]
+command = "uvx"
+args = ["mcp-nixos==3.1.0"]
+startup_timeout_sec = 120
+tool_timeout_sec = 120
+
+[mcp_servers.nix-agent]
+command = "uvx"
+args = ["--from", "git+https://github.com/JEFF7712/nix-agent.git@0dc6d65652da0b529f8287835f2abd0154943b5c", "nix-agent"]
+startup_timeout_sec = 120
+tool_timeout_sec = 1800
+# Activation and rollback are forbidden by AGENTS.md.
+# check is restricted by repository instructions to lint/dry-build, never dry-activate.
+enabled_tools = ["build", "diff", "eval_config", "locate_option", "check"]
+
+[mcp_servers.nix-agent.env]
+NIX_AGENT_FLAKE = "/Users/jrreed/dev/nix"

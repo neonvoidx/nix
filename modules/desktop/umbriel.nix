@@ -121,6 +121,7 @@
             settings = {
               general = {
                 autostart = [
+                  "~/.local/bin/tmux-refresh-desktop-environment umbriel"
                   "noctalia"
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"

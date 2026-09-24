@@ -306,7 +306,6 @@
                           hl.bind(mod .. " + bracketright", hl.dsp.exec_cmd("noctalia msg wallpaper-random"))
                           hl.bind(mod .. " + b", hl.dsp.exec_cmd("firefox"))
                           hl.bind(mod .. " + SHIFT + b", hl.dsp.exec_cmd("firefox --private-window"))
-                          hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("pgrep -x hyprpicker > /dev/null 2>&1 && killall hyprpicker || hyprpicker -a -f hex -r"))
                           hl.bind(mod .. " + e", hl.dsp.exec_cmd("thunar"))
                           hl.bind(mod .. " + o", hl.dsp.exec_cmd("obsidian"))
                           hl.bind(mod .. " + Prior", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
@@ -405,9 +404,9 @@
                               -- Media And Screenshot Binds
                               -- -----------------------------------------------------------------------
 
-                              hl.bind("Print", hl.dsp.exec_cmd('hyprpicker -r -z -d & PID=$!; sleep .1; grim -g "$(slurp -d)" - | wl-copy; kill $PID'))
-                              hl.bind("SHIFT + Print", hl.dsp.exec_cmd('hyprpicker -r -z -d & PID=$!; sleep .1; grim -g "$(slurp)" /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
-                              hl.bind("CTRL + Print", hl.dsp.exec_cmd('hyprpicker -r -z -d & PID=$!; sleep .1; grim /tmp/.screenshot-tmp.png; kill $PID; satty -f /tmp/.screenshot-tmp.png --copy-command wl-copy -o "~/Screenshots/%Y%m%d_%H%M%S.png"'))
+                              hl.bind("Print", hl.dsp.exec_cmd("noctalia msg screenshot-region"))
+                              hl.bind("SHIFT + Print", hl.dsp.exec_cmd("noctalia msg screenshot-annotate"))
+                              hl.bind("CTRL + Print", hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen all"))
                               hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
                               hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
                               hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
@@ -717,10 +716,8 @@
                               end)
 
                               hl.on("hyprland.start", function()
-                                -- The tmux server is spawned by a systemd unit at login, outside this
-                                -- session, so its panes never inherit HYPRLAND_INSTANCE_SIGNATURE.
-                                -- Push the running instance's signature into it on every start.
-                                hl.exec_cmd("tmux set-environment -g HYPRLAND_INSTANCE_SIGNATURE $HYPRLAND_INSTANCE_SIGNATURE")
+                                -- Refresh existing tmux sessions with this desktop's sockets.
+                                hl.exec_cmd("~/.local/bin/tmux-refresh-desktop-environment hyprland")
                                 hl.exec_cmd("noctalia")
                                 hl.exec_cmd("~/.config/hypr/scripts/restore-monitor-layout.sh \"${defaultMonitor}\" \"${secondaryMonitor}\" \"${portraitMonitor}\"")
                                 hl.exec_cmd("systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")

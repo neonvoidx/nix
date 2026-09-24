@@ -11,12 +11,43 @@
           ...
         }:
         {
+          imports = [ inputs.betterfox.homeModules.betterfox ];
+
           home.sessionVariables = {
             MOZ_ENABLE_WAYLAND = 1;
             MOZ_USE_XINPUT2 = "1";
           };
           programs.firefox = {
             enable = true;
+            betterfox = {
+              enable = true;
+              # Matches the previous user.js snapshot; update deliberately.
+              version = "154.0";
+              profiles.${user.userName} = {
+                enableAllSections = true;
+                settings = {
+                  # Keep the other AI restrictions while allowing smart tab groups.
+                  peskyfox.ai = {
+                    "browser.ai.control.default".value = "available";
+                    "browser.tabs.groups.smart.enabled".value = true;
+                  };
+                  securefox = {
+                    mozilla."permissions.default.geo".value = 1;
+                    search-with-url-bar = {
+                      "browser.urlbar.trimHttps".value = false;
+                      "browser.search.suggest.enabled".value = true;
+                    };
+                    # Preserve DNS/page prefetch without enabling every kind of
+                    # speculative connection covered by this category.
+                    speculative-loading = {
+                      "network.dns.disablePrefetch".value = false;
+                      "network.dns.disablePrefetchFromHTTPS".value = false;
+                      "network.prefetch-next".value = true;
+                    };
+                  };
+                };
+              };
+            };
             configPath = "${config.xdg.configHome}/mozilla/firefox";
             package = pkgs.firefox.override {
               nativeMessagingHosts = [ pkgs.tridactyl-native ];
@@ -32,7 +63,7 @@
               settings = {
                 "extensions.autoDisableScopes" = 0;
               };
-              # Betterfox first, then personal overrides — order guarantees our prefs win
+              # Preferences outside Betterfox's categories and UI customization.
               extraConfig =
                 let
                   uiCustomization = builtins.toJSON {
@@ -124,15 +155,8 @@
                     newElementCount = 10;
                   };
                 in
-                builtins.readFile (
-                  builtins.fetchurl {
-                    url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
-                    sha256 = "sha256:0h2j5lsv07r81qp8ysjg3d9i9cdzhjw9ip96mxxrh9ajn73p3a9q";
-                  }
-                )
-                + /* javascript */ ''
+                /* javascript */ ''
                   // Personal overrides — applied after Betterfox to take precedence
-                  user_pref("browser.ai.control.default", "available");
                   user_pref("browser.ai.control.smartTabGroups", "enabled");
                   // TODO https://bugzilla.mozilla.org/show_bug.cgi?id=1642854 once this is merged
                   // user_pref("gfx.wayland.hdr", true);
@@ -173,7 +197,6 @@
                   user_pref("extensions.webextensions.restrictedDomains", "");
                   user_pref("extensions.quarantinedDomains.enabled", false);
                   user_pref("browser.tabs.groups.enabled", true);
-                  user_pref("browser.tabs.groups.smart.enabled", true);
                   user_pref("browser.tabs.closeWindowWithLastTab", false);
                   user_pref("gfx.webrender.layer-compositor", true);
                   user_pref("network.dns.disableIPv6", true);
@@ -189,7 +212,6 @@
                   user_pref("browser.startup.page", 3);
                   user_pref("network.trr.mode", 5);
                   user_pref("browser.search.separatePrivateDefault", false);
-                  user_pref("browser.search.separatePrivateDefault.ui.enabled", true);
                   user_pref("browser.search.suggest.enabled.private", true);
                   user_pref("browser.cache.memory.capacity", 512000);
                   user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
@@ -197,15 +219,8 @@
                   user_pref("gfx.font_rendering.cleartype_params.force_gdi_classic_for_families", "");
                   user_pref("gfx.font_rendering.directwrite.use_gdi_table_loading", false);
                   user_pref("accessibility.force_disabled", true);
-                  user_pref("browser.urlbar.trimHttps", false);
-                  user_pref("permissions.default.geo", 1);
                   user_pref("browser.newtabpage.activity-stream.feeds.topsites", true);
-                  user_pref("browser.newtabpage.activity-stream.default.sites", "");
-                  user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
-                  user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
-                  user_pref("browser.newtabpage.activity-stream.showSponsored", false);
                   user_pref("browser.newtabpage.activity-stream.showWeather", false);
-                  user_pref("browser.search.suggest.enabled", true);
                   user_pref("media.ffmpeg.vaapi.enabled", true);
                   user_pref("media.rdd-ffmpeg.enabled", true);
                   user_pref("media.av1.enabled", false);
@@ -213,9 +228,6 @@
                   user_pref("widget.dmabuf.force-enabled", true);
                   user_pref("network.predictor.enabled", true);
                   user_pref("network.predictor.enable-prefetch", true);
-                  user_pref("network.dns.disablePrefetch", false);
-                  user_pref("network.dns.disablePrefetchFromHTTPS", false);
-                  user_pref("network.prefetch-next", true);
                 '';
               userChrome = builtins.readFile "${inputs.self}/assets/mozilla/chrome/userChrome.css";
               userContent = builtins.readFile "${inputs.self}/assets/mozilla/chrome/userContent.css";

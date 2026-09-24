@@ -1,1 +1,0 @@
-- Make assets change based on username, i.e scopebuddy configs?

@@ -6,6 +6,12 @@ echo ""
 
 MACHINE_NAME="${1:-$(hostname)}"
 
+# Refuse to replace an existing key, including a dangling symlink.
+if sudo test -e /etc/sops/age/key.txt || sudo test -L /etc/sops/age/key.txt; then
+  echo "Error: /etc/sops/age/key.txt already exists; refusing to overwrite it." >&2
+  exit 1
+fi
+
 # Step 1: Generate standalone age key
 echo "Step 1: Generating standalone age key for '$MACHINE_NAME'..."
 sudo mkdir -p /etc/sops/age

@@ -1,38 +1,7 @@
 { den, inputs, ... }:
 {
   den.aspects.voidframe = {
-    includes = [
-      # Core system
-      den.aspects.boot
-      den.aspects.locale
-      den.aspects.networking
-      den.aspects.systemd
-      den.aspects.users
-      den.aspects.overlays
-      den.aspects.nixsettings
-      den.aspects.multiverse
-
-      # Hardware
-      den.aspects.bluetooth
-      den.aspects.kernel
-      # Network printer stuff, specific to my network
-      # If you want to setup network printer be sure to edit print.nix
-      den.aspects.print
-      den.aspects.udev
-
-      # Security
-      den.aspects.sops
-      den.aspects.pcscd
-      # den.aspects.ly
-      den.aspects.noctalia-greeter
-      den.aspects.polkit
-
-      # Services
-      den.aspects.ananicy
-
-      # System packages
-      den.aspects.systempackages
-    ];
+    includes = [ den.aspects.base-system ];
 
     nixos =
       { pkgs, lib, ... }:

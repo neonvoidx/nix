@@ -1,52 +1,18 @@
 { den, inputs, ... }:
 {
-  den.aspects.void = {
+  den.aspects.void = { host, ... }: {
     includes = [
-      # Core system
-      den.aspects.boot
-      den.aspects.locale
-      den.aspects.networking
-      den.aspects.systemd
-      den.aspects.users
-      den.aspects.overlays
-      den.aspects.nixsettings
-      den.aspects.multiverse
-
-      # Hardware
-      den.aspects.bluetooth
-      den.aspects.kernel
-
-      # Network printer stuff, specific to my network
-      # If you want to setup network printer be sure to edit print.nix
-      den.aspects.print
-      den.aspects.udev
-
-      # Security
-      den.aspects.sops
-      den.aspects.pcscd
+      den.aspects.base-system
       den.aspects.wireguard
-      # den.aspects.ly
-      den.aspects.noctalia-greeter
-      den.aspects.polkit
-
-      # Services
-      den.aspects.ananicy
-      # WARNING: Specific to my network drives, don't use this unless you want to change network-drives.nix
-      # for your own network mount drives
+      # Network mounts are configured in network-drives.nix.
       den.aspects.networkdrives
-
-      # Gaming
       den.aspects.gaming
-
-      # System packages
-      den.aspects.systempackages
     ];
 
     nixos =
       {
         lib,
         pkgs,
-        config,
         ...
       }:
       {
@@ -121,33 +87,28 @@
         ];
 
         networking = {
-          nameservers = [
-            # "1.1.1.1"
-            # "1.0.0.1"
-            "192.168.86.7"
-            "192.168.86.8"
-          ];
+          nameservers = host.network.dns;
           wireless.enable = false;
           networkmanager.enable = false;
-          interfaces.eth0 = {
+          interfaces.${host.network.interface} = {
             useDHCP = false;
             ipv4.addresses = [
               {
-                address = "192.168.86.20";
-                prefixLength = 24;
+                address = host.network.ip;
+                prefixLength = host.network.prefixLength;
               }
             ];
           };
           defaultGateway = {
-            address = "192.168.86.1";
-            interface = "eth0";
+            address = host.network.gateway;
+            interface = host.network.interface;
           };
         };
 
         systemd.network = {
-          links."10-eth0" = {
-            matchConfig.MACAddress = "9c:6b:00:98:96:96";
-            linkConfig.Name = "eth0";
+          links."10-${host.network.interface}" = {
+            matchConfig.MACAddress = host.network.mac;
+            linkConfig.Name = host.network.interface;
           };
           wait-online.anyInterface = true;
         };

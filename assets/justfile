@@ -14,24 +14,14 @@ check flake_path="~/nix":
 clean:
     nh clean all -k 5 --optimise
 
-# Initialize a dev environment in the current directory from a FlakeHub template
-dev template:
-  nix flake init -t github:the-nix-way/dev-templates#{{template}}
-
-# Copy dev flake from ~/nix/dev/{template}.flake.dev to current directory as flake.nix and copy direnv .envrc to use flake automatically
-copy-dev template:
-  cp ~/nix/devflakes/{{template}}.flake.dev ./flake.nix
-  cp ~/nix/devflakes/.envrc .
-
-# Get the sha256 hash of a URL in both hex and nix formats
-fetch-hash url:
-    @raw_hash=`nix-prefetch-url --type sha256 "{{url}}" | tail -n1`
-    @echo "Hex hash: $$raw_hash"
-    @echo "Nix hash: $$(nix hash convert --hash-algo sha256 "$$raw_hash")"
-
-# Initialize a flake.nix with the given dependencies
-flake-init pkgs:
-    curl https://nix-versions.oeiuwq.com/flake.nix/{{pkgs}} -o flake.nix && use flake
+# Get the SHA-256 hash of a URL in hexadecimal and SRI formats
+fetch-hash $url:
+    #!/usr/bin/env bash
+    set -eu
+    raw_hash=$(nix-prefetch-url --type sha256 "$url")
+    hex_hash=$(nix hash convert --hash-algo sha256 --to base16 "$raw_hash")
+    sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$raw_hash")
+    printf 'Hex hash: %s\nNix hash: %s\n' "$hex_hash" "$sri_hash"
 
 # Generate a hardware config for current machine and place in current directory
 generate-hardware-config:
@@ -82,9 +72,9 @@ run pkg *args:
 search pkg:
     nh search {{pkg}}
 
-# Search nixpkgs PRs for title's containing string
-search-prs string:
-  gh search prs -R nixos/nixpkgs --match title string 
+# Search nixpkgs PRs for titles containing the query
+search-prs $query:
+  gh search prs -R nixos/nixpkgs --match title -- "$query"
 
 # Enter an ad-hoc shell with the given package(s)
 shell +pkgs:

@@ -12,7 +12,7 @@
         enableZshIntegration = true;
       };
       home.file.".config/devenv/config.yaml".text = lib.generators.toYAML { } {
-        tui.statusline.enabled = false;
+        tui.statusline.enabled = true;
         version = 1;
       };
     };

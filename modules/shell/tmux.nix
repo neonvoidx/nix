@@ -10,6 +10,50 @@
     let
       c = config.lib.stylix.colors;
       nvim = inputs.nvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      desktopEnvironment = [
+        "DISPLAY"
+        "WAYLAND_DISPLAY"
+        "XDG_RUNTIME_DIR"
+        "DBUS_SESSION_BUS_ADDRESS"
+        "XDG_CURRENT_DESKTOP"
+        "XDG_SESSION_DESKTOP"
+        "XDG_SESSION_TYPE"
+        "HYPRLAND_INSTANCE_SIGNATURE"
+        "UMBRIEL_SOCKET"
+        "UMBRIEL_MAIN_OUT"
+        "UMBRIEL_SECONDARY_OUT"
+        "UMBRIEL_PORTRAIT_OUT"
+      ];
+      refreshDesktopEnvironment = pkgs.writeShellScript "tmux-refresh-desktop-environment" ''
+        set -eu
+        # Called by the new compositor, never by a stale tmux pane.
+        case "''${1:-}" in
+          hyprland) unset UMBRIEL_SOCKET ;;
+          umbriel) unset HYPRLAND_INSTANCE_SIGNATURE ;;
+          *) exit 1 ;;
+        esac
+
+        tmux=${config.programs.tmux.package}/bin/tmux
+        # Match Home Manager's secureSocket location, including at desktop startup.
+        export TMUX_TMPDIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
+        sessions="$($tmux list-sessions -F '#{session_id}' 2>/dev/null)" || exit 0
+
+        for name in ${lib.escapeShellArgs desktopEnvironment}; do
+          if [[ -v "$name" ]]; then
+            $tmux set-environment -g "$name" "''${!name}"
+          else
+            $tmux set-environment -gu "$name"
+          fi
+          # Session values override the global environment, so update both.
+          while IFS= read -r session; do
+            if [[ -v "$name" ]]; then
+              $tmux set-environment -t "$session" "$name" "''${!name}"
+            else
+              $tmux set-environment -r -t "$session" "$name"
+            fi
+          done <<< "$sessions"
+        done
+      '';
       # One picker for every entry point: the prefix+o display-popup
       # (SESH_IN_POPUP), `s` inside a real tmux pane, and shell start outside
       # tmux. `sesh list` defaults to all sources (tmux, configs, tmuxinator,
@@ -21,38 +65,27 @@
         fzf=${pkgs.fzf}/bin/fzf
         fzfTmux=${pkgs.fzf}/bin/fzf-tmux
 
-        # fzf-tmux opens its own popup and needs a real tty, which run-shell
-        # does not provide. Inside a real tmux pane use it for a nested popup;
-        # in the prefix+o display-popup fzf already has a tty (do not nest).
+        pickerOptions=(
+          --no-sort --ansi --border-label ' sesh ' --prompt '⚡  '
+          --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find'
+          --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)'
+          --bind 'ctrl-t:change-prompt(🪟  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)'
+          --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)'
+          --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)'
+          --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)'
+          --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)'
+          --preview-window 'right:55%'
+          --preview '${config.programs.sesh.package}/bin/sesh preview {}'
+        )
+
+        # fzf-tmux needs a real pane; display-popup already provides a tty.
         if [ -n "''${TMUX:-}" ] && [ -z "''${SESH_IN_POPUP:-}" ]; then
-          if ! selection="$($sesh list --icons | $fzfTmux -p 80%,70% \
-            --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-            --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
-            --bind 'tab:down,btab:up' \
-            --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
-            --bind 'ctrl-t:change-prompt(🪟  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
-            --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)' \
-            --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)' \
-            --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
-            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
-            --preview-window 'right:55%' \
-            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"; then
-            exit 0
-          fi
+          picker=("$fzfTmux" -p 80%,70% --bind 'tab:down,btab:up')
         else
-          if ! selection="$($sesh list --icons | $fzf --ansi \
-            --no-sort --border-label ' sesh ' --prompt '⚡  ' \
-            --header '  ^a all ^t tmux ^g configs ^x zoxide ^f find' \
-            --bind 'ctrl-a:change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
-            --bind 'ctrl-t:change-prompt(🪟  )+reload(${config.programs.sesh.package}/bin/sesh list -t --icons)' \
-            --bind 'ctrl-g:change-prompt(⚙️  )+reload(${config.programs.sesh.package}/bin/sesh list -c --icons)' \
-            --bind 'ctrl-x:change-prompt(📁  )+reload(${config.programs.sesh.package}/bin/sesh list -z --icons)' \
-            --bind 'ctrl-f:change-prompt(🔎  )+reload(${pkgs.fd}/bin/fd -H -d 2 -t d -E .Trash . ~)' \
-            --bind 'ctrl-d:execute(${pkgs.tmux}/bin/tmux kill-session -t {2..})+change-prompt(⚡  )+reload(${config.programs.sesh.package}/bin/sesh list --icons)' \
-            --preview-window 'right:55%' \
-            --preview '${config.programs.sesh.package}/bin/sesh preview {}')"; then
-            exit 0
-          fi
+          picker=("$fzf")
+        fi
+        if ! selection="$($sesh list --icons | "''${picker[@]}" "''${pickerOptions[@]}")"; then
+          exit 0
         fi
 
         # sesh connect re-resolves the target live. In a tmux pane ($TMUX set)
@@ -93,6 +126,7 @@
 
       home.file.".local/bin/sesh-fast".source = seshFast;
       home.file.".local/bin/sesh-fast-window".source = seshFastWindow;
+      home.file.".local/bin/tmux-refresh-desktop-environment".source = refreshDesktopEnvironment;
 
       programs = {
         tmux = {
@@ -101,6 +135,7 @@
           keyMode = "vi";
           customPaneNavigationAndResize = false;
           mouse = true;
+          focusEvents = true;
           baseIndex = 1;
           escapeTime = 0;
           # Do not auto-spawn `new-session -A -s 0`. That line recreated a
@@ -131,14 +166,15 @@
               plugin = pkgs.tmuxPlugins.continuum;
               extraConfig = ''
                 set -g @continuum-restore 'on'
-                set -g @continuum-save-interval '5'
+                # The systemd timer owns snapshots; Continuum only restores.
+                set -g @continuum-save-interval '0'
               '';
             }
           ];
 
           extraConfig = ''
-            # Preserve Hyprland and Umbriel sockets on reattach
-            set -ga update-environment "HYPRLAND_INSTANCE_SIGNATURE UMBRIEL_MAIN_OUT UMBRIEL_SECONDARY_OUT UMBRIEL_PORTRAIT_OUT"
+            # Keep tmux's default SSH/X11 variables and refresh desktop variables on attach.
+            set -ga update-environment "${lib.concatStringsSep " " desktopEnvironment}"
 
             # sesh caches its session list; refresh it whenever sessions are
             # created or killed outside sesh so the picker stays accurate.
@@ -217,18 +253,20 @@
 
             # Interactive resize mode: prefix+r, then hjkl / arrows to resize,
             # q / Esc / Enter to exit back to normal mode
-            bind r set -g key-table resize
-            bind -T resize h resize-pane -L 5
-            bind -T resize j resize-pane -D 5
-            bind -T resize k resize-pane -U 5
-            bind -T resize l resize-pane -R 5
-            bind -T resize Left resize-pane -L 5
-            bind -T resize Down resize-pane -D 5
-            bind -T resize Up resize-pane -U 5
-            bind -T resize Right resize-pane -R 5
-            bind -T resize q set -g key-table root
-            bind -T resize Escape set -g key-table root
-            bind -T resize Enter set -g key-table root
+            bind r switch-client -T resize
+            bind -T resize h resize-pane -L 5 \; switch-client -T resize
+            bind -T resize j resize-pane -D 5 \; switch-client -T resize
+            bind -T resize k resize-pane -U 5 \; switch-client -T resize
+            bind -T resize l resize-pane -R 5 \; switch-client -T resize
+            bind -T resize Left resize-pane -L 5 \; switch-client -T resize
+            bind -T resize Down resize-pane -D 5 \; switch-client -T resize
+            bind -T resize Up resize-pane -U 5 \; switch-client -T resize
+            bind -T resize Right resize-pane -R 5 \; switch-client -T resize
+            # Stay in this client's resize mode until an explicit exit key.
+            bind -T resize Any switch-client -T resize
+            bind -T resize q switch-client -T root
+            bind -T resize Escape switch-client -T root
+            bind -T resize Enter switch-client -T root
 
             # Incremental resize (repeatable): prefix+- / prefix++
             bind -r '-' resize-pane -L 5
@@ -244,10 +282,10 @@
 
             # Fast sesh picker. run-shell has no tty, which breaks fzf, so run
             # the picker inside a display-popup (its own pty) and close on exit.
-            bind -N "sesh picker" o display-popup -E -w 80% -h 70% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast'
+            bind -N "sesh picker" o display-popup -E -d '#{pane_current_path}' -w 80% -h 70% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast'
 
             # Window picker via sesh.
-            bind -N "sesh window picker" W display-popup -E -w 70% -h 60% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast-window'
+            bind -N "sesh window picker" W display-popup -E -d '#{pane_current_path}' -w 70% -h 60% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast-window'
 
             # Session management
             bind t command-prompt -I '#S' 'rename-session -- "%%"'
@@ -268,7 +306,7 @@
             set -g status-right-length 100
             set -g status-justify left
             set -g status-left ''''''
-            set -g status-right '#[fg=#{?#{==:#{client_key_table},prefix},#${c.base0B},#${c.base0C}},bg=#${c.base00}] #S'
+            set -g status-right '#[fg=#{?#{==:#{client_key_table},prefix},#${c.base0B},#${c.base0C}},bg=#${c.base00}]#{?#{==:#{client_key_table},resize},RESIZE • ,} #S'
             setw -g window-status-separator ' '
             setw -g automatic-rename on
             setw -g automatic-rename-format '#{pane_current_command}'
@@ -287,7 +325,12 @@
           icons = true;
           settings = {
             cache = true;
-            sort_order = [ "tmux" "config" "tmuxinator" "zoxide" ];
+            sort_order = [
+              "tmux"
+              "config"
+              "tmuxinator"
+              "zoxide"
+            ];
             tui = {
               show_windows = true;
               preview = true;
@@ -297,6 +340,31 @@
         };
 
         zsh.initContent = lib.mkAfter /* bash */ ''
+          # tmux updates its own environment, not already-running shells.
+          # Import only desktop variables; never eval environment values as code.
+          if [[ -n "''${TMUX:-}" ]]; then
+            _tmux_refresh_desktop_environment() {
+              local entry name desktop_env
+              desktop_env="$(${config.programs.tmux.package}/bin/tmux show-environment -t "$TMUX_PANE" 2>/dev/null)" || return 0
+              while IFS= read -r entry; do
+                name="''${entry%%=*}"
+                name="''${name#-}"
+                case "$name" in
+                  ${lib.concatStringsSep "|" desktopEnvironment})
+                    if [[ "$entry" == -* ]]; then
+                      unset "$name"
+                    else
+                      export "$entry"
+                    fi
+                    ;;
+                esac
+              done <<< "$desktop_env"
+            }
+            autoload -Uz add-zsh-hook
+            add-zsh-hook precmd _tmux_refresh_desktop_environment
+            _tmux_refresh_desktop_environment
+          fi
+
           # Offer the session picker only in an ordinary shell. devenv creates
           # an interactive subshell while activating its project environment.
           if [ -z "''${TMUX:-}" ] && [ -z "''${DEVENV_ROOT:-}" ]; then
@@ -337,9 +405,8 @@
         };
       };
 
-      # Continuum's in-server save loop stalls after long uptime (see stale
-      # ~/.tmux/resurrect saves), so drive resurrection snapshots from systemd
-      # instead. Runs the plugin's own save.sh against the user's default socket.
+      # The custom status-right replaces Continuum's autosave trigger, so the
+      # timer runs Resurrect's save.sh against the user's default socket.
       systemd.user.services."tmux-resurrect-save" = {
         Unit = {
           Description = "Save tmux state for resurrect";
@@ -350,7 +417,7 @@
           ExecStart = [
             (pkgs.writeShellScript "tmux-resurrect-save" ''
               ${pkgs.tmux}/bin/tmux has-session 2>/dev/null || exit 0
-              ${pkgs.tmux}/bin/tmux run-shell -d "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh"
+              ${pkgs.tmux}/bin/tmux run-shell "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh"
             '')
           ];
         };

@@ -11,7 +11,6 @@
           enableMcpIntegration = true;
 
           commands = ../../assets/ai/commands;
-          skills = ../../assets/ai/skills;
 
           settings = {
             default_agent = "build";
