@@ -40,8 +40,8 @@
           ];
           kernelParams = [
             "splash"
-            "video=DP-1:3440x1440@144"
-            "video=DP-2:3440x1440@144"
+            "video=DP-2:3440x1440@360"
+            "video=DP-3:3440x1440@144"
             "amdgpu.gpu_recovery=1"
             "amdgpu.ppfeaturemask=0xfffd7fff"
             "amdgpu.noretry=0"

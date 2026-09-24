@@ -16,18 +16,18 @@ in
       monitors = {
         main = {
           name = "DP-2";
-          mode = "3440x1440@143.92";
+          mode = "3440x1440@360.10";
           scale = 1.0;
           bitdepth = 10;
           cm = "hdredid";
           supports_hdr = true;
           supports_wide_color = true;
           vrr = 1;
-          sdrbrightness = 0.5;
+          sdrbrightness = 0.3;
           sdrsaturation = 1.0;
-          sdr_max_luminance = 408;
-          sdr_white = 408;
-          sdr_min_luminance = 0.2339;
+          sdr_max_luminance = 1345;
+          sdr_white = 1345;
+          sdr_min_luminance = 0.0002;
           position = "4880x1440";
           primary = true;
         };
