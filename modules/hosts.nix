@@ -40,7 +40,7 @@ in
           supports_hdr = true;
           supports_wide_color = true;
           vrr = 1;
-          sdrbrightness = 0.5;
+          sdrbrightness = 0.8;
           sdrsaturation = 1.0;
           sdr_max_luminance = 408;
           sdr_white = 408;
