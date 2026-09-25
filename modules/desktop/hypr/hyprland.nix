@@ -479,7 +479,7 @@
                               hl.window_rule({ name = "godot_game", match = { title = ".*(DEBUG).*", initial_title = "Godot" }, workspace = "11", float = true, max_size = floating_max_size })
                               hl.window_rule({ name= "godot_float", match = {class="org.godotengine.*", float=true}, max_size = floating_max_size, center=true, size=floating_default_size})
 
-                              hl.window_rule({ match = { content = "game", fullscreen = true }, confine_pointer = true })
+                              hl.window_rule({ match = { content = "game" }, confine_pointer = true, fullscreen=true })
                               hl.window_rule({ name = "steampopup", match = { title = "Steamwebhelper" }, workspace = "10 silent", suppress_event = "activatefocus" })
                               hl.window_rule({ name = "steamnotification", match = { class = "steam", title = "^notificationtoasts" }, pin=true, suppress_event = "activatefocus", float=true })
                               hl.window_rule({ name = "steamsignin", match = { initial_title = "Sign in to Steam", initial_class = "steam" }, float = true, center = true, max_size = floating_max_size, suppress_event = "activatefocus", workspace = "10 silent" })
