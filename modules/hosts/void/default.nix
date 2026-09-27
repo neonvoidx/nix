@@ -39,16 +39,12 @@
             "ntsync"
           ];
           kernelParams = [
-            "splash"
-            "video=DP-2:3440x1440@360"
-            "video=DP-3:3440x1440@144"
-            "amdgpu.gpu_recovery=1"
-            "amdgpu.ppfeaturemask=0xfffd7fff"
+            # Disables GFXOFF (0x8000) and stutter mode (0x20000); costs ~30W of idle power.
+            # "amdgpu.ppfeaturemask=0xfffd7fff"
             "amdgpu.noretry=0"
             "amdgpu.lockup_timeout=10000"
           ];
           blacklistedKernelModules = [
-            "mt7925e"
             "snd_hda_intel"
           ];
         };
