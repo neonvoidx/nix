@@ -36,7 +36,21 @@
         tmux=${config.programs.tmux.package}/bin/tmux
         # Match Home Manager's secureSocket location, including at desktop startup.
         export TMUX_TMPDIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
-        sessions="$($tmux list-sessions -F '#{session_id}' 2>/dev/null)" || exit 0
+
+        # The compositor and tmux-default-sessions.service start in the same
+        # second, so the server is usually not listening yet. update-environment
+        # only refreshes the session a client attaches to, so losing this race
+        # leaves every other session on the systemd environment, which carries no
+        # HYPRLAND_INSTANCE_SIGNATURE or UMBRIEL_SOCKET. Wait for the server
+        # instead of exiting; the wait ends as soon as it answers.
+        sessions=""
+        for _ in {1..100}; do
+          if sessions="$($tmux list-sessions -F '#{session_id}' 2>/dev/null)"; then
+            break
+          fi
+          sleep 0.2
+        done
+        [ -n "$sessions" ] || exit 0
 
         for name in ${lib.escapeShellArgs desktopEnvironment}; do
           if [[ -v "$name" ]]; then
