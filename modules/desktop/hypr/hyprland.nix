@@ -321,6 +321,7 @@
                           hl.bind(mod .. " + SHIFT + f", hl.dsp.window.fullscreen({ mode="fullscreen", action = "toggle" }))
                           hl.bind(mod .. " + c", hl.dsp.window.center())
                           hl.bind("ALT + TAB", hl.dsp.focus({ workspace = "previous" }))
+                          hl.bind(mod .. " + TAB", hl.dsp.exec_cmd("noctalia msg window-switcher"))
 
                           hl.bind(mod .. " + h", hl.dsp.focus({ direction = "left" }))
                           hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))
