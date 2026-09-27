@@ -9,6 +9,10 @@
       url = "github:HeitorAugustoLN/betterfox-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    curseforge = {
+      url = "github:spitfire05/curseforge-appimage-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };

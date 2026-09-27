@@ -1,39 +1,19 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.wow.homeManager =
     { pkgs, ... }:
     let
-      curseforge = pkgs.fetchurl {
-        url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
-        hash = "sha256-4DQZNlrJGY1gGAyqB74+vhhI9lCDPAEQrayhSX5G0Uc=";
-      };
       archon-lite = pkgs.fetchurl {
         url = "https://github.com/RPGLogs/Uploaders-archon-lite/releases/download/v9.5.0/archon-lite-v9.5.0.AppImage";
         hash = "sha256-ZuALgVtqsYtvnSq8hkJL4A+i4UaEpk+2L3bpSEXrhRM=";
       };
     in
     {
+      imports = [ inputs.curseforge.homeManagerModules.default ];
+
+      programs.curseforge.enable = true;
+
       home.packages = [
-        (pkgs.appimageTools.wrapType2 {
-          pname = "CurseForge";
-          name = "curseforge";
-          version = "1.314.0";
-          src = curseforge;
-          extraInstallCommands =
-            let
-              contents = pkgs.appimageTools.extract {
-                pname = "CurseForge";
-                version = "1.314.0";
-                src = curseforge;
-              };
-            in
-            ''
-              install -m 444 -D ${contents}/curseforge.desktop $out/share/applications/curseforge.desktop
-              substituteInPlace $out/share/applications/curseforge.desktop \
-                  --replace-fail 'Exec=AppRun' 'Exec=CurseForge'
-              cp -r ${contents}/usr/share/icons $out/share/icons
-            '';
-        })
         (pkgs.appimageTools.wrapType2 {
           pname = "archon-lite";
           name = "archon-lite";
