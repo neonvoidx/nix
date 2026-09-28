@@ -990,6 +990,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-discord": {
+      "locked": {
+        "lastModified": 1790444631,
+        "narHash": "sha256-xVt0wGj3FQ5YkUZnoKNqTspKwInn7PIQ969DAmKEQC0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "76ef4f45c14940b1632c32bef9c20476fa58fe7e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "76ef4f45c14940b1632c32bef9c20476fa58fe7e",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1777168982,
@@ -1269,6 +1285,7 @@
         "nix-versions": "nix-versions",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-discord": "nixpkgs-discord",
         "noctalia": "noctalia",
         "nvim-config": "nvim-config",
         "scopebuddy": "scopebuddy",
