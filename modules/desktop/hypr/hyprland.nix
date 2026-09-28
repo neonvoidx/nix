@@ -456,6 +456,7 @@
                               hl.window_rule({ name = "xdgfilepicker", match = { class = "xdg-desktop-portal-gtk" }, float = true, center = true, size = floating_default_size, max_size = floating_max_size })
                               hl.window_rule({ name = "gnomekeyringprompt", match = { title = "Unlock Login Keying" }, float = true, pin = true })
                               hl.window_rule({ name = "hyprpopup", match = { class = "hyprland-dialog" }, pin = true })
+                              hl.window_rule({ name = "thunderbird-reminder", match = { initial_class = "thunderbird", initial_title="Calendar Reminders" }, pin = true, float=true, size=floating_default_size, max_size=floating_max_size })
                               hl.window_rule({name="thunderbird", match={class="thunderbird"}, workspace="12 silent", suppress_event="activatefocus"})
                               hl.window_rule({
                                 name = "xwaylandhelper",
