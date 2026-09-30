@@ -91,6 +91,7 @@
             XDG_CONFIG_HOME = "${config.home.homeDirectory}/.config";
             EDITOR = "nvim";
             VISUAL = "nvim";
+            MANPAGER = "nvim +Man!";
           };
 
           shellAliases = {
