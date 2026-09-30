@@ -13,6 +13,10 @@
 
       nixos =
         { pkgs, ... }:
+        let
+          notifySend = "${pkgs.libnotify}/bin/notify-send";
+          noctaliaMsg = "${pkgs.noctalia}/bin/noctalia msg";
+        in
         {
           programs.gamemode = {
             enable = true;
@@ -20,8 +24,8 @@
             enableRenice = false;
             settings = {
               custom = {
-                start = "${pkgs.libnotify}/bin/notify-send 'GameMode started' && noctalia msg notification-dnd-set on";
-                end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended' && noctalia msg notification-dnd-set off";
+                start = "${notifySend} 'GameMode started' && ${noctaliaMsg} notification-dnd-set on";
+                end = "${notifySend} 'GameMode ended' && ${noctaliaMsg} notification-dnd-set off";
               };
             };
           };

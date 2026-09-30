@@ -4,11 +4,12 @@
     { host, user, ... }:
     {
       nixos =
-        { pkgs, lib, ... }:
+        { lib, ... }:
         {
           services.displayManager.noctalia-greeter = {
             enable = true;
             extraArgs = [ ];
+            passwordlessSyncUsers = [ user.userName ];
             settings = {
               user = {
                 default = user.userName;
@@ -25,9 +26,6 @@
                   )
                 );
               };
-              appearance = {
-                scheme = "Eldritch";
-              };
               cursor = {
                 theme = "eldritch-great-old-green-cursors";
                 size = 32;
@@ -35,22 +33,6 @@
             };
           };
 
-          security.polkit = {
-            enable = true;
-            extraConfig = ''
-              polkit.addRule(function(action, subject) {
-                var allowedUsers = ["${user.userName}"];
-
-                if (action.id == "org.noctalia.greeter.sync-appearance" &&
-                    action.lookup("program") == "${pkgs.noctalia-greeter}/bin/noctalia-greeter-apply-appearance" &&
-                    action.lookup("user") == "root" &&
-                    subject.local && subject.active &&
-                    allowedUsers.indexOf(subject.user) >= 0) {
-                  return polkit.Result.YES;
-                }
-              });
-            '';
-          };
           security.pam.services.greetd.enableGnomeKeyring = true;
         };
     };
