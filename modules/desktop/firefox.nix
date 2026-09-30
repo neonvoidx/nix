@@ -285,7 +285,7 @@
                   "Nixpkg PR Tracker" = {
                     urls = [
                       {
-                        template = "https://nixpkgs-tracker.ocfox.me/";
+                        template = "https://nixpk.gs/pr-tracker.html";
                         params = [
                           {
                             name = "pr";
