@@ -15,13 +15,13 @@
         };
       };
       nix = {
-        nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
         gc = {
           automatic = lib.mkDefault true;
           dates = lib.mkDefault "daily";
           options = lib.mkDefault "--delete-older-than 5d";
         };
         settings = {
+          nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
           # Push realised local builds into the personal Cachix cache.
           post-build-hook = pkgs.writeShellScript "push-to-neonvoidx-cachix" ''
             set -eu

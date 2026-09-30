@@ -21,6 +21,7 @@
       # Security
       den.aspects.sops
       den.aspects.pcscd
+      den.aspects.sudo
       den.aspects.noctalia-greeter
       den.aspects.polkit
 
