@@ -15,6 +15,8 @@
     };
     hyprland = {
       url = "github:hyprwm/Hyprland";
+      # TODO Remove when hyprland updates flake for glibc
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -32,9 +34,12 @@
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/cachix";
-    };
+    # Noctalia now comes from nixpkgs (programs.noctalia in Home Manager) instead
+    # of its own flake. Its flake pinned a glibc 2.42 nixpkgs while the system ran
+    # 2.44, so it died at startup with "fatal: eglGetDisplay failed".
+    # noctalia = {
+    #   url = "github:noctalia-dev/noctalia/cachix";
+    # };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";
       inputs.nixpkgs.follows = "nixpkgs";
