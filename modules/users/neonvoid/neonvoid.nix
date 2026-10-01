@@ -67,7 +67,8 @@
       # pulls from my repo, if you want to pull your own
       # wallpaper pics repo, change pics.nix url
       den.aspects.pics
-      den.aspects.spicetify
+      # den.aspects.spicetify
+      den.aspects.youtubemusic
 
       # Communication
       den.aspects.discord

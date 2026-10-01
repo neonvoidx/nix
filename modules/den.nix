@@ -31,7 +31,8 @@
           '';
           # Home manager modules
           sharedModules = [
-            inputs.spicetify-nix.homeManagerModules.default
+            # inputs.spicetify-nix.homeManagerModules.default
+            inputs.pear-desktop.homeManagerModules.default
             inputs.nix-index-database.homeModules.default
             inputs.nixcord.homeModules.nixcord
           ];

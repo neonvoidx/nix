@@ -34,12 +34,10 @@
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Noctalia now comes from nixpkgs (programs.noctalia in Home Manager) instead
-    # of its own flake. Its flake pinned a glibc 2.42 nixpkgs while the system ran
-    # 2.44, so it died at startup with "fatal: eglGetDisplay failed".
-    # noctalia = {
-    #   url = "github:noctalia-dev/noctalia/cachix";
-    # };
+    pear-desktop = {
+      url = "github:h-banii/pear-desktop-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -52,10 +50,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    spicetify-nix = {
-      url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # spicetify-nix = {
+    #   url = "github:Gerg-L/spicetify-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
