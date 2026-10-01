@@ -1,11 +1,12 @@
 { den, inputs, ... }:
 {
   den.aspects.youtubemusic.homeManager =
-    { pkgs, config, lib, ... }:
+    { pkgs, config, ... }:
     {
       programs.pear-desktop = {
         enable = true;
         options = {
+          appVisible = true;
           customWindowTitle = "Pear";
           hideMenu = true;
           language = "en";
@@ -15,8 +16,8 @@
           themes = [
             "${config.home.homeDirectory}/.config/ytm/themes/cthulhu.css"
           ];
-          tray = true;
-          trayClickPlayPause = true;
+          # Setting tray = true, makes tray work, but doesn't show window on startup
+          tray = false;
         };
         plugins = {
           album-actions.enable = true;
@@ -30,7 +31,7 @@
           };
           blur-nav-bar.enable = true;
           disable-autoplay = {
-            enable = true;
+            enable = false;
             applyOnce = true;
           };
           discord = {
@@ -51,7 +52,7 @@
           };
           transparent-player = {
             enable = true;
-            opacity = 0.3;
+            opacity = 0.5;
           };
           tuna-obs.enable = true;
           video-toggle = {
@@ -61,8 +62,7 @@
       };
 
       home.file.".config/ytm/themes/cthulhu.css" = {
-        source = lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/nix/assets/ytm/cthulhu.css";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/ytm/cthulhu.css";
       };
     };
 }

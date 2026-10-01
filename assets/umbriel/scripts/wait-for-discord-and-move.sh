@@ -26,13 +26,24 @@ layout_pair() {
   [[ -n "$ws_id" ]] || return 0
 
   windows="$("$umbriel_bin" windows --json)" || return 1
+  # Original Spotify pairing logic (commented out)
+  # pair="$(jq -r --arg ws "$ws_id" '
+  #   def main_window($app):
+  #     [.[] | select(.workspace == $ws and .app_id == $app
+  #       and (.floating // false | not) and (.scratchpad // "") == ""
+  #       and (.title // "") != "Discord Popout")]
+  #     | max_by(.w * .h) | .id // empty;
+  #   [main_window("discord"), main_window("spotify")] | @tsv
+  # ' <<<"$windows")"
+
+  # Pair Discord with Pear instead of Spotify
   pair="$(jq -r --arg ws "$ws_id" '
     def main_window($app):
       [.[] | select(.workspace == $ws and .app_id == $app
         and (.floating // false | not) and (.scratchpad // "") == ""
         and (.title // "") != "Discord Popout")]
       | max_by(.w * .h) | .id // empty;
-    [main_window("discord"), main_window("spotify")] | @tsv
+    [main_window("discord"), main_window("com.github.th-ch.youtube-music")] | @tsv
   ' <<<"$windows")"
   IFS=$'\t' read -r discord_id spotify_id <<<"$pair"
   [[ -n "$discord_id" && -n "$spotify_id" ]] || return 0
