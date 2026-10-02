@@ -34,6 +34,9 @@
       url = "github:neonvoidx/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/cachix";
+    };
     pear-desktop = {
       url = "github:h-banii/pear-desktop-nix";
       inputs.nixpkgs.follows = "nixpkgs";
