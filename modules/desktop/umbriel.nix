@@ -27,10 +27,21 @@
           portraitMon = monitors.portrait or { };
           builtinMon = monitors.builtin or { };
 
-          mainName = mainMon.name or "";
-          secondaryName = secondaryMon.name or "";
-          portraitName = portraitMon.name or "";
-          builtinName = builtinMon.name or "";
+           mainName = mainMon.name or "";
+           secondaryName = secondaryMon.name or "";
+           portraitName = portraitMon.name or "";
+           builtinName = builtinMon.name or "";
+           primaryName =
+             if mainMon.primary or false then
+               mainName
+             else if builtinMon.primary or false then
+               builtinName
+             else
+               "";
+           gamePlacement = lib.optionalAttrs (primaryName != "") {
+             default_output = primaryName;
+             default_workspace = 3;
+           };
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -119,14 +130,18 @@
             enable = true;
 
             settings = {
+              include.files = [
+                "${config.programs.umbriel.package}/share/umbriel/effects/animation/reveal/effect.toml"
+              ];
+
               general = {
                 autostart = [
                   "~/.local/bin/tmux-refresh-desktop-environment umbriel"
                   "noctalia"
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"
-                   # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
-                   "pear-desktop"
+                  # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                  "pear-desktop"
                   "steam"
                 ]
                 ++ lib.optionals (portraitName != "") [
@@ -138,21 +153,28 @@
                 show_cheatsheet = false;
               };
 
-              environment = {
-                ENABLE_HDR_WSI = "1";
-                DXVK_HDR = "1";
-                ELECTRON_OZONE_PLATFORM_HINT = "auto";
-                AMD_VULKAN_ICD = "RADV";
-                GDK_SCALE = "1";
-                QT_SCALE_FACTOR = "1";
-                GDK_BACKEND = "wayland,x11,*";
-                QT_QPA_PLATFORM = "wayland;xcb";
-                CLUTTER_BACKEND = "wayland";
-                QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-                QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-                MOZ_ENABLE_WAYLAND = "1";
-                EGL_PLATFORM = "wayland";
-              };
+              environment =
+                {
+                  ENABLE_HDR_WSI = "1";
+                  DXVK_HDR = "1";
+                  ELECTRON_OZONE_PLATFORM_HINT = "auto";
+                  AMD_VULKAN_ICD = "RADV";
+                  GDK_SCALE = "1";
+                  QT_SCALE_FACTOR = "1";
+                  GDK_BACKEND = "wayland,x11,*";
+                  QT_QPA_PLATFORM = "wayland;xcb";
+                  CLUTTER_BACKEND = "wayland";
+                  QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+                  QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+                  MOZ_ENABLE_WAYLAND = "1";
+                  EGL_PLATFORM = "wayland";
+                }
+                // lib.optionalAttrs (primaryName != "") {
+                  UMBRIEL_PRIMARY_OUT = primaryName;
+                }
+                // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                  UMBRIEL_SECONDARY_OUT = secondaryName;
+                };
 
               inherit output;
 
@@ -161,8 +183,6 @@
                 border = {
                   focused = "#37F499FF";
                   unfocused = "#A48CF2FF";
-                  scratchpad_focused = "#37F499FF";
-                  scratchpad_unfocused = "#A48CF2FF";
                 };
               };
 
@@ -187,11 +207,11 @@
                   theme = "eldritch-great-old-green-cursors";
                   size = 32;
                   hardware_cursor = true;
-                  follows_focus = false;
+                  follows_focus = true;
                 };
                 focus = {
                   follows_mouse = true;
-                  # follows_mouse_max_scroll = 0.5;
+                  # follows_mouse_max_scroll = 0.0;
                 };
                 keyboard = {
                   repeat_rate = 25;
@@ -203,9 +223,9 @@
                 mode = "scrolling";
                 gap = 8;
                 extent_presets = [
-                  0.33
                   0.5
                   0.75
+                  0.9
                   1.0
                 ];
                 scrolling = {
@@ -214,7 +234,7 @@
                   # Discord/Spotify lanes stay flush with the top edge; Umbriel
                   # only exposes these keys globally, not per-output.
                   center_underfull_strip = false;
-                  center_focused = "never";
+                  center_focused = "on_overflow";
                 };
               };
 
@@ -250,13 +270,13 @@
                 springs = { };
                 windows_in = {
                   enabled = true;
-                  shader = "shaders/plasma-flow/open.glsl";
+                  effect = "reveal";
                   duration_ms = 250;
                   curve = "easeOutCubic";
                 };
                 windows_out = {
                   enabled = true;
-                  shader = "shaders/plasma-flow/close.glsl";
+                  effect = "reveal";
                   duration_ms = 100;
                   curve = "easeOutCubic";
                 };
@@ -386,16 +406,16 @@
                   repeat = false;
                 };
                 "Mod+F" = {
-                  action = "window-toggle-maximize-to-edges";
+                  action = "window-modify-primary-extent:0.9";
                   repeat = false;
                 };
                 "Mod+Shift+F" = {
                   action = "window-toggle-fullscreen";
                   repeat = false;
                 };
-                # Center floating windows
+                # Center column
                 "Mod+C" = {
-                  action = "window-center";
+                  action = "column-center";
                   repeat = false;
                 };
                 # Cycle focus across outputs instead of windows
@@ -408,27 +428,44 @@
                   repeat = false;
                 };
 
+                # FOCUS
+                #
                 # Directional focus stays local to the scrolling layout, then
                 # crosses to the adjacent output at a strip edge.
                 "Mod+H" = "window-focus-or-output-left";
                 "Mod+L" = "window-focus-or-output-right";
                 "Mod+K" = "window-focus-or-output-up";
                 "Mod+J" = "window-focus-or-output-down";
-                "Mod+Left" = "window-focus-or-output-left";
-                "Mod+Right" = "window-focus-or-output-right";
-                "Mod+Up" = "window-focus-or-output-up";
-                "Mod+Down" = "window-focus-or-output-down";
+                # Output focus
+                "Mod+Left" = "output-focus-left";
+                "Mod+Right" = "output-focus-right";
+                "Mod+Down" = "output-focus-down";
+                "Mod+Up" = "output-focus-up";
+                # First column in workspace
+                "Mod+Backspace" = "column-focus-first";
+                # Last column in workspace
+                "Mod+A" = "column-focus-last";
 
+                # MOVEMENT
+                #
                 # Move a window in the indicated screen direction, crossing
                 # outputs when the current strip has no neighbor.
                 "Mod+Shift+H" = "window-move-or-output-left";
                 "Mod+Shift+L" = "window-move-or-output-right";
-                "Mod+Shift+K" = "window-move-or-workspace-up";
-                "Mod+Shift+J" = "window-move-or-workspace-down";
-                "Mod+Shift+Left" = "window-move-or-output-left";
-                "Mod+Shift+Right" = "window-move-or-output-right";
-                "Mod+Shift+Up" = "window-move-or-workspace-up";
-                "Mod+Shift+Down" = "window-move-or-workspace-down";
+                "Mod+Shift+K" = "window-move-or-output-up";
+                "Mod+Shift+J" = "window-move-or-output-down";
+                # Explicitly move current window to output direction
+                "Mod+Shift+Left" = "window-move-to-output-left";
+                "Mod+Shift+Right" = "window-move-to-output-right";
+                "Mod+Shift+Up" = "window-move-to-output-up";
+                "Mod+Shift+Down" = "window-move-to-output-down";
+                # Move to first in workspace
+                "Mod+Shift+A" = "column-move-to-last";
+                # Move to last in workspace
+                "Mod+Shift+Backspace" = "column-move-to-first";
+
+                # Pin
+                "Mod+P" = "window-toggle-pinned";
 
                 # Layout
                 "Mod+R" = {
@@ -627,6 +664,10 @@
                   blur_optimized = true;
                 }
 
+                # Games tagged by the client open on workspace 3. If the
+                # primary output is disabled, Umbriel uses an enabled output.
+                ({ match.content_type = "game"; } // gamePlacement)
+
                 # Noctalia settings
                 {
                   match = {
@@ -715,15 +756,22 @@
                   default_focused = false;
                 }
 
-                # Thunderbird stays on the active dynamic workspace.
-                {
-                  match = {
-                    app_id = "^thunderbird$";
-                    at_startup = true;
-                  };
-                  default_focused = false;
-                  focus_on_activate = false;
-                }
+                # Thunderbird stays on the active dynamic workspace unless a
+                # secondary output is available.
+                (
+                  {
+                    match = {
+                      app_id = "^thunderbird$";
+                      at_startup = true;
+                    };
+                    default_focused = false;
+                    focus_on_activate = false;
+                  }
+                  // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                    default_output = secondaryName;
+                    default_workspace = 2;
+                  }
+                )
 
                 # Discord main window
                 (
@@ -808,10 +856,10 @@
                 }
 
                 # Godot game (debug runs)
-                {
+                ({
                   match.title = ".*(DEBUG).*";
                   default_fullscreen = true;
-                }
+                } // gamePlacement)
 
                 # Steam helper webpages
                 {
@@ -838,17 +886,23 @@
                   default_focused = false;
                 }
 
-                # Steam main window
-                {
-                  match = {
-                    app_id = "^steam$";
-                    at_startup = true;
-                  };
-                  default_focused = false;
-                }
+                # Steam opens on workspace 2 of the configured primary output.
+                (
+                  {
+                    match = {
+                      app_id = "^steam$";
+                      at_startup = true;
+                    };
+                    default_focused = false;
+                  }
+                  // lib.optionalAttrs (primaryName != "") {
+                    default_output = primaryName;
+                    default_workspace = 2;
+                  }
+                )
 
                 # Steam games
-                {
+                ({
                   # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
                   # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
                   match = {
@@ -857,7 +911,7 @@
                   };
                   default_fullscreen = true;
                   blur = false;
-                }
+                } // gamePlacement)
                 {
                   match = {
                     app_id = "^steam_app_.*$";
@@ -874,7 +928,7 @@
                     title = "^Battle\\.net.*";
                   };
                   default_fullscreen = false;
-                  default_focused = false;
+                  default_focused = true;
                 }
                 # Battle.net wayland enabled
                 {
@@ -883,39 +937,39 @@
                     title = "^Battle\\.net.*";
                   };
                   default_fullscreen = false;
-                  default_focused = false;
+                  default_focused = true;
                 }
                 # FFXIV
-                {
+                ({
                   match.title = "FINAL FANTASY XIV";
                   default_fullscreen = true;
-                }
+                } // gamePlacement)
 
                 # Gamescope
-                {
+                ({
                   match.app_id = "^gamescope$";
                   default_fullscreen = true;
-                }
+                } // gamePlacement)
 
                 # World of Warcraft (wine)
-                {
+                ({
                   match.app_id = "^wow.exe$";
                   default_fullscreen = true;
                   blur = false;
-                }
+                } // gamePlacement)
 
                 # World of Warcraft (xwayland)
-                {
+                ({
                   match.title = "World of Warcraft";
                   default_fullscreen = true;
                   blur = false;
-                }
+                } // gamePlacement)
 
                 # Hytale
-                {
+                ({
                   match.title = "Hytale";
                   default_fullscreen = true;
-                }
+                } // gamePlacement)
 
                 # Battle.net gifts
                 {
@@ -1078,8 +1132,6 @@
           # configuration.
           home.file.".config/umbriel/scripts".source =
             config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/scripts";
-          home.file.".config/umbriel/shaders".source =
-            config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/shaders";
         };
     };
 }
