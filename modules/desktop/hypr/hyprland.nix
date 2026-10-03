@@ -139,9 +139,10 @@
           home.pointerCursor.hyprcursor.enable = true;
           wayland.windowManager.hyprland = {
             enable = true;
-            package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-            portalPackage =
-              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+            # NixOS owns the matching flake packages above. Keep Home Manager
+            # configuration-only so it does not apply its legacy portal override.
+            package = null;
+            portalPackage = null;
 
             plugins = [ ];
 

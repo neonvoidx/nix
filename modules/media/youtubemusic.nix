@@ -16,7 +16,7 @@
           themes = [
             "${config.home.homeDirectory}/.config/ytm/themes/cthulhu.css"
           ];
-          # Setting tray = true, makes tray work, but doesn't show window on startup
+          # Setting tray = true makes the tray work, but hides the window at startup.
           tray = false;
         };
         plugins = {
@@ -31,7 +31,7 @@
           };
           blur-nav-bar.enable = true;
           disable-autoplay = {
-            enable = false;
+            enable = true;
             applyOnce = true;
           };
           discord = {

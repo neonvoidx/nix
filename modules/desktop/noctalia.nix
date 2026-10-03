@@ -56,19 +56,17 @@
                   ];
                 contact_shadow = true;
                 end =
-                  lib.optionals (!isLaptop) [
+                  [
                     "tray"
-                  ]
-                  ++ [
                     "input_volume"
                     "output_volume"
+                    "cat_3"
                     "ram"
                     "temp"
                   ]
                   ++ lib.optionals isLaptop [
                     "battery"
                     "power_profile"
-                    "caffeine"
                   ]
                   ++ [
                     "control-center"
@@ -81,6 +79,7 @@
                     "display_mode"
                   ]
                   ++ [
+                    "caffeine"
                     "notifications"
                     "weather"
                     "clock"
@@ -1059,6 +1058,13 @@
                   show_cpu_percent = true;
                   type = "dotnetrob/cat:cat";
                 };
+                cat_3 = {
+                  cat_color = "hover";
+                  cat_color_mode = "custom";
+                  cat_size = 40;
+                  show_cpu_percent = true;
+                  type = "dotnetrob/cat:cat";
+                };
                 clock = {
                   capsule = true;
                   capsule_foreground = "primary";
@@ -1133,7 +1139,7 @@
                   font_weight = 700;
                   group_by_workspace = true;
                   group_single_icon_per_app = true;
-                  hide_empty_workspaces = true;
+                  hide_empty_workspaces = false;
                   inactive_opacity = 0.75;
                   minimal = true;
                   scale = 1.25;

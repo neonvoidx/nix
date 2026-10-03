@@ -451,7 +451,6 @@ On portrait dynamic workspace 1, each application occupies a separate full-width
 
 Hyprland and Umbriel call `~/.local/bin/tmux-refresh-desktop-environment` at startup to refresh desktop variables in tmux's global environment and every existing session. The helper clears the other compositor's IPC variable. Tmux refreshes the same allowlist on attachment, and a Zsh `precmd` hook imports it into existing pane shells without evaluating values as shell code. This is designed for local desktop attachments. Existing applications retain their own environment until restarted; existing shells need the new hook loaded once after deployment.
 
-
 `modules/shell/tmux.nix` owns tmux config, the sesh picker scripts, and two systemd user units. Key mechanics for anyone touching this:
 
 - **One picker script, three entry points.** `~/.local/bin/sesh-fast` (a `home.file` symlink to a `writeShellScript`) is the single picker used by the shell-start prompt (`s`, outside tmux only), the `s` alias inside a real pane, and the prefix+o binding. `sesh list --icons` (all sources) is the default; the ctrl-a/t/g/x/f/d rebinds switch views.
@@ -494,7 +493,7 @@ When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export,
 - **New plugins** — compare `plugins.enabled` lists
 - **New plugin_settings** — compare `plugin_settings` sections
 - **New widgets** — compare `widget.*` sections
-- **Bar layout changes** — compare `bar.main.start`, `bar.main.center`, `bar.main.end` widget lists
+- **Bar layout changes** — compare `bar.main.start`, `bar.main.center`, `bar.main.end` widget lists. Only `battery` `power_profile` should be conditional on `isLaptop`, display_mode` should be conditional on `!isLaptop`; all other widgets are always included regardless of host type.
 - **OSD settings** — compare `osd.*` (e.g. `kinds.media`)
 - **Widget property additions** — compare individual widget settings (e.g. `input_devices` on `widget.cat`)
 

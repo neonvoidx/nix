@@ -15,8 +15,6 @@
     };
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      # TODO Remove when hyprland updates flake for glibc
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";

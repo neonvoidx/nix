@@ -27,21 +27,25 @@
           portraitMon = monitors.portrait or { };
           builtinMon = monitors.builtin or { };
 
-           mainName = mainMon.name or "";
-           secondaryName = secondaryMon.name or "";
-           portraitName = portraitMon.name or "";
-           builtinName = builtinMon.name or "";
-           primaryName =
-             if mainMon.primary or false then
-               mainName
-             else if builtinMon.primary or false then
-               builtinName
-             else
-               "";
-           gamePlacement = lib.optionalAttrs (primaryName != "") {
-             default_output = primaryName;
-             default_workspace = 3;
-           };
+          mainName = mainMon.name or "";
+          secondaryName = secondaryMon.name or "";
+          portraitName = portraitMon.name or "";
+          builtinName = builtinMon.name or "";
+          primaryName =
+            if mainMon.primary or false then
+              mainName
+            else if builtinMon.primary or false then
+              builtinName
+            else
+              "";
+          # Games open on workspace 2 of the gaming desktop's primary output.
+          # voidframe is not a gaming host, so no game workspace is reserved on
+          # its built-in panel.
+          gameOutput = if (host.isGaming or false) then primaryName else "";
+          gamePlacement = lib.optionalAttrs (gameOutput != "") {
+            default_output = gameOutput;
+            default_workspace = 2;
+          };
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -102,16 +106,20 @@
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
               "${mainName}" = (mkGamingOutput mainMon) // {
                 enabled = true;
+                # Workspace 2 is the game workspace.
+                min_workspaces = 2;
               };
             }
             // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
               "${secondaryName}" = (mkGamingOutput secondaryMon) // {
                 enabled = true;
+                min_workspaces = 2;
               };
             }
             // lib.optionalAttrs (portraitName != "") {
               "${portraitName}" = (mkOutput portraitMon) // {
                 enabled = true;
+                min_workspaces = 1;
                 workspace_axis = "horizontal";
               };
             }
@@ -119,6 +127,8 @@
               # Laptop built-in panel (voidframe): single non-gaming output.
               "${builtinName}" = (mkOutput builtinMon) // {
                 enabled = true;
+                # Non-gaming host: one dynamic workspace is enough.
+                min_workspaces = 1;
               };
             };
 
@@ -131,8 +141,14 @@
 
             settings = {
               include.files = [
-                "${config.programs.umbriel.package}/share/umbriel/effects/animation/reveal/effect.toml"
+                "shaders/border/accent-pulse/effect.toml"
+                "shaders/animation/glitch/effect.toml"
+                "shaders/animation/wobbly-lifecycle/effect.toml"
+                "shaders/animation/wobbly-move/effect.toml"
+                "shaders/animation/reveal/effect.toml"
               ];
+
+              effects.border = "accent-pulse";
 
               general = {
                 autostart = [
@@ -153,33 +169,49 @@
                 show_cheatsheet = false;
               };
 
-              environment =
-                {
-                  ENABLE_HDR_WSI = "1";
-                  DXVK_HDR = "1";
-                  ELECTRON_OZONE_PLATFORM_HINT = "auto";
-                  AMD_VULKAN_ICD = "RADV";
-                  GDK_SCALE = "1";
-                  QT_SCALE_FACTOR = "1";
-                  GDK_BACKEND = "wayland,x11,*";
-                  QT_QPA_PLATFORM = "wayland;xcb";
-                  CLUTTER_BACKEND = "wayland";
-                  QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-                  QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-                  MOZ_ENABLE_WAYLAND = "1";
-                  EGL_PLATFORM = "wayland";
-                }
-                // lib.optionalAttrs (primaryName != "") {
-                  UMBRIEL_PRIMARY_OUT = primaryName;
-                }
-                // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
-                  UMBRIEL_SECONDARY_OUT = secondaryName;
-                };
+              environment = {
+                ENABLE_HDR_WSI = "1";
+                DXVK_HDR = "1";
+                ELECTRON_OZONE_PLATFORM_HINT = "auto";
+                AMD_VULKAN_ICD = "RADV";
+                GDK_SCALE = "1";
+                QT_SCALE_FACTOR = "1";
+                GDK_BACKEND = "wayland,x11,*";
+                QT_QPA_PLATFORM = "wayland;xcb";
+                CLUTTER_BACKEND = "wayland";
+                QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+                QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+                MOZ_ENABLE_WAYLAND = "1";
+                EGL_PLATFORM = "wayland";
+              }
+              // lib.optionalAttrs (primaryName != "") {
+                UMBRIEL_PRIMARY_OUT = primaryName;
+              }
+              // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                UMBRIEL_SECONDARY_OUT = secondaryName;
+              };
 
               inherit output;
 
+              # Keep the portrait Discord/Pear lanes flush to the output while
+              # every other workspace centers its focused scrolling column.
+              workspace = lib.optionals (portraitName != "") [
+                {
+                  output = portraitName;
+                  index = 1;
+                  layout.scrolling = {
+                    center_focused = "never";
+                    center_underfull_strip = false;
+                  };
+                }
+              ];
+
               colors = {
                 shadow = "#212337FF";
+                accent_primary = "#37F499FF";
+                accent_secondary = "#A48CF2FF";
+                warning = "#F7C67FFF";
+                error = "#F16C75FF";
                 border = {
                   focused = "#37F499FF";
                   unfocused = "#A48CF2FF";
@@ -230,9 +262,8 @@
                 ];
                 scrolling = {
                   default_extent_fraction = 0.9;
-                  # Retain strip/focus positions so the portrait output's
-                  # Discord/Spotify lanes stay flush with the top edge; Umbriel
-                  # only exposes these keys globally, not per-output.
+                  # Keep short strips flush by default; portrait workspace 1
+                  # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
                   center_focused = "on_overflow";
                 };
@@ -240,65 +271,57 @@
 
               animation = {
                 enabled = true;
-                duration_ms = 200;
+                duration_ms = 150;
                 beziers = {
-                  easeOutQuint = [
-                    0.23
-                    1.0
-                    0.32
-                    1.0
-                  ];
-                  easeInOutQuint = [
-                    0.83
-                    0.0
-                    0.17
+                  smoothMove = [
+                    0.1
+                    0.9
+                    0.2
                     1.0
                   ];
-                  almostLinear = [
-                    0.5
-                    0.5
-                    0.75
-                    1.0
-                  ];
-                  quick = [
-                    0.15
-                    0.0
+                  smoothFade = [
+                    0.05
+                    0.8
                     0.1
                     1.0
                   ];
                 };
-                springs = { };
                 windows_in = {
                   enabled = true;
-                  effect = "reveal";
-                  duration_ms = 250;
-                  curve = "easeOutCubic";
+                  effect = "wobbly-lifecycle";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                 };
                 windows_out = {
                   enabled = true;
-                  effect = "reveal";
-                  duration_ms = 100;
-                  curve = "easeOutCubic";
+                  effect = "wobbly-lifecycle";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                 };
                 windows_move = {
                   enabled = true;
-                  duration_ms = 250;
-                  curve = "easeOutQuint";
+                  effect = "wobbly-move";
+                  duration_ms = 150;
+                  curve = "smoothMove";
                 };
+                windows_drag.physics = true;
                 workspaces = {
                   enabled = true;
-                  duration_ms = 250;
-                  curve = "easeInOutQuint";
+                  effect = "reveal";
+                  duration_ms = 150;
+                  curve = "smoothMove";
                 };
                 overview = {
                   enabled = true;
-                  duration_ms = 250;
-                  curve = "easeOutQuint";
+                  effect = "reveal";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                 };
                 scratchpad = {
                   enabled = true;
-                  duration_ms = 200;
-                  curve = "easeOutQuint";
+                  effect = "glitch";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                   dim = 0.3;
                   blur = true;
                   scale = 0.0;
@@ -306,24 +329,38 @@
                 border = {
                   enabled = true;
                   duration_ms = 250;
-                  curve = "easeOutQuint";
+                  curve = "smoothFade";
                 };
                 dim_unfocused = {
                   enabled = false;
-                  duration_ms = 250;
-                  curve = "easeOutQuint";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                   dim = 0.0;
                 };
                 layers = {
                   enabled = true;
-                  duration_ms = 200;
-                  curve = "easeOutQuint";
+                  effect = "reveal";
+                  duration_ms = 150;
+                  curve = "smoothFade";
                 };
               };
 
               overview.zoom = 0.5;
 
-              scratchpad = [ { name = "streamcontroller"; } ];
+              # Thunderbird and Steam autostart and stay hidden here until
+              # their toggle is pressed. `spawn_when_empty` relaunches the
+              # application if it is ever closed.
+              scratchpad = [
+                { name = "streamcontroller"; }
+                {
+                  name = "thunderbird";
+                  spawn_when_empty = "thunderbird";
+                }
+                {
+                  name = "steam";
+                  spawn_when_empty = "steam";
+                }
+              ];
 
               keybinds = {
                 # Session
@@ -383,12 +420,13 @@
                   action = "spawn:~/.config/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
                   repeat = false;
                 };
+                # Steam and Thunderbird live in named scratchpads
                 "Mod+S" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app steam";
+                  action = "scratchpad-toggle:steam";
                   repeat = false;
                 };
                 "Mod+T" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app thunderbird";
+                  action = "scratchpad-toggle:thunderbird";
                   repeat = false;
                 };
                 "Mod+G" = {
@@ -441,6 +479,10 @@
                 "Mod+Right" = "output-focus-right";
                 "Mod+Down" = "output-focus-down";
                 "Mod+Up" = "output-focus-up";
+                "Mod+Alt+H" = "output-focus-left";
+                "Mod+Alt+L" = "output-focus-right";
+                "Mod+Alt+J" = "output-focus-down";
+                "Mod+Alt+K" = "output-focus-up";
                 # First column in workspace
                 "Mod+Backspace" = "column-focus-first";
                 # Last column in workspace
@@ -655,7 +697,7 @@
                   blur_optimized = true;
                 }
 
-                # Games tagged by the client open on workspace 3. If the
+                # Games tagged by the client open on workspace 2. If the
                 # primary output is disabled, Umbriel uses an enabled output.
                 ({ match.content_type = "game"; } // gamePlacement)
 
@@ -753,22 +795,20 @@
                   }
                 )
 
-                # Thunderbird stays on the active dynamic workspace unless a
-                # secondary output is available.
-                (
-                  {
-                    match = {
-                      app_id = "^thunderbird$";
-                      at_startup = true;
-                    };
-                    default_focused = false;
-                    focus_on_activate = false;
-                  }
-                  // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
-                    default_output = secondaryName;
-                    default_workspace = 2;
-                  }
-                )
+                # Thunderbird autostarts hidden in its scratchpad. Reminder
+                # windows must stay out of it, so they are excluded here by
+                # title: opening rules cannot unset an earlier assignment, and
+                # a rule cannot match on the empty title it sees before the
+                # first post-map title arrives.
+                {
+                  match = {
+                    app_id = "^thunderbird$";
+                    title = "^(?!.*Reminder).+$";
+                  };
+                  default_scratchpad = "thunderbird";
+                  default_focused = false;
+                  focus_on_activate = false;
+                }
 
                 # Discord main window
                 (
@@ -853,21 +893,30 @@
                 }
 
                 # Godot game (debug runs)
-                ({
-                  match.title = ".*(DEBUG).*";
-                  default_fullscreen = true;
-                } // gamePlacement)
+                (
+                  {
+                    match.title = ".*(DEBUG).*";
+                    default_fullscreen = true;
+                  }
+                  // gamePlacement
+                )
 
                 # Steam helper webpages
                 {
                   match.title = "Steamwebhelper";
+                  default_scratchpad = "steam";
                   default_focused = false;
                 }
 
-                # Steam notification toasts
+                # Steam notification toasts: pinned outside the scratchpad so
+                # a toast is readable without revealing the whole client.
                 {
-                  match.title = "^notificationtoasts";
+                  match = {
+                    app_id = "^steam$";
+                    title = "^notificationtoasts";
+                  };
                   default_floating = true;
+                  default_pinned = true;
                   default_focused = false;
                   default_position = {
                     x = 0;
@@ -876,46 +925,47 @@
                   };
                 }
 
-                # Sign-in to Steam
+                # Sign-in to Steam rides along in the Steam scratchpad
                 {
                   match.title = "Sign in to Steam";
-                  default_floating = true;
+                  default_focused = false;
+                  default_scratchpad = "steam";
+                }
+
+                # Steam client autostarts hidden in its scratchpad. This also
+                # collects the client's own helper and sign-in windows; the
+                # notification toasts are excluded here because a later rule
+                # cannot unset an assignment this one makes.
+                {
+                  match = {
+                    app_id = "^steam$";
+                    title = "^(?!notificationtoasts).+$";
+                  };
+                  default_scratchpad = "steam";
                   default_focused = false;
                 }
 
-                # Steam opens on workspace 2 of the configured primary output.
+                # Steam games
                 (
                   {
+                    # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
+                    # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
+                    # SplashScreen is part of the Steam client, not a game.
                     match = {
-                      app_id = "^steam$";
-                      at_startup = true;
+                      app_id = "^steam_app_.*";
+                      title = "^(?!SplashScreen$).+";
                     };
-                    default_focused = false;
+                    default_fullscreen = true;
+                    blur = false;
                   }
-                  // lib.optionalAttrs (primaryName != "") {
-                    default_output = primaryName;
-                    default_workspace = 2;
-                  }
+                  // gamePlacement
                 )
-
-                # Steam games
-                ({
-                  # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
-                  # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
-                  match = {
-                    app_id = "^steam_app_.*";
-                    title = ".+";
-                  };
-                  default_fullscreen = true;
-                  blur = false;
-                } // gamePlacement)
                 {
                   match = {
                     app_id = "^steam_app_.*$";
                     title = "SplashScreen";
                   };
-                  default_floating = true;
-                  default_fullscreen = true;
+                  default_scratchpad = "steam";
                 }
 
                 # Battle.net launched from Steam should remain windowed.
@@ -937,36 +987,51 @@
                   default_focused = true;
                 }
                 # FFXIV
-                ({
-                  match.title = "FINAL FANTASY XIV";
-                  default_fullscreen = true;
-                } // gamePlacement)
+                (
+                  {
+                    match.title = "FINAL FANTASY XIV";
+                    default_fullscreen = true;
+                  }
+                  // gamePlacement
+                )
 
                 # Gamescope
-                ({
-                  match.app_id = "^gamescope$";
-                  default_fullscreen = true;
-                } // gamePlacement)
+                (
+                  {
+                    match.app_id = "^gamescope$";
+                    default_fullscreen = true;
+                  }
+                  // gamePlacement
+                )
 
                 # World of Warcraft (wine)
-                ({
-                  match.app_id = "^wow.exe$";
-                  default_fullscreen = true;
-                  blur = false;
-                } // gamePlacement)
+                (
+                  {
+                    match.app_id = "^wow.exe$";
+                    default_fullscreen = true;
+                    blur = false;
+                  }
+                  // gamePlacement
+                )
 
                 # World of Warcraft (xwayland)
-                ({
-                  match.title = "World of Warcraft";
-                  default_fullscreen = true;
-                  blur = false;
-                } // gamePlacement)
+                (
+                  {
+                    match.title = "World of Warcraft";
+                    default_fullscreen = true;
+                    blur = false;
+                  }
+                  // gamePlacement
+                )
 
                 # Hytale
-                ({
-                  match.title = "Hytale";
-                  default_fullscreen = true;
-                } // gamePlacement)
+                (
+                  {
+                    match.title = "Hytale";
+                    default_fullscreen = true;
+                  }
+                  // gamePlacement
+                )
 
                 # Battle.net gifts
                 {
@@ -1129,6 +1194,8 @@
           # configuration.
           home.file.".config/umbriel/scripts".source =
             config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/scripts";
+          home.file.".config/umbriel/shaders".source =
+            config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/shaders";
         };
     };
 }

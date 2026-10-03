@@ -1,0 +1,3 @@
+[effects.preset."wobbly-lifecycle"]
+kind = "animation"
+shader = "shader.glsl"
