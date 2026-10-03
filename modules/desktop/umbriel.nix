@@ -649,15 +649,6 @@
               };
 
               window_rule = [
-                # Keep the portrait output dedicated to Discord and Spotify.
-                # Later, application-specific rules override this fallback.
-                (
-                  { }
-                  // lib.optionalAttrs (portraitName != "" && mainName != "") {
-                    default_output = mainName;
-                  }
-                )
-
                 # Global blur — keep first so later rules can override it
                 {
                   blur = true;
@@ -747,14 +738,20 @@
                   default_pinned = true;
                 }
 
-                # Firefox launched during autostart opens on the active workspace
-                {
-                  match = {
-                    app_id = "^firefox$";
-                    at_startup = true;
-                  };
-                  default_focused = false;
-                }
+                # Firefox starts on workspace 1 of the secondary output.
+                (
+                  {
+                    match = {
+                      app_id = "^firefox$";
+                      at_startup = true;
+                    };
+                    default_focused = false;
+                  }
+                  // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
+                    default_output = secondaryName;
+                    default_workspace = 1;
+                  }
+                )
 
                 # Thunderbird stays on the active dynamic workspace unless a
                 # secondary output is available.

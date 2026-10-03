@@ -29,7 +29,9 @@ id="$(
   jq -r --arg mode "$mode" --arg app "$app" --arg excl "$excluded_title" '
     def is_game:
       (.app_id | test("^(steam_app_.*|gamescope|wow[.]exe)$"))
-      or ((.title // "") | test("^(World of Warcraft|FINAL FANTASY XIV|Hytale)"));
+      or ((.title // "") | test("^(World of Warcraft|FINAL FANTASY XIV|Hytale)"))
+      or (.content_type == "game")
+      or (.xdg_tag == "proton-game");
     def wanted:
       if $mode == "game" then
         is_game and ((.title // "") != "SplashScreen")
