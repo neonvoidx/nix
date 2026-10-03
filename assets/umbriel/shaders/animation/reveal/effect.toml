@@ -1,3 +1,0 @@
-[effects.preset."reveal"]
-kind = "animation"
-shader = "shader.glsl"

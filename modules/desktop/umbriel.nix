@@ -142,10 +142,10 @@
             settings = {
               include.files = [
                 "shaders/border/accent-pulse/effect.toml"
-                "shaders/animation/glitch/effect.toml"
                 "shaders/animation/wobbly-lifecycle/effect.toml"
                 "shaders/animation/wobbly-move/effect.toml"
-                "shaders/animation/reveal/effect.toml"
+                # Reveal ships with umbriel; no local copy needed.
+                "${config.programs.umbriel.package}/share/umbriel/effects/animation/reveal/effect.toml"
               ];
 
               effects.border = "accent-pulse";
@@ -157,7 +157,8 @@
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"
                   # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
-                  "pear-desktop"
+                  # Stupid, but pear doesnt start open, so calling it twice will open
+                  "pear-desktop && sleep 3 && pear-desktop"
                   "steam"
                 ]
                 ++ lib.optionals (portraitName != "") [
@@ -319,7 +320,7 @@
                 };
                 scratchpad = {
                   enabled = true;
-                  effect = "glitch";
+                  effect = "reveal";
                   duration_ms = 150;
                   curve = "smoothFade";
                   dim = 0.3;
@@ -795,19 +796,46 @@
                   }
                 )
 
-                # Thunderbird autostarts hidden in its scratchpad. Reminder
-                # windows must stay out of it, so they are excluded here by
-                # title: opening rules cannot unset an earlier assignment, and
-                # a rule cannot match on the empty title it sees before the
-                # first post-map title arrives.
+                # The Thunderbird main window is the only window in the scratchpad,
+                # so Mod+T reveals just the inbox. Its title always ends in
+                # "- Mozilla Thunderbird"; compose windows end in
+                # "- Thunderbird" instead.
+                {
+                  match = {
+                    app_id = "^thunderbird$";
+                    title = ".* - Mozilla Thunderbird$";
+                  };
+                  default_scratchpad = "thunderbird";
+                  default_focused = false;
+                  focus_on_activate = false;
+                  default_floating = true;
+                  default_floating_size = {
+                    width = 0.9;
+                    height = 0.9;
+                  };
+                  default_position = {
+                    x = 0;
+                    y = 0;
+                    anchor = "center";
+                  };
+                }
+
+                # Compose windows pin above the inbox. default_pinned also opts
+                # a window out of scratchpad inheritance, so they stay out of the
+                # scratchpad entirely and the inbox can never cover them.
+                # Reminders are excluded; they have their own pinned rule below.
                 {
                   match = {
                     app_id = "^thunderbird$";
                     title = "^(?!.*Reminder).+$";
                   };
-                  default_scratchpad = "thunderbird";
-                  default_focused = false;
-                  focus_on_activate = false;
+                  default_floating = true;
+                  default_pinned = true;
+                  default_position = {
+                    x = 0;
+                    y = 0;
+                    anchor = "center";
+                  };
                 }
 
                 # Discord main window
@@ -901,13 +929,6 @@
                   // gamePlacement
                 )
 
-                # Steam helper webpages
-                {
-                  match.title = "Steamwebhelper";
-                  default_scratchpad = "steam";
-                  default_focused = false;
-                }
-
                 # Steam notification toasts: pinned outside the scratchpad so
                 # a toast is readable without revealing the whole client.
                 {
@@ -925,24 +946,43 @@
                   };
                 }
 
-                # Sign-in to Steam rides along in the Steam scratchpad
-                {
-                  match.title = "Sign in to Steam";
-                  default_focused = false;
-                  default_scratchpad = "steam";
-                }
-
-                # Steam client autostarts hidden in its scratchpad. This also
-                # collects the client's own helper and sign-in windows; the
-                # notification toasts are excluded here because a later rule
-                # cannot unset an assignment this one makes.
+                # Steam's main client window is the only window in the scratchpad, so
+                # Mod+S reveals just the client, filling the output.
                 {
                   match = {
                     app_id = "^steam$";
-                    title = "^(?!notificationtoasts).+$";
+                    title = "^Steam$";
                   };
-                  default_scratchpad = "steam";
+default_scratchpad = "steam";
                   default_focused = false;
+                  default_floating = true;
+                  default_floating_size = {
+                    width = 0.9;
+                    height = 0.9;
+                  };
+                  default_position = {
+                    x = 0;
+                    y = 0;
+                    anchor = "center";
+                  };
+                }
+
+                # Child client windows (friends list, per-game settings, game
+                # pages, sign-in) pin above the client. default_pinned also opts
+                # a window out of scratchpad inheritance, so they stay out of
+                # the scratchpad and the client can never cover them.
+                {
+                  match = {
+                    app_id = "^steam$";
+                    title = "^(?!Steam$|^notificationtoasts).+$";
+                  };
+                  default_floating = true;
+                  default_pinned = true;
+                  default_position = {
+                    x = 0;
+                    y = 0;
+                    anchor = "center";
+                  };
                 }
 
                 # Steam games
@@ -960,13 +1000,6 @@
                   }
                   // gamePlacement
                 )
-                {
-                  match = {
-                    app_id = "^steam_app_.*$";
-                    title = "SplashScreen";
-                  };
-                  default_scratchpad = "steam";
-                }
 
                 # Battle.net launched from Steam should remain windowed.
                 {

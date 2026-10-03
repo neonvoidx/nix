@@ -1,4 +1,0 @@
-[effects.preset.glitch]
-kind = "animation"
-shader = "shader.glsl"
-palette = true
