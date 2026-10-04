@@ -42,7 +42,7 @@
       den.aspects.cursor
       den.aspects.firefox
       den.aspects.gtk
-      den.aspects.hyprland
+      # den.aspects.hyprland
       den.aspects.satty
       den.aspects.umbriel
       den.aspects.thunar

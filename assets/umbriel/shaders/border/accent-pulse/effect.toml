@@ -2,10 +2,10 @@
 kind = "border"
 shader = "shader.glsl"
 palette = true
-padding = 24
+padding = 8
 speed = 1.0
 
 [effects.preset."accent-pulse".light]
-spread = 26
+spread = 28
 intensity = 1.2
 threshold = 0.4

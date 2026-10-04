@@ -47,7 +47,7 @@
           substituters = [
             "https://cache.nixos.org"
             "https://nix-community.cachix.org"
-            "https://hyprland.cachix.org"
+            # "https://hyprland.cachix.org"
             "https://neonvoidx.cachix.org"
             "https://noctalia.cachix.org"
           ];
@@ -57,7 +57,7 @@
             # Nix Community Cache
             "https://nix-community.cachix.org"
             # hyprland cache
-            "https://hyprland.cachix.org"
+            # "https://hyprland.cachix.org"
             # Personal Cachix cache
             "https://neonvoidx.cachix.org"
             # Noctalia
@@ -67,7 +67,7 @@
             # Official nix cache
             "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
             # hyprland cache
-            "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+            # "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
             # Personal Cachix cache
             "neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y="
             # Nix community cache

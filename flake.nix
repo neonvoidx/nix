@@ -26,7 +26,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
     import-tree.url = "github:denful/import-tree";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-index-database = {

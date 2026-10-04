@@ -17,7 +17,7 @@
             "${config.home.homeDirectory}/.config/ytm/themes/cthulhu.css"
           ];
           # Setting tray = true makes the tray work, but hides the window at startup.
-          tray = false;
+          tray = true;
         };
         plugins = {
           album-actions.enable = true;

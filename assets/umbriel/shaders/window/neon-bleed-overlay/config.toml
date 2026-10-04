@@ -1,0 +1,6 @@
+# Merge into ~/.config/umbriel/config.toml; do not duplicate existing tables.
+[include]
+files = ["shaders/community/window/neon-bleed-overlay/effect.toml"]
+
+[effects]
+window = "neon-bleed-overlay"

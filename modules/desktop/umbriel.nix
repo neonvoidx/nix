@@ -158,7 +158,7 @@
                   "bash -c 'sleep 8 && thunderbird'"
                   # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
                   # Stupid, but pear doesnt start open, so calling it twice will open
-                  "pear-desktop && sleep 3 && pear-desktop"
+                  "pear-desktop"
                   "steam"
                 ]
                 ++ lib.optionals (portraitName != "") [
@@ -323,7 +323,7 @@
                   effect = "reveal";
                   duration_ms = 150;
                   curve = "smoothFade";
-                  dim = 0.3;
+                  dim = 0.8;
                   blur = true;
                   scale = 0.0;
                 };
@@ -800,6 +800,12 @@
                 # so Mod+T reveals just the inbox. Its title always ends in
                 # "- Mozilla Thunderbird"; compose windows end in
                 # "- Thunderbird" instead.
+                #
+                # No default_floating_size: Thunderbird ignores compositor size
+                # configures on native Wayland, so it keeps whatever size it
+                # picks for itself (1440x1379) regardless of the request. Steam
+                # honors the request, so its rule below does set a size. Centering
+                # still works, so we place the window and let Gecko own the extent.
                 {
                   match = {
                     app_id = "^thunderbird$";
@@ -808,11 +814,6 @@
                   default_scratchpad = "thunderbird";
                   default_focused = false;
                   focus_on_activate = false;
-                  default_floating = true;
-                  default_floating_size = {
-                    width = 0.9;
-                    height = 0.9;
-                  };
                   default_position = {
                     x = 0;
                     y = 0;
@@ -953,7 +954,7 @@
                     app_id = "^steam$";
                     title = "^Steam$";
                   };
-default_scratchpad = "steam";
+                  default_scratchpad = "steam";
                   default_focused = false;
                   default_floating = true;
                   default_floating_size = {
