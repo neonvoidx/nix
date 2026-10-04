@@ -47,6 +47,14 @@
             default_workspace = 2;
           };
 
+          # Games draw their own frame: no blur, shadow, or effects.
+          noCompositorChrome = {
+            blur = false;
+            shadow = false;
+            border_effect = "off";
+            window_effect = "off";
+          };
+
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
           transformToString =
@@ -698,9 +706,18 @@
                   blur_optimized = true;
                 }
 
+                # Proton-tagged games (Steam's Wayland client) that no
+                # explicit rule below covers still get bare frames.
+                (
+                  {
+                    match.xdg_tag = "^proton-game$";
+                  }
+                  // noCompositorChrome
+                )
+
                 # Games tagged by the client open on workspace 2. If the
                 # primary output is disabled, Umbriel uses an enabled output.
-                ({ match.content_type = "game"; } // gamePlacement)
+                ({ match.content_type = "game"; } // noCompositorChrome // gamePlacement)
 
                 # Noctalia settings
                 {
@@ -927,6 +944,7 @@
                     match.title = ".*(DEBUG).*";
                     default_fullscreen = true;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -997,8 +1015,8 @@
                       title = "^(?!SplashScreen$).+";
                     };
                     default_fullscreen = true;
-                    blur = false;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1010,6 +1028,7 @@
                   };
                   default_fullscreen = false;
                   default_focused = true;
+                  default_floating = false;
                 }
                 # Battle.net wayland enabled
                 {
@@ -1018,6 +1037,7 @@
                     title = "^Battle\\.net.*";
                   };
                   default_fullscreen = false;
+                  default_floating = false;
                   default_focused = true;
                 }
                 # FFXIV
@@ -1026,6 +1046,7 @@
                     match.title = "FINAL FANTASY XIV";
                     default_fullscreen = true;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1035,6 +1056,7 @@
                     match.app_id = "^gamescope$";
                     default_fullscreen = true;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1043,8 +1065,8 @@
                   {
                     match.app_id = "^wow.exe$";
                     default_fullscreen = true;
-                    blur = false;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1053,8 +1075,8 @@
                   {
                     match.title = "World of Warcraft";
                     default_fullscreen = true;
-                    blur = false;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1064,6 +1086,7 @@
                     match.title = "Hytale";
                     default_fullscreen = true;
                   }
+                  // noCompositorChrome
                   // gamePlacement
                 )
 
@@ -1118,6 +1141,7 @@
                   };
                   default_fullscreen = false;
                   default_focused = false;
+                  default_floating = false;
                 }
 
                 # Battle.net settings
