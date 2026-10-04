@@ -6,6 +6,6 @@ padding = 24
 speed = 1.0
 
 [effects.preset."accent-pulse".light]
-spread = 48
+spread = 26
 intensity = 1.2
 threshold = 0.4
