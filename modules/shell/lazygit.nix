@@ -1,159 +1,157 @@
 { den, ... }:
 {
-  den.aspects.lazygit.homeManager =
-    { ... }:
-    {
-      programs.lazygit = {
-        enable = true;
-        settings = {
-          os = {
-            # OSC52 clipboard copy so it works inside tmux (via passthrough)
-            # and in an OSC52-capable terminal directly. lazygit falls back
-            # to atotto/clipboard when this is unset, which has no pathway
-            # inside tmux.
-            copyToClipboardCmd = ''
-              if [[ "$TERM" =~ ^(screen|tmux) ]]; then
-                printf "\033Ptmux;\033\033]52;c;$(printf {{text}} | base64 -w 0)\a\033\\" > /dev/tty
-              else
-                printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty
-              fi
-            '';
-            readFromClipboardCmd = ''
-              if [ -n "$TMUX" ]; then
-                tmux save-buffer - 2>/dev/null || true
-              else
-                wl-paste -n 2>/dev/null || true
-              fi
-            '';
-          };
-          keybinding = {
-            files = {
-              commitChangesWithEditor = "<disabled>";
-            };
-          };
-          git = {
-            skipHookPrefix = "WIP";
-          };
-          customCommands = [
-            {
-              key = "C";
-              command = ''
-                git commit -m "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}" \
-                {{- if .Form.LongDescription }}
-                -m "{{ .Form.LongDescription }}" \
-                {{- end }}
-                {{- if .Form.BreakingChange }}
-                -m "BREAKING CHANGE: {{ .Form.BreakingChange }}"
-                {{- end }}
-              '';
-              description = "commit with commitizen";
-              context = "files";
-              prompts = [
-                {
-                  type = "menu";
-                  title = "Select the type of change you are committing.";
-                  key = "Type";
-                  options = [
-                    {
-                      name = "Feature";
-                      description = "a new feature";
-                      value = "feat";
-                    }
-                    {
-                      name = "Fix";
-                      description = "a bug fix";
-                      value = "fix";
-                    }
-                    {
-                      name = "Documentation";
-                      description = "Documentation only changes";
-                      value = "docs";
-                    }
-                    {
-                      name = "Styles";
-                      description = "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)";
-                      value = "style";
-                    }
-                    {
-                      name = "Code Refactoring";
-                      description = "A code change that neither fixes a bug nor adds a feature";
-                      value = "refactor";
-                    }
-                    {
-                      name = "Performance Improvements";
-                      description = "A code change that improves performance";
-                      value = "perf";
-                    }
-                    {
-                      name = "Tests";
-                      description = "Adding missing tests or correcting existing tests";
-                      value = "test";
-                    }
-                    {
-                      name = "Builds";
-                      description = "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)";
-                      value = "build";
-                    }
-                    {
-                      name = "Continuous Integration";
-                      description = "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)";
-                      value = "ci";
-                    }
-                    {
-                      name = "Chores";
-                      description = "Other changes that don't modify src or test files";
-                      value = "chore";
-                    }
-                    {
-                      name = "Reverts";
-                      description = "Reverts a previous commit";
-                      value = "revert";
-                    }
-                  ];
-                }
-                {
-                  type = "input";
-                  title = "Enter the scope(s) of this change.";
-                  key = "Scopes";
-                }
-                {
-                  type = "input";
-                  title = "Enter the short description of the change.";
-                  key = "Description";
-                }
-                {
-                  type = "input";
-                  title = "Enter a more detailed description (optional).";
-                  key = "LongDescription";
-                }
-                {
-                  type = "input";
-                  title = "Describe the breaking change, if any (leave empty if none).";
-                  key = "BreakingChange";
-                }
-                {
-                  type = "confirm";
-                  title = "Is the commit message correct?";
-                  body = ''
-                    {{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}
-                    {{- if .Form.LongDescription }}
-
-                    {{ .Form.LongDescription }}
-                    {{- end }}
-                    {{- if .Form.BreakingChange }}
-
-                    BREAKING CHANGE: {{ .Form.BreakingChange }}
-                    {{- end }}
-                  '';
-                }
-              ];
-            }
-          ];
+  den.aspects.lazygit.homeManager = { config, lib, ... }: {
+    programs.lazygit = {
+      enable = true;
+      settings = {
+        os = {
+          # OSC52 clipboard copy so it works inside tmux (via passthrough)
+          # and in an OSC52-capable terminal directly. lazygit falls back
+          # to atotto/clipboard when this is unset, which has no pathway
+          # inside tmux.
+          copyToClipboardCmd = ''
+            if [[ "$TERM" =~ ^(screen|tmux) ]]; then
+              printf "\033Ptmux;\033\033]52;c;$(printf {{text}} | base64 -w 0)\a\033\\" > /dev/tty
+            else
+              printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty
+            fi
+          '';
+          readFromClipboardCmd = ''
+            if [ -n "$TMUX" ]; then
+              tmux save-buffer - 2>/dev/null || true
+            else
+              wl-paste -n 2>/dev/null || true
+            fi
+          '';
         };
-      };
-      programs.zsh.shellAliases = {
-        lg = "lazygit";
-        ly = "lazygit --work-tree ~/nix --git-dir ~/nix/.git";
+        keybinding = {
+          files = {
+            commitChangesWithEditor = "<disabled>";
+          };
+        };
+        git = {
+          skipHookPrefix = "WIP";
+        };
+        customCommands = [
+          {
+            key = "C";
+            command = ''
+              git commit -m "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}" \
+              {{- if .Form.LongDescription }}
+              -m "{{ .Form.LongDescription }}" \
+              {{- end }}
+              {{- if .Form.BreakingChange }}
+              -m "BREAKING CHANGE: {{ .Form.BreakingChange }}"
+              {{- end }}
+            '';
+            description = "commit with commitizen";
+            context = "files";
+            prompts = [
+              {
+                type = "menu";
+                title = "Select the type of change you are committing.";
+                key = "Type";
+                options = [
+                  {
+                    name = "Feature";
+                    description = "a new feature";
+                    value = "feat";
+                  }
+                  {
+                    name = "Fix";
+                    description = "a bug fix";
+                    value = "fix";
+                  }
+                  {
+                    name = "Documentation";
+                    description = "Documentation only changes";
+                    value = "docs";
+                  }
+                  {
+                    name = "Styles";
+                    description = "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)";
+                    value = "style";
+                  }
+                  {
+                    name = "Code Refactoring";
+                    description = "A code change that neither fixes a bug nor adds a feature";
+                    value = "refactor";
+                  }
+                  {
+                    name = "Performance Improvements";
+                    description = "A code change that improves performance";
+                    value = "perf";
+                  }
+                  {
+                    name = "Tests";
+                    description = "Adding missing tests or correcting existing tests";
+                    value = "test";
+                  }
+                  {
+                    name = "Builds";
+                    description = "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)";
+                    value = "build";
+                  }
+                  {
+                    name = "Continuous Integration";
+                    description = "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)";
+                    value = "ci";
+                  }
+                  {
+                    name = "Chores";
+                    description = "Other changes that don't modify src or test files";
+                    value = "chore";
+                  }
+                  {
+                    name = "Reverts";
+                    description = "Reverts a previous commit";
+                    value = "revert";
+                  }
+                ];
+              }
+              {
+                type = "input";
+                title = "Enter the scope(s) of this change.";
+                key = "Scopes";
+              }
+              {
+                type = "input";
+                title = "Enter the short description of the change.";
+                key = "Description";
+              }
+              {
+                type = "input";
+                title = "Enter a more detailed description (optional).";
+                key = "LongDescription";
+              }
+              {
+                type = "input";
+                title = "Describe the breaking change, if any (leave empty if none).";
+                key = "BreakingChange";
+              }
+              {
+                type = "confirm";
+                title = "Is the commit message correct?";
+                body = ''
+                  {{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}
+                  {{- if .Form.LongDescription }}
+
+                  {{ .Form.LongDescription }}
+                  {{- end }}
+                  {{- if .Form.BreakingChange }}
+
+                  BREAKING CHANGE: {{ .Form.BreakingChange }}
+                  {{- end }}
+                '';
+              }
+            ];
+          }
+        ];
       };
     };
+    programs.zsh.shellAliases = {
+      lg = "lazygit";
+      ly = "lazygit --work-tree ${lib.escapeShellArg config.dotfiles.checkoutPath} --git-dir ${lib.escapeShellArg "${config.dotfiles.checkoutPath}/.git"}";
+    };
+  };
 }

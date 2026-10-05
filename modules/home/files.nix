@@ -1,16 +1,20 @@
 { den, ... }:
 {
-  den.aspects.files.homeManager =
-    { config, ... }:
-    {
-      home.file.".face".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/.face";
-      home.file."scripts".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/scripts";
+  den.aspects.files = { user, ... }: {
+    homeManager =
+      { config, lib, ... }:
+      {
+        options.dotfiles.checkoutPath = lib.mkOption {
+          type = lib.types.str;
+          default = "${config.home.homeDirectory}/nix";
+          description = "Local checkout used by build helpers and deliberately mutable assets.";
+        };
 
-      home.file.".config/electron-flags.conf".text = ''
-        --enable-features=UseOzonePlatform
-        --ozone-platform=wayland
-      '';
-    };
+        config = {
+          home.file.".face" = lib.mkIf (user ? avatar) { source = user.avatar; };
+          home.sessionVariables.DOTFILES_CHECKOUT_PATH = config.dotfiles.checkoutPath;
+          home.file."scripts".source = ../../assets/scripts;
+        };
+      };
+  };
 }

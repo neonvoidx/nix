@@ -13,6 +13,23 @@ and the user's SSH-derived key is kept for manual editing.
 
 ## Initial Machine Setup
 
+Before rebuilding or activating this configuration, retrieve your SSH private
+and public keys manually and store them locally at `~/.ssh/id_ed25519` and
+`~/.ssh/id_ed25519.pub`. Use permissions `0700` for `~/.ssh` and `0600` for the
+private key. SSH keys must be provisioned manually.
+
+For manual SOPS editing, prepare `~/.config/sops/age/keys.txt` from your local SSH
+key (or restore that age key from backup):
+
+```bash
+mkdir -p ~/.config/sops/age
+nix-shell -p ssh-to-age --run 'ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'
+chmod 600 ~/.config/sops/age/keys.txt
+```
+
+Boot-time decryption uses the separate machine key below. Provision that key and
+add its public recipient to the encrypted secrets before activating SOPS.
+
 Every new machine needs its own boot-time age key:
 
 ```bash
@@ -61,6 +78,35 @@ nix-shell -p sops --run 'sops secrets/secrets.yaml'
 ```
 
 This uses your SSH-derived key at `~/.config/sops/age/keys.txt`.
+
+## Email Identity Secrets
+
+SOPS is optional for each email account. Ordinary `address` and `userName`
+attributes still work, and accounts using plaintext and secret references can
+share a Thunderbird profile. `neonvoid` uses `addressSecret` and `userNameSecret`
+references in `modules/hosts.nix` for both configured accounts.
+
+The encrypted keys are `email/neonvoid/<account>/address-json` and
+`email/neonvoid/<account>/user-name-json`. Their values must be **JSON string
+literals**, including double quotes. In the decrypted SOPS editor, for example:
+
+```yaml
+email:
+  neonvoid:
+    gmail:
+      address-json: '"me@example.com"'
+      user-name-json: '"me@example.com"'
+```
+
+JSON escaping is required for quotes, backslashes, and control characters.
+SOPS substitutes these literals into the generated Thunderbird template at
+runtime; the plaintext is not evaluated by Nix. The rendered `user.js` is owned
+by the user with mode `0400`, and Home Manager links it into the default profile.
+The template itself is not encrypted: it contains placeholders instead of the
+private identities. Restart Thunderbird after changing the secrets.
+
+Never commit decrypted values. This does not remove previous values from Git
+history or older Nix store paths, and display names/Git identities are unchanged.
 
 ## Key Locations
 

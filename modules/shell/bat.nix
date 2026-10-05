@@ -1,12 +1,10 @@
 { den, ... }:
 {
-  den.aspects.bat.homeManager =
-    { ... }:
-    {
-      programs.bat = {
-        enable = true;
-      };
-
-      programs.zsh.shellAliases.cat = "bat";
+  den.aspects.bat.homeManager = {
+    programs.bat = {
+      enable = true;
     };
+
+    programs.zsh.shellAliases.cat = "bat";
+  };
 }

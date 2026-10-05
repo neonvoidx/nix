@@ -10,13 +10,13 @@
     {
       xdg.configFile = {
         "easyeffects/autoload/easyeffectsrc".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/easyeffects/autoload/easyeffectsrc";
+          config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/easyeffectsrc";
         "easyeffects/autoload/microphone.json".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/easyeffects/autoload/microphone.json";
+          config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/microphone.json";
         "easyeffects/autoload/speexrc".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/easyeffects/autoload/speexrc";
+          config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/speexrc";
         "easyeffects/autoload/equalizerrc".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/easyeffects/autoload/equalizerrc";
+          config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/equalizerrc";
       };
 
       # EasyEffects 8.x uses Qt/KDE config instead of dconf

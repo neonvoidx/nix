@@ -20,11 +20,6 @@
                 defaultBranch = "master";
               };
 
-              delta = {
-                navigate = true;
-                side-by-side = true;
-              };
-
               pull = {
                 rebase = true;
               };

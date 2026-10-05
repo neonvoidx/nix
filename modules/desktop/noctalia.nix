@@ -1,6 +1,7 @@
 {
   den,
   lib,
+  inputs,
   ...
 }:
 {
@@ -16,9 +17,9 @@
         };
 
       homeManager =
-        { ... }:
+        { config, ... }:
         let
-          homeDir = "/home/${user.userName}";
+          homeDir = config.home.homeDirectory;
           isLaptop = host.isLaptop or false;
           monitors = host.monitors or { };
           mainName = monitors.main.name or null;
@@ -26,21 +27,35 @@
           portraitName = monitors.portrait.name or null;
           builtinName = monitors.builtin.name or null;
           primaryName =
-            if mainName != null then
-              mainName
-            else if builtinName != null then
-              builtinName
-            else
-              "";
+            (lib.findFirst (mon: mon.primary or false) { name = ""; } (builtins.attrValues monitors)).name;
+          loginBoxSettings = {
+            background_opacity = 0.0;
+            center_password_text = false;
+            input_radius = 10.0;
+            layout = "regular";
+            show_caps_lock = true;
+            show_keyboard_layout = true;
+            show_login_button = true;
+            show_media = true;
+            show_session_buttons = true;
+            show_unlock_hint = true;
+            show_weather = true;
+          };
+          wallpaperDirectory = directory: {
+            inherit directory;
+            directory_dark = directory;
+            directory_light = directory;
+          };
         in
         {
+          imports = [ inputs.noctalia.homeModules.default ];
+          xdg.configFile."noctalia/logo.png" = lib.mkIf (user ? logo) { source = user.logo; };
+
           programs.noctalia = {
             enable = true;
             systemd.enable = false;
 
-            # if you want to read from file instead
-            # settings = lib.mkForce (builtins.fromTOML (builtins.readFile ../../assets/noctalia/noctalia-config.toml));
-            settings = lib.mkForce {
+            settings = {
               audio = {
                 enable_overdrive = false;
                 enable_sounds = false;
@@ -49,43 +64,41 @@
               bar.main = {
                 capsule = true;
                 capsule_foreground = "tertiary";
-                center =
-                  lib.optionals (!isLaptop) [
-                    "cat"
-                    "active_window"
-                  ];
+                center = lib.optionals (!isLaptop) [
+                  "cat"
+                  "active_window"
+                ];
                 contact_shadow = true;
-                end =
-                  [
-                    "tray"
-                    "input_volume"
-                    "output_volume"
-                    "cat_3"
-                    "ram"
-                    "temp"
-                  ]
-                  ++ lib.optionals isLaptop [
-                    "battery"
-                    "power_profile"
-                  ]
-                  ++ [
-                    "control-center"
-                    "recorder"
-                    "bluetooth"
-                    "brightness"
-                    "wallpaper"
-                  ]
-                  ++ lib.optionals (!isLaptop) [
-                    "display_mode"
-                  ]
-                  ++ [
-                    "caffeine"
-                    "notifications"
-                    "weather"
-                    "clock"
-                    "date"
-                    "session"
-                  ];
+                end = [
+                  "tray"
+                  "input_volume"
+                  "output_volume"
+                  "cat_3"
+                  "ram"
+                  "temp"
+                ]
+                ++ lib.optionals isLaptop [
+                  "battery"
+                  "power_profile"
+                ]
+                ++ [
+                  "control-center"
+                  "recorder"
+                  "bluetooth"
+                  "brightness"
+                  "wallpaper"
+                ]
+                ++ lib.optionals (!isLaptop) [
+                  "display_mode"
+                ]
+                ++ [
+                  "caffeine"
+                  "notifications"
+                  "weather"
+                  "clock"
+                  "date"
+                  "session"
+                ];
                 font_weight = 700;
                 margin_edge = 5.0;
                 margin_ends = 8.0;
@@ -221,19 +234,7 @@
                       placement_width = 3440.0;
                       rotation = 0.0;
                       type = "login_box";
-                      settings = {
-                        background_opacity = 0.0;
-                        center_password_text = false;
-                        input_radius = 10.0;
-                        layout = "regular";
-                        show_caps_lock = true;
-                        show_keyboard_layout = true;
-                        show_login_button = true;
-                        show_media = true;
-                        show_session_buttons = true;
-                        show_unlock_hint = true;
-                        show_weather = true;
-                      };
+                      settings = loginBoxSettings;
                     };
                     "lockscreen-widget-0000000000000026" = {
                       box_height = 256.0;
@@ -250,7 +251,7 @@
                         background_opacity = 0.78000000000000003;
                         background_padding = 0;
                         background_radius = 32;
-                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        image_path = if user ? logo then "${config.xdg.configHome}/noctalia/logo.png" else "";
                         opacity = 1.0;
                       };
                     };
@@ -266,19 +267,7 @@
                       placement_width = 3440.0;
                       rotation = 0.0;
                       type = "login_box";
-                      settings = {
-                        background_opacity = 0.0;
-                        center_password_text = false;
-                        input_radius = 10.0;
-                        layout = "regular";
-                        show_caps_lock = true;
-                        show_keyboard_layout = true;
-                        show_login_button = true;
-                        show_media = true;
-                        show_session_buttons = true;
-                        show_unlock_hint = true;
-                        show_weather = true;
-                      };
+                      settings = loginBoxSettings;
                     };
                     "lockscreen-widget-000000000000000e" = {
                       box_height = 224.0;
@@ -438,7 +427,7 @@
                         background_opacity = 0.78000000000000003;
                         background_padding = 0;
                         background_radius = 32;
-                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        image_path = if user ? logo then "${config.xdg.configHome}/noctalia/logo.png" else "";
                         opacity = 1.0;
                       };
                     };
@@ -454,19 +443,7 @@
                       placement_width = 1440.0;
                       rotation = 0.0;
                       type = "login_box";
-                      settings = {
-                        background_opacity = 0.0;
-                        center_password_text = false;
-                        input_radius = 10.0;
-                        layout = "regular";
-                        show_caps_lock = true;
-                        show_keyboard_layout = true;
-                        show_login_button = true;
-                        show_media = true;
-                        show_session_buttons = true;
-                        show_unlock_hint = true;
-                        show_weather = true;
-                      };
+                      settings = loginBoxSettings;
                     };
                     "lockscreen-widget-0000000000000019" = {
                       box_height = 224.0;
@@ -626,7 +603,7 @@
                         background_opacity = 0.78000000000000003;
                         background_padding = 0;
                         background_radius = 32;
-                        image_path = "${homeDir}/nix/assets/neonvoid.png";
+                        image_path = if user ? logo then "${config.xdg.configHome}/noctalia/logo.png" else "";
                         opacity = 1.0;
                       };
                     };
@@ -920,7 +897,7 @@
                   }
                   {
                     action = "command";
-                    command = "bash -c 'if [ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]; then hyprshutdown; else umbriel msg session-quit:skip-confirmation; fi'";
+                    command = "umbriel msg session-quit:skip-confirmation";
                     enabled = true;
                     glyph = "logout";
                     label = "Logout";
@@ -984,32 +961,16 @@
 
                 monitor =
                   lib.optionalAttrs (mainName != null) {
-                    ${mainName} = {
-                      directory = "${homeDir}/pics/ultrawide";
-                      directory_dark = "${homeDir}/pics/ultrawide";
-                      directory_light = "${homeDir}/pics/ultrawide";
-                    };
+                    ${mainName} = wallpaperDirectory "${homeDir}/pics/ultrawide";
                   }
                   // lib.optionalAttrs (secondaryName != null) {
-                    ${secondaryName} = {
-                      directory = "${homeDir}/pics/ultrawide";
-                      directory_dark = "${homeDir}/pics/ultrawide";
-                      directory_light = "${homeDir}/pics/ultrawide";
-                    };
+                    ${secondaryName} = wallpaperDirectory "${homeDir}/pics/ultrawide";
                   }
                   // lib.optionalAttrs (portraitName != null) {
-                    ${portraitName} = {
-                      directory = "${homeDir}/pics/vertical";
-                      directory_dark = "${homeDir}/pics/vertical";
-                      directory_light = "${homeDir}/pics/vertical";
-                    };
+                    ${portraitName} = wallpaperDirectory "${homeDir}/pics/vertical";
                   }
                   // lib.optionalAttrs (builtinName != null) {
-                    ${builtinName} = {
-                      directory = "${homeDir}/pics/ultrawide";
-                      directory_dark = "${homeDir}/pics/ultrawide";
-                      directory_light = "${homeDir}/pics/ultrawide";
-                    };
+                    ${builtinName} = wallpaperDirectory "${homeDir}/pics/ultrawide";
                   };
               };
 

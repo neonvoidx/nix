@@ -1,6 +1,6 @@
 { den, ... }:
 {
-  den.aspects.obsstudio.homeManager =
+  den.aspects.obs-studio.homeManager =
     { pkgs, ... }:
     {
       programs.obs-studio = {

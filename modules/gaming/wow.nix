@@ -34,7 +34,6 @@
               install -m 444 -D ${contents}/archon-lite.png $out/share/icons/hicolor/256x256/apps/archon-lite.png
             '';
         })
-        pkgs.xembsni
       ];
 
       xdg.mimeApps = {
@@ -44,31 +43,5 @@
         };
       };
 
-      systemd.user.services.xembsni = {
-        Unit = {
-          Description = "XEmbed to StatusNotifierItem tray bridge";
-          PartOf = [
-            "hyprland-session.target"
-            "umbriel-session.target"
-          ];
-          After = [
-            "hyprland-session.target"
-            "umbriel-session.target"
-          ];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${pkgs.xembsni}/bin/xembsni";
-          Restart = "on-failure";
-          RestartSec = 2;
-          Environment = "RUST_LOG=info";
-        };
-        Install = {
-          WantedBy = [
-            "hyprland-session.target"
-            "umbriel-session.target"
-          ];
-        };
-      };
     };
 }

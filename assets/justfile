@@ -1,3 +1,6 @@
+export DOTFILES_CHECKOUT_PATH := env("DOTFILES_CHECKOUT_PATH", invocation_directory())
+checkout := DOTFILES_CHECKOUT_PATH
+
 # List all available recipes
 default:
     just -g --list
@@ -7,8 +10,8 @@ build:
     nh os build
 
 # Check the flake for errors
-check flake_path="~/nix":
-    nix flake check {{flake_path}}
+check $flake_path=checkout:
+    nix flake check "$flake_path"
 
 # Garbage collect and clean up old Nix generations
 clean:
@@ -81,12 +84,12 @@ shell +pkgs:
     nix-shell -p {{pkgs}}
 
 # Update all flake inputs
-update flake="~/nix": 
-    nix flake update --flake {{flake}}
+update $flake=checkout:
+    nix flake update --flake "$flake"
 
 # Update specific flake input(s)
 update-input +inputs:
-    nix flake update {{inputs}} --flake ~/nix
+    nix flake update {{inputs}} --flake "$DOTFILES_CHECKOUT_PATH"
 
 # Nix version
 version:
@@ -98,4 +101,4 @@ why pkg:
 
 # Updates flake.nix with flake from modules/flake-inputs.nix
 write-flake:
-    nix run .#write-flake
+    nix run "$DOTFILES_CHECKOUT_PATH#write-flake"

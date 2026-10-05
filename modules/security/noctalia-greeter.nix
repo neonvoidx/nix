@@ -4,7 +4,7 @@
     { host, user, ... }:
     {
       nixos =
-        { lib, ... }:
+        { config, lib, ... }:
         {
           services.displayManager.noctalia-greeter = {
             enable = true;
@@ -16,19 +16,14 @@
               };
               output = {
                 layout = lib.concatStringsSep "; " (
-                  lib.optionals (builtins.hasAttr "monitors" host) (
-                    lib.optional (builtins.hasAttr "main" host.monitors) "${host.monitors.secondary.name}:${
-                      builtins.replaceStrings [ "x" ] [ "," ] host.monitors.main.position
-                    }"
-                    ++ lib.optional (builtins.hasAttr "secondary" host.monitors) "${host.monitors.main.name}:${
-                      builtins.replaceStrings [ "x" ] [ "," ] host.monitors.secondary.position
-                    }"
-                  )
+                  lib.mapAttrsToList (
+                    _: monitor: "${monitor.name}:${builtins.replaceStrings [ "x" ] [ "," ] (monitor.position or "0x0")}"
+                  ) (host.monitors or { })
                 );
               };
               cursor = {
-                theme = "eldritch-great-old-green-cursors";
-                size = 32;
+                theme = config.stylix.cursor.name;
+                size = config.stylix.cursor.size;
               };
             };
           };

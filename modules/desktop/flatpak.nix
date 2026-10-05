@@ -1,11 +1,9 @@
 { den, ... }:
 {
   den.aspects.flatpak = {
-    nixos =
-      { ... }:
-      {
-        services.flatpak.enable = true;
-      };
+    nixos = {
+      services.flatpak.enable = true;
+    };
 
     homeManager =
       { pkgs, ... }:

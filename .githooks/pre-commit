@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+cd "$(git rev-parse --show-toplevel)"
+
+format() {
+  if command -v treefmt >/dev/null 2>&1 && command -v nixfmt >/dev/null 2>&1; then
+    treefmt --fail-on-change
+  elif command -v nix >/dev/null 2>&1 && command -v nix-shell >/dev/null 2>&1; then
+    nixpkgs_source=$(nix eval --impure --raw --expr '(builtins.getFlake (toString ./.)).inputs.nixpkgs.outPath') || return 1
+    nix-shell -I "nixpkgs=$nixpkgs_source" -p treefmt nixfmt --run 'treefmt --fail-on-change'
+  else
+    echo "pre-commit: install treefmt and nixfmt, or Nix with nix-shell." >&2
+    return 1
+  fi
+}
+
+if ! format; then
+  echo "pre-commit: treefmt failed or changed files. Review and stage any formatting changes, then retry the commit." >&2
+  exit 1
+fi

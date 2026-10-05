@@ -29,14 +29,6 @@
           backupCommand = ''
             bash -c 'rm -f "$0.bak" && mv "$0" "$0.bak"'
           '';
-          # Home manager modules
-          sharedModules = [
-            # inputs.spicetify-nix.homeManagerModules.default
-            inputs.pear-desktop.homeManagerModules.default
-            inputs.nix-index-database.homeModules.default
-            inputs.noctalia.homeModules.default
-            inputs.nixcord.homeModules.nixcord
-          ];
         };
       };
       homeManager = {

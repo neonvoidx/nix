@@ -32,12 +32,7 @@
           portraitName = portraitMon.name or "";
           builtinName = builtinMon.name or "";
           primaryName =
-            if mainMon.primary or false then
-              mainName
-            else if builtinMon.primary or false then
-              builtinName
-            else
-              "";
+            (lib.findFirst (mon: mon.primary or false) { name = ""; } (builtins.attrValues monitors)).name;
           # Games draw their own frame: no blur, shadow, or effects.
           noCompositorChrome = {
             blur = false;
@@ -45,6 +40,18 @@
             border_effect = "off";
             window_effect = "off";
           };
+
+          norepeat = action: {
+            inherit action;
+            repeat = false;
+          };
+          mkGameRule =
+            match:
+            {
+              inherit match;
+              default_fullscreen = true;
+            }
+            // noCompositorChrome;
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -69,7 +76,17 @@
               # horizontal workspace axis for a rotated (portrait) output so
               # its lanes run top-to-bottom; landscape strips run left-to-right.
               axis =
-                if ((mon.transform or 0) != 0 && (mon.transform or 0) != 2) then "horizontal" else "vertical";
+                if
+                  (builtins.elem (mon.transform or 0) [
+                    1
+                    3
+                    5
+                    7
+                  ])
+                then
+                  "horizontal"
+                else
+                  "vertical";
             in
             {
               enabled = true;
@@ -99,7 +116,7 @@
 
           # Every output uses Umbriel's dynamic workspace inventory.  The
           # portrait output has the horizontal workspace axis required for a
-          # vertical scrolling strip (Discord above Spotify).
+          # vertical scrolling strip (Discord above Pear).
           output =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
@@ -110,7 +127,6 @@
             }
             // lib.optionalAttrs (portraitName != "") {
               "${portraitName}" = (mkOutput portraitMon) // {
-                enabled = true;
                 min_workspaces = 1;
                 workspace_axis = "horizontal";
               };
@@ -118,7 +134,6 @@
             // lib.optionalAttrs (builtinName != "") {
               # Laptop built-in panel (voidframe): single non-gaming output.
               "${builtinName}" = (mkOutput builtinMon) // {
-                enabled = true;
                 # Non-gaming host: one dynamic workspace is enough.
                 min_workspaces = 1;
               };
@@ -144,16 +159,15 @@
 
               general = {
                 autostart = [
-                  "~/.local/bin/tmux-refresh-desktop-environment umbriel"
+                  "~/.local/bin/tmux-refresh-desktop-environment"
                   "noctalia"
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"
-                  # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
                   "pear-desktop"
                   "steam"
                 ]
                 ++ lib.optionals (portraitName != "") [
-                  "UMBRIEL_PORTRAIT_OUT=${portraitName} ~/.config/umbriel/scripts/wait-for-discord-and-move.sh"
+                  "UMBRIEL_PORTRAIT_OUT=${portraitName} ${config.xdg.configHome}/umbriel/scripts/wait-for-discord-and-move.sh"
                 ];
                 mod_key = "Super";
                 xwayland = true;
@@ -228,8 +242,8 @@
 
               input = {
                 cursor = {
-                  theme = "eldritch-great-old-green-cursors";
-                  size = 32;
+                  theme = config.stylix.cursor.name;
+                  size = config.stylix.cursor.size;
                   hardware_cursor = true;
                   follows_focus = true;
                 };
@@ -355,103 +369,38 @@
 
               keybinds = {
                 # Session
-                "Mod+Shift+Q" = {
-                  action = "session-quit:skip-confirmation";
-                  repeat = false;
-                };
+                "Mod+Shift+Q" = norepeat "session-quit:skip-confirmation";
 
                 # Applications
-                "Mod+Return" = {
-                  action = "spawn:kitty";
-                  repeat = false;
-                };
-                "Mod+Delete" = {
-                  action = "spawn:noctalia msg panel-toggle session";
-                  repeat = false;
-                };
-                "Mod+Shift+Delete" = {
-                  action = "spawn:noctalia msg session lock";
-                  repeat = false;
-                };
-                "Mod+Space" = {
-                  action = "spawn:noctalia msg panel-toggle launcher";
-                  repeat = false;
-                };
-                "Mod+V" = {
-                  action = "spawn:noctalia msg panel-toggle clipboard";
-                  repeat = false;
-                };
-                "Mod+Bracketright" = {
-                  action = "spawn:noctalia msg wallpaper-random";
-                  repeat = false;
-                };
-                "Mod+B" = {
-                  action = "spawn:firefox";
-                  repeat = false;
-                };
-                "Mod+Shift+B" = {
-                  action = "spawn:firefox --private-window";
-                  repeat = false;
-                };
-                "Mod+E" = {
-                  action = "spawn:thunar";
-                  repeat = false;
-                };
-                "Mod+O" = {
-                  action = "spawn:obsidian";
-                  repeat = false;
-                };
-                "Mod+Page_Up" = {
-                  action = "spawn:noctalia msg notification-dnd-toggle";
-                  repeat = false;
-                };
+                "Mod+Return" = norepeat "spawn:kitty";
+                "Mod+Delete" = norepeat "spawn:noctalia msg panel-toggle session";
+                "Mod+Shift+Delete" = norepeat "spawn:noctalia msg session lock";
+                "Mod+Space" = norepeat "spawn:noctalia msg panel-toggle launcher";
+                "Mod+V" = norepeat "spawn:noctalia msg panel-toggle clipboard";
+                "Mod+Bracketright" = norepeat "spawn:noctalia msg wallpaper-random";
+                "Mod+B" = norepeat "spawn:firefox";
+                "Mod+Shift+B" = norepeat "spawn:firefox --private-window";
+                "Mod+E" = norepeat "spawn:thunar";
+                "Mod+O" = norepeat "spawn:obsidian";
+                "Mod+Page_Up" = norepeat "spawn:noctalia msg notification-dnd-toggle";
 
                 # Focus a running application (lookup via Umbriel IPC)
-                "Mod+D" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
-                  repeat = false;
-                };
+                "Mod+D" =
+                  norepeat "spawn:${config.xdg.configHome}/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
                 # Steam and Thunderbird live in named scratchpads
-                "Mod+S" = {
-                  action = "scratchpad-toggle:steam";
-                  repeat = false;
-                };
-                "Mod+T" = {
-                  action = "scratchpad-toggle:thunderbird";
-                  repeat = false;
-                };
-                "Mod+G" = {
-                  action = "spawn:~/.config/umbriel/scripts/focus-app.sh game";
-                  repeat = false;
-                };
+                "Mod+S" = norepeat "scratchpad-toggle:steam";
+                "Mod+T" = norepeat "scratchpad-toggle:thunderbird";
+                "Mod+G" = norepeat "spawn:${config.xdg.configHome}/umbriel/scripts/focus-app.sh game";
 
                 # Windows
-                "Mod+Q" = {
-                  action = "window-close";
-                  repeat = false;
-                };
-                "Mod+Shift+Space" = {
-                  action = "window-toggle-floating";
-                  repeat = false;
-                };
-                "Mod+F" = {
-                  action = "window-modify-primary-extent:0.9";
-                  repeat = false;
-                };
-                "Mod+Shift+F" = {
-                  action = "window-toggle-fullscreen";
-                  repeat = false;
-                };
+                "Mod+Q" = norepeat "window-close";
+                "Mod+Shift+Space" = norepeat "window-toggle-floating";
+                "Mod+F" = norepeat "window-modify-primary-extent:0.9";
+                "Mod+Shift+F" = norepeat "window-toggle-fullscreen";
                 # Center column
-                "Mod+C" = {
-                  action = "column-center";
-                  repeat = false;
-                };
+                "Mod+C" = norepeat "column-center";
                 # Cycle focus across outputs instead of windows
-                "Alt+Tab" = {
-                  action = "spawn:noctalia msg window-switcher hold";
-                  repeat = false;
-                };
+                "Alt+Tab" = norepeat "spawn:noctalia msg window-switcher hold";
 
                 # FOCUS
                 #
@@ -497,10 +446,7 @@
                 "Mod+P" = "window-toggle-pinned";
 
                 # Layout
-                "Mod+R" = {
-                  action = "window-cycle-primary-extent";
-                  repeat = false;
-                };
+                "Mod+R" = norepeat "window-cycle-primary-extent";
                 "Mod+Equal" = {
                   action = "window-modify-primary-extent:0.05";
                   repeat = true;
@@ -512,86 +458,26 @@
 
                 # Workspaces: bare digits select a position on the output
                 # under the pointer.
-                "Mod+1" = {
-                  action = "workspace-switch:1";
-                  repeat = false;
-                };
-                "Mod+2" = {
-                  action = "workspace-switch:2";
-                  repeat = false;
-                };
-                "Mod+3" = {
-                  action = "workspace-switch:3";
-                  repeat = false;
-                };
-                "Mod+4" = {
-                  action = "workspace-switch:4";
-                  repeat = false;
-                };
-                "Mod+5" = {
-                  action = "workspace-switch:5";
-                  repeat = false;
-                };
-                "Mod+6" = {
-                  action = "workspace-switch:6";
-                  repeat = false;
-                };
-                "Mod+7" = {
-                  action = "workspace-switch:7";
-                  repeat = false;
-                };
-                "Mod+8" = {
-                  action = "workspace-switch:8";
-                  repeat = false;
-                };
-                "Mod+9" = {
-                  action = "workspace-switch:9";
-                  repeat = false;
-                };
-                "Mod+0" = {
-                  action = "workspace-switch:10";
-                  repeat = false;
-                };
-                "Mod+Shift+1" = {
-                  action = "window-move-to-workspace:1";
-                  repeat = false;
-                };
-                "Mod+Shift+2" = {
-                  action = "window-move-to-workspace:2";
-                  repeat = false;
-                };
-                "Mod+Shift+3" = {
-                  action = "window-move-to-workspace:3";
-                  repeat = false;
-                };
-                "Mod+Shift+4" = {
-                  action = "window-move-to-workspace:4";
-                  repeat = false;
-                };
-                "Mod+Shift+5" = {
-                  action = "window-move-to-workspace:5";
-                  repeat = false;
-                };
-                "Mod+Shift+6" = {
-                  action = "window-move-to-workspace:6";
-                  repeat = false;
-                };
-                "Mod+Shift+7" = {
-                  action = "window-move-to-workspace:7";
-                  repeat = false;
-                };
-                "Mod+Shift+8" = {
-                  action = "window-move-to-workspace:8";
-                  repeat = false;
-                };
-                "Mod+Shift+9" = {
-                  action = "window-move-to-workspace:9";
-                  repeat = false;
-                };
-                "Mod+Shift+0" = {
-                  action = "window-move-to-workspace:10";
-                  repeat = false;
-                };
+                "Mod+1" = norepeat "workspace-switch:1";
+                "Mod+2" = norepeat "workspace-switch:2";
+                "Mod+3" = norepeat "workspace-switch:3";
+                "Mod+4" = norepeat "workspace-switch:4";
+                "Mod+5" = norepeat "workspace-switch:5";
+                "Mod+6" = norepeat "workspace-switch:6";
+                "Mod+7" = norepeat "workspace-switch:7";
+                "Mod+8" = norepeat "workspace-switch:8";
+                "Mod+9" = norepeat "workspace-switch:9";
+                "Mod+0" = norepeat "workspace-switch:10";
+                "Mod+Shift+1" = norepeat "window-move-to-workspace:1";
+                "Mod+Shift+2" = norepeat "window-move-to-workspace:2";
+                "Mod+Shift+3" = norepeat "window-move-to-workspace:3";
+                "Mod+Shift+4" = norepeat "window-move-to-workspace:4";
+                "Mod+Shift+5" = norepeat "window-move-to-workspace:5";
+                "Mod+Shift+6" = norepeat "window-move-to-workspace:6";
+                "Mod+Shift+7" = norepeat "window-move-to-workspace:7";
+                "Mod+Shift+8" = norepeat "window-move-to-workspace:8";
+                "Mod+Shift+9" = norepeat "window-move-to-workspace:9";
+                "Mod+Shift+0" = norepeat "window-move-to-workspace:10";
 
                 # Relative workspace navigation
                 "Mod+Home" = {
@@ -610,10 +496,7 @@
                   action = "window-move-to-workspace-next";
                   repeat = true;
                 };
-                "Mod+Grave" = {
-                  action = "workspace-focus-last";
-                  repeat = false;
-                };
+                "Mod+Grave" = norepeat "workspace-focus-last";
 
                 # Mouse wheel for workspace navigation
                 "Mod+WheelUp" = {
@@ -626,52 +509,22 @@
                   repeat = false;
                   cooldown_ms = 150;
                 };
-                "Mod+Tab" = {
-                  action = "overview-toggle";
-                  repeat = false;
-                };
-                "Mod+slash" = {
-                  action = "cheatsheet-toggle";
-                  repeat = false;
-                };
+                "Mod+Tab" = norepeat "overview-toggle";
+                "Mod+slash" = norepeat "cheatsheet-toggle";
 
                 # Media and screenshots
-                "Print" = {
-                  action = "spawn:noctalia msg screenshot-region";
-                  repeat = false;
-                };
-                "Shift+Print" = {
-                  action = "spawn:noctalia msg screenshot-annotate";
-                  repeat = false;
-                };
-                "Ctrl+Print" = {
-                  action = "spawn:noctalia msg screenshot-fullscreen all";
-                  repeat = false;
-                };
+                "Print" = norepeat "spawn:noctalia msg screenshot-region";
+                "Shift+Print" = norepeat "spawn:noctalia msg screenshot-annotate";
+                "Ctrl+Print" = norepeat "spawn:noctalia msg screenshot-fullscreen all";
                 "XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
                 "XF86AudioLowerVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-                "XF86AudioMute" = {
-                  action = "spawn:wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-                  repeat = false;
-                };
+                "XF86AudioMute" = norepeat "spawn:wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
                 "Ctrl+XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+";
                 "Ctrl+XF86AudioLowerVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
-                "Ctrl+XF86AudioMute" = {
-                  action = "spawn:wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-                  repeat = false;
-                };
-                "XF86AudioPlay" = {
-                  action = "spawn:playerctl play-pause";
-                  repeat = false;
-                };
-                "XF86AudioPrev" = {
-                  action = "spawn:playerctl previous";
-                  repeat = false;
-                };
-                "XF86AudioNext" = {
-                  action = "spawn:playerctl next";
-                  repeat = false;
-                };
+                "Ctrl+XF86AudioMute" = norepeat "spawn:wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+                "XF86AudioPlay" = norepeat "spawn:playerctl play-pause";
+                "XF86AudioPrev" = norepeat "spawn:playerctl previous";
+                "XF86AudioNext" = norepeat "spawn:playerctl next";
                 "XF86MonBrightnessUp" = "spawn:brightnessctl set +5%";
                 "XF86MonBrightnessDown" = "spawn:brightnessctl set 5%-";
 
@@ -921,13 +774,7 @@
                 }
 
                 # Godot game (debug runs)
-                (
-                  {
-                    match.title = ".*(DEBUG).*";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { title = ".*(DEBUG).*"; })
 
                 # Steam notification toasts: pinned outside the scratchpad so
                 # a toast is readable without revealing the whole client.
@@ -1021,49 +868,19 @@
                   default_focused = true;
                 }
                 # FFXIV
-                (
-                  {
-                    match.title = "FINAL FANTASY XIV";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { title = "FINAL FANTASY XIV"; })
 
                 # Gamescope
-                (
-                  {
-                    match.app_id = "^gamescope$";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { app_id = "^gamescope$"; })
 
                 # World of Warcraft (wine)
-                (
-                  {
-                    match.app_id = "^wow.exe$";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { app_id = "^wow.exe$"; })
 
                 # World of Warcraft (xwayland)
-                (
-                  {
-                    match.title = "World of Warcraft";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { title = "World of Warcraft"; })
 
                 # Hytale
-                (
-                  {
-                    match.title = "Hytale";
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { title = "Hytale"; })
 
                 # Battle.net gifts
                 {
@@ -1106,6 +923,7 @@
                     anchor = "bottom_right";
                   };
                   default_focused = false;
+                  focus_on_activate = false;
                 }
 
                 # Battle.net
@@ -1225,10 +1043,8 @@
           # The portrait listener is the only runtime helper: workspace and
           # output placement otherwise come directly from dynamic Umbriel
           # configuration.
-          home.file.".config/umbriel/scripts".source =
-            config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/scripts";
-          home.file.".config/umbriel/shaders".source =
-            config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/umbriel/shaders";
+          xdg.configFile."umbriel/scripts".source = ../../assets/umbriel/scripts;
+          xdg.configFile."umbriel/shaders".source = ../../assets/umbriel/shaders;
         };
     };
 }

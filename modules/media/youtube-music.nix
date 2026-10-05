@@ -1,8 +1,17 @@
 { den, inputs, ... }:
 {
-  den.aspects.youtubemusic.homeManager =
-    { pkgs, config, ... }:
+  den.aspects.youtube-music.homeManager =
+    { pkgs, ... }:
+    let
+      cthulhuTheme = pkgs.fetchurl {
+        name = "eldritch-cthulhu.css";
+        url = "https://raw.githubusercontent.com/eldritch-theme/youtube-music/a1dc1799b1b93ed765f3269d9ad5f05de63800a7/themes/eldritch-cthulhu.css";
+        hash = "sha256-+9K2h6ctyBq/jk81TnLQa2ba8Sp5f8alcSsleldEK5o=";
+      };
+    in
     {
+      imports = [ inputs.pear-desktop.homeManagerModules.default ];
+
       programs.pear-desktop = {
         enable = true;
         options = {
@@ -14,7 +23,7 @@
           restartOnConfigChanges = true;
           startingPage = "Home";
           themes = [
-            "${config.home.homeDirectory}/.config/ytm/themes/cthulhu.css"
+            "${cthulhuTheme}"
           ];
           # Setting tray = true makes the tray work, but hides the window at startup.
           tray = true;
@@ -59,10 +68,6 @@
             enable = true;
           };
         };
-      };
-
-      home.file.".config/ytm/themes/cthulhu.css" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/ytm/cthulhu.css";
       };
     };
 }

@@ -22,13 +22,9 @@
         godotPackages.export-template
         gpu-screen-recorder
         grim
-        home-manager
-        hyprpwcenter
-        hyprshutdown
-        hyprsysteminfo
+        jq
         kdePackages.okular
         kitty-themes
-        lazyjj
         lazyrsync
         libsecret
         inputs.nix-versions.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -40,9 +36,7 @@
         seahorse
         slurp
         socat
-        streamcontroller
         tenacity
-        wl-clipboard
       ];
     };
 }

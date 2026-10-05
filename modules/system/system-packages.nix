@@ -1,11 +1,10 @@
 { den, inputs, ... }:
 {
-  den.aspects.systempackages.nixos =
+  den.aspects.system-packages.nixos =
     { pkgs, ... }:
     {
       # System wide packages
       environment.systemPackages = with pkgs; [
-        ananicy-rules-cachyos
         bc
         bind
         bluetui
@@ -54,7 +53,6 @@
         wget
         whois
         wireguard-tools
-        xrandr
         xwayland
         yubico-pam
         yubioath-flutter

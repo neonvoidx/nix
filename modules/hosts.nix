@@ -3,8 +3,49 @@ let
   neonvoid = {
     gitName = "neonvoidx";
     gitEmail = "me@neonvoid.dev";
-    emailName = "neonvoidx";
-    emailAddress = "me@neonvoid.dev";
+    avatar = ../assets/.face;
+    logo = ../assets/neonvoid.png;
+    wallpaperRepository = "https://github.com/neonvoidx/pics";
+    # Each account must provide address and userName, or addressSecret and userNameSecret.
+    emailAccounts = {
+      thundermail = {
+        primary = true;
+        realName = "neonvoidx";
+        addressSecret = "email/neonvoid/thundermail/address-json";
+        userNameSecret = "email/neonvoid/thundermail/user-name-json";
+        imap = {
+          host = "mail.thundermail.com";
+          port = 993;
+          tls.enable = true;
+          authentication = "xoauth2";
+        };
+        smtp = {
+          host = "mail.thundermail.com";
+          port = 465;
+          tls.enable = true;
+          authentication = "xoauth2";
+        };
+      };
+      gmail = {
+        primary = false;
+        realName = "Jacob Reed";
+        addressSecret = "email/neonvoid/gmail/address-json";
+        userNameSecret = "email/neonvoid/gmail/user-name-json";
+        imap = {
+          host = "imap.gmail.com";
+          port = 993;
+          tls.enable = true;
+        };
+        smtp = {
+          host = "smtp.gmail.com";
+          port = 587;
+          tls = {
+            enable = true;
+            useStartTls = true;
+          };
+        };
+      };
+    };
   };
   timezone = "America/New_York";
 in
@@ -104,8 +145,30 @@ in
         gateway = "192.168.86.1";
       };
 
-      nasIp = "192.168.86.6";
-      printerUri = "ipps://192.168.86.186/ipp/print";
+      printer = {
+        name = "HP_Color_LaserJet_MFP_M182nw";
+        location = "Home";
+        deviceUri = "ipps://192.168.86.186/ipp/print";
+        model = "everywhere";
+        drivers = [
+          "hplipWithPlugin"
+          "cups-filters"
+        ];
+        ppdOptions = {
+          PageSize = "Letter";
+          ColorModel = "RGB";
+        };
+      };
+
+      gamesLocation = "/games";
+      gaming.environment = {
+        PROTON_ENABLE_HDR = "1";
+        PROTON_FSR4_UPGRADE = "1";
+        PROTON_XESS_UPGRADE = "1";
+        # RDNA4 workarounds for VKD3D ring timeouts and upload heaps.
+        RADV_DEBUG = "nomeshshader";
+        VKD3D_CONFIG = "no_upload_hvv";
+      };
 
       greeting = "The Void";
       timezone = timezone;

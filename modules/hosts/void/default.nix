@@ -4,8 +4,6 @@
     includes = [
       den.aspects.base-system
       den.aspects.wireguard
-      # Network mounts are configured in network-drives.nix.
-      den.aspects.networkdrives
       den.aspects.gaming
     ];
 
@@ -61,6 +59,15 @@
           };
           steam-hardware.enable = true;
         };
+
+        services.udev.extraRules = ''
+          # Via Keyboards
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+          # Sat75
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", ATTRS{idVendor}=="ca04", ATTRS{idProduct}=="0011", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+          # Zoom75 Tiga
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", ATTRS{idVendor}=="1ea7", ATTRS{idProduct}=="cedd", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+        '';
 
         powerManagement.cpuFreqGovernor = "performance";
 

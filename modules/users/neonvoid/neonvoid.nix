@@ -7,14 +7,11 @@
       den.aspects.btop
       den.aspects.direnv
       den.aspects.devenv
-      den.aspects.multiverse
       den.aspects.delta
       den.aspects.fastfetch
       den.aspects.fzf
       den.aspects.git
       den.aspects.kitty
-      den.aspects.jj
-      den.aspects.jq
       den.aspects.just
       den.aspects.lazygit
       den.aspects.lsd
@@ -23,7 +20,7 @@
       den.aspects.nix-index
       den.aspects.nvim
       den.aspects.opencode
-      den.aspects.payrespects
+      den.aspects.pay-respects
       den.aspects.starship
       den.aspects.tealdeer
       den.aspects.tmux
@@ -32,7 +29,7 @@
       den.aspects.zsh
 
       # Desktop
-      den.aspects.de
+      den.aspects.desktop-environment
       den.aspects.fonts
       den.aspects.xdg
       den.aspects.stylix
@@ -42,13 +39,12 @@
       den.aspects.cursor
       den.aspects.firefox
       den.aspects.gtk
-      # den.aspects.hyprland
-      den.aspects.satty
       den.aspects.umbriel
       den.aspects.thunar
+      den.aspects.xembsni
 
       # Services (user-level)
-      den.aspects.gnomekeyring
+      den.aspects.gnome-keyring
       den.aspects.pipewire
       den.aspects.streamcontroller
       den.aspects.usb
@@ -62,33 +58,29 @@
       den.aspects.cava
       den.aspects.easyeffects
       den.aspects.mpv
-      den.aspects.obsstudio
-      # My personal wallpapers
-      # pulls from my repo, if you want to pull your own
-      # wallpaper pics repo, change pics.nix url
+      den.aspects.obs-studio
+      # Wallpaper repository comes from user.wallpaperRepository
       den.aspects.pics
       # den.aspects.spicetify
-      den.aspects.youtubemusic
+      den.aspects.youtube-music
 
       # Communication
       den.aspects.discord
       den.aspects.email
     ];
 
-    nixos =
-      { ... }:
-      {
-        users.users.neonvoid = {
-          description = "neonvoid";
-          extraGroups = [
-            "networkmanager"
-            "audio"
-            "video"
-            "input"
-            "libvirtd"
-            "dialout"
-          ];
-        };
+    nixos = {
+      users.users.neonvoid = {
+        description = "neonvoid";
+        extraGroups = [
+          "networkmanager"
+          "audio"
+          "video"
+          "input"
+          "libvirtd"
+          "dialout"
+        ];
       };
+    };
   };
 }

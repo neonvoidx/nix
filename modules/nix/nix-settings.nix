@@ -1,11 +1,14 @@
 { den, inputs, ... }:
 {
-  den.aspects.nixsettings.nixos =
+  den.aspects.nix-settings.nixos =
     {
       lib,
       pkgs,
       ...
     }:
+    let
+      caches = builtins.fromJSON (builtins.readFile ../../assets/nix/caches.json);
+    in
     {
       nixpkgs = {
         config = {
@@ -44,37 +47,8 @@
             "flakes"
           ];
           auto-optimise-store = true;
-          substituters = [
-            "https://cache.nixos.org"
-            "https://nix-community.cachix.org"
-            # "https://hyprland.cachix.org"
-            "https://neonvoidx.cachix.org"
-            "https://noctalia.cachix.org"
-          ];
-          trusted-substituters = [
-            # Official nix cache
-            "https://cache.nixos.org"
-            # Nix Community Cache
-            "https://nix-community.cachix.org"
-            # hyprland cache
-            # "https://hyprland.cachix.org"
-            # Personal Cachix cache
-            "https://neonvoidx.cachix.org"
-            # Noctalia
-            "https://noctalia.cachix.org"
-          ];
-          trusted-public-keys = [
-            # Official nix cache
-            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-            # hyprland cache
-            # "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-            # Personal Cachix cache
-            "neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y="
-            # Nix community cache
-            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-            # Noctalia
-            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-          ];
+          inherit (caches) substituters trusted-public-keys;
+          trusted-substituters = caches.substituters;
           trusted-users = [
             "root"
             "@wheel"

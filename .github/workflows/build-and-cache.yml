@@ -49,19 +49,14 @@ jobs:
         id: cache-config
         run: |
           python3 - <<'EOF'
-          import re, os
+          import json, os
 
-          with open('modules/nix/settings.nix') as f:
-              content = f.read()
-
-          def extract_list(name):
-              m = re.search(rf'{name}\s*=\s*\[(.*?)\];', content, re.DOTALL)
-              if not m: return ''
-              return ' '.join(re.findall(r'"([^"]+)"', m.group(1)))
+          with open('assets/nix/caches.json') as f:
+              caches = json.load(f)
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              out.write(f"substituters={extract_list('substituters')}\n")
-              out.write(f"trusted-public-keys={extract_list('trusted-public-keys')}\n")
+              for name in ('substituters', 'trusted-public-keys'):
+                  out.write(f"{name}={' '.join(caches[name])}\n")
           EOF
 
       - name: Install Nix

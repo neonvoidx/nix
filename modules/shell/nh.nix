@@ -1,13 +1,13 @@
 { den, ... }:
 {
   den.aspects.nh.homeManager =
-    { ... }:
+    { config, ... }:
     {
       programs.nh = {
         enable = true;
-        flake = "$HOME/nix";
-        homeFlake = "$HOME/nix";
-        osFlake = "$HOME/nix";
+        flake = config.dotfiles.checkoutPath;
+        homeFlake = config.dotfiles.checkoutPath;
+        osFlake = config.dotfiles.checkoutPath;
       };
     };
 }

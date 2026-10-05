@@ -4,12 +4,12 @@
     { host, ... }:
     {
       nixos =
-        { pkgs, ... }:
+        { lib, ... }:
         let
-          mainMon = host.monitors.main or { };
-          builtinMon = host.monitors.builtin or { };
-
-          primaryDisplay = mainMon.name or builtinMon.name or "";
+          primaryDisplay =
+            (lib.findFirst (monitor: monitor.primary or false) { name = ""; } (
+              builtins.attrValues (host.monitors or { })
+            )).name;
         in
         {
           programs.steam = {
@@ -24,17 +24,13 @@
           environment.sessionVariables = {
             # Proton settings
             DXVK_HUD = "0";
-            PROTON_ENABLE_HDR = "1";
             PROTON_USE_NTSYNC = "1";
-            PROTON_FSR4_UPGRADE = "1";
-            PROTON_XESS_UPGRADE = "1";
-            # Disable mesh shaders — common cause of VKD3D ring timeouts on RDNA4
-            RADV_DEBUG = "nomeshshader";
-            # Disable upload heap host-visible VRAM — improves stability with VKD3D DX12 titles
-            VKD3D_CONFIG = "no_upload_hvv";
+          }
+          // lib.optionalAttrs (primaryDisplay != "") {
             # Primary display for Proton Wayland driver
             WAYLANDDRV_PRIMARY_DISPLAY = primaryDisplay;
-          };
+          }
+          // (host.gaming.environment or { });
         };
 
       homeManager =

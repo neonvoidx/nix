@@ -14,8 +14,7 @@
         themeFile = "Eldritch";
 
         actionAliases = {
-          "kitty_scrollback_nvim" =
-            "kitten ${config.home.homeDirectory}/.config/kitty/kitty_scrollback_nvim.py";
+          "kitty_scrollback_nvim" = "kitten ${config.xdg.configHome}/kitty/kitty_scrollback_nvim.py";
         };
 
         font = {
@@ -85,7 +84,7 @@
           single_window_margin_width = 1;
           inactive_text_alpha = "1.0";
           single_window_padding_width = 0;
-          background_opacity = lib.mkForce "0.97";
+          background_opacity = "0.97";
           hide_window_decorations = "titlebar-only";
           confirm_os_window_close = 0;
           background_blur = 20;
@@ -223,23 +222,21 @@
 
       # Overrides the shipped cursor-trail-blaze.pipeline (kitty resolves the
       # config-dir one first) to recolor the trail via its static const vars.
-      home.file.".config/kitty/shaders/cursor-trail-blaze.pipeline".text =
-        ''
-          # Eldritch colors baked in linear RGB (kitty shaders run in linear space).
-          # TRAIL_COLOR = Great Old One Green #37f499 (matches theme cursor)
-          # TRAIL_COLOR_ACCENT = Watery Tomb Blue #04d1f9
-          startgroup
-              var float4 TRAIL_COLOR = float4(0.0382, 0.9047, 0.3185, 1.0)
-              var float4 TRAIL_COLOR_ACCENT = float4(0.0012, 0.6376, 0.9473, 1.0)
-              animation_start cursor-trail-move
-              animation_stop cursor-trail-stop
-              shaders cursor-trail-blaze
-          endgroup
-        '';
+      xdg.configFile."kitty/shaders/cursor-trail-blaze.pipeline".text = ''
+        # Eldritch colors baked in linear RGB (kitty shaders run in linear space).
+        # TRAIL_COLOR = Great Old One Green #37f499 (matches theme cursor)
+        # TRAIL_COLOR_ACCENT = Watery Tomb Blue #04d1f9
+        startgroup
+            var float4 TRAIL_COLOR = float4(0.0382, 0.9047, 0.3185, 1.0)
+            var float4 TRAIL_COLOR_ACCENT = float4(0.0012, 0.6376, 0.9473, 1.0)
+            animation_start cursor-trail-move
+            animation_stop cursor-trail-stop
+            shaders cursor-trail-blaze
+        endgroup
+      '';
 
-      home.file.".config/kitty/kitty_scrollback_nvim.py".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/kitty_scrollback_nvim.py";
-      home.file.".config/kitty/kitty_scroll_prompt.py".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/assets/kitty/kitty_scroll_prompt.py";
+      xdg.configFile."kitty/kitty_scrollback_nvim.py".source =
+        ../../assets/kitty/kitty_scrollback_nvim.py;
+      xdg.configFile."kitty/kitty_scroll_prompt.py".source = ../../assets/kitty/kitty_scroll_prompt.py;
     };
 }

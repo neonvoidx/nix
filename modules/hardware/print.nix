@@ -6,27 +6,23 @@
       nixos =
         { pkgs, lib, ... }:
         let
-          hasPrinter = host ? printerUri;
+          hasPrinter = host ? printer;
+          printer = host.printer or { };
+          options = printer.ppdOptions or { };
+          optionArgs = lib.concatStringsSep " " (
+            lib.mapAttrsToList (name: value: "-o ${lib.escapeShellArg "${name}=${value}"}") options
+          );
         in
         {
           hardware.printers = lib.mkIf hasPrinter {
             ensurePrinters = [
-              {
-                name = "HP_Color_LaserJet_MFP_M182nw";
-                location = "Home";
-                deviceUri = host.printerUri;
-                model = "everywhere";
-                ppdOptions = {
-                  PageSize = "Letter";
-                  ColorModel = "RGB";
-                };
-              }
+              (builtins.removeAttrs printer [ "drivers" ])
             ];
-            ensureDefaultPrinter = "HP_Color_LaserJet_MFP_M182nw";
+            ensureDefaultPrinter = printer.name;
           };
 
-          systemd.services.cups-color-default = lib.mkIf hasPrinter {
-            description = "Force color printing default for HP printer";
+          systemd.services.cups-printer-defaults = lib.mkIf (hasPrinter && options != { }) {
+            description = "Apply configured printer defaults";
             after = [
               "cups.service"
               "cups-ensure-printers.service"
@@ -35,16 +31,13 @@
             serviceConfig = {
               Type = "oneshot";
               RemainAfterExit = true;
-              ExecStart = "${pkgs.cups}/bin/lpadmin -p HP_Color_LaserJet_MFP_M182nw -o ColorModel=RGB";
+              ExecStart = "${pkgs.cups}/bin/lpadmin -p ${lib.escapeShellArg printer.name} ${optionArgs}";
             };
           };
 
           services.printing = {
             enable = true;
-            drivers = with pkgs; [
-              hplipWithPlugin
-              cups-filters
-            ];
+            drivers = map (name: pkgs.${name}) (printer.drivers or [ "cups-filters" ]);
 
             logLevel = "warn";
             listenAddresses = [ "127.0.0.1:631" ];

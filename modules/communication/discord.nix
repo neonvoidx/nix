@@ -1,8 +1,10 @@
-{ den, ... }:
+{ den, inputs, ... }:
 {
   den.aspects.discord.homeManager =
     { config, lib, ... }:
     {
+      imports = [ inputs.nixcord.homeModules.nixcord ];
+
       programs.nixcord = {
         enable = true;
 

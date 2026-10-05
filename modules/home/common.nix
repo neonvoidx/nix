@@ -38,12 +38,12 @@
       services = {
         ssh-agent.enable = true;
         playerctld.enable = true;
-        # For tray icons that don't behave properly, like bnet with xwayland/proton
-        # xembed-sni-proxy.enable = true;
       };
 
       # Enable bash just for shell scripts and stuff, even though we use ZSH
       programs.bash.enable = true;
       programs.home-manager.enable = true;
+      # The NixOS-integrated HM module does not install the standalone CLI.
+      home.packages = [ pkgs.home-manager ];
     };
 }

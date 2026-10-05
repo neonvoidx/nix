@@ -8,7 +8,7 @@
       den.aspects.networking
       den.aspects.systemd
       den.aspects.overlays
-      den.aspects.nixsettings
+      den.aspects.nix-settings
       den.aspects.multiverse
 
       # Hardware
@@ -29,7 +29,7 @@
       den.aspects.ananicy
 
       # System packages
-      den.aspects.systempackages
+      den.aspects.system-packages
     ];
   };
 }

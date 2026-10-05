@@ -6,6 +6,13 @@ echo ""
 
 MACHINE_NAME="${1:-$(hostname)}"
 
+# SSH keys must be provisioned manually as local files.
+if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ -L "$HOME/.ssh/id_ed25519" ]; then
+  echo "Error: retrieve your SSH private key into ~/.ssh/id_ed25519 as a local file before setup." >&2
+  echo "Use a regular file, not a symlink, and set its permissions to 600." >&2
+  exit 1
+fi
+
 # Refuse to replace an existing key, including a dangling symlink.
 if sudo test -e /etc/sops/age/key.txt || sudo test -L /etc/sops/age/key.txt; then
   echo "Error: /etc/sops/age/key.txt already exists; refusing to overwrite it." >&2
@@ -43,7 +50,7 @@ echo ""
 
 # Step 3: User age key (for CLI editing via SSH)
 echo "Step 3 (optional): Set up your user age key for CLI editing..."
-echo "If you have an SSH key you want to use for sops CLI:"
+echo "Use the SSH key you provisioned locally for sops CLI:"
 echo ""
 echo "  mkdir -p ~/.config/sops/age"
 echo "  nix-shell -p ssh-to-age --run 'ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'"

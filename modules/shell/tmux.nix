@@ -18,7 +18,6 @@
         "XDG_CURRENT_DESKTOP"
         "XDG_SESSION_DESKTOP"
         "XDG_SESSION_TYPE"
-        "HYPRLAND_INSTANCE_SIGNATURE"
         "UMBRIEL_SOCKET"
         "UMBRIEL_MAIN_OUT"
         "UMBRIEL_SECONDARY_OUT"
@@ -27,12 +26,6 @@
       refreshDesktopEnvironment = pkgs.writeShellScript "tmux-refresh-desktop-environment" ''
         set -eu
         # Called by the new compositor, never by a stale tmux pane.
-        case "''${1:-}" in
-          hyprland) unset UMBRIEL_SOCKET ;;
-          umbriel) unset HYPRLAND_INSTANCE_SIGNATURE ;;
-          *) exit 1 ;;
-        esac
-
         tmux=${config.programs.tmux.package}/bin/tmux
         # Match Home Manager's secureSocket location, including at desktop startup.
         export TMUX_TMPDIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
@@ -41,7 +34,7 @@
         # second, so the server is usually not listening yet. update-environment
         # only refreshes the session a client attaches to, so losing this race
         # leaves every other session on the systemd environment, which carries no
-        # HYPRLAND_INSTANCE_SIGNATURE or UMBRIEL_SOCKET. Wait for the server
+        # UMBRIEL_SOCKET. Wait for the server
         # instead of exiting; the wait ends as soon as it answers.
         sessions=""
         for _ in {1..100}; do
