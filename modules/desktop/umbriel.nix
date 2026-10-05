@@ -274,7 +274,7 @@
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
-                  center_focused = "always";
+                  center_focused = "on_overflow";
                 };
               };
 
