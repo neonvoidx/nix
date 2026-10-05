@@ -467,11 +467,7 @@
                 };
                 # Cycle focus across outputs instead of windows
                 "Alt+Tab" = {
-                  action = "output-focus-next";
-                  repeat = false;
-                };
-                "Shift+Alt+Tab" = {
-                  action = "output-focus-previous";
+                  action = "spawn:noctalia msg window-switcher hold";
                   repeat = false;
                 };
 
