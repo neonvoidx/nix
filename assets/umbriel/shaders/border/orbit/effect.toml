@@ -5,7 +5,7 @@ palette = true
 # Controls the stationary border fade through the shader's draw area.
 # 12 reaches about 7 logical pixels with this border; keep at least 8 for the orbit.
 padding = 12
-# The shader travels 100 logical pixels/s per 1.0; 3.3 gives 330 pixels/s.
+# The shader travels 100 logical pixels/s per 1.0; 6.0 gives 600 pixels/s.
 speed = 6.0
 
 [effects.preset.orbit.light]

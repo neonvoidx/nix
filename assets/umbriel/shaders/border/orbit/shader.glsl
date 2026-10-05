@@ -1,4 +1,4 @@
-// A steady border with one palette-colored highlight orbiting clockwise.
+// A steady border with two palette-colored highlights orbiting clockwise.
 // Perimeter distance keeps the highlight's length and speed stable on wide windows.
 vec4 border(vec2 uv) {
     vec4 native = umbriel_sample(uv);
@@ -33,7 +33,9 @@ vec4 border(vec2 uv) {
     float head = mod(umbriel_time * 100.0, perimeter);
     float separation = abs(along - head);
     float distanceToHead = min(separation, perimeter - separation);
-    float orbitIntensity = exp(-0.5 * pow(distanceToHead / 48.0, 2.0));
+    float distanceToOpposite = 0.5 * perimeter - distanceToHead;
+    float orbitDistance = min(distanceToHead, distanceToOpposite);
+    float orbitIntensity = exp(-0.5 * pow(orbitDistance / 48.0, 2.0));
 
     // Umbriel's first two palette stops are accent_primary and accent_secondary.
     vec3 borderColor = umbriel_palette_at(0.0).rgb;
