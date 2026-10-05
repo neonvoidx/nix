@@ -165,7 +165,6 @@
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"
                   # "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
-                  # Stupid, but pear doesnt start open, so calling it twice will open
                   "pear-desktop"
                   "steam"
                 ]

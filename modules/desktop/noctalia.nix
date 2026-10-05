@@ -1051,13 +1051,6 @@
                   ];
                   type = "noctalia/bongocat:cat";
                 };
-                cat_2 = {
-                  cat_color = "hover";
-                  cat_color_mode = "custom";
-                  cat_size = 39;
-                  show_cpu_percent = true;
-                  type = "dotnetrob/cat:cat";
-                };
                 cat_3 = {
                   cat_color = "hover";
                   cat_color_mode = "custom";
