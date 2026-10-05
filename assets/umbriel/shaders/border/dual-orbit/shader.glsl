@@ -1,5 +1,42 @@
 // A steady border with two palette-colored highlights orbiting clockwise.
-// Perimeter distance keeps the highlight's length and speed stable on wide windows.
+// Follow the rounded client-hole contour so the highlights cross corners smoothly.
+vec2 orbit_position(vec2 p, vec2 size, vec4 r) {
+    const float quarter = 1.57079632679;
+    float top = size.x - r.x - r.y;
+    float rightStart = top + quarter * r.y;
+    float bottomRightStart = rightStart + size.y - r.y - r.z;
+    float bottomStart = bottomRightStart + quarter * r.z;
+    float bottomLeftStart = bottomStart + size.x - r.z - r.w;
+    float leftStart = bottomLeftStart + quarter * r.w;
+    float topLeftStart = leftStart + size.y - r.w - r.x;
+    float perimeter = topLeftStart + quarter * r.x;
+    float along;
+
+    // Each arc meets its neighboring straight sides at the same perimeter value.
+    if (p.x >= size.x - r.y && p.y <= r.y) {
+        along = top + r.y * atan(max(p.x - size.x + r.y, 0.0),
+            max(r.y - p.y, 0.00001));
+    } else if (p.x >= size.x - r.z && p.y >= size.y - r.z) {
+        along = bottomRightStart + r.z * atan(max(p.y - size.y + r.z, 0.0),
+            max(p.x - size.x + r.z, 0.00001));
+    } else if (p.x <= r.w && p.y >= size.y - r.w) {
+        along = bottomLeftStart + r.w * atan(max(r.w - p.x, 0.0),
+            max(p.y - size.y + r.w, 0.00001));
+    } else if (p.x <= r.x && p.y <= r.x) {
+        along = topLeftStart + r.x * atan(max(r.x - p.y, 0.0),
+            max(r.x - p.x, 0.00001));
+    } else if (p.y <= 0.0) {
+        along = clamp(p.x - r.x, 0.0, top);
+    } else if (p.x >= size.x) {
+        along = rightStart + clamp(p.y - r.y, 0.0, size.y - r.y - r.z);
+    } else if (p.y >= size.y) {
+        along = bottomStart + clamp(size.x - r.z - p.x, 0.0, size.x - r.z - r.w);
+    } else {
+        along = leftStart + clamp(size.y - r.w - p.y, 0.0, size.y - r.w - r.x);
+    }
+    return vec2(along, perimeter);
+}
+
 vec4 border(vec2 uv) {
     vec4 native = umbriel_sample(uv);
     float ring = native.a;
@@ -8,26 +45,13 @@ vec4 border(vec2 uv) {
         return native;
     }
 
-    vec2 p = uv * umbriel_size;
-    float width = umbriel_size.x;
-    float height = umbriel_size.y;
-    float perimeter = 2.0 * (width + height);
-    float top = p.y;
-    float right = width - p.x;
-    float bottom = height - p.y;
-    float left = p.x;
-
-    // Measure clockwise from the top-left corner of the effect rectangle.
-    float along;
-    if (top <= right && top <= bottom && top <= left) {
-        along = p.x;
-    } else if (right <= bottom && right <= left) {
-        along = width + p.y;
-    } else if (bottom <= left) {
-        along = width + height + (width - p.x);
-    } else {
-        along = 2.0 * width + height + (height - p.y);
-    }
+    vec2 size = umbriel_border_hole.zw * umbriel_size;
+    vec2 p = (uv - umbriel_border_hole.xy) * umbriel_size;
+    float maxRadius = 0.5 * min(size.x, size.y);
+    vec4 radius = clamp(umbriel_border_radius, vec4(0.0), vec4(maxRadius));
+    vec2 position = orbit_position(p, size, radius);
+    float along = position.x;
+    float perimeter = position.y;
 
     // umbriel_time already includes the preset's speed multiplier.
     float head = mod(umbriel_time * 100.0, perimeter);
