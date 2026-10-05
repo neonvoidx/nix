@@ -1040,11 +1040,13 @@
             };
           };
 
-          # The portrait listener is the only runtime helper: workspace and
-          # output placement otherwise come directly from dynamic Umbriel
-          # configuration.
-          xdg.configFile."umbriel/scripts".source = ../../assets/umbriel/scripts;
-          xdg.configFile."umbriel/shaders".source = ../../assets/umbriel/shaders;
+          # Out-of-store symlinks so script and shader edits in the checkout
+          # apply without a rebuild. Both are versioned with mode 100755/100644
+          # in git, so no store-side executable bit handling is needed.
+          xdg.configFile."umbriel/scripts".source =
+            config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/umbriel/scripts";
+          xdg.configFile."umbriel/shaders".source =
+            config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/umbriel/shaders";
         };
     };
 }

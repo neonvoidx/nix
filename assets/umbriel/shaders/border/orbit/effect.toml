@@ -6,7 +6,7 @@ palette = true
 # 12 reaches about 7 logical pixels with this border; keep at least 8 for the orbit.
 padding = 12
 # The shader travels 100 logical pixels/s per 1.0; 3.3 gives 330 pixels/s.
-speed = 3.3
+speed = 6.0
 
 [effects.preset.orbit.light]
 spread = 24
