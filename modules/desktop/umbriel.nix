@@ -38,15 +38,6 @@
               builtinName
             else
               "";
-          # Games open on workspace 2 of the gaming desktop's primary output.
-          # voidframe is not a gaming host, so no game workspace is reserved on
-          # its built-in panel.
-          gameOutput = if (host.isGaming or false) then primaryName else "";
-          gamePlacement = lib.optionalAttrs (gameOutput != "") {
-            default_output = gameOutput;
-            default_workspace = 2;
-          };
-
           # Games draw their own frame: no blur, shadow, or effects.
           noCompositorChrome = {
             blur = false;
@@ -112,17 +103,10 @@
           output =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
-              "${mainName}" = (mkGamingOutput mainMon) // {
-                enabled = true;
-                # Workspace 2 is the game workspace.
-                min_workspaces = 2;
-              };
+              "${mainName}" = mkGamingOutput mainMon;
             }
             // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
-              "${secondaryName}" = (mkGamingOutput secondaryMon) // {
-                enabled = true;
-                min_workspaces = 2;
-              };
+              "${secondaryName}" = mkGamingOutput secondaryMon;
             }
             // lib.optionalAttrs (portraitName != "") {
               "${portraitName}" = (mkOutput portraitMon) // {
@@ -710,9 +694,13 @@
                   // noCompositorChrome
                 )
 
-                # Games tagged by the client open on workspace 2. If the
-                # primary output is disabled, Umbriel uses an enabled output.
-                ({ match.content_type = "game"; } // noCompositorChrome // gamePlacement)
+                # Games tagged by the client get bare frames.
+                (
+                  {
+                    match.content_type = "game";
+                  }
+                  // noCompositorChrome
+                )
 
                 # Noctalia settings
                 {
@@ -940,7 +928,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # Steam notification toasts: pinned outside the scratchpad so
@@ -1012,7 +999,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # Battle.net launched from Steam should remain windowed.
@@ -1042,7 +1028,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # Gamescope
@@ -1052,7 +1037,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # World of Warcraft (wine)
@@ -1062,7 +1046,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # World of Warcraft (xwayland)
@@ -1072,7 +1055,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # Hytale
@@ -1082,7 +1064,6 @@
                     default_fullscreen = true;
                   }
                   // noCompositorChrome
-                  // gamePlacement
                 )
 
                 # Battle.net gifts
