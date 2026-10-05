@@ -12,7 +12,7 @@
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    den.url = "github:denful/den/refs/tags/v0.18.0";
+    den.url = "github:denful/den/refs/tags/v0.19.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
       inputs.nixpkgs.follows = "nixpkgs";
