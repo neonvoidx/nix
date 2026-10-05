@@ -1,4 +1,4 @@
-[effects.preset.orbit]
+[effects.preset.dual-orbit]
 kind = "border"
 shader = "shader.glsl"
 palette = true
@@ -8,7 +8,7 @@ padding = 12
 # The shader travels 100 logical pixels/s per 1.0; 6.0 gives 600 pixels/s.
 speed = 6.0
 
-[effects.preset.orbit.light]
+[effects.preset.dual-orbit.light]
 spread = 24
 intensity = 2.2
 threshold = 0.75

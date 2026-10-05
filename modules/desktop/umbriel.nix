@@ -148,14 +148,14 @@
 
             settings = {
               include.files = [
-                "shaders/border/orbit/effect.toml"
+                "shaders/border/dual-orbit/effect.toml"
                 "shaders/animation/wobbly-lifecycle/effect.toml"
                 "shaders/animation/wobbly-move/effect.toml"
                 # Reveal ships with umbriel; no local copy needed.
                 "${config.programs.umbriel.package}/share/umbriel/effects/animation/reveal/effect.toml"
               ];
 
-              effects.border = "orbit";
+              effects.border = "dual-orbit";
 
               general = {
                 autostart = [
