@@ -148,14 +148,14 @@
 
             settings = {
               include.files = [
-                "shaders/border/accent-pulse/effect.toml"
+                "shaders/border/orbit/effect.toml"
                 "shaders/animation/wobbly-lifecycle/effect.toml"
                 "shaders/animation/wobbly-move/effect.toml"
                 # Reveal ships with umbriel; no local copy needed.
                 "${config.programs.umbriel.package}/share/umbriel/effects/animation/reveal/effect.toml"
               ];
 
-              effects.border = "accent-pulse";
+              effects.border = "orbit";
 
               general = {
                 autostart = [
@@ -215,7 +215,7 @@
               colors = {
                 shadow = "#212337FF";
                 accent_primary = "#37F499FF";
-                accent_secondary = "#A48CF2FF";
+                accent_secondary = "#04D1F9FF";
                 warning = "#F7C67FFF";
                 error = "#F16C75FF";
                 border = {
