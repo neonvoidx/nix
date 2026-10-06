@@ -7,7 +7,7 @@
       ...
     }:
     let
-      caches = builtins.fromJSON (builtins.readFile ../../assets/nix/caches.json);
+      caches = import ../../assets/nix/caches.nix;
     in
     {
       nixpkgs = {

@@ -45,26 +45,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract Nix cache config
-        id: cache-config
-        run: |
-          python3 - <<'EOF'
-          import json, os
-
-          with open('assets/nix/caches.json') as f:
-              caches = json.load(f)
-
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              for name in ('substituters', 'trusted-public-keys'):
-                  out.write(f"{name}={' '.join(caches[name])}\n")
-          EOF
-
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v16
         with:
           extra-conf: |
-            substituters = ${{ steps.cache-config.outputs.substituters }}
-            trusted-public-keys = ${{ steps.cache-config.outputs.trusted-public-keys }}
+            accept-flake-config = true
 
       - name: Setup Cachix
         uses: cachix/cachix-action@v15

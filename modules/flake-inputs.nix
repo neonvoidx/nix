@@ -1,7 +1,15 @@
-# All flake inputs are declared here so flake-file can regenerate flake.nix.
-# Run `nix run .#write-flake` after adding or changing any input.
+# Flake inputs and pre-build cache settings are declared here.
+# Run `nix run .#write-flake` after changing either source.
 { lib, ... }:
+let
+  caches = import ../assets/nix/caches.nix;
+in
 {
+  # Flake settings are applied before evaluation and the system build.
+  flake-file.nixConfig = {
+    inherit (caches) substituters trusted-public-keys;
+  };
+
   flake-file.inputs = {
     den.url = "github:denful/den/refs/tags/v0.19.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";

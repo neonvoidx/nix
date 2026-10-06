@@ -160,6 +160,10 @@ After editing `modules/flake-inputs.nix`, regenerate `flake.nix` on Linux with
 just --justfile assets/justfile write-flake
 ```
 
+Cache URLs and keys live in `assets/nix/caches.nix`. After changing them, run
+`j write-flake` before building so the generated flake applies them during the
+build. Nix may ask you to trust the flake settings the first time.
+
 If the checkout lives outside `~/nix`, set the Home Manager option
 `dotfiles.checkoutPath`. It controls build helpers and editable asset symlinks;
 the global justfile also accepts a `DOTFILES_CHECKOUT_PATH` override.
