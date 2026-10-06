@@ -9,6 +9,6 @@ padding = 12
 speed = 6.0
 
 [effects.preset.dual-orbit.light]
-spread = 24
+spread = 12
 intensity = 2.2
 threshold = 0.75

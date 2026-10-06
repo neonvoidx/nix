@@ -33,25 +33,21 @@
           builtinName = builtinMon.name or "";
           primaryName =
             (lib.findFirst (mon: mon.primary or false) { name = ""; } (builtins.attrValues monitors)).name;
-          # Games draw their own frame: no blur, shadow, or effects.
-          noCompositorChrome = {
-            blur = false;
-            shadow = false;
-            border_effect = "off";
-            window_effect = "off";
-          };
 
           norepeat = action: {
             inherit action;
             repeat = false;
           };
-          mkGameRule =
-            match:
-            {
-              inherit match;
-              default_fullscreen = true;
-            }
-            // noCompositorChrome;
+          # Games draw their own frame: no blur, shadow, or effects.
+          mkGameRule = match: {
+            inherit match;
+            default_fullscreen = true;
+            focus_on_activate = false;
+            blur = false;
+            shadow = false;
+            border_effect = "off";
+            window_effect = "off";
+          };
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -270,7 +266,7 @@
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
-                  center_focused = "on_overflow";
+                  center_focused = "always";
                 };
               };
 
@@ -539,20 +535,10 @@
 
                 # Proton-tagged games (Steam's Wayland client) that no
                 # explicit rule below covers still get bare frames.
-                (
-                  {
-                    match.xdg_tag = "^proton-game$";
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { xdg_tag = "^proton-game$"; })
 
                 # Games tagged by the client get bare frames.
-                (
-                  {
-                    match.content_type = "game";
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule { content_type = "game"; })
 
                 # Noctalia settings
                 {
@@ -833,19 +819,13 @@
                 }
 
                 # Steam games
-                (
-                  {
-                    # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
-                    # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
-                    # SplashScreen is part of the Steam client, not a game.
-                    match = {
-                      app_id = "^steam_app_.*";
-                      title = "^(?!SplashScreen$).+";
-                    };
-                    default_fullscreen = true;
-                  }
-                  // noCompositorChrome
-                )
+                (mkGameRule {
+                  # Many XWayland/Steam windows start with an empty title and set it shortly after mapping.
+                  # Require a non-empty title so a later title match can apply a more specific rule (e.g. Battle.net).
+                  # SplashScreen is part of the Steam client, not a game.
+                  app_id = "^steam_app_.*";
+                  title = "^(?!SplashScreen$).+";
+                })
 
                 # Battle.net launched from Steam should remain windowed.
                 {
