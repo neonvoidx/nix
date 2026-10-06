@@ -46,6 +46,7 @@
             "nix-command"
             "flakes"
           ];
+          accept-flake-config = true;
           auto-optimise-store = true;
           inherit (caches) substituters trusted-public-keys;
           trusted-substituters = caches.substituters;

@@ -162,7 +162,16 @@ just --justfile assets/justfile write-flake
 
 Cache URLs and keys live in `assets/nix/caches.nix`. After changing them, run
 `j write-flake` before building so the generated flake applies them during the
-build. Nix may ask you to trust the flake settings the first time.
+build. Both hosts accept flake settings through their NixOS configuration. The
+first rebuild that installs this setting needs a one-time override:
+
+```sh
+NIX_CONFIG='accept-flake-config = true' nh os switch
+```
+
+After that rebuild, later cache changes need only `j write-flake` before the
+build. The setting accepts Nix configuration from every flake used on these
+hosts.
 
 If the checkout lives outside `~/nix`, set the Home Manager option
 `dotfiles.checkoutPath`. It controls build helpers and editable asset symlinks;
