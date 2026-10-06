@@ -10,6 +10,10 @@
             enable = true;
             extraArgs = [ ];
             passwordlessSyncUsers = [ user.userName ];
+            cursorTheme = {
+              name = config.stylix.cursor.name;
+              package = config.stylix.cursor.package;
+            };
             settings = {
               user = {
                 default = user.userName;
@@ -22,7 +26,6 @@
                 );
               };
               cursor = {
-                theme = config.stylix.cursor.name;
                 size = config.stylix.cursor.size;
               };
             };

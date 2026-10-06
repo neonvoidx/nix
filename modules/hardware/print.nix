@@ -8,10 +8,6 @@
         let
           hasPrinter = host ? printer;
           printer = host.printer or { };
-          options = printer.ppdOptions or { };
-          optionArgs = lib.concatStringsSep " " (
-            lib.mapAttrsToList (name: value: "-o ${lib.escapeShellArg "${name}=${value}"}") options
-          );
         in
         {
           hardware.printers = lib.mkIf hasPrinter {
@@ -19,20 +15,6 @@
               (builtins.removeAttrs printer [ "drivers" ])
             ];
             ensureDefaultPrinter = printer.name;
-          };
-
-          systemd.services.cups-printer-defaults = lib.mkIf (hasPrinter && options != { }) {
-            description = "Apply configured printer defaults";
-            after = [
-              "cups.service"
-              "cups-ensure-printers.service"
-            ];
-            wantedBy = [ "multi-user.target" ];
-            serviceConfig = {
-              Type = "oneshot";
-              RemainAfterExit = true;
-              ExecStart = "${pkgs.cups}/bin/lpadmin -p ${lib.escapeShellArg printer.name} ${optionArgs}";
-            };
           };
 
           services.printing = {
@@ -43,11 +25,21 @@
             listenAddresses = [ "127.0.0.1:631" ];
           };
 
-          systemd.services."cups-ensure-printers" = lib.mkIf hasPrinter {
+          # Since nixpkgs 26.11, hardware.printers.ensurePrinters runs as
+          # cups.service's ExecStartPost instead of a separate
+          # cups-ensure-printers unit (which no longer exists).
+          systemd.services.cups = lib.mkIf hasPrinter {
             after = [ "network-online.target" ];
             wants = [ "network-online.target" ];
-            serviceConfig.Restart = lib.mkOverride 90 "on-failure";
-            serviceConfig.RestartSec = lib.mkOverride 90 "30s";
+            # The provisioning script runs with `set -e` and lpadmin fails
+            # whenever the printer is unreachable, which would otherwise fail
+            # cups.service five times and leave CUPS down until something
+            # pokes cups.socket. Run the upstream commands without errexit and
+            # always report success; failures are still logged by lpadmin.
+            postStart = lib.mkMerge [
+              (lib.mkBefore "set +e")
+              (lib.mkAfter "true")
+            ];
           };
 
           services.avahi = {

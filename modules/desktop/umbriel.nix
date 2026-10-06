@@ -38,11 +38,14 @@
             inherit action;
             repeat = false;
           };
-          # Games draw their own frame: no blur, shadow, or effects.
+          # Default game rules
+          # i.e always fullscreen, dont float, remove decorations like effects and blur and shadow
           mkGameRule = match: {
             inherit match;
             default_fullscreen = true;
+            # Turning this off as it gets quite annoying, if you move focus, game will just keep ripping aggro
             focus_on_activate = false;
+            default_floating = false;
             blur = false;
             shadow = false;
             border_effect = "off";
