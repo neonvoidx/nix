@@ -307,13 +307,13 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.direnv
       den.aspects.devenv
       den.aspects.delta
+      den.aspects.eza
       den.aspects.fastfetch
       den.aspects.fzf
       den.aspects.git
       den.aspects.kitty
       den.aspects.just
       den.aspects.lazygit
-      den.aspects.lsd
       den.aspects.mcp
       den.aspects.nh
       den.aspects.nix-index
