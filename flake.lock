@@ -593,11 +593,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1791249833,
-        "narHash": "sha256-Me97PixJw1dwV9OUWxI/p13rPs0qH760rcEovAoFcVY=",
+        "lastModified": 1791287407,
+        "narHash": "sha256-7sLCUHaGjVLpwT2dg/4HGmISIOS+xAPC3cW0dUyXNQY=",
         "owner": "4evy",
         "repo": "nixcord",
-        "rev": "729caf20e3b2fbf4de6ea18224cd4f4efd7000ea",
+        "rev": "37ba1c92cd276d30576b2896ebe2565f63ff92f3",
         "type": "github"
       },
       "original": {
@@ -692,11 +692,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1791179034,
-        "narHash": "sha256-Ni0LBydzaCi8oek12r4mVreuFHqYlM1eTD6SfiENKfw=",
+        "lastModified": 1791260994,
+        "narHash": "sha256-Miqqk/ammqnTUxaoCyvtwoPeLbI1ksFyLxi/CazZpWY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "494ce7fd23ff6a5dff39e1fb11e9b6f2ac74bf25",
+        "rev": "151fa4e8ddfdd8dd25d945ad94ed54a13de9f6e4",
         "type": "github"
       },
       "original": {
@@ -726,6 +726,19 @@
         "rev": "56c02bc00adcf003215cc4bd996d6efaf4cff188",
         "type": "tarball",
         "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1060451.56c02bc00adc/nixexprs.tar.xz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1790822859,
+        "narHash": "sha256-VBA0QerzzmL+4wxgtwiCdiLwLpJg2/9xOxhgO3BRJQA=",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1083223.c59305bab206/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -1109,21 +1122,20 @@
     },
     "umbriel": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_5",
         "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
       },
       "locked": {
-        "lastModified": 1791251728,
-        "narHash": "sha256-UkzN8tOO68hloMjtQIVBLQ+A+2nQ3ADJw6uo62KE+nQ=",
+        "lastModified": 1791290681,
+        "narHash": "sha256-gtFiqAHiIlb2806EKm++YNOSH7/9c3Wn6psJ8d2E2OI=",
         "owner": "noctalia-dev",
         "repo": "umbriel",
-        "rev": "4c89178780d800012fd2508b5a5d6ea11dd5b15d",
+        "rev": "8e2441c94b9bb4ebda4776c51c7cab44e16712b0",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
+        "ref": "cachix",
         "repo": "umbriel",
         "type": "github"
       }

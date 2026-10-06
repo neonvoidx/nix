@@ -257,16 +257,17 @@
                 mode = "scrolling";
                 gap = 8;
                 extent_presets = [
+                  0.333
                   0.5
+                  0.667
                   0.9
-                  1.0
                 ];
                 scrolling = {
                   default_extent_fraction = 0.9;
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
-                  center_focused = "always";
+                  center_focused = "never";
                 };
               };
 

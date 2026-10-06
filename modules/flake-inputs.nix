@@ -60,8 +60,7 @@
       url = "github:4evy/nixcord";
     };
     umbriel = {
-      url = "github:noctalia-dev/umbriel";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:noctalia-dev/umbriel/cachix";
     };
     multiverse = {
       url = "github:fzakaria/nixpkgs-multiverse";
