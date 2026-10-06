@@ -70,6 +70,7 @@
                     placements = {
                       "widget-overflow-fixed-list" = [ ];
                       "unified-extensions-area" = [
+                        "tridactyl_vim_cmcaine_co_uk-browser-action"
                         "smallweb_kagi_com-browser-action"
                         "_506e023c-7f2b-40a3-8066-bc5deb40aebe_-browser-action"
                         "_react-devtools-browser-action"
@@ -94,6 +95,7 @@
                         "78272b6fa58f4a1abaac99321d503a20_proton_me-browser-action"
                         "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
                         "ublock0_raymondhill_net-browser-action"
+                        "sponsorblocker_ajay_app-browser-action"
                         "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action"
                         "_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action"
                         "addon_darkreader_org-browser-action"
@@ -105,13 +107,11 @@
                         "developer-button"
                         "alltabs-button"
                         "reset-pbm-toolbar-button"
-                        "tridactyl_vim_cmcaine_co_uk-browser-action"
-                      ];
-                      "toolbar-menubar" = [ "menubar-items" ];
-                      "TabsToolbar" = [
                         "smartwindow-group-tabs-button"
                         "ai-window-toggle"
                       ];
+                      "toolbar-menubar" = [ "menubar-items" ];
+                      "TabsToolbar" = [ ];
                       "vertical-tabs" = [ "tabbrowser-tabs" ];
                       "PersonalToolbar" = [ "personal-bookmarks" ];
                     };
@@ -142,6 +142,7 @@
                       "smartwindow-group-tabs-button"
                       "ai-window-toggle"
                       "modheader_modheader_app-browser-action"
+                      "sponsorblocker_ajay_app-browser-action"
                     ];
                     dirtyAreaCache = [
                       "nav-bar"
@@ -152,7 +153,7 @@
                       "unified-extensions-area"
                     ];
                     currentVersion = 26;
-                    newElementCount = 10;
+                    newElementCount = 11;
                   };
                 in
                 /* javascript */ ''
