@@ -429,6 +429,9 @@
                 "Mod+Shift+L" = "window-move-or-output-right";
                 "Mod+Shift+K" = "window-move-or-output-up";
                 "Mod+Shift+J" = "window-move-or-output-down";
+                # Consume windows
+                "Mod+Ctrl+H" = "window-consume-or-expel-left";
+                "Mod+Ctrl+L" = "window-consume-or-expel-right";
                 # Explicitly move current window to output direction
                 "Mod+Shift+Left" = "window-move-to-output-left";
                 "Mod+Shift+Right" = "window-move-to-output-right";
@@ -444,6 +447,7 @@
 
                 # Layout
                 "Mod+R" = norepeat "window-cycle-primary-extent";
+                "Mod+Shift+R" = norepeat "window-cycle-primary-extent-back";
                 "Mod+Equal" = {
                   action = "window-modify-primary-extent:0.05";
                   repeat = true;
@@ -968,6 +972,7 @@
                     anchor = "bottom_right";
                   };
                   default_focused = false;
+                  focus_on_activate = false;
                 }
 
                 # SteamGridDB
