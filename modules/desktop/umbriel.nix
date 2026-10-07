@@ -38,20 +38,37 @@
             inherit action;
             repeat = false;
           };
+
+          # Games open on workspace 2 of the gaming host's primary output.
+          # Umbriel cannot address a disabled output, so while the primary is
+          # off a newly opened game falls back to workspace 2 of the output
+          # under the pointer, and screen-toggle.sh migrates running games to
+          # workspace 2 of the secondary output when the primary is disabled
+          # (and back when it is re-enabled). voidframe is not a gaming host,
+          # so no game workspace is reserved on its built-in panel.
+          gameOutput = if (host.isGaming or false) then primaryName else "";
+          gamePlacement = lib.optionalAttrs (gameOutput != "") {
+            default_output = gameOutput;
+            default_workspace = 2;
+          };
+
           # Default game rules
           # i.e always fullscreen, dont float, remove decorations like effects and blur and shadow
-          mkGameRule = match: {
-            inherit match;
-            default_fullscreen = true;
-            # Turning this off as it gets quite annoying, if you move focus, game will just keep ripping aggro
-            focus_on_activate = false;
-            default_floating = false;
-            blur = false;
-            shadow = false;
-            border_effect = "off";
-            confine_pointer = true;
-            window_effect = "off";
-          };
+          mkGameRule =
+            match:
+            {
+              inherit match;
+              default_fullscreen = true;
+              # Turning this off as it gets quite annoying, if you move focus, game will just keep ripping aggro
+              focus_on_activate = false;
+              default_floating = false;
+              blur = false;
+              shadow = false;
+              border_effect = "off";
+              confine_pointer = true;
+              window_effect = "off";
+            }
+            // gamePlacement;
 
           mkPosition = pos: map builtins.fromJSON (lib.splitString "x" pos);
 
@@ -120,10 +137,16 @@
           output =
             { }
             // lib.optionalAttrs (mainName != "" && isMultiMonitor) {
-              "${mainName}" = mkGamingOutput mainMon;
+              "${mainName}" = (mkGamingOutput mainMon) // {
+                # Workspace 2 is the game workspace.
+                min_workspaces = 2;
+              };
             }
             // lib.optionalAttrs (secondaryName != "" && isMultiMonitor) {
-              "${secondaryName}" = mkGamingOutput secondaryMon;
+              "${secondaryName}" = (mkGamingOutput secondaryMon) // {
+                # Workspace 2 receives games migrated from a disabled primary.
+                min_workspaces = 2;
+              };
             }
             // lib.optionalAttrs (portraitName != "") {
               "${portraitName}" = (mkOutput portraitMon) // {

@@ -26,6 +26,7 @@
               enable = true;
               method = 2;
             };
+            autoZipper.enable = true;
             betterRoleDot.enable = true;
             bypassPinPrompt.enable = true;
             clearUrls.enable = true;
