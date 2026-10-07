@@ -91,10 +91,8 @@
           };
 
           shellAliases = {
-            dev = "cd ~/dev";
             findhere = "find . -name";
             e = "nvim";
-            cmakeninja = "cmake -S . -B build -G Ninja";
             di = "devenv init";
           };
 
