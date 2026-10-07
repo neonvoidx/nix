@@ -267,7 +267,7 @@
                   0.9
                 ];
                 scrolling = {
-                  default_extent_fraction = 0.9;
+                  default_extent_fraction = 0.5;
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;

@@ -75,6 +75,10 @@
             webKeybinds.enable = true;
             webScreenShareFixes.enable = true;
             whoReacted.enable = true;
+            whosWatching = {
+              enable = true;
+              showPanel = true;
+            };
           };
         };
       };
