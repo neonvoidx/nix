@@ -49,6 +49,7 @@
             blur = false;
             shadow = false;
             border_effect = "off";
+            confine_pointer = true;
             window_effect = "off";
           };
 
