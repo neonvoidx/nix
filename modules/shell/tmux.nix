@@ -172,8 +172,12 @@
             {
               plugin = pkgs.tmuxPlugins.continuum;
               extraConfig = ''
-                set -g @continuum-restore 'on'
-                # The systemd timer owns snapshots; Continuum only restores.
+                # No auto-restore: it replayed every saved session (RustSS,
+                # vault, zigfeed, ...) on each boot alongside the two defaults.
+                # Saves keep running from the systemd timer; restore manually
+                # with prefix+C-r (resurrect) when wanted.
+                set -g @continuum-restore 'off'
+                # The systemd timer owns snapshots; Continuum does not save.
                 set -g @continuum-save-interval '0'
               '';
             }
