@@ -16,6 +16,12 @@
         let
           notifySend = "${pkgs.libnotify}/bin/notify-send";
           noctaliaMsg = "${pkgs.noctalia}/bin/noctalia msg";
+          # gamemode's INI parser truncates lines to 200 bytes, so the raw
+          # command lines must stay short; wrapping keeps them well under it.
+          gamemodeHook = pkgs.writeShellScript "gamemode-hook" ''
+            ${notifySend} "$1"
+            ${noctaliaMsg} notification-dnd-set "$2"
+          '';
         in
         {
           programs.gamemode = {
@@ -24,8 +30,8 @@
             enableRenice = false;
             settings = {
               custom = {
-                start = "${notifySend} 'GameMode started' && ${noctaliaMsg} notification-dnd-set on";
-                end = "${notifySend} 'GameMode ended' && ${noctaliaMsg} notification-dnd-set off";
+                start = "${gamemodeHook} 'GameMode started' on";
+                end = "${gamemodeHook} 'GameMode ended' off";
               };
             };
           };
