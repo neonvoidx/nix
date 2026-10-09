@@ -23,7 +23,6 @@
       den.aspects.pay-respects
       den.aspects.starship
       den.aspects.tealdeer
-      den.aspects.tmux
       den.aspects.yazi
       den.aspects.zoxide
       den.aspects.zsh

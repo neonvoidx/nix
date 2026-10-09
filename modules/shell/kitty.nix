@@ -119,6 +119,14 @@
         extraConfig = ''
           # tab_separator set via extraConfig to ensure kitty receives `tab_separator ""`
           tab_separator ""
+
+          # smart-splits kitty backend: while nvim is focused (IS_NVIM user var
+          # set by backend-kitty) these maps have no action, so the keys reach
+          # nvim instead of moving kitty's own focus.
+          map --when-focus-on var:IS_NVIM ctrl+h
+          map --when-focus-on var:IS_NVIM ctrl+j
+          map --when-focus-on var:IS_NVIM ctrl+k
+          map --when-focus-on var:IS_NVIM ctrl+l
           tab_title_template "{fmt.fg._323449}{fmt.bg.default}{fmt.fg._04d1f9}{fmt.bg.default}{index}{fmt.fg._04d1f9}{fmt.bg._323449} {title} {fmt.fg._323449}{fmt.bg.default} "
           active_tab_title_template "{fmt.fg._37f499}{fmt.bg.default}{fmt.fg._212337}{fmt.bg._37f499}{fmt.fg._212337}{fmt.bg._37f499} {title} {fmt.fg._37f499}{fmt.bg.default} "
         '';
@@ -142,51 +150,60 @@
           "kitty_mod+k" = "scroll_to_prompt -1";
           "kitty_mod+o" = "show_last_command_output";
 
-          # Tmux-like window management
-          # "ctrl+t>v" = "launch --location=vsplit --cwd=current";
-          # "ctrl+t>b" = "launch --location=hsplit --cwd=current";
-          # "ctrl+t>;" = "detach_window ask";
-          # "ctrl+t>x" = "close_window";
-          #
-          # # Move windows
-          # "ctrl+t>down" = "layout_action move_to_screen_edge bottom";
-          # "ctrl+t>up" = "layout_action move_to_screen_edge top";
-          # "ctrl+t>right" = "layout_action move_to_screen_edge right";
-          # "ctrl+t>left" = "layout_action move_to_screen_edge left";
-          #
-          # # Broadcast keys
-          # "ctrl+t>i" = "launch --allow-remote-control kitty +kitten broadcast --match-tab state:focused";
-          #
-          # # Resize mode
-          # "ctrl+t>r" = "kitten resize_window";
-          #
-          # # Swap windows
-          # "ctrl+t>s" = "swap_with_window";
+          # Prefix window management (ctrl+t), restored now that tmux (which
+          # used C-t as its prefix) is gone.
+          "ctrl+t>v" = "launch --location=vsplit --cwd=current";
+          "ctrl+t>b" = "launch --location=hsplit --cwd=current";
+          "ctrl+t>;" = "detach_window ask";
+          "ctrl+t>x" = "close_window";
+
+          # Move windows
+          "ctrl+t>down" = "layout_action move_to_screen_edge bottom";
+          "ctrl+t>up" = "layout_action move_to_screen_edge top";
+          "ctrl+t>right" = "layout_action move_to_screen_edge right";
+          "ctrl+t>left" = "layout_action move_to_screen_edge left";
+
+          # Broadcast keys
+          "ctrl+t>i" = "launch --allow-remote-control kitty +kitten broadcast --match-tab state:focused";
+
+          # Resize mode
+          "ctrl+t>r" = "kitten resize_window";
+
+          # Swap windows
+          "ctrl+t>s" = "swap_with_window";
+
+          # smart-splits: move between kitty splits when nvim is not focused.
+          # The IS_NVIM variants (extraConfig) pass the keys to nvim instead,
+          # where smart-splits handles them and asks the kitty backend to move.
+          "ctrl+h" = "neighboring_window left";
+          "ctrl+j" = "neighboring_window bottom";
+          "ctrl+k" = "neighboring_window top";
+          "ctrl+l" = "neighboring_window right";
 
           # Layout binds
           "kitty_mod+f" = "toggle_layout stack";
 
           # Tab keybinds
-          # "ctrl+t>1" = "goto_tab 1";
-          # "ctrl+t>2" = "goto_tab 2";
-          # "ctrl+t>3" = "goto_tab 3";
-          # "ctrl+t>4" = "goto_tab 4";
-          # "ctrl+t>5" = "goto_tab 5";
-          # "ctrl+t>6" = "goto_tab 6";
-          # "ctrl+t>7" = "goto_tab 7";
-          # "ctrl+t>8" = "goto_tab 8";
-          # "ctrl+t>9" = "goto_tab 9";
-          # "ctrl+t>n" = "next_tab";
-          # "ctrl+t>p" = "previous_tab";
-          # "ctrl+t>t" = "goto_tab -1";
-          # "ctrl+t>c" = "new_tab_with_cwd";
-          # "ctrl+t>w" = "close_tab";
-          # "ctrl+t>z" = "close_other_tabs_in_os_window";
-          # "ctrl+t>," = "move_tab_backward";
-          # "ctrl+t>." = "move_tab_forward";
-          # "ctrl+t>d" =
-          #   "save_as_session --save-only --use-foreground-process --relocatable ~/.local/share/kitty/last-session.session";
-          # "ctrl+t>a" = "goto_session ~/.local/share/kitty/last-session.session";
+          "ctrl+t>1" = "goto_tab 1";
+          "ctrl+t>2" = "goto_tab 2";
+          "ctrl+t>3" = "goto_tab 3";
+          "ctrl+t>4" = "goto_tab 4";
+          "ctrl+t>5" = "goto_tab 5";
+          "ctrl+t>6" = "goto_tab 6";
+          "ctrl+t>7" = "goto_tab 7";
+          "ctrl+t>8" = "goto_tab 8";
+          "ctrl+t>9" = "goto_tab 9";
+          "ctrl+t>n" = "next_tab";
+          "ctrl+t>p" = "previous_tab";
+          "ctrl+t>t" = "goto_tab -1";
+          "ctrl+t>c" = "new_tab_with_cwd";
+          "ctrl+t>w" = "close_tab";
+          "ctrl+t>z" = "close_other_tabs_in_os_window";
+          "ctrl+t>," = "move_tab_backward";
+          "ctrl+t>." = "move_tab_forward";
+          "ctrl+t>d" =
+            "save_as_session --save-only --use-foreground-process --relocatable ~/.local/share/kitty/last-session.session";
+          "ctrl+t>a" = "goto_session ~/.local/share/kitty/last-session.session";
 
           # Scrollback with nvim
           "kitty_mod+h" = "kitty_scrollback_nvim";
@@ -215,6 +232,7 @@
         };
       };
       programs.zsh.shellAliases = {
+        s = "kitten ssh";
         icat = "kitten icat";
         ssh = "kitten ssh";
         d = "kitten diff";

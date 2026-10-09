@@ -47,7 +47,7 @@ settings to users through `den._.host-aspects`.
 
 | Category | Included aspects |
 | --- | --- |
-| Shell tools | `bat`, `btop`, `direnv`, `devenv`, `delta`, `eza`, `fastfetch`, `fzf`, `git`, `kitty`, `just`, `lazygit`, `mcp`, `nh`, `nix-index`, `nvim`, `opencode`, `pay-respects`, `starship`, `tealdeer`, `tmux`, `yazi`, `zoxide`, `zsh` |
+| Shell tools | `bat`, `btop`, `direnv`, `devenv`, `delta`, `eza`, `fastfetch`, `fzf`, `git`, `kitty`, `just`, `lazygit`, `mcp`, `nh`, `nix-index`, `nvim`, `opencode`, `pay-respects`, `starship`, `tealdeer`, `yazi`, `zoxide`, `zsh` |
 | Desktop | `desktop-environment`, `fonts`, `xdg`, `stylix`, `noctalia`, `flatpak`, `clipboard`, `cursor`, `firefox`, `gtk`, `umbriel`, `thunar`, `xembsni` |
 | Services | `gnome-keyring`, `pipewire`, `streamcontroller`, `usb` |
 | Home | `common`, `files`, `packages` |

@@ -150,7 +150,7 @@ User aspects can conditionally include other aspects based on host context:
 │   ├── media/           # Audio, media applications, wallpapers
 │   ├── nix/             # Nix settings, overlays and multiverse
 │   ├── security/        # Secrets, authentication, greeters, polkit and WireGuard
-│   ├── shell/           # Zsh, Starship, tmux, devenv, direnv and CLI tools
+│   ├── shell/           # Zsh, Starship, devenv, direnv and CLI tools
 │   ├── system/          # Boot, locale, networking, packages and systemd
 │   └── users/
 │       └── neonvoid/neonvoid.nix  # User account settings and aspect includes
@@ -322,7 +322,6 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.pay-respects
       den.aspects.starship
       den.aspects.tealdeer
-      den.aspects.tmux
       den.aspects.yazi
       den.aspects.zoxide
       den.aspects.zsh
@@ -485,19 +484,32 @@ Firefox Picture-in-Picture windows are floating and pinned, with both initial
 focus and activation focus disabled (`default_focused = false`,
 `focus_on_activate = false`).
 
-## Tmux & Sesh Pickers
+## Kitty & smart-splits (no tmux)
 
-Umbriel calls `~/.local/bin/tmux-refresh-desktop-environment` at startup to refresh desktop variables in tmux's global environment and every existing session. Tmux refreshes the same allowlist on attachment, and a Zsh `precmd` hook imports it into existing pane shells without evaluating values as shell code. This is designed for local desktop attachments. Existing applications retain their own environment until restarted; existing shells need the new hook loaded once after deployment.
+There is no tmux, sesh, or session picker in this configuration. Split-pane
+navigation and resizing go through **smart-splits.nvim** in `~/nvim` with the
+[backend-kitty](https://github.com/smart-splits-nvim/backend-kitty) plugin
+(smart-splits v3), and `modules/shell/kitty.nix` owns the terminal side:
 
-`modules/shell/tmux.nix` owns tmux config, the sesh picker scripts, and two systemd user units. Key mechanics for anyone touching this:
+- **kitty.conf maps** (in `programs.kitty.keybindings`): `ctrl+h/j/k/l` run
+  `neighboring_window` so the keys move kitty's own splits when nvim is not
+  focused.
+- **IS_NVIM passthrough** (in `programs.kitty.extraConfig`): four
+  `map --when-focus-on var:IS_NVIM ctrl+…` maps with no action, so while nvim
+  is focused the keys reach nvim instead of moving kitty's focus. The
+  `IS_NVIM` kitty user variable is set by backend-kitty on nvim startup.
+- **Remote control**: `allow_remote_control = true` and
+  `listen_on = "unix:/tmp/mykitty"` are required — the backend talks to kitty
+  over `KITTY_LISTEN_ON` via the RC protocol.
+- **Neovim side**: `~/nvim/plugins/smart-splits.nix` —
+  overrides nvf's pinned smart-splits package with v3.0.0 and adds
+  backend-kitty as a non-lazy plugin; `setupOpts.mux.backend =
+  "smart-splits-backend-kitty"` selects the backend. The backend must be on
+  the runtimepath before smart-splits' `setup()` runs because `setup()`
+  resolves the backend module immediately.
 
-- **One picker script, three entry points.** `~/.local/bin/sesh-fast` (a `home.file` symlink to a `writeShellScript`) is the single picker used by the shell-start prompt (`s`, outside tmux only), the `s` alias inside a real pane, and the prefix+o binding. `sesh list --icons` (all sources) is the default; the ctrl-a/t/g/x/f/d rebinds switch views.
-- **tmux needs a real tty.** `run-shell` has no tty and no `$TMUX_PANE`, so fzf dies. prefix+o is `bind o display-popup -E -d '#{pane_current_path}' -w 80% -h 70% 'SESH_IN_POPUP=1 ~/.local/bin/sesh-fast'` — the popup provides its own pty. `SESH_IN_POPUP=1` makes the script use plain fzf instead of spawning a nested `fzf-tmux` popup. Both picker popups start in the current pane directory. The session picker shares its fzf options in a Bash array, preserving the pane-only Tab navigation binding.
-- **A display-popup has no `$TMUX`** (only `TMUX_PANE`), so inside a popup the script runs `sesh connect --switch` (sesh's "triggered outside the terminal" mode). With `$TMUX` set it relies on sesh's built-in client switch; from a bare terminal it attaches.
-- **Phantom `0` sessions.** `programs.tmux.newSession` is `false` so tmux never spawns `new-session -A -s 0`; a stale resurrect save had previously re-created a junk `0` session plus stale windows on every server start. The running sesh cache also goes stale, so `session-created` / `session-closed` hooks run `sesh cache refresh` (store path).
-- **Resurrection saves run from systemd, not continuum.** The custom `status-right` replaces Continuum's autosave trigger. Continuum's save interval and auto-restore are both explicitly `0`/`off`: a boot must only create the two default sessions (`tmux-default-sessions.service`), because auto-restore used to replay every saved session from the last save. Saves still run every 10 minutes; restore manually with prefix+C-r (Resurrect) when wanted. `tmux-resurrect-save.service` + `timer` (every 10 min) run Resurrect's `scripts/save.sh` against the default socket using `tmux run-shell` without `-d` (which requires a numeric delay). To force a save: `systemctl --user start tmux-resurrect-save`.
-- **Resize mode** is client-local: prefix+r enters it, hjkl/arrows resize repeatedly, and q/Escape/Enter exit. Each resize binding reselects the resize table with `switch-client -T resize`; other keys are ignored until exit. The status line shows `RESIZE` only for that client. Never change the global `key-table` to enter this mode.
-- **Session bootstrap** is `tmux-default-sessions.service` (creates `home` + `nix`, kills an unattached leftover `0`). Validate changes with `nix flake check` or the nix-agent MCP `check` tool.
+`lazygit.nix` still contains conditional OSC52 tmux passthrough code; it only
+fires inside a tmux `$TERM` and is inert without tmux.
 
 ---
 

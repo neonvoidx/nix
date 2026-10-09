@@ -182,7 +182,6 @@
 
               general = {
                 autostart = [
-                  "~/.local/bin/tmux-refresh-desktop-environment"
                   "noctalia"
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"

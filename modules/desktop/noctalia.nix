@@ -832,7 +832,6 @@
                   "noctalia/bongocat"
                   "dotnetrob/cat"
                   "nightwatch75/file-search"
-                  "dunarand/tmux-provider"
                 ];
 
                 source = [
