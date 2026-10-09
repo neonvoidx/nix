@@ -27,12 +27,10 @@
           {
             legacy_layout = false;
             blacklist = "zenity,protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex";
-            gpu_list = 0;
-            gpu_stats = true;
-            gpu_load_change = true;
+            gpu_stats = false;
             cpu_stats = true;
             cpu_load_change = true;
-            ram = true;
+            ram = false;
             fps = true;
             frametime = 0;
             fps_text = "FPS";
@@ -55,19 +53,15 @@
             io_color = config.lib.stylix.colors.base0A;
             font_file = "${pkgs.neonmono}/share/fonts/truetype/NeonMono-Medium.ttf";
             font_glyph_ranges = "korean, chinese, chinese_simplified, japanese, cyrillic, thai, vietnamese, latin_ext_a, latin_ext_b";
-            gpu_color = "a48cf2";
             cpu_text = "CPU";
             cpu_color = "36f498";
             fps_value = "60,${fpsText}";
             fps_color = "f16b75,f7c67f,36f498";
-            gpu_load_value = "60,90";
-            gpu_load_color = "36f498,f7c67f,f16b75";
             cpu_load_value = "60,90";
             cpu_load_color = "36f498,f7c67f,f16b75";
             background_color = "212237";
             frametime_color = "00ff00";
             vram_color = "ad64c1";
-            ram_color = "03d1f9";
             wine_color = "eb5b5b";
             engine_color = "c26693";
             text_color = "ffffff";
