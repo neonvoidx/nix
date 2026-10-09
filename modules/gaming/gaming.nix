@@ -30,8 +30,8 @@
             enableRenice = false;
             settings = {
               custom = {
-                start = "${gamemodeHook} 'GameMode started' on";
-                end = "${gamemodeHook} 'GameMode ended' off";
+                start = "${gamemodeHook} 'Gamemode and DND enabled' on";
+                end = "${gamemodeHook} 'Gamemode and DND disabled' off";
               };
             };
           };
