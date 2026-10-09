@@ -284,7 +284,6 @@
                 mode = "scrolling";
                 gap = 8;
                 extent_presets = [
-                  0.333
                   0.5
                   0.667
                   0.9
@@ -878,6 +877,7 @@
                   default_fullscreen = false;
                   default_floating = false;
                   default_focused = true;
+                  confine_pointer = false;
                 }
                 # FFXIV
                 (mkGameRule { title = "FINAL FANTASY XIV"; })
@@ -909,8 +909,7 @@
                 {
                   match.title = "Battle.net.*Chats and Groups";
                   default_floating = true;
-                  default_fullscreen = false;
-                  default_focused = false;
+                  default_focused = true;
                 }
                 #Bnet avatar
                 {
@@ -918,24 +917,7 @@
                   match.app_id = "^steam_app_.*$";
                   default_floating = true;
                   default_fullscreen = false;
-                  default_focused = false;
-                }
-
-                # Battle.net tray icon
-                {
-                  match.app_id = "^explorer.exe$";
-                  default_floating = true;
-                  default_floating_size_px = {
-                    width = 25;
-                    height = 25;
-                  };
-                  default_position = {
-                    x = 10;
-                    y = 10;
-                    anchor = "bottom_right";
-                  };
-                  default_focused = false;
-                  focus_on_activate = false;
+                  default_focused = true;
                 }
 
                 # Battle.net
@@ -947,6 +929,7 @@
                   default_fullscreen = false;
                   default_focused = false;
                   default_floating = false;
+                  confine_pointer = false;
                 }
 
                 # Battle.net settings
@@ -957,7 +940,17 @@
                   };
                   default_pinned = true;
                   default_fullscreen = false;
-                  default_focused = false;
+                  default_focused = true;
+                }
+                # Select avatar
+                {
+                  match = {
+                    app_id = "^(steam_app_.*|battle[.]net[.]exe)$";
+                    title = "Select an Avatar";
+                  };
+                  default_pinned = true;
+                  default_fullscreen = false;
+                  default_focused = true;
                 }
 
                 # Thunderbird reminders
