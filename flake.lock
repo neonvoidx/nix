@@ -840,11 +840,11 @@
         "smart-splits-nvim": "smart-splits-nvim"
       },
       "locked": {
-        "lastModified": 1791552289,
-        "narHash": "sha256-TT8QnkJmltstiY+g2xBYiAm1au1xQcK9iMDwhDyVIlU=",
+        "lastModified": 1791553844,
+        "narHash": "sha256-UKSVV8T5FZlLsVsTcuyUnBNUGs2TQ6itByhvGK6zoKU=",
         "owner": "neonvoidx",
         "repo": "nvim",
-        "rev": "368dd7cc25b466272a4f585d2937ee548a0930dd",
+        "rev": "b82b5a577164427fa5d19b69a16fc8f1e5234bc5",
         "type": "github"
       },
       "original": {
@@ -936,15 +936,16 @@
     "smart-splits-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1791484984,
-        "narHash": "sha256-1cFcjfjxSiGiRgv4uuS7ROvSHB4120WI7tjSQjA0T6k=",
+        "lastModified": 1791465635,
+        "narHash": "sha256-IWkFxNGmxwHx9KFg9z9EnWhy3yp+kNMXKDmB0Qhxuic=",
         "owner": "smart-splits-nvim",
         "repo": "smart-splits.nvim",
-        "rev": "ef21f373203dcf553fd4bc05cd74f3e14505400a",
+        "rev": "5fd4fe53c2df2009e689f61511e3c474a9eccbaf",
         "type": "github"
       },
       "original": {
         "owner": "smart-splits-nvim",
+        "ref": "v3.0.0",
         "repo": "smart-splits.nvim",
         "type": "github"
       }
@@ -1160,11 +1161,11 @@
         "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
       },
       "locked": {
-        "lastModified": 1791512949,
-        "narHash": "sha256-Vd6LaW+YXwF1GknC5zOe7NrKMp4uiJrXfLe8OCgbRMo=",
+        "lastModified": 1791552484,
+        "narHash": "sha256-I9c1olpR28UPiCWjnl4b1NiUU+DJxZTYAUvvShWnUKY=",
         "owner": "noctalia-dev",
         "repo": "umbriel",
-        "rev": "1d01b3aed9ce825719b91fdd087d72307e957e68",
+        "rev": "44c1069af80ab861ce2384e7ba1ff1dd6c76280e",
         "type": "github"
       },
       "original": {
