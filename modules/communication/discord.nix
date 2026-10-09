@@ -70,7 +70,10 @@
             silentTyping.enable = true;
             spotifyShareCommands.enable = true;
             supportHelper.enable = true;
-            tenorGifSearch.enable = true;
+            gifProviderSwitcher = {
+              enable = true;
+              provider = "tenor";
+            };
             typingIndicator.enable = true;
             webContextMenus.enable = true;
             webKeybinds.enable = true;
