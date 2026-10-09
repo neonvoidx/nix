@@ -32,6 +32,11 @@
           "*" = {
             AddKeysToAgent = "yes";
           };
+          "dockerbox" = {
+            HostName = "192.168.86.4";
+            User = "neonvoid";
+            IdentityFile = "~/.ssh/id_ed25519";
+          };
         };
       };
 
