@@ -72,7 +72,7 @@
             supportHelper.enable = true;
             gifProviderSwitcher = {
               enable = true;
-              provider = "tenor";
+              provider = [ "tenor" ];
             };
             typingIndicator.enable = true;
             webContextMenus.enable = true;

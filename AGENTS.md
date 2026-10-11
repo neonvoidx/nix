@@ -359,8 +359,8 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.obs-studio
       # Wallpaper repository comes from user.wallpaperRepository
       den.aspects.pics
-      # den.aspects.spicetify
-      den.aspects.youtube-music
+      den.aspects.spicetify
+      # den.aspects.youtube-music
 
       # Communication
       den.aspects.discord
@@ -421,8 +421,8 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
 | `sops-nix` | Secrets management (age encryption) |
 | `nixcord` | Declarative Discord client config (Discord + Equicord + OpenASAR) |
 | `noctalia` | Desktop shell bar/launcher/lockscreen |
-| `pear-desktop` | Pear Desktop / YouTube Music |
-| `spicetify-nix` | Optional Spotify theming; input and user include currently commented out |
+| `pear-desktop` | Optional: Pear Desktop / YouTube Music commented out |
+| `spicetify-nix` | Spotify ; input and user include currently commented out |
 | `nix-index-database` | Fast `nix-locate` lookups |
 | `nix-versions` | Version tracking for nix commands |
 | `nvim-config` | Neovim config (neonvoidx/nvim) |

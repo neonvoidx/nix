@@ -163,7 +163,7 @@
                   "noctalia"
                   "firefox"
                   "bash -c 'sleep 8 && thunderbird'"
-                  "pear-desktop"
+                  "spotify"
                   "steam"
                 ]
                 ++ lib.optionals (portraitName != "") [
@@ -725,19 +725,19 @@
                 }
 
                 # Spotify rule commented out; using Pear instead
-                # (
-                #   {
-                #     match.app_id = "^spotify$";
-                #     default_focused = false;
-                #   }
-                #   // lib.optionalAttrs (portraitName != "") {
-                #     default_output = portraitName;
-                #     default_workspace = 1;
-                #     default_scrolling_column = "spotify";
-                #     default_scrolling_column_order = 2;
-                #     default_scrolling_extent = 0.25;
-                #   }
-                # )
+                (
+                  {
+                    match.app_id = "^spotify$";
+                    default_focused = false;
+                  }
+                  // lib.optionalAttrs (portraitName != "") {
+                    default_output = portraitName;
+                    default_workspace = 1;
+                    default_scrolling_column = "spotify";
+                    default_scrolling_column_order = 2;
+                    default_scrolling_extent = 0.25;
+                  }
+                )
                 # Pear
                 (
                   {

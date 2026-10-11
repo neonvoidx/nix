@@ -40,10 +40,10 @@ in
     noctalia = {
       url = "github:noctalia-dev/noctalia/cachix";
     };
-    pear-desktop = {
-      url = "github:h-banii/pear-desktop-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # pear-desktop = {
+    #   url = "github:h-banii/pear-desktop-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     scopebuddy = {
       url = "github:OpenGamingCollective/ScopeBuddy";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,10 +56,10 @@ in
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # spicetify-nix = {
-    #   url = "github:Gerg-L/spicetify-nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";

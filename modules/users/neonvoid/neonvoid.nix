@@ -60,8 +60,8 @@
       den.aspects.obs-studio
       # Wallpaper repository comes from user.wallpaperRepository
       den.aspects.pics
-      # den.aspects.spicetify
-      den.aspects.youtube-music
+      den.aspects.spicetify
+      # den.aspects.youtube-music
 
       # Communication
       den.aspects.discord
