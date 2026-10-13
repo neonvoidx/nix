@@ -162,9 +162,9 @@
                 autostart = [
                   "noctalia"
                   "firefox"
-                  "bash -c 'sleep 8 && thunderbird'"
                   "spotify"
                   "steam"
+                  "thunderbird"
                 ]
                 ++ lib.optionals (portraitName != "") [
                   "UMBRIEL_PORTRAIT_OUT=${portraitName} ${config.xdg.configHome}/umbriel/scripts/wait-for-discord-and-move.sh"
@@ -262,15 +262,15 @@
                 gap = 8;
                 extent_presets = [
                   0.5
-                  0.667
                   0.9
                 ];
                 scrolling = {
-                  default_extent_fraction = 0.5;
+                  default_extent_fraction = 0.9;
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
-                  center_focused = "never";
+                  # Use "never", "always", or "on_overflow" to control focus centering.
+                  center_focused = "always";
                 };
               };
 
