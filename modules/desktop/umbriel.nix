@@ -270,7 +270,7 @@
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
                   # Use "never", "always", or "on_overflow" to control focus centering.
-                  center_focused = "always";
+                  center_focused = "never";
                 };
               };
 
@@ -350,7 +350,7 @@
                 };
               };
 
-              overview.zoom = 0.5;
+              overview.zoom = 0.3;
 
               # Thunderbird and Steam autostart and stay hidden here until
               # their toggle is pressed. `spawn_when_empty` relaunches the
