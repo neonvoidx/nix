@@ -265,7 +265,7 @@
                   0.9
                 ];
                 scrolling = {
-                  default_extent_fraction = 0.9;
+                  default_extent_fraction = 0.5;
                   # Keep short strips flush by default; portrait workspace 1
                   # overrides focus centering above for its Discord/Pear lanes.
                   center_underfull_strip = false;
@@ -627,7 +627,10 @@
                   default_pinned = true;
                 }
 
-                # Firefox starts on workspace 1 of the secondary output.
+                # Firefox starts on workspace 1 of the secondary output. Only
+                # the session-start instance gets the wide extent; later
+                # launches (Mod+B etc.) match no rule here and pick up the
+                # 0.5 default from layout.scrolling.default_extent_fraction.
                 (
                   {
                     match = {
@@ -635,6 +638,12 @@
                       at_startup = true;
                     };
                     default_focused = false;
+                    default_scrolling_extent = 0.9;
+                    default_position = {
+                      x = 0;
+                      y = 0;
+                      anchor = "center";
+                    };
                   }
                   // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
                     default_output = secondaryName;
