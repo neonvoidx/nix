@@ -249,7 +249,7 @@
                 };
                 focus = {
                   follows_mouse = true;
-                  # follows_mouse_max_scroll = 0.0;
+                  follows_mouse_max_scroll = 1.0;
                 };
                 keyboard = {
                   repeat_rate = 25;
@@ -639,11 +639,6 @@
                     };
                     default_focused = false;
                     default_scrolling_extent = 0.9;
-                    default_position = {
-                      x = 0;
-                      y = 0;
-                      anchor = "center";
-                    };
                   }
                   // lib.optionalAttrs (isMultiMonitor && secondaryName != "") {
                     default_output = secondaryName;
