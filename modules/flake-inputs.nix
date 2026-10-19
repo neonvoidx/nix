@@ -21,6 +21,7 @@ in
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deadlock-mod-manager.url = "github:deadlock-mod-manager/deadlock-mod-manager";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
