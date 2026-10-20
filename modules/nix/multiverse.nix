@@ -18,6 +18,9 @@
       # overlays.nix also exposes these pins as pkgs.<attr>. Home Manager
       # shares that package set through home-manager.useGlobalPkgs = true.
       pins = {
+        # TODO until https://github.com/NixOS/nixpkgs/pull/575619 makes it through hydra
+        # https://nixpkgs-tracker.ocfox.me/?pr=575619
+        godot = "4.7.1-stable";
       };
     };
   };

@@ -108,6 +108,14 @@
                 };
               };
             })
+            (final: prev: {
+              # TODO HPLIP fix remove after https://nixpkgs-tracker.ocfox.me/?pr=575319
+              hplip =
+                (import inputs.nixpkgs_hplipfix {
+                  inherit (prev.stdenv.hostPlatform) system;
+                  config.allowUnfree = true;
+                }).hplip;
+            })
           ];
       };
     };

@@ -59,6 +59,7 @@
     };
     nixcord.url = "github:4evy/nixcord";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs_hplipfix.url = "github:NixOS/nixpkgs/50e858825dda8c0293d9dcae4af90456da5c26f2";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     nvim-config = {
       url = "github:neonvoidx/nvim";

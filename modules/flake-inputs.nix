@@ -13,6 +13,8 @@ in
   flake-file.inputs = {
     den.url = "github:denful/den/refs/tags/v0.19.0";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    # TODO HPLIP fix remove after https://nixpkgs-tracker.ocfox.me/?pr=575319
+    nixpkgs_hplipfix.url = "github:NixOS/nixpkgs/50e858825dda8c0293d9dcae4af90456da5c26f2";
     betterfox = {
       url = "github:HeitorAugustoLN/betterfox-nix";
       inputs.nixpkgs.follows = "nixpkgs";

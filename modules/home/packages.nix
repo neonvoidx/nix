@@ -19,7 +19,7 @@
         ghgrab
         gimp
         godot
-        godotPackages.export-template
+        godot.export-template
         gpu-screen-recorder
         grim
         jq
