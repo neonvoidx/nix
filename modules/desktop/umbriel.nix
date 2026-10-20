@@ -267,11 +267,13 @@
                 ];
                 scrolling = {
                   default_extent_fraction = 0.5;
-                  # Keep short strips flush by default; portrait workspace 1
-                  # overrides focus centering above for its Discord/Pear lanes.
-                  center_underfull_strip = false;
-                  # Use "never", "always", or "on_overflow" to control focus centering.
-                  center_focused = "never";
+                  # Center a strip narrower than the viewport so a lone window
+                  # rests mid-output; portrait workspace 1 overrides this off.
+                  center_underfull_strip = true;
+                  # "on_overflow" recenters the focused column when it and the
+                  # column focus came from cannot share the viewport. Portrait
+                  # workspace 1 keeps "never" for its Discord/Pear lanes.
+                  center_focused = "on_overflow";
                 };
               };
 
@@ -870,7 +872,10 @@
                 (mkGameRule { app_id = "^wow.exe$"; })
 
                 # World of Warcraft (xwayland)
-                (mkGameRule { title = "World of Warcraft"; })
+                (mkGameRule {
+                  app_id = "^steam_app.*$";
+                  title = "World of Warcraft";
+                })
 
                 # Hytale
                 (mkGameRule { title = "Hytale"; })
