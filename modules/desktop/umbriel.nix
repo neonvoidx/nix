@@ -330,7 +330,6 @@
                   curve = "smoothFade";
                   dim = 0.8;
                   blur = true;
-                  scale = 0.0;
                 };
                 border = {
                   enabled = true;
