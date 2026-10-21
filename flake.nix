@@ -10,6 +10,7 @@
       "https://neonvoidx.cachix.org"
       "https://noctalia.cachix.org"
       "https://umbriel.cachix.org"
+      "https://deadlock-mod-manager.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -17,6 +18,7 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "umbriel.cachix.org-1:JfNq/2yg2S6D6z4Z2dVSZrZlDPQTKtexB6GAVLD98nw="
+      "deadlock-mod-manager.cachix.org-1:wUjtzL6yN2i9zTq1YrXHBr0mx3LP7tBGsosk3N+/A/M="
     ];
   };
 
@@ -29,6 +31,7 @@
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deadlock-mod-manager.url = "github:deadlock-mod-manager/deadlock-mod-manager";
     den.url = "github:denful/den/refs/tags/v0.19.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
@@ -38,10 +41,6 @@
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    grimoire = {
-      url = "github:Slush97/grimoire";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -59,7 +58,6 @@
     };
     nixcord.url = "github:4evy/nixcord";
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    nixpkgs_hplipfix.url = "github:NixOS/nixpkgs/50e858825dda8c0293d9dcae4af90456da5c26f2";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     nvim-config = {
       url = "github:neonvoidx/nvim";
