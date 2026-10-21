@@ -261,7 +261,6 @@
                 mode = "scrolling";
                 gap = 8;
                 extent_presets = [
-                  0.33
                   0.5
                   0.9
                 ];
