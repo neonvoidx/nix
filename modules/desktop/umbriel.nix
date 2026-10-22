@@ -265,7 +265,7 @@
                   0.9
                 ];
                 scrolling = {
-                  default_extent_fraction = 0.5;
+                  default_extent_fraction = 0.9;
                   # Center a strip narrower than the viewport so a lone window
                   # rests mid-output; portrait workspace 1 overrides this off.
                   center_underfull_strip = true;
