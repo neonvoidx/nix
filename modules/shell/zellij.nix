@@ -14,10 +14,6 @@
         url = "https://github.com/codingfragments/zellij-zextract/releases/download/v0.4.0/zextract.wasm";
         hash = "sha256-LnneanEAK2IcBo6kIyuzyuPt9nb/mSjL0+AC22eh/BA=";
       };
-      whichKey = pkgs.fetchurl {
-        url = "https://github.com/johnae/zj-which-key/releases/download/v0.2.0/zj_which_key.wasm";
-        hash = "sha256-Hi7cOGIS6gWIE5mo0GcgYDiR/+CnxTq1prMPJvyfyfs=";
-      };
       zellij = "${config.programs.zellij.package}/bin/zellij";
     in
     {
@@ -93,12 +89,7 @@
           // unlocking at shell prompts. No Enter interception or polling shell.
           load_plugins {
             autolock
-            "file:${whichKey}" {
-              auto_show "true"
-              delay_secs "0.4"
-              position "bottom-right"
-              max_height_pct "90"
-            }
+
           }
           keybinds clear-defaults=true {
             normal {
@@ -150,14 +141,6 @@
               bind "d" { Detach; }
               bind "\\" {
                 LaunchOrFocusPlugin "zextract" { floating true; move_to_focused_tab true; }
-                SwitchToMode "Normal"
-              }
-              bind "?" {
-                LaunchOrFocusPlugin "file:${whichKey}" {
-                  floating true
-                  move_to_focused_tab true
-                  role "browser"
-                }
                 SwitchToMode "Normal"
               }
               bind "o" {
@@ -226,12 +209,6 @@
           }
         '';
       };
-
-      # Popup grants otherwise overwrite the controller's larger cached request.
-      home.activation.zellij-which-key-permissions = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        ${pkgs.python3}/bin/python3 ${../../assets/zellij/ensure-plugin-permissions.py} \
-          ${lib.escapeShellArg "${config.xdg.cacheHome}/zellij/permissions.kdl"} ${whichKey}
-      '';
 
       xdg.configFile."zellij/zextract.kdl".text = ''
         ui { preview "off" }

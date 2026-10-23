@@ -488,22 +488,10 @@ focus and activation focus disabled (`default_focused = false`,
 ## Kitty, Zellij & Neovim navigation
 
 `modules/shell/zellij.nix` owns Zellij, zellij-autolock, and a single borderless
-zjstatus row with mode/session left and tabs centered. Pinned upstream
-`johnae/zj-which-key` v0.2.0 loads once in the background and shows a delayed,
-non-selectable corner popup for the current mode. `Ctrl+t ?` opens its searchable
-browser. The custom Rust overlay, zjstatus-hints, and zellij-forgot are removed.
-The popup is capped at 90% of terminal height and may show `+N more`; use the
-browser for the full list. Upstream uses fixed ANSI colors, not custom theme options.
-
-`assets/zellij/ensure-plugin-permissions.py` restores the plugin's
-ReadApplicationState, ChangeApplicationState, and MessageAndLaunchOtherPlugins
-grants before shell launches, in the activation hook, and in the dotfiles
-installer. Zellij 0.45 overwrites cached controller grants with the popup's
-smaller request for the same WASM path, so merely appending the entry once is
-insufficient. Preserve unrelated plugin entries and existing grants. The Zsh
-wrapper skips direct action calls; Neovim navigation still calls the binary
-without a permission-repair process. Mirror the helper into
-`~/dotfiles/common/.config/zellij/`. No system activation is needed for validation.
+zjstatus row with mode/session left and tabs centered. No which-key, inline
+shortcut-hints plugin, or automatic permission-cache repair is configured;
+the user explicitly removed those. Keep the native session manager and
+zextract bindings.
 The `home`
 session initially has `home` and `nix` tabs; later launches attach to it. `s` opens Zellij's built-in
 session manager inside a session and attaches outside it. Automatic shell
@@ -516,7 +504,6 @@ startup skips existing multiplexers, devenv, SSH, and nonterminal shells.
   `m` enters move mode (h/j/k/l or arrows reposition panes; n/p/c sends a pane
   to the next/previous/new tab; Esc/Enter exits), and `t` then `,`
   renames a tab.
-  `?` opens the floating zj-which-key binding browser (Esc closes it).
   `\` opens zextract to filter and act on matches from the previous pane’s scrollback.
   `o` opens the session manager, `[` enters scroll mode, `/` enters native
   Zellij search, `]` opens pane scrollback in the editor, and `d` detaches. In search, Enter confirms,
