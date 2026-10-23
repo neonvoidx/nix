@@ -814,9 +814,9 @@
                 }
 
                 # Child client windows (friends list, per-game settings, game
-                # pages, sign-in) pin above the client. default_pinned also opts
-                # a window out of scratchpad inheritance, so they stay out of
-                # the scratchpad and the client can never cover them.
+                # pages) pin above the client. default_pinned also opts a window
+                # out of scratchpad inheritance, so they stay out of the
+                # scratchpad and the client can never cover them.
                 {
                   match = {
                     app_id = "^steam$";
@@ -824,6 +824,26 @@
                   };
                   default_floating = true;
                   default_pinned = true;
+                  default_position = {
+                    x = 0;
+                    y = 0;
+                    anchor = "center";
+                  };
+                }
+
+                # Steam's Special Offers and sign-in windows belong with the
+                # client in the steam scratchpad. Clearing default_pinned opts
+                # them back into it; without default_focused they stay hidden
+                # with the client until Mod+S reveals the pad.
+                {
+                  match = {
+                    app_id = "^steam$";
+                    title = "^(Special Offers|Sign in( to Steam)?)$";
+                  };
+                  default_scratchpad = "steam";
+                  default_pinned = false;
+                  default_focused = false;
+                  default_floating = true;
                   default_position = {
                     x = 0;
                     y = 0;
