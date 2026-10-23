@@ -322,6 +322,7 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.pay-respects
       den.aspects.starship
       den.aspects.tealdeer
+      den.aspects.zellij
       den.aspects.yazi
       den.aspects.zoxide
       den.aspects.zsh
@@ -484,32 +485,55 @@ Firefox Picture-in-Picture windows are floating and pinned, with both initial
 focus and activation focus disabled (`default_focused = false`,
 `focus_on_activate = false`).
 
-## Kitty & smart-splits (no tmux)
+## Kitty, Zellij & Neovim navigation
 
-There is no tmux, sesh, or session picker in this configuration. Split-pane
-navigation and resizing go through **smart-splits.nvim** in `~/nvim` with the
-[backend-kitty](https://github.com/smart-splits-nvim/backend-kitty) plugin
-(smart-splits v3), and `modules/shell/kitty.nix` owns the terminal side:
+`modules/shell/zellij.nix` owns Zellij, zellij-autolock, and a single borderless
+zjstatus row with mode/session left and tabs centered. Pinned upstream
+`johnae/zj-which-key` v0.2.0 loads once in the background and shows a delayed,
+non-selectable corner popup for the current mode. `Ctrl+t ?` opens its searchable
+browser. The custom Rust overlay, zjstatus-hints, and zellij-forgot are removed.
+The popup is capped at 90% of terminal height and may show `+N more`; use the
+browser for the full list. Upstream uses fixed ANSI colors, not custom theme options.
 
-- **kitty.conf maps** (in `programs.kitty.keybindings`): `ctrl+h/j/k/l` run
-  `neighboring_window` so the keys move kitty's own splits when nvim is not
-  focused.
-- **IS_NVIM passthrough** (in `programs.kitty.extraConfig`): four
-  `map --when-focus-on var:IS_NVIM ctrl+…` maps with no action, so while nvim
-  is focused the keys reach nvim instead of moving kitty's focus. The
-  `IS_NVIM` kitty user variable is set by backend-kitty on nvim startup.
-- **Remote control**: `allow_remote_control = true` and
-  `listen_on = "unix:/tmp/mykitty"` are required — the backend talks to kitty
-  over `KITTY_LISTEN_ON` via the RC protocol.
-- **Neovim side**: `~/nvim/plugins/smart-splits.nix` —
-  overrides nvf's pinned smart-splits package with v3.0.0 and adds
-  backend-kitty as a non-lazy plugin; `setupOpts.mux.backend =
-  "smart-splits-backend-kitty"` selects the backend. The backend must be on
-  the runtimepath before smart-splits' `setup()` runs because `setup()`
-  resolves the backend module immediately.
+`assets/zellij/ensure-plugin-permissions.py` restores the plugin's
+ReadApplicationState, ChangeApplicationState, and MessageAndLaunchOtherPlugins
+grants before shell launches, in the activation hook, and in the dotfiles
+installer. Zellij 0.45 overwrites cached controller grants with the popup's
+smaller request for the same WASM path, so merely appending the entry once is
+insufficient. Preserve unrelated plugin entries and existing grants. The Zsh
+wrapper skips direct action calls; Neovim navigation still calls the binary
+without a permission-repair process. Mirror the helper into
+`~/dotfiles/common/.config/zellij/`. No system activation is needed for validation.
+The `home`
+session initially has `home` and `nix` tabs; later launches attach to it. `s` opens Zellij's built-in
+session manager inside a session and attaches outside it. Automatic shell
+startup skips existing multiplexers, devenv, SSH, and nonterminal shells.
 
-`lazygit.nix` still contains conditional OSC52 tmux passthrough code; it only
-fires inside a tmux `$TERM` and is inert without tmux.
+- Kitty must pass `Ctrl+t` and `Ctrl+h/j/k/l` through. Keep Zellij's
+  `support_kitty_keyboard_protocol = true` and avoid Enter/Shift+Enter rewrites.
+- `Ctrl+t` enters pane actions: `v`/`b` split right/down, `c` opens a tab,
+  `n`/`p` switch tabs, `1`–`9` select tabs, `z` zooms, `r` resizes,
+  `m` enters move mode (h/j/k/l or arrows reposition panes; n/p/c sends a pane
+  to the next/previous/new tab; Esc/Enter exits), and `t` then `,`
+  renames a tab.
+  `?` opens the floating zj-which-key binding browser (Esc closes it).
+  `\` opens zextract to filter and act on matches from the previous pane’s scrollback.
+  `o` opens the session manager, `[` enters scroll mode, `/` enters native
+  Zellij search, `]` opens pane scrollback in the editor, and `d` detaches. In search, Enter confirms,
+  n/N steps through matches, and Esc returns to the live prompt.
+- Autolock gives foreground programs their keystrokes, unlocking at shell
+  prompts. Alt+arrows always move between Zellij panes, including from TUIs.
+  Grant autolock its requested Read/Change Application State permissions at
+  first launch; without them, automatic mode switching cannot work.
+- `~/nvim/plugins/zellij-nav.nix` loads `zellij.nvim` eagerly. In normal mode,
+  `Ctrl+h/j/k/l` walks Neovim splits first, crossing into a Zellij pane at an
+  edge. Outside Zellij it remains normal Neovim window navigation. Pin
+  `hjetmundsen/zellij.nvim` explicitly: nixpkgs' `vimPlugins.zellij-nvim` is
+  the archived Lilja plugin and silently ignores the newer setup options.
+- The system flake consumes the locked remote `nvim-config` input. Local
+  `~/nvim` changes require publishing and updating that input before a normal
+  rebuild uses them; validate unpublished changes with an input override.
+
 
 ---
 
