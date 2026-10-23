@@ -23,7 +23,7 @@
     {
       programs.zellij = {
         enable = true;
-        enableZshIntegration = false;
+        enableZshIntegration = true;
         attachExistingSession = true;
         settings = {
           default_layout = "default";
@@ -48,7 +48,7 @@
             base = lib.mkForce c.base04;
           };
         };
-        layouts.default = ''
+        layouts.default = /* kdl */ ''
           layout {
             default_tab_template {
               children
@@ -84,7 +84,7 @@
             tab name="nix" { pane cwd=${builtins.toJSON config.dotfiles.checkoutPath}; }
           }
         '';
-        extraConfig = ''
+        extraConfig = /* kdl */ ''
           plugins {
             autolock location="file:${autolock}"
             zextract location="file:${zextract}"
@@ -239,13 +239,6 @@
 
       # `s` opens the built-in manager inside Zellij, or attaches outside it.
       programs.zsh.initContent = lib.mkAfter ''
-        function zellij() {
-          if [[ "''${1:-}" != action ]]; then
-            ${pkgs.python3}/bin/python3 ${../../assets/zellij/ensure-plugin-permissions.py} \
-              ${lib.escapeShellArg "${config.xdg.cacheHome}/zellij/permissions.kdl"} ${whichKey} || return
-          fi
-          command ${zellij} "$@"
-        }
         function s() {
           if [[ -n "''${ZELLIJ:-}" ]]; then
             zellij action launch-or-focus-plugin zellij:session-manager --floating
