@@ -36,6 +36,7 @@
           small_model = "opencode/big-pickle";
           share = "disabled";
         };
+
         tui = {
           scroll_speed = 3;
           scroll_acceleration = {
@@ -44,6 +45,7 @@
           diff_style = "auto";
         };
       };
+
       zsh.initContent = "alias oc=opencode";
     };
   };
