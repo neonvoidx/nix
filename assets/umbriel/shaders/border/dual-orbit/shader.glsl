@@ -69,18 +69,18 @@ vec4 border(vec2 uv) {
 
     // Widen the orbit beyond the native ring, then fade it into a softer halo.
     float band = orbitIntensity * (1.0 - ring) * 0.95
-        * (1.0 - smoothstep(5.0, 8.0, borderDistance));
-    float halo = orbitIntensity * (1.0 - ring) * 0.75 * exp(-borderDistance / 5.0);
-    float orbitAlpha = max(band, halo);
+        * (1.0 - smoothstep(2.0, 4.0, borderDistance));
+    float halo = 0.0;
+    float orbitAlpha = band;
 
     // The preset's padding enlarges the draw area and moves the client hole.
     // Derive the fade reach from that inset so effect.toml controls it.
     float inset = min(umbriel_border_hole.x * umbriel_size.x,
         umbriel_border_hole.y * umbriel_size.y);
-    float fadeEnd = max(3.1, inset * 0.5 - 1.0);
-    float borderHalo = (1.0 - ring) * (1.0 - orbitIntensity) * 0.18
-        * (1.0 - smoothstep(3.0, fadeEnd, borderDistance));
-    float outerAlpha = max(orbitAlpha, borderHalo);
+    float fadeEnd = max(2.5, inset * 0.3 - 1.0);
+    float edgeFade = 1.0 - smoothstep(fadeEnd * 0.5, fadeEnd, borderDistance);
+    float borderHalo = 0.0;
+    float outerAlpha = band * edgeFade;
     vec3 outerColor = mix(borderColor, highlight, orbitIntensity);
     return vec4(color * ring + outerColor * outerAlpha, ring + outerAlpha);
 }
