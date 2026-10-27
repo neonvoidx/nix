@@ -396,7 +396,7 @@
                 # Windows
                 "Mod+Q" = norepeat "window-close";
                 "Mod+Shift+Space" = norepeat "window-toggle-floating";
-                "Mod+F" = norepeat "window-modify-primary-extent:0.9";
+                "Mod+F" = norepeat "window-set-primary-extent:1.0";
                 "Mod+Shift+F" = norepeat "window-toggle-fullscreen";
                 # Center column
                 "Mod+C" = norepeat "column-center";
