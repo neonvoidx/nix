@@ -514,6 +514,9 @@
                   repeat = false;
                   cooldown_ms = 150;
                 };
+                # Mouse wheel sideways focuses windows left/right.
+                "Mod+WheelLeft" = norepeat "window-focus-or-output-left";
+                "Mod+WheelRight" = norepeat "window-focus-or-output-right";
                 "Mod+Tab" = norepeat "overview-toggle";
                 "Mod+slash" = norepeat "cheatsheet-toggle";
 
