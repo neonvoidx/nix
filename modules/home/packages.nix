@@ -32,7 +32,7 @@
         oculante
         pinta
         prusa-slicer
-        redact
+        rfc-reader
         seahorse
         slurp
         socat
