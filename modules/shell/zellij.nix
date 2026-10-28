@@ -76,8 +76,6 @@
                 }
               }
             }
-            tab name="home" focus=true { pane cwd=${builtins.toJSON config.home.homeDirectory}; }
-            tab name="nix" { pane cwd=${builtins.toJSON config.dotfiles.checkoutPath}; }
           }
         '';
         extraConfig = /* kdl */ ''
@@ -210,12 +208,19 @@
         '';
       };
 
-      xdg.configFile."zellij/zextract.kdl".text = ''
-        ui { preview "off" }
-      '';
-
       # `s` opens the built-in manager inside Zellij, or attaches outside it.
       programs.zsh.initContent = lib.mkAfter ''
+        # Kitty's `ssh = kitten ssh` alias can break inside Zellij.
+        # Wrap it so we keep Kitty's behavior outside Zellij and use
+        # plain OpenSSH inside it.
+        ssh() {
+          if [[ -n "''${ZELLIJ:-}" ]]; then
+            command ssh "$@"
+          else
+            kitten ssh "$@"
+          fi
+        }
+
         function s() {
           if [[ -n "''${ZELLIJ:-}" ]]; then
             zellij action launch-or-focus-plugin zellij:session-manager --floating
