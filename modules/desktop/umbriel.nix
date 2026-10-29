@@ -521,7 +521,7 @@
                 "Mod+slash" = norepeat "cheatsheet-toggle";
 
                 # Media and screenshots
-                "Print" = norepeat "spawn:noctalia msg screenshot-region";
+                "Print" = norepeat "spawn:noctalia msg screenshot-region --freeze-screen --no-annotate --copy-to-clipboard --no-save-to-file";
                 "Shift+Print" = norepeat "spawn:noctalia msg screenshot-annotate";
                 "Ctrl+Print" = norepeat "spawn:noctalia msg screenshot-fullscreen all";
                 "XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";

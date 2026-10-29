@@ -854,6 +854,7 @@
                 avatar_path = "${homeDir}/.face";
                 font_family = "NeonMono";
                 lang = "en";
+                clipboard_enabled = true;
                 launch_apps_as_systemd_services = true;
                 polkit_agent = true;
                 screen_time_enabled = true;
