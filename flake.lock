@@ -98,11 +98,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792319748,
-        "narHash": "sha256-RbnD9yRw8KO4F7wIYELZXtQDWwO+hNPBmQgrluIUNag=",
+        "lastModified": 1793276000,
+        "narHash": "sha256-buQn4LSdJ5z1sXeq3S+nMy8Yd3j9+pVRDXj8QBD/P6E=",
         "owner": "spitfire05",
         "repo": "curseforge-appimage-nix",
-        "rev": "7f08c399dd10f57797fc698ad1c0032674d10dbd",
+        "rev": "6f2c94d2371d72eeb37ccd84aaa3982fa943398f",
         "type": "github"
       },
       "original": {
@@ -392,11 +392,11 @@
         "vpkmerge": "vpkmerge"
       },
       "locked": {
-        "lastModified": 1793170003,
-        "narHash": "sha256-NhA4+ML3Y9oQFmHzIrRKk6hrm3y+21Ny/C/cKMNFD54=",
+        "lastModified": 1793217533,
+        "narHash": "sha256-vonRR6SHL7CyOwYTqn7kyztMiI2PKl7rt52WFl8wRiI=",
         "owner": "Slush97",
         "repo": "grimoire",
-        "rev": "e3eb801286d0bcd16e109d39ee1d58f881cc2707",
+        "rev": "0645dfc8a66336c5a5cc5abd61c02fe6f73e9c6b",
         "type": "github"
       },
       "original": {
@@ -428,11 +428,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793124281,
-        "narHash": "sha256-KdGTOgYXgMDA/ymTV10yLMt9tOjz9EmTgnTvaD+bhe4=",
+        "lastModified": 1793193205,
+        "narHash": "sha256-X6xa6sGA7RnJQuZGbFMC+K+KToWAlBDCCjJXfTwEPsw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1e3ebeb683d055d1675d3f64e6d2b186cb2ee504",
+        "rev": "095fef2f265c3c0da4fe315efba8f8a04495ab34",
         "type": "github"
       },
       "original": {
@@ -542,11 +542,11 @@
     },
     "multiverse": {
       "locked": {
-        "lastModified": 1793161993,
-        "narHash": "sha256-S9qeCkrNZmNCnC5aU3uXh8P83f4nc4GLq9P/7sGTWXo=",
+        "lastModified": 1793225784,
+        "narHash": "sha256-LrmP77kg/iG2ImBew1qtvWeybi6Xq0iXX6ryM2vwgdc=",
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
-        "rev": "5f6ab42a3824515c3e08a2bfd5577e3ea2951c7a",
+        "rev": "8c6c586bdbcbef036fcb5838b173af6ce6b0ab03",
         "type": "github"
       },
       "original": {
@@ -631,11 +631,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1793187122,
-        "narHash": "sha256-CSOV4cGvaiM1hz+M6ucX+bs5SIPsMJDccqH6ccuZo/g=",
+        "lastModified": 1793239667,
+        "narHash": "sha256-eLGGgUJ25xHynpXrgTc0YQLPbleel7IqheIRJJaKsFA=",
         "owner": "4evy",
         "repo": "nixcord",
-        "rev": "5eafee578fbe3d57147198f89a01912d02ae28ff",
+        "rev": "440f4d27520a29233447deb0601b38793b0f0507",
         "type": "github"
       },
       "original": {
@@ -788,11 +788,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1793187823,
-        "narHash": "sha256-RR7PVBQsmvIiDtkDm+r2FHnn/t6kCHVHxZ+bdE5Cjuc=",
+        "lastModified": 1793280856,
+        "narHash": "sha256-iLjkfvwbcgutfg2mDKCIdm2s02FZHd/pLF0qbNAGpQs=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "c3be167558abb9f55a4cee1fc15f811e1cd7dffd",
+        "rev": "63a4303d0b8400cbcd5aa6f928dfc5041ec84a4a",
         "type": "github"
       },
       "original": {
@@ -1182,11 +1182,11 @@
         "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
       },
       "locked": {
-        "lastModified": 1793155970,
-        "narHash": "sha256-P5U/uZpscFkJ1ygEpbpn5vADaXoJ5ekgnwy76GJMPHI=",
+        "lastModified": 1793274968,
+        "narHash": "sha256-tstlfcTrGEhfuTKPipa4n9e4zUkFG50hVctCukWZdJ0=",
         "owner": "noctalia-dev",
         "repo": "umbriel",
-        "rev": "b456dc29610dff3e92a1cc42a489e3b6d86cbf01",
+        "rev": "38c8b75e7766ff62cbeee26a86fbc2756d1f4075",
         "type": "github"
       },
       "original": {
@@ -1199,16 +1199,16 @@
     "vpkmerge": {
       "flake": false,
       "locked": {
-        "lastModified": 1792876677,
-        "narHash": "sha256-yCE18ERi+dPNHxjmVJVxg53/z7qNXZmIbgEsNZiucFE=",
+        "lastModified": 1793215607,
+        "narHash": "sha256-xSatPEgcNhgIQ6LLKg7qDKJXHXGvJ0HtXlUzy3zDTaQ=",
         "owner": "Slush97",
         "repo": "vpkmerge",
-        "rev": "59266e928478cc33410149ba860a566aeba87a71",
+        "rev": "c87ce356e5cbbd1cad05e55931f7224e1a89fadb",
         "type": "github"
       },
       "original": {
         "owner": "Slush97",
-        "ref": "v0.26.0",
+        "ref": "v0.28.0",
         "repo": "vpkmerge",
         "type": "github"
       }

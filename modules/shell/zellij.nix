@@ -213,6 +213,7 @@
         # Kitty's `ssh = kitten ssh` alias can break inside Zellij.
         # Wrap it so we keep Kitty's behavior outside Zellij and use
         # plain OpenSSH inside it.
+        unalias ssh 2>/dev/null || true
         ssh() {
           if [[ -n "''${ZELLIJ:-}" ]]; then
             command ssh "$@"
