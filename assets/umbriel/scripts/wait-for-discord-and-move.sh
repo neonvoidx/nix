@@ -17,6 +17,10 @@ fi
 [[ -S "$socket" ]] || exit 0
 export UMBRIEL_SOCKET="$socket"
 
+send_action() {
+  "$umbriel_bin" msg "$@" >/dev/null
+}
+
 layout_pair() {
   local workspaces windows ws_id pair discord_id spotify_id discord_y spotify_y restore_id
   workspaces="$("$umbriel_bin" workspaces --json)" || return 1
@@ -61,9 +65,9 @@ layout_pair() {
   # the opening rules assign both lane extents without IPC focus changes.
   if (( ${discord_y%.*} > ${spotify_y%.*} )); then
     restore_id="$(jq -r '.[] | select(.active) | .id' <<<"$windows")"
-    "$umbriel_bin" msg "window-focus:$discord_id" >/dev/null
-    "$umbriel_bin" msg window-move-up >/dev/null
-    [[ -z "$restore_id" ]] || "$umbriel_bin" msg "window-focus:$restore_id" >/dev/null || true
+    send_action window-focus-warp "$discord_id"
+    send_action window-move-up
+    [[ -z "$restore_id" ]] || send_action window-focus-warp "$restore_id" || true
   fi
 }
 

@@ -370,38 +370,38 @@
 
               keybinds = {
                 # Session
-                "Mod+Shift+Q" = norepeat "session-quit:skip-confirmation";
+                "Mod+Shift+Q" = norepeat "session-quit skip-confirmation";
 
                 # Applications
-                "Mod+Return" = norepeat "spawn:kitty";
-                "Mod+Delete" = norepeat "spawn:noctalia msg panel-toggle session";
-                "Mod+Shift+Delete" = norepeat "spawn:noctalia msg session lock";
-                "Mod+Space" = norepeat "spawn:noctalia msg panel-toggle launcher";
-                "Mod+V" = norepeat "spawn:noctalia msg panel-toggle clipboard";
-                "Mod+Bracketright" = norepeat "spawn:noctalia msg wallpaper-random";
-                "Mod+B" = norepeat "spawn:firefox";
-                "Mod+Shift+B" = norepeat "spawn:firefox --private-window";
-                "Mod+E" = norepeat "spawn:thunar";
-                "Mod+O" = norepeat "spawn:obsidian";
-                "Mod+Page_Up" = norepeat "spawn:noctalia msg notification-dnd-toggle";
+                "Mod+Return" = norepeat "spawn kitty";
+                "Mod+Delete" = norepeat "spawn noctalia msg panel-toggle session";
+                "Mod+Shift+Delete" = norepeat "spawn noctalia msg session lock";
+                "Mod+Space" = norepeat "spawn noctalia msg panel-toggle launcher";
+                "Mod+V" = norepeat "spawn noctalia msg panel-toggle clipboard";
+                "Mod+Bracketright" = norepeat "spawn noctalia msg wallpaper-random";
+                "Mod+B" = norepeat "spawn firefox";
+                "Mod+Shift+B" = norepeat "spawn firefox --private-window";
+                "Mod+E" = norepeat "spawn thunar";
+                "Mod+O" = norepeat "spawn obsidian";
+                "Mod+Page_Up" = norepeat "spawn noctalia msg notification-dnd-toggle";
 
                 # Focus a running application (lookup via Umbriel IPC)
                 "Mod+D" =
-                  norepeat "spawn:${config.xdg.configHome}/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
+                  norepeat "spawn ${config.xdg.configHome}/umbriel/scripts/focus-app.sh app discord '^Discord Popout$'";
                 # Steam and Thunderbird live in named scratchpads
-                "Mod+S" = norepeat "scratchpad-toggle:steam";
-                "Mod+T" = norepeat "scratchpad-toggle:thunderbird";
-                "Mod+G" = norepeat "spawn:${config.xdg.configHome}/umbriel/scripts/focus-app.sh game";
+                "Mod+S" = norepeat "scratchpad-toggle steam";
+                "Mod+T" = norepeat "scratchpad-toggle thunderbird";
+                "Mod+G" = norepeat "spawn ${config.xdg.configHome}/umbriel/scripts/focus-app.sh game";
 
                 # Windows
                 "Mod+Q" = norepeat "window-close";
                 "Mod+Shift+Space" = norepeat "window-toggle-floating";
-                "Mod+F" = norepeat "window-set-primary-extent:1.0";
+                "Mod+F" = norepeat "window-set-primary-extent 1.0";
                 "Mod+Shift+F" = norepeat "window-toggle-fullscreen";
                 # Center column
                 "Mod+C" = norepeat "column-center";
                 # Cycle focus across outputs instead of windows
-                "Alt+Tab" = norepeat "spawn:noctalia msg window-switcher hold";
+                "Alt+Tab" = norepeat "spawn noctalia msg window-switcher hold";
 
                 # FOCUS
                 #
@@ -453,36 +453,36 @@
                 "Mod+R" = norepeat "window-cycle-primary-extent";
                 "Mod+Shift+R" = norepeat "window-cycle-primary-extent-back";
                 "Mod+Equal" = {
-                  action = "window-modify-primary-extent:0.05";
+                  action = "window-modify-primary-extent 0.05";
                   repeat = true;
                 };
                 "Mod+Minus" = {
-                  action = "window-modify-primary-extent:-0.05";
+                  action = "window-modify-primary-extent -0.05";
                   repeat = true;
                 };
 
                 # Workspaces: bare digits select a position on the output
                 # under the pointer.
-                "Mod+1" = norepeat "workspace-switch:1";
-                "Mod+2" = norepeat "workspace-switch:2";
-                "Mod+3" = norepeat "workspace-switch:3";
-                "Mod+4" = norepeat "workspace-switch:4";
-                "Mod+5" = norepeat "workspace-switch:5";
-                "Mod+6" = norepeat "workspace-switch:6";
-                "Mod+7" = norepeat "workspace-switch:7";
-                "Mod+8" = norepeat "workspace-switch:8";
-                "Mod+9" = norepeat "workspace-switch:9";
-                "Mod+0" = norepeat "workspace-switch:10";
-                "Mod+Shift+1" = norepeat "window-move-to-workspace:1";
-                "Mod+Shift+2" = norepeat "window-move-to-workspace:2";
-                "Mod+Shift+3" = norepeat "window-move-to-workspace:3";
-                "Mod+Shift+4" = norepeat "window-move-to-workspace:4";
-                "Mod+Shift+5" = norepeat "window-move-to-workspace:5";
-                "Mod+Shift+6" = norepeat "window-move-to-workspace:6";
-                "Mod+Shift+7" = norepeat "window-move-to-workspace:7";
-                "Mod+Shift+8" = norepeat "window-move-to-workspace:8";
-                "Mod+Shift+9" = norepeat "window-move-to-workspace:9";
-                "Mod+Shift+0" = norepeat "window-move-to-workspace:10";
+                "Mod+1" = norepeat "workspace-switch 1";
+                "Mod+2" = norepeat "workspace-switch 2";
+                "Mod+3" = norepeat "workspace-switch 3";
+                "Mod+4" = norepeat "workspace-switch 4";
+                "Mod+5" = norepeat "workspace-switch 5";
+                "Mod+6" = norepeat "workspace-switch 6";
+                "Mod+7" = norepeat "workspace-switch 7";
+                "Mod+8" = norepeat "workspace-switch 8";
+                "Mod+9" = norepeat "workspace-switch 9";
+                "Mod+0" = norepeat "workspace-switch 10";
+                "Mod+Shift+1" = norepeat "window-move-to-workspace 1";
+                "Mod+Shift+2" = norepeat "window-move-to-workspace 2";
+                "Mod+Shift+3" = norepeat "window-move-to-workspace 3";
+                "Mod+Shift+4" = norepeat "window-move-to-workspace 4";
+                "Mod+Shift+5" = norepeat "window-move-to-workspace 5";
+                "Mod+Shift+6" = norepeat "window-move-to-workspace 6";
+                "Mod+Shift+7" = norepeat "window-move-to-workspace 7";
+                "Mod+Shift+8" = norepeat "window-move-to-workspace 8";
+                "Mod+Shift+9" = norepeat "window-move-to-workspace 9";
+                "Mod+Shift+0" = norepeat "window-move-to-workspace 10";
 
                 # Relative workspace navigation
                 "Mod+Home" = {
@@ -521,20 +521,21 @@
                 "Mod+slash" = norepeat "cheatsheet-toggle";
 
                 # Media and screenshots
-                "Print" = norepeat "spawn:noctalia msg screenshot-region --freeze-screen --no-annotate --copy-to-clipboard --no-save-to-file";
-                "Shift+Print" = norepeat "spawn:noctalia msg screenshot-annotate";
-                "Ctrl+Print" = norepeat "spawn:noctalia msg screenshot-fullscreen all";
-                "XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-                "XF86AudioLowerVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-                "XF86AudioMute" = norepeat "spawn:wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-                "Ctrl+XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+";
-                "Ctrl+XF86AudioLowerVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
-                "Ctrl+XF86AudioMute" = norepeat "spawn:wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-                "XF86AudioPlay" = norepeat "spawn:playerctl play-pause";
-                "XF86AudioPrev" = norepeat "spawn:playerctl previous";
-                "XF86AudioNext" = norepeat "spawn:playerctl next";
-                "XF86MonBrightnessUp" = "spawn:brightnessctl set +5%";
-                "XF86MonBrightnessDown" = "spawn:brightnessctl set 5%-";
+                "Print" =
+                  norepeat "spawn noctalia msg screenshot-region --freeze-screen --no-annotate --copy-to-clipboard --no-save-to-file";
+                "Shift+Print" = norepeat "spawn noctalia msg screenshot-annotate";
+                "Ctrl+Print" = norepeat "spawn noctalia msg screenshot-fullscreen all";
+                "XF86AudioRaiseVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+                "XF86AudioLowerVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+                "XF86AudioMute" = norepeat "spawn wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+                "Ctrl+XF86AudioRaiseVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+";
+                "Ctrl+XF86AudioLowerVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
+                "Ctrl+XF86AudioMute" = norepeat "spawn wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+                "XF86AudioPlay" = norepeat "spawn playerctl play-pause";
+                "XF86AudioPrev" = norepeat "spawn playerctl previous";
+                "XF86AudioNext" = norepeat "spawn playerctl next";
+                "XF86MonBrightnessUp" = "spawn brightnessctl set +5%";
+                "XF86MonBrightnessDown" = "spawn brightnessctl set 5%-";
 
               };
 
