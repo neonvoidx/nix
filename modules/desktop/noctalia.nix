@@ -897,7 +897,7 @@
                   }
                   {
                     action = "command";
-                    command = "umbriel msg session-quit:skip-confirmation";
+                    command = "umbriel msg session-quit skip-confirmation";
                     enabled = true;
                     glyph = "logout";
                     label = "Logout";

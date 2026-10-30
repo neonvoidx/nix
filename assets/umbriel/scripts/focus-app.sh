@@ -5,6 +5,7 @@
 set -euo pipefail
 
 umbriel_bin="${UMBRIEL_BIN:-umbriel}"
+
 mode="${1:?usage: umbriel-focus-app.sh app <app_id> [excluded_title] | umbriel-focus-app.sh game}"
 
 socket="${UMBRIEL_SOCKET:-}"
@@ -23,7 +24,7 @@ else
 fi
 excluded_title="${3:-}"
 
-windows="$("$umbriel_bin" windows --json)" || exit 1
+windows="$(umbriel windows --json)" || exit 1
 
 id="$(
   jq -r --arg mode "$mode" --arg app "$app" --arg excl "$excluded_title" '
@@ -45,4 +46,4 @@ id="$(
 )" || exit 1
 
 [[ -n "$id" ]] || exit 0
-"$umbriel_bin" msg "window-focus:$id" >/dev/null
+"$umbriel_bin" msg window-focus-warp "$id" >/dev/null
