@@ -127,6 +127,28 @@
         "type": "github"
       }
     },
+    "deadlock-mod-manager": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1793569668,
+        "narHash": "sha256-Gbu/VwDe49kt2Q0TQuzxZOva2eI6glr/t6DCcOycnDk=",
+        "owner": "deadlock-mod-manager",
+        "repo": "deadlock-mod-manager",
+        "rev": "92bebec63fd27145551a22c88d29f1d8e74d746b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "deadlock-mod-manager",
+        "repo": "deadlock-mod-manager",
+        "type": "github"
+      }
+    },
     "den": {
       "locked": {
         "lastModified": 1790283496,
@@ -361,6 +383,24 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     },
@@ -911,11 +951,11 @@
       "inputs": {
         "betterfox": "betterfox",
         "curseforge": "curseforge",
+        "deadlock-mod-manager": "deadlock-mod-manager",
         "den": "den",
         "eldritch-cursors": "eldritch-cursors",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts_3",
-        "grimoire": "grimoire",
         "home-manager": "home-manager",
         "import-tree": "import-tree_2",
         "multiverse": "multiverse",
@@ -930,6 +970,27 @@
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "umbriel": "umbriel"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "deadlock-mod-manager",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783747106,
+        "narHash": "sha256-KlepQu/O5m11lAjcJ4ER5bc6bIzyX2UMPDARzMzQfIw=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "e598b37857b895b81020a65a802ef55f5bbed72f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "scopebuddy": {

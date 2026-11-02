@@ -4,7 +4,7 @@
     { pkgs, ... }:
     {
       home.packages = [
-        inputs.grimoire.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.deadlock-mod-manager.packages.${pkgs.stdenv.hostPlatform.system}.nightly
       ];
     };
 }

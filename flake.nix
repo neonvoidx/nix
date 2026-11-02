@@ -6,6 +6,7 @@
   nixConfig = {
     substituters = [
       "https://cache.nixos.org"
+      "https://deadlock-mod-manager.cachix.org"
       "https://nix-community.cachix.org"
       "https://neonvoidx.cachix.org"
       "https://noctalia.cachix.org"
@@ -29,6 +30,10 @@
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deadlock-mod-manager = {
+      url = "github:deadlock-mod-manager/deadlock-mod-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     den.url = "github:denful/den/refs/tags/v0.19.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
@@ -38,10 +43,6 @@
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    grimoire = {
-      url = "github:Slush97/grimoire";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
