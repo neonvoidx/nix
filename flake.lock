@@ -404,6 +404,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_4"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -608,6 +626,25 @@
       "original": {
         "owner": "fzakaria",
         "repo": "nixpkgs-multiverse",
+        "type": "github"
+      }
+    },
+    "nix-agent": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1793165523,
+        "narHash": "sha256-8DGO3iYtXFKHh2arOhVkZfh8B88AR68+zdqvxiBk+l8=",
+        "owner": "JEFF7712",
+        "repo": "nix-agent",
+        "rev": "6d21ab0d5dd931158c810ff1c46a820f44cbe488",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JEFF7712",
+        "repo": "nix-agent",
         "type": "github"
       }
     },
@@ -959,6 +996,7 @@
         "home-manager": "home-manager",
         "import-tree": "import-tree_2",
         "multiverse": "multiverse",
+        "nix-agent": "nix-agent",
         "nix-index-database": "nix-index-database",
         "nix-versions": "nix-versions",
         "nixcord": "nixcord",

@@ -50,6 +50,7 @@
     };
     import-tree.url = "github:denful/import-tree";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
+    nix-agent.url = "github:JEFF7712/nix-agent";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
