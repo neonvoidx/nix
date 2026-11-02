@@ -34,7 +34,7 @@
             crashHandler.enable = true;
             decodeBase64.enable = true;
             disableDeepLinks.enable = true;
-            expressionCloner.enable = true;
+            expressionManager.enable = true;
             # fakeNitro = {
             #   enable=true;
             #   disableEmbedPermissionCheck=true;
