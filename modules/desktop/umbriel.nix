@@ -363,6 +363,10 @@
                   spawn_when_empty = "thunderbird";
                 }
                 {
+                  name = "thunar";
+                  spawn_when_empty = "thunar";
+                }
+                {
                   name = "steam";
                   spawn_when_empty = "steam";
                 }
@@ -381,7 +385,7 @@
                 "Mod+Bracketright" = norepeat "spawn noctalia msg wallpaper-random";
                 "Mod+B" = norepeat "spawn firefox";
                 "Mod+Shift+B" = norepeat "spawn firefox --private-window";
-                "Mod+E" = norepeat "spawn thunar";
+                "Mod+E" = norepeat "scratchpad-toggle thunar";
                 "Mod+O" = norepeat "spawn obsidian";
                 "Mod+Page_Up" = norepeat "spawn noctalia msg notification-dnd-toggle";
 
@@ -778,6 +782,15 @@
 
                 # Godot game (debug runs)
                 (mkGameRule { title = ".*(DEBUG).*"; })
+
+                # Thunar is the file-manager scratchpad. Every Thunar window
+                # (main windows, new folder windows, dialogs) joins the pad,
+                # so a folder opened from another application never lands on
+                # the workspace behind it.
+                {
+                  match.app_id = "^Thunar$";
+                  default_scratchpad = "thunar";
+                }
 
                 # Steam notification toasts: pinned outside the scratchpad so
                 # a toast is readable without revealing the whole client.
