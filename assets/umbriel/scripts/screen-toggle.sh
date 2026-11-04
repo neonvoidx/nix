@@ -16,9 +16,9 @@ fi
 
 if [[ "$MODE" == "1" ]]; then
   notify-send "Enabling ${PRIMARY_OUTPUT} (Umbriel)"
-  umbriel msg "output-enable:${PRIMARY_OUTPUT}"
+  umbriel msg output-enable "$PRIMARY_OUTPUT"
   exit
 fi
 
 notify-send "Disabling ${PRIMARY_OUTPUT} (Umbriel)"
-umbriel msg "output-disable:${PRIMARY_OUTPUT}"
+umbriel msg output-disable "$PRIMARY_OUTPUT"
