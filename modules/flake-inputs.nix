@@ -37,6 +37,7 @@ in
       url = "github:JEFF7712/nix-agent";
       # Deliberately does not follow nixpkgs: newer nixpkgs marks
       # python3Packages.fastmcp-slim broken while mcp is >= 2.
+      # TODO
     };
     nix-versions = {
       url = "github:vic/nix-versions";
