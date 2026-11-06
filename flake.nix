@@ -14,6 +14,7 @@
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "deadlock-mod-manager.cachix.org-1:wUjtzL6yN2i9zTq1YrXHBr0mx3LP7tBGsosk3N+/A/M="
       "neonvoidx.cachix.org-1:nHFGhvzWqULuNWFbuPwTP0eUW+k7utl0chxXhUJhU1Y="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
@@ -30,10 +31,7 @@
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    deadlock-mod-manager = {
-      url = "github:deadlock-mod-manager/deadlock-mod-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    deadlock-mod-manager.url = "github:deadlock-mod-manager/deadlock-mod-manager";
     den.url = "github:denful/den/refs/tags/v0.19.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
