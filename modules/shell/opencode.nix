@@ -12,6 +12,11 @@
 
         settings = {
           default_agent = "build";
+          mcp = {
+            timeout = {
+              startup = 45000;
+            };
+          };
 
           permission = {
             external_directory = "ask";
