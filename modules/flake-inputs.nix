@@ -22,8 +22,10 @@ in
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deadlock-mod-manager = {
-      url = "github:deadlock-mod-manager/deadlock-mod-manager";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      # Track the rolling nightly tag: upstream CI only pushes main-branch
+      # nightlies to deadlock-mod-manager.cachix.org, so pinning to arbitrary
+      # main commits compiles locally until that commit's build lands.
+      url = "github:deadlock-mod-manager/deadlock-mod-manager/refs/tags/nightly";
     };
     home-manager = {
       url = "github:nix-community/home-manager";

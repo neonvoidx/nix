@@ -11,8 +11,6 @@
       xdg.configFile = {
         "easyeffects/autoload/easyeffectsrc".source =
           config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/easyeffectsrc";
-        "easyeffects/autoload/microphone.json".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/microphone.json";
         "easyeffects/autoload/speexrc".source =
           config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.checkoutPath}/assets/easyeffects/autoload/speexrc";
         "easyeffects/autoload/equalizerrc".source =
@@ -21,9 +19,25 @@
 
       # EasyEffects 8.x uses Qt/KDE config instead of dconf
       # Note: Qt version doesn't have system tray support - feature was removed in Qt port
-      # Settings are managed via ~/.config/easyeffects/autoload/easyeffectsrc and db/easyeffectsrc
+      # Global settings are written to db/easyeffectsrc on service start.
       services.easyeffects = {
         enable = true;
+
+        # EasyEffects always creates its virtual source; there is no setting
+        # to remove it. Keep its input pipeline pointed at a non-existent
+        # device so it never captures the mic or the standalone RNNoise
+        # source. The RNNoise filter-chain source is the default microphone.
+        settings = {
+          StreamInputs = {
+            useDefaultInputDevice = false;
+            inputDevice = "ee-input-disabled";
+          };
+          EffectsPipelines = {
+            inputInactivityTimerEnable = true;
+            inputInactivityTimeout = 5;
+          };
+        };
+
         # NOTE doesn't seem to autoload
         # preset = "headphones";
         extraPresets = {

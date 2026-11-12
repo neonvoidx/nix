@@ -23,6 +23,7 @@
         };
 
         settings = {
+          restore_session_after_logout = "yes";
           clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
 
           copy_on_select = "clipboard";

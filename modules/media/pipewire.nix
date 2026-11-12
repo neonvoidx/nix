@@ -63,8 +63,6 @@
         };
         wireplumber.enable = true;
         pulse.enable = true;
-        jack.enable = true;
-
         extraLadspaPackages = [ pkgs.rnnoise-plugin.ladspa ];
 
         extraConfig.pipewire-pulse."99-silence-warnings" = {
@@ -130,6 +128,10 @@
                   "playback.props" = {
                     "node.name" = "effect_output.rnnoise";
                     "media.class" = "Audio/Source";
+                    # Prefer the RNNoise source over the raw hardware mic.
+                    # WirePlumber uses priority.session when picking the
+                    # default source (the ALSA mic is pinned to 2000 below).
+                    "priority.session" = 2100;
                   };
                 };
               }

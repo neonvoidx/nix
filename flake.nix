@@ -31,7 +31,7 @@
       url = "github:spitfire05/curseforge-appimage-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    deadlock-mod-manager.url = "github:deadlock-mod-manager/deadlock-mod-manager";
+    deadlock-mod-manager.url = "github:deadlock-mod-manager/deadlock-mod-manager/refs/tags/nightly";
     den.url = "github:denful/den/refs/tags/v0.19.0";
     eldritch-cursors = {
       url = "github:eldritch-theme/cursors";
