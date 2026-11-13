@@ -509,12 +509,12 @@
 
                 # Mouse wheel for workspace navigation
                 "Mod+WheelUp" = {
-                  action = "workspace-previous";
+                  action = "window-focus-left";
                   repeat = false;
                   cooldown_ms = 150;
                 };
                 "Mod+WheelDown" = {
-                  action = "workspace-next";
+                  action = "window-focus-right";
                   repeat = false;
                   cooldown_ms = 150;
                 };

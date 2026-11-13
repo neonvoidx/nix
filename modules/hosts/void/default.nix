@@ -31,7 +31,6 @@
             enable = true;
             kernelModules = [ "amdgpu" ];
           };
-          kernelPackages = pkgs.linuxPackages_zen;
           kernelModules = [
             "amdgpu"
             "ntsync"
