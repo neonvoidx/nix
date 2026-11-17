@@ -60,12 +60,16 @@
     homeManager =
       { lib, config, ... }:
       let
-        scheme = config.lib.stylix.colors.scheme;
+        # Match Stylix's KDE filename normalization (letters only).
+        scheme = lib.concatStrings (
+          lib.filter lib.isString (builtins.split "[^a-zA-Z]" config.lib.stylix.colors.scheme)
+        );
         kdeTheme =
           lib.findSingle (p: builtins.match ".*stylix-kde-theme.*" (p.name or "") != null)
             (throw "stylix: no KDE theme package found in home.packages")
             (throw "stylix: multiple KDE theme packages found in home.packages")
             config.home.packages;
+        kdeColorScheme = "${kdeTheme}/share/color-schemes/${scheme}.colors";
       in
       {
         stylix = {
@@ -102,19 +106,12 @@
           };
         };
 
-        # KDE Framework apps (KDE Connect, EasyEffects 8.x) take their palette
-        # from kdeglobals, not qt5ct. Stylix generates <scheme>.colors but only
-        # selects it from a Plasma session, which we don't run, and its
-        # share/color-schemes dir is not linked into the user profile. Publish
-        # the scheme and select it explicitly so those apps resolve it.
-        xdg.configFile."kdeglobals" = {
-          text = ''
-            [General]
-            ColorScheme=${scheme}
-          '';
-        };
-        xdg.dataFile."color-schemes/${scheme}.colors".source =
-          "${kdeTheme}/share/color-schemes/${scheme}.colors";
+        # Outside Plasma, selecting ColorScheme alone does not populate the
+        # Colors:* groups read by KDE/Kirigami apps. Use Stylix's full palette
+        # as kdeglobals so they do not fall back to Breeze Light. Fonts and
+        # other KDE defaults still come from Stylix's XDG_CONFIG_DIRS entry.
+        xdg.configFile."kdeglobals".source = kdeColorScheme;
+        xdg.dataFile."color-schemes/${scheme}.colors".source = kdeColorScheme;
       };
   };
 }
