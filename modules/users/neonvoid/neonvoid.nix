@@ -66,6 +66,7 @@
       # Communication
       den.aspects.discord
       den.aspects.email
+      den.aspects.kdeconnect
     ];
 
     nixos = {

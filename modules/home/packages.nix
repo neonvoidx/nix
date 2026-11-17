@@ -24,7 +24,6 @@
         grim
         jq
         kdePackages.okular
-        kdePackages.kdeconnect-kde
         kitty-themes
         lazyrsync
         libsecret

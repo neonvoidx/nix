@@ -1,4 +1,4 @@
-{ den, ... }:
+{ den, lib, ... }:
 {
   den.aspects.opencode.homeManager = {
     programs = {
@@ -6,6 +6,12 @@
       # https://opencode.ai/docs/zen#pricing
       opencode = {
         enable = true;
+
+        # The pinned stylix target still writes programs.opencode.tui.theme,
+        # which OpenCode 2 ignores and Home Manager warns about. Clear the whole
+        # attrset at higher precedence while keeping stylix's generated theme.
+        tui = lib.mkOverride 50 { };
+
         enableMcpIntegration = true;
 
         commands = ../../assets/ai/commands;
@@ -42,12 +48,24 @@
           share = "disabled";
         };
 
-        tui = {
-          scroll_speed = 3;
-          scroll_acceleration = {
-            enabled = true;
+        cli = {
+          theme = {
+            name = "stylix";
           };
-          diff_style = "auto";
+          scroll = {
+            speed = 3;
+            acceleration = true;
+          };
+          diffs = {
+            view = "auto";
+            wrap = "word";
+          };
+          session = {
+            sidebar = "auto";
+            scrollbar = false;
+            thinking = "hide";
+          };
+          animations = true;
         };
       };
 

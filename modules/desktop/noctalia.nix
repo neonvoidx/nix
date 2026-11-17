@@ -71,6 +71,7 @@
                 contact_shadow = true;
                 end = [
                   "tray"
+                  "printer"
                   "input_volume"
                   "output_volume"
                   "cat_3"
@@ -116,6 +117,10 @@
                 ++ lib.optionals isLaptop [
                   "tray"
                   "active_window"
+                ]
+                ++ [
+                  "spacer_2"
+                  "bar"
                 ];
                 thickness = 38;
                 widget_spacing = 12;
@@ -813,6 +818,11 @@
                 kinds.media = false;
               };
 
+              plugin_settings."icefish/phone-connect" = {
+                battery_display = "percent";
+                show_device_name = true;
+              };
+
               plugin_settings."kenn/keybind-cheatsheet" = {
                 show_actions = true;
               };
@@ -832,6 +842,8 @@
                   "noctalia/bongocat"
                   "dotnetrob/cat"
                   "nightwatch75/file-search"
+                  "icefish/phone-connect"
+                  "andrewdems/printers"
                 ];
 
                 source = [
@@ -859,6 +871,7 @@
                 polkit_agent = true;
                 screen_time_enabled = true;
                 settings_show_advanced = true;
+                umbriel_audio_provider_enabled = true;
 
                 screenshot = {
                   save_to_file = true;
@@ -990,6 +1003,9 @@
                   show_when_idle = false;
                   width = 112.0;
                 };
+                bar = {
+                  type = "icefish/phone-connect:bar";
+                };
                 battery = {
                   capsule = true;
                 };
@@ -1004,6 +1020,9 @@
                 };
                 power_profile = {
                   capsule = true;
+                };
+                printer = {
+                  type = "andrewdems/printers:printer";
                 };
                 cat = {
                   input_devices = [
@@ -1083,6 +1102,9 @@
                 };
                 session = {
                   color = "error";
+                };
+                spacer_2 = {
+                  type = "spacer";
                 };
                 sysmon = {
                   stat = "gpu_usage";

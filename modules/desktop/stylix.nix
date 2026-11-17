@@ -58,7 +58,19 @@
       };
 
     homeManager =
-      { lib, ... }:
+      { lib, config, ... }:
+      let
+        # Match Stylix's KDE filename normalization (letters only).
+        scheme = lib.concatStrings (
+          lib.filter lib.isString (builtins.split "[^a-zA-Z]" config.lib.stylix.colors.scheme)
+        );
+        kdeTheme =
+          lib.findSingle (p: builtins.match ".*stylix-kde-theme.*" (p.name or "") != null)
+            (throw "stylix: no KDE theme package found in home.packages")
+            (throw "stylix: multiple KDE theme packages found in home.packages")
+            config.home.packages;
+        kdeColorScheme = "${kdeTheme}/share/color-schemes/${scheme}.colors";
+      in
       {
         stylix = {
           autoEnable = true;
@@ -93,6 +105,13 @@
             yazi.enable = false;
           };
         };
+
+        # Outside Plasma, selecting ColorScheme alone does not populate the
+        # Colors:* groups read by KDE/Kirigami apps. Use Stylix's full palette
+        # as kdeglobals so they do not fall back to Breeze Light. Fonts and
+        # other KDE defaults still come from Stylix's XDG_CONFIG_DIRS entry.
+        xdg.configFile."kdeglobals".source = kdeColorScheme;
+        xdg.dataFile."color-schemes/${scheme}.colors".source = kdeColorScheme;
       };
   };
 }
