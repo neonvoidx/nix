@@ -9,6 +9,11 @@
         keymap = {
           mgr.prepend_keymap = [
             {
+              on = [ "<C-s>" ];
+              run = "plugin kdeconnect-send";
+              desc = "Send selected file(s) via KDE connect";
+            }
+            {
               on = [ "<C-q>" ];
               run = "quit";
             }
@@ -84,6 +89,7 @@
           lazygit = pkgs.yaziPlugins.lazygit;
           compress = pkgs.yaziPlugins.compress;
           mediainfo = pkgs.yaziPlugins.mediainfo;
+          kdeconnecct-send = pkgs.yaziPlugins.kdeconnect-send;
         };
         settings = {
           mgr = {

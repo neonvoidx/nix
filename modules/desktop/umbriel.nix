@@ -248,7 +248,7 @@
                   follows_focus = true;
                 };
                 focus = {
-                  follows_mouse = true;
+                  follows_mouse = "always";
                   follows_mouse_max_scroll = 1.0;
                 };
                 keyboard = {
@@ -507,7 +507,7 @@
                 };
                 "Mod+Grave" = norepeat "workspace-focus-last";
 
-                # Mouse wheel for workspace navigation
+                # Mouse wheel for window navigation
                 "Mod+WheelUp" = {
                   action = "window-focus-left";
                   repeat = false;
@@ -515,6 +515,17 @@
                 };
                 "Mod+WheelDown" = {
                   action = "window-focus-right";
+                  repeat = false;
+                  cooldown_ms = 150;
+                };
+                # Mouse wheel for workspace navigation
+                "Mod+Ctrl+WheelUp" = {
+                  action = "window-focus-or-workspace-up";
+                  repeat = false;
+                  cooldown_ms = 150;
+                };
+                "Mod+Ctrl+WheelDown" = {
+                  action = "window-focus-or-workspace-down";
                   repeat = false;
                   cooldown_ms = 150;
                 };
