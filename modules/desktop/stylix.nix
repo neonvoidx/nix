@@ -58,7 +58,7 @@
       };
 
     homeManager =
-      { lib, ... }:
+      { lib, config, ... }:
       {
         stylix = {
           autoEnable = true;
@@ -92,6 +92,15 @@
             spicetify.enable = false;
             yazi.enable = false;
           };
+        };
+
+        # KDE apps read kdeglobals, not qt5ct. Stylix generates Eldritch.colors
+        # but only selects it from a Plasma session, which we don't run.
+        xdg.configFile."kdeglobals" = {
+          text = ''
+            [General]
+            ColorScheme=${config.lib.stylix.colors.scheme}
+          '';
         };
       };
   };
