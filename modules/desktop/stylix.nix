@@ -59,6 +59,14 @@
 
     homeManager =
       { lib, config, ... }:
+      let
+        scheme = config.lib.stylix.colors.scheme;
+        kdeTheme =
+          lib.findSingle (p: builtins.match ".*stylix-kde-theme.*" (p.name or "") != null)
+            (throw "stylix: no KDE theme package found in home.packages")
+            (throw "stylix: multiple KDE theme packages found in home.packages")
+            config.home.packages;
+      in
       {
         stylix = {
           autoEnable = true;
@@ -94,14 +102,19 @@
           };
         };
 
-        # KDE apps read kdeglobals, not qt5ct. Stylix generates Eldritch.colors
-        # but only selects it from a Plasma session, which we don't run.
+        # KDE Framework apps (KDE Connect, EasyEffects 8.x) take their palette
+        # from kdeglobals, not qt5ct. Stylix generates <scheme>.colors but only
+        # selects it from a Plasma session, which we don't run, and its
+        # share/color-schemes dir is not linked into the user profile. Publish
+        # the scheme and select it explicitly so those apps resolve it.
         xdg.configFile."kdeglobals" = {
           text = ''
             [General]
-            ColorScheme=${config.lib.stylix.colors.scheme}
+            ColorScheme=${scheme}
           '';
         };
+        xdg.dataFile."color-schemes/${scheme}.colors".source =
+          "${kdeTheme}/share/color-schemes/${scheme}.colors";
       };
   };
 }
