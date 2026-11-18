@@ -949,11 +949,6 @@
                 builtin = "Eldritch";
                 mode = "dark";
                 source = "builtin";
-                # Render Luciole's colors.toml from the selected palette.
-                templates = {
-                  enable_builtin_templates = true;
-                  builtin_ids = [ "luciole" ];
-                };
               };
 
               wallpaper = {
