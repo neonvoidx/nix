@@ -46,6 +46,9 @@ in
     noctalia = {
       url = "github:noctalia-dev/noctalia/cachix";
     };
+    luciole = {
+      url = "git+https://github.com/noctalia-dev/luciole?shallow=1";
+    };
     # pear-desktop = {
     #   url = "github:h-banii/pear-desktop-nix";
     #   inputs.nixpkgs.follows = "nixpkgs";

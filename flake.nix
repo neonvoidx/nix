@@ -47,6 +47,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
+    luciole.url = "git+https://github.com/noctalia-dev/luciole?shallow=1";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

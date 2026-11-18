@@ -332,13 +332,13 @@ Den auto-generates `nixosConfigurations.void` from `hosts.nix` — no `flake-par
       den.aspects.xdg
       den.aspects.stylix
       den.aspects.noctalia
+      den.aspects.luciole
       den.aspects.flatpak
       den.aspects.clipboard
       den.aspects.cursor
       den.aspects.firefox
       den.aspects.gtk
       den.aspects.umbriel
-      den.aspects.thunar
       den.aspects.xembsni
 
       # Services (user-level)
@@ -470,7 +470,7 @@ definition remains in `modules/nix/overlays.nix`.
 
 ## Umbriel Scrolling Layout & Startup
 
-`modules/desktop/umbriel.nix` uses the scrolling layout and dynamic workspaces on every output. The strip is perpendicular to `workspace_axis`: rotated portrait outputs use `"horizontal"`, making a top-to-bottom strip; landscape outputs use `"vertical"`, making a left-to-right strip. New columns use 90% of the viewport, with 50/90/100% size presets. Game rules retain fullscreen behavior but no longer place applications on static workspaces.
+`modules/desktop/noctalia/umbriel.nix` uses the scrolling layout and dynamic workspaces on every output. The strip is perpendicular to `workspace_axis`: rotated portrait outputs use `"horizontal"`, making a top-to-bottom strip; landscape outputs use `"vertical"`, making a left-to-right strip. New columns use 90% of the viewport, with 50/90/100% size presets. Game rules retain fullscreen behavior but no longer place applications on static workspaces.
 
 All workspaces are dynamic and output-local. When a `host.monitors.portrait` output exists, a global window rule routes applications to the main output; only Discord and Pear override it to portrait dynamic workspace 1 in distinct named scrolling lanes with 75%/25% opening extents, while Discord popouts target secondary. `wait-for-discord-and-move.sh` is a session-long window listener that arranges a new Discord/Pear pair once, preventing its own focus/geometry IPC events from causing a feedback loop; it takes focus only to correct an out-of-order pair. Underfull-strip centering is enabled globally so a lone window rests mid-output. Focus centering uses `"on_overflow"` globally, with a workspace-specific `"never"` override on portrait workspace 1 to keep Discord/Pear flush with the top edge. Umbriel uses dynamic workspaces; `focus-app.sh` provides application focus bindings, and `assets/scripts/toggle-monitor.sh` calls the Umbriel screen-toggle helper, using `UMBRIEL_PRIMARY_OUT` for its output toggle.
 
@@ -515,7 +515,7 @@ fires inside a tmux `$TERM` and is inert without tmux.
 
 ## Noctalia TOML → Nix Conversion
 
-When updating `modules/desktop/noctalia.nix` from a noctalia TOML config export, follow these rules:
+When updating `modules/desktop/noctalia/noctalia.nix` from a noctalia TOML config export, follow these rules:
 
 ### Source of truth
 

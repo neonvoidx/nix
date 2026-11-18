@@ -33,13 +33,13 @@
       den.aspects.xdg
       den.aspects.stylix
       den.aspects.noctalia
+      den.aspects.luciole
       den.aspects.flatpak
       den.aspects.clipboard
       den.aspects.cursor
       den.aspects.firefox
       den.aspects.gtk
       den.aspects.umbriel
-      den.aspects.thunar
       den.aspects.xembsni
 
       # Services (user-level)

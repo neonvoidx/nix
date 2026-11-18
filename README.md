@@ -13,6 +13,7 @@ My NixOS configuration using [Den](https://github.com/denful/den),
 | `modules/hosts/<host>/default.nix` | Host aspects and hardware-specific settings |
 | `modules/users/<user>/<user>.nix` | User aspects and included features |
 | `modules/<category>/` | Reusable aspects, one file per aspect |
+| `modules/desktop/noctalia/` | Noctalia shell, greeter, Umbriel, and Luciole aspects |
 | `hosts/<host>/hardware-configuration.nix` | Generated hardware configuration |
 | `assets/` | Images, scripts, shaders, and editable application settings |
 | `secrets/` | SOPS-encrypted secrets and setup instructions |
@@ -48,7 +49,7 @@ settings to users through `den._.host-aspects`.
 | Category | Included aspects |
 | --- | --- |
 | Shell tools | `bat`, `btop`, `direnv`, `devenv`, `delta`, `eza`, `fastfetch`, `fzf`, `git`, `kitty`, `just`, `lazygit`, `mcp`, `nh`, `nix-index`, `nvim`, `opencode`, `pay-respects`, `starship`, `tealdeer`, `yazi`, `zoxide`, `zsh` |
-| Desktop | `desktop-environment`, `fonts`, `xdg`, `stylix`, `noctalia`, `flatpak`, `clipboard`, `cursor`, `firefox`, `gtk`, `umbriel`, `thunar`, `xembsni` |
+| Desktop | `desktop-environment`, `fonts`, `xdg`, `stylix`, `noctalia`, `luciole`, `flatpak`, `clipboard`, `cursor`, `firefox`, `gtk`, `umbriel`, `xembsni` |
 | Services | `gnome-keyring`, `pipewire`, `streamcontroller`, `usb` |
 | Home | `common`, `files`, `packages` |
 | Media | `cava`, `easyeffects`, `mpv`, `obs-studio`, `pics`, `youtube-music` |
